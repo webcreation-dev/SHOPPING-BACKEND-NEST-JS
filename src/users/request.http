@@ -7,30 +7,23 @@ Content-Type: application/json
   {
       "name": "John Doe",
       "email": "johndoe@mail.com",
-      "phone": "123456789",
+      "phone": "22996135159",
       "password": "123456"
   }
 
 
 ### GET ALL
-
 GET {{baseUrl}}/users
 
 ### GET ONE
-
-GET {{baseUrl}}/users/64.5
+GET {{baseUrl}}/users/1
 
 ### UPDATE
-
 PATCH {{baseUrl}}/users/1
-
 Content-Type: application/json
 
 {
-    "name": "John Doe",
-    "email": "john@mail.com",
-    "phone": "123456789",
-    "password": "123456"
+    "name": "David"
 }
 
 ### DELETE
