@@ -1,15 +1,8 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import databaseConfig from './config/database.config';
 
 @Module({
-  imports: [
-    TypeOrmModule.forRootAsync({
-      useFactory: () => ({
-        type: 'postgres',
-        url: process.env.DATASOURCE_URL,
-        autoLoadEntities: true,
-      }),
-    }),
-  ],
+  imports: [TypeOrmModule.forRootAsync(databaseConfig.asProvider())],
 })
 export class DatabaseModule {}
