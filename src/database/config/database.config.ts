@@ -9,4 +9,3 @@ export default registerAs('database', () => {
   } as const satisfies TypeOrmModuleOptions;
   return config;
 });
- 
