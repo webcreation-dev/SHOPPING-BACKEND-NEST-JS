@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { CreateOrderDto } from './dto/create-order.dto';
 import { UpdateOrderDto } from './dto/update-order.dto';
 import { DEFAULT_PAGE_SIZE } from 'common/util/common.constants';
@@ -15,7 +15,8 @@ export class OrdersService {
   ) {}
 
   create(createOrderDto: CreateOrderDto) {
-    return 'This action adds a new order';
+    const order = this.ordersRepository.create(createOrderDto);
+    return this.ordersRepository.save(order);
   }
 
   findAll(paginationDto: PaginationDto) {
@@ -27,15 +28,27 @@ export class OrdersService {
     });
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} order`;
+  async findOne(id: number) {
+    const order = await this.ordersRepository.findOneBy({ id });
+    if (!order) {
+      throw new NotFoundException('Order not found');
+    }
+    return order;
   }
 
-  update(id: number, updateOrderDto: UpdateOrderDto) {
-    return `This action updates a #${id} order`;
+  async update(id: number, updateOrderDto: UpdateOrderDto) {
+    const order = await this.ordersRepository.preload({
+      id,
+      ...updateOrderDto,
+    });
+    if (!order) {
+      throw new NotFoundException('Order not found');
+    }
+    return this.ordersRepository.save(order);
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} order`;
+  async remove(id: number) {
+    const order = await this.findOne(id);
+    return this.ordersRepository.remove(order);
   }
 }
