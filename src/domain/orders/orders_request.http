@@ -7,7 +7,7 @@ Content-Type: application/json
   {
       "customer": { "id": 1 },
       "items": [
-        { "product": { "id": 1 }, 
+        { "product": { "id": 2 }, 
           "quantity": 2 
         }
       ]

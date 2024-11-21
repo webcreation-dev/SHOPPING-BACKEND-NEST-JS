@@ -5,7 +5,7 @@ POST {{baseUrl}}/categories
 Content-Type: application/json
   
   {
-      "name": "mariage"
+      "name": "electromenager"
   }
 
 

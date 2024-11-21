@@ -9,8 +9,7 @@ Content-Type: application/json
       "description": "Chaise en bois",
       "price": "100",
       "categories": [
-        { "id": 35 },
-        { "id": 39 }
+        { "id": 1 }
       ]
   }
 
