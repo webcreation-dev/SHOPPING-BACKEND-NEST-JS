@@ -7,6 +7,7 @@ import { OrdersModule } from './domain/orders/orders.module';
 import { PaymentsModule } from './domain/payments/payments.module';
 import { CategoriesModule } from './domain/categories/categories.module';
 import { ProductsModule } from './domain/products/products.module';
+import { SeedingModule } from 'database/seeding/seeding.module';
 
 @Module({
   imports: [
@@ -18,6 +19,7 @@ import { ProductsModule } from './domain/products/products.module';
     PaymentsModule,
     CategoriesModule,
     ProductsModule,
+    SeedingModule,
   ],
 })
 export class AppModule {}
