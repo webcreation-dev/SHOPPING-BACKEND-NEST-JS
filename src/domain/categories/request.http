@@ -1,0 +1,28 @@
+@baseUrl = http://localhost:3000
+
+### CREATE 
+POST {{baseUrl}}/categories
+Content-Type: application/json
+  
+  {
+      "name": "mariage"
+  }
+
+
+### GET ALL
+GET {{baseUrl}}/categories
+
+### GET ONE
+GET {{baseUrl}}/categories/1
+
+### UPDATE
+PATCH {{baseUrl}}/categories/1
+Content-Type: application/json
+
+{
+    "name": "David"
+}
+
+### DELETE
+
+DELETE {{baseUrl}}/categories/1

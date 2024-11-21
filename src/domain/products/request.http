@@ -1,0 +1,34 @@
+@baseUrl = http://localhost:3000
+
+### CREATE 
+POST {{baseUrl}}/products
+Content-Type: application/json
+  
+  {
+      "name": "Chaise",
+      "description": "Chaise en bois",
+      "price": "100",
+      "categories": [
+        { "id": 35 },
+        { "id": 39 }
+      ]
+  }
+
+
+### GET ALL
+GET {{baseUrl}}/products
+
+### GET ONE
+GET {{baseUrl}}/products/1
+
+### UPDATE
+PATCH {{baseUrl}}/products/1
+Content-Type: application/json
+
+{
+    "name": "David"
+}
+
+### DELETE
+
+DELETE {{baseUrl}}/products/1

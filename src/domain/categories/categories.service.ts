@@ -1,4 +1,8 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import {
+  ConflictException,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import { CreateCategoryDto } from './dto/create-category.dto';
 import { UpdateCategoryDto } from './dto/update-category.dto';
 import { Category } from './entities/category.entity';
@@ -29,9 +33,14 @@ export class CategoriesService {
   }
 
   async findOne(id: number) {
-    const category = await this.categoriesRepository.findOneBy({ id });
-    if (!category) {
-      throw new NotFoundException('Category not found');
+    const category = await this.categoriesRepository.findOne({
+      where: { id },
+      relations: {
+        products: true,
+      },
+    });
+    if (category.products.length) {
+      throw new ConflictException('Category has related products');
     }
     return category;
   }
@@ -49,6 +58,9 @@ export class CategoriesService {
 
   async remove(id: number) {
     const category = await this.findOne(id);
+    if (category.products.length) {
+      throw new ConflictException('Category has related products');
+    }
     return this.categoriesRepository.remove(category);
   }
 }
