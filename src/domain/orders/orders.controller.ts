@@ -3,14 +3,12 @@ import {
   Get,
   Post,
   Body,
-  Patch,
   Param,
   Delete,
   Query,
 } from '@nestjs/common';
 import { OrdersService } from './orders.service';
 import { CreateOrderDto } from './dto/create-order.dto';
-import { UpdateOrderDto } from './dto/update-order.dto';
 import { IdDto } from 'common/dto/id.dto';
 import { PaginationDto } from 'common/dto/pagination.dto';
 
@@ -31,11 +29,6 @@ export class OrdersController {
   @Get(':id')
   findOne(@Param() { id }: IdDto) {
     return this.ordersService.findOne(id);
-  }
-
-  @Patch(':id')
-  update(@Param() { id }: IdDto, @Body() updateOrderDto: UpdateOrderDto) {
-    return this.ordersService.update(id, updateOrderDto);
   }
 
   @Delete(':id')
