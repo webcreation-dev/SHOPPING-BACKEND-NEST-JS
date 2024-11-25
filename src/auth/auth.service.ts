@@ -1,4 +1,8 @@
-import { Injectable, UnauthorizedException } from '@nestjs/common';
+import {
+  Injectable,
+  NotFoundException,
+  UnauthorizedException,
+} from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { User } from 'users/entities/user.entity';
@@ -6,6 +10,7 @@ import { HashingService } from './hashing/hashing.service';
 import { RequestUser } from './interfaces/request-user.interface';
 import { JwtService } from '@nestjs/jwt';
 import { JwtPayload } from './interfaces/jwt-payload.interface';
+import { Role } from './roles/enums/role.enum';
 
 @Injectable()
 export class AuthService {
@@ -34,8 +39,7 @@ export class AuthService {
       throw new UnauthorizedException('Invalid credentials');
     }
 
-    const requestUser: RequestUser = { id: user.id };
-    return requestUser;
+    return this.createRequestUser(user);
   }
 
   login(user: RequestUser) {
@@ -49,11 +53,27 @@ export class AuthService {
       throw new UnauthorizedException('Invalid token');
     }
 
-    const requestUser: RequestUser = { id: payload.sub };
-    return requestUser;
+    return this.createRequestUser(user);
   }
 
   getProfile(id: number) {
     return this.usersRepository.findOneBy({ id });
+  }
+
+  async assignRole(id: number, role: Role) {
+    const user = await this.usersRepository.preload({
+      id,
+      role,
+    });
+    if (!user) {
+      throw new NotFoundException('User not found');
+    }
+    return this.usersRepository.save(user);
+  }
+
+  private createRequestUser(user: User) {
+    const { id, role } = user;
+    const requestUser: RequestUser = { id, role };
+    return requestUser;
   }
 }
