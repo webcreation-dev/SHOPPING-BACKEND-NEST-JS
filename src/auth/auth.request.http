@@ -1,0 +1,13 @@
+@baseUrl = http://localhost:3000
+@resource = auth
+
+### CREATE 
+POST {{baseUrl}}/{{resource}}/login
+Content-Type: application/json
+  
+  {
+      "name": "John Doe",
+      "email": "johndoe@mail.com",
+      "phone": "22996135159",
+      "password": "Julianosis1234*"
+  }
