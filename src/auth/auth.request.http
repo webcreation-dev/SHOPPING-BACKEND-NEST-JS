@@ -1,13 +1,18 @@
 @baseUrl = http://localhost:3000
 @resource = auth
 
-### CREATE 
+### LOGIN 
 POST {{baseUrl}}/{{resource}}/login
 Content-Type: application/json
   
   {
-      "name": "John Doe",
       "email": "johndoe@mail.com",
-      "phone": "22996135159",
       "password": "Julianosis1234*"
   }
+
+
+### GET PROFILE
+
+GET {{baseUrl}}/{{resource}}/profile
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI4Y2JjNmFkMC1iNmExLTQyOTEtOGI4ZS00ZWUzZjYzZWQ4NzMiLCJpYXQiOjE3MzI1NDE0ODIsImV4cCI6MTczMzE0NjI4Mn0.-EZpHAX-M686mUbHCkiksC1Cyo7oRPYFW1KnbDT25Yg
+Content-Type: application/json
