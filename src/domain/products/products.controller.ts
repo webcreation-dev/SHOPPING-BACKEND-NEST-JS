@@ -13,6 +13,7 @@ import { CreateProductDto } from './dto/create-product.dto';
 import { UpdateProductDto } from './dto/update-product.dto';
 import { IdDto } from 'common/dto/id.dto';
 import { PaginationDto } from 'common/dto/pagination.dto';
+import { Public } from 'auth/decorators/public.decorator';
 
 @Controller('products')
 export class ProductsController {
@@ -23,11 +24,13 @@ export class ProductsController {
     return this.productsService.create(createProductDto);
   }
 
+  @Public()
   @Get()
   findAll(@Query() paginationDto: PaginationDto) {
     return this.productsService.findAll(paginationDto);
   }
 
+  @Public()
   @Get(':id')
   findOne(@Param() { id }: IdDto) {
     return this.productsService.findOne(id);

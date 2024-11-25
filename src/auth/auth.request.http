@@ -14,5 +14,5 @@ Content-Type: application/json
 ### GET PROFILE
 
 GET {{baseUrl}}/{{resource}}/profile
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI4Y2JjNmFkMC1iNmExLTQyOTEtOGI4ZS00ZWUzZjYzZWQ4NzMiLCJpYXQiOjE3MzI1NDE0ODIsImV4cCI6MTczMzE0NjI4Mn0.-EZpHAX-M686mUbHCkiksC1Cyo7oRPYFW1KnbDT25Yg
+Authorization: Bearer {{token}}
 Content-Type: application/json

@@ -4,12 +4,13 @@ import { LocalAuthGuard } from './guards/local-auth/local-auth.guard';
 import { CurrentUser } from './decorators/user.decorator';
 import { RequestUser } from './interfaces/request-user.interface';
 import { Response } from 'express';
-import { JwtAuthGuard } from './guards/jwt-auth/jwt-auth.guard';
+import { Public } from './decorators/public.decorator';
 
 @Controller('auth')
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
 
+  @Public()
   @UseGuards(LocalAuthGuard)
   @Post('login')
   login(
@@ -24,7 +25,6 @@ export class AuthController {
     });
   }
 
-  @UseGuards(JwtAuthGuard)
   @Get('profile')
   getProfile(@CurrentUser() { id }: RequestUser) {
     return this.authService.getProfile(id);
