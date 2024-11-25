@@ -1,13 +1,13 @@
 import { MigrationInterface, QueryRunner } from "typeorm";
 
-export class CreateMigrationTables1732228799890 implements MigrationInterface {
-    name = 'CreateMigrationTables1732228799890'
+export class CreateMigrationTables1732524207718 implements MigrationInterface {
+    name = 'CreateMigrationTables1732524207718'
 
     public async up(queryRunner: QueryRunner): Promise<void> {
         await queryRunner.query(`
             CREATE TABLE "payment" (
-                "id" SERIAL NOT NULL,
-                "orderId" integer NOT NULL,
+                "id" uuid NOT NULL DEFAULT uuid_generate_v4(),
+                "orderId" uuid NOT NULL,
                 "created_at" TIMESTAMP NOT NULL DEFAULT now(),
                 "updated_at" TIMESTAMP NOT NULL DEFAULT now(),
                 "deletedAt" TIMESTAMP,
@@ -16,8 +16,50 @@ export class CreateMigrationTables1732228799890 implements MigrationInterface {
             )
         `);
         await queryRunner.query(`
+            CREATE TABLE "category" (
+                "id" uuid NOT NULL DEFAULT uuid_generate_v4(),
+                "name" character varying NOT NULL,
+                CONSTRAINT "UQ_23c05c292c439d77b0de816b500" UNIQUE ("name"),
+                CONSTRAINT "PK_9c4e4a89e3674fc9f382d733f03" PRIMARY KEY ("id")
+            )
+        `);
+        await queryRunner.query(`
+            CREATE TABLE "product" (
+                "id" uuid NOT NULL DEFAULT uuid_generate_v4(),
+                "name" character varying NOT NULL,
+                "description" character varying,
+                "price" numeric(6, 2) NOT NULL,
+                "created_at" TIMESTAMP NOT NULL DEFAULT now(),
+                "updated_at" TIMESTAMP NOT NULL DEFAULT now(),
+                "deletedAt" TIMESTAMP,
+                CONSTRAINT "UQ_22cc43e9a74d7498546e9a63e77" UNIQUE ("name"),
+                CONSTRAINT "PK_bebc9158e480b949565b4dc7a82" PRIMARY KEY ("id")
+            )
+        `);
+        await queryRunner.query(`
+            CREATE TABLE "order_item" (
+                "orderId" uuid NOT NULL,
+                "productId" uuid NOT NULL,
+                "quantity" integer NOT NULL,
+                "price" numeric(6, 2) NOT NULL,
+                "deletedAt" TIMESTAMP,
+                CONSTRAINT "PK_7e383dc486afc7800bf87d1c11a" PRIMARY KEY ("orderId", "productId")
+            )
+        `);
+        await queryRunner.query(`
+            CREATE TABLE "order" (
+                "id" uuid NOT NULL DEFAULT uuid_generate_v4(),
+                "status" "public"."order_status_enum" NOT NULL DEFAULT 'AWAITING_PAYMENT',
+                "customerId" uuid NOT NULL,
+                "created_at" TIMESTAMP NOT NULL DEFAULT now(),
+                "updated_at" TIMESTAMP NOT NULL DEFAULT now(),
+                "deletedAt" TIMESTAMP,
+                CONSTRAINT "PK_1031171c13130102495201e3e20" PRIMARY KEY ("id")
+            )
+        `);
+        await queryRunner.query(`
             CREATE TABLE "user" (
-                "id" SERIAL NOT NULL,
+                "id" uuid NOT NULL DEFAULT uuid_generate_v4(),
                 "name" character varying NOT NULL,
                 "email" character varying NOT NULL,
                 "phone" character varying NOT NULL,
@@ -31,51 +73,9 @@ export class CreateMigrationTables1732228799890 implements MigrationInterface {
             )
         `);
         await queryRunner.query(`
-            CREATE TABLE "category" (
-                "id" SERIAL NOT NULL,
-                "name" character varying NOT NULL,
-                CONSTRAINT "UQ_23c05c292c439d77b0de816b500" UNIQUE ("name"),
-                CONSTRAINT "PK_9c4e4a89e3674fc9f382d733f03" PRIMARY KEY ("id")
-            )
-        `);
-        await queryRunner.query(`
-            CREATE TABLE "product" (
-                "id" SERIAL NOT NULL,
-                "name" character varying NOT NULL,
-                "description" character varying,
-                "price" numeric(6, 2) NOT NULL,
-                "created_at" TIMESTAMP NOT NULL DEFAULT now(),
-                "updated_at" TIMESTAMP NOT NULL DEFAULT now(),
-                "deletedAt" TIMESTAMP,
-                CONSTRAINT "UQ_22cc43e9a74d7498546e9a63e77" UNIQUE ("name"),
-                CONSTRAINT "PK_bebc9158e480b949565b4dc7a82" PRIMARY KEY ("id")
-            )
-        `);
-        await queryRunner.query(`
-            CREATE TABLE "order_item" (
-                "orderId" integer NOT NULL,
-                "productId" integer NOT NULL,
-                "quantity" integer NOT NULL,
-                "price" numeric(6, 2) NOT NULL,
-                "deletedAt" TIMESTAMP,
-                CONSTRAINT "PK_7e383dc486afc7800bf87d1c11a" PRIMARY KEY ("orderId", "productId")
-            )
-        `);
-        await queryRunner.query(`
-            CREATE TABLE "order" (
-                "id" SERIAL NOT NULL,
-                "status" "public"."order_status_enum" NOT NULL DEFAULT 'AWAITING_PAYMENT',
-                "customerId" integer NOT NULL,
-                "created_at" TIMESTAMP NOT NULL DEFAULT now(),
-                "updated_at" TIMESTAMP NOT NULL DEFAULT now(),
-                "deletedAt" TIMESTAMP,
-                CONSTRAINT "PK_1031171c13130102495201e3e20" PRIMARY KEY ("id")
-            )
-        `);
-        await queryRunner.query(`
             CREATE TABLE "product_to_category" (
-                "productId" integer NOT NULL,
-                "categoryId" integer NOT NULL,
+                "productId" uuid NOT NULL,
+                "categoryId" uuid NOT NULL,
                 CONSTRAINT "PK_ead833542a5bf513c93bc12b016" PRIMARY KEY ("productId", "categoryId")
             )
         `);
@@ -140,6 +140,9 @@ export class CreateMigrationTables1732228799890 implements MigrationInterface {
             DROP TABLE "product_to_category"
         `);
         await queryRunner.query(`
+            DROP TABLE "user"
+        `);
+        await queryRunner.query(`
             DROP TABLE "order"
         `);
         await queryRunner.query(`
@@ -150,9 +153,6 @@ export class CreateMigrationTables1732228799890 implements MigrationInterface {
         `);
         await queryRunner.query(`
             DROP TABLE "category"
-        `);
-        await queryRunner.query(`
-            DROP TABLE "user"
         `);
         await queryRunner.query(`
             DROP TABLE "payment"
