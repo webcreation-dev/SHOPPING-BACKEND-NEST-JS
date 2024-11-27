@@ -12,9 +12,8 @@ import jwtConfig from './config/jwt.config';
 import { JwtModule } from '@nestjs/jwt';
 import { ConfigModule } from '@nestjs/config';
 import { JwtStrategy } from './strategies/jwt.strategy';
-import { APP_GUARD } from '@nestjs/core';
-import { JwtAuthGuard } from './guards/jwt-auth/jwt-auth.guard';
-import { RolesGuard } from './guards/roles/roles.guard';
+import { ThrottlerModule } from '@nestjs/throttler';
+import { THROTTLER_MODULE_OPTIONS } from './util/auth.constants';
 
 @Module({
   imports: [
@@ -22,6 +21,7 @@ import { RolesGuard } from './guards/roles/roles.guard';
     PassportModule,
     JwtModule.registerAsync(jwtConfig.asProvider()),
     ConfigModule.forFeature(jwtConfig),
+    ThrottlerModule.forRoot(THROTTLER_MODULE_OPTIONS),
   ],
   controllers: [AuthController],
   providers: [
@@ -29,14 +29,6 @@ import { RolesGuard } from './guards/roles/roles.guard';
     {
       provide: HashingService,
       useClass: BcryptService,
-    },
-    {
-      provide: APP_GUARD,
-      useClass: JwtAuthGuard,
-    },
-    {
-      provide: APP_GUARD,
-      useClass: RolesGuard,
     },
     LocalStrategy,
     JwtStrategy,

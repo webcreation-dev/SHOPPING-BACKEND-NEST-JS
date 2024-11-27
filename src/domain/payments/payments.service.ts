@@ -1,8 +1,4 @@
-import {
-  ConflictException,
-  Injectable,
-  NotFoundException,
-} from '@nestjs/common';
+import { ConflictException, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Order } from 'orders/entities/order.entity';
 import { Repository } from 'typeorm';
@@ -22,16 +18,13 @@ export class PaymentsService {
   ) {}
 
   async payOrder(id: number, currentUser: RequestUser) {
-    const order = await this.ordersRepository.findOne({
+    const order = await this.ordersRepository.findOneOrFail({
       where: { id },
       relations: {
         payment: true,
         customer: true,
       },
     });
-    if (!order) {
-      throw new NotFoundException('Order not found');
-    }
     if (currentUser.role !== Role.ADMIN) {
       compareUserId(currentUser.id, order.customer.id);
     }

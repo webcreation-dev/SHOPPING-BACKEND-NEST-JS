@@ -3,6 +3,7 @@ import {
   ForbiddenException,
   Injectable,
   NotFoundException,
+  UnauthorizedException,
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { PaginationDto } from 'common/dto/pagination.dto';
@@ -14,12 +15,15 @@ import { User } from './entities/user.entity';
 import { RequestUser } from 'auth/interfaces/request-user.interface';
 import { compareUserId } from 'auth/util/authentication.util';
 import { Role } from 'auth/roles/enums/role.enum';
+import { HashingService } from 'auth/hashing/hashing.service';
+import { LoginDto } from 'auth/dto/login.dto';
 
 @Injectable()
 export class UsersService {
   constructor(
     @InjectRepository(User)
     private readonly usersRepository: Repository<User>,
+    private readonly hashingService: HashingService,
   ) {}
 
   async create(createUserDto: CreateUserDto) {
@@ -37,7 +41,7 @@ export class UsersService {
   }
 
   async findOne(id: number) {
-    const user = await this.usersRepository.findOne({
+    return this.usersRepository.findOneOrFail({
       where: { id },
       relations: {
         orders: {
@@ -46,10 +50,6 @@ export class UsersService {
         },
       },
     });
-    if (!user) {
-      throw new NotFoundException('User not found');
-    }
-    return user;
   }
 
   async update(
@@ -86,13 +86,11 @@ export class UsersService {
       : this.usersRepository.remove(user);
   }
 
-  async recover(id: number, currentUser: RequestUser) {
-    if (currentUser.role !== Role.ADMIN) {
-      compareUserId(currentUser.id, id);
-    }
+  async recover(loginDto: LoginDto) {
+    const { email, password } = loginDto;
 
     const user = await this.usersRepository.findOne({
-      where: { id },
+      where: { email },
       relations: {
         orders: {
           items: true,
@@ -101,11 +99,16 @@ export class UsersService {
       },
       withDeleted: true,
     });
-
     if (!user) {
-      throw new NotFoundException('User not found');
+      throw new UnauthorizedException('Invalid email');
     }
-    if (!user.registryDates.deletedAt) {
+
+    const isMatch = await this.hashingService.compare(password, user.password);
+    if (!isMatch) {
+      throw new UnauthorizedException('Invalid password');
+    }
+
+    if (!user.isDeleted) {
       throw new ConflictException('User not deleted');
     }
 

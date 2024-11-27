@@ -33,12 +33,13 @@ export class CategoriesService {
   }
 
   async findOne(id: number) {
-    const category = await this.categoriesRepository.findOne({
+    const category = await this.categoriesRepository.findOneOrFail({
       where: { id },
       relations: {
         products: true,
       },
     });
+
     if (category.products.length) {
       throw new ConflictException('Category has related products');
     }

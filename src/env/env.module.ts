@@ -1,6 +1,6 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
-import { ENV_VALIDATION_SCHEMA } from 'common/util/env.constants';
+import { ENV_VALIDATION_SCHEMA } from './utils/env.constants';
 
 @Module({
   imports: [

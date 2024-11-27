@@ -18,6 +18,7 @@ import { Role } from 'auth/roles/enums/role.enum';
 import { Roles } from 'auth/decorators/roles.decorator';
 import { CurrentUser } from 'auth/decorators/user.decorator';
 import { RequestUser } from 'auth/interfaces/request-user.interface';
+import { LoginDto } from 'auth/dto/login.dto';
 
 @Controller('users')
 export class UsersController {
@@ -29,14 +30,14 @@ export class UsersController {
     return this.usersService.create(createUserDto);
   }
 
-  @Roles(Role.MANAGER)
+  @Roles(Role.USER)
   @Get()
   findAll(@Query() paginationDto: PaginationDto) {
     return this.usersService.findAll(paginationDto);
   }
 
-  @Roles(Role.MANAGER)
-  @Get(':id')
+  @Roles(Role.USER)
+  @Get('/:id')
   findOne(@Param() { id }: IdDto) {
     return this.usersService.findOne(id);
   }
@@ -59,8 +60,9 @@ export class UsersController {
     return this.usersService.remove(id, soft, user);
   }
 
-  @Patch(':id/recover')
-  recover(@Param() { id }: IdDto, @CurrentUser() user: RequestUser) {
-    return this.usersService.recover(id, user);
+  @Public()
+  @Patch('recover')
+  recover(@Body() loginDto: LoginDto) {
+    return this.usersService.recover(loginDto);
   }
 }
