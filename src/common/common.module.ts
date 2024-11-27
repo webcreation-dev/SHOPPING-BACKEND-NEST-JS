@@ -35,11 +35,11 @@ import { DatabaseExceptionFilter } from 'database/exception-filters/database-exc
     },
     {
       provide: APP_FILTER,
-      useValue: NotFoundExceptionFilter,
+      useClass: NotFoundExceptionFilter,
     },
     {
       provide: APP_FILTER,
-      useValue: DatabaseExceptionFilter,
+      useClass: DatabaseExceptionFilter,
     },
   ],
 })

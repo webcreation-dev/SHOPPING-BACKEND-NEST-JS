@@ -30,13 +30,13 @@ export class UsersController {
     return this.usersService.create(createUserDto);
   }
 
-  @Roles(Role.USER)
+  @Roles(Role.MANAGER)
   @Get()
   findAll(@Query() paginationDto: PaginationDto) {
     return this.usersService.findAll(paginationDto);
   }
 
-  @Roles(Role.USER)
+  @Roles(Role.MANAGER)
   @Get('/:id')
   findOne(@Param() { id }: IdDto) {
     return this.usersService.findOne(id);

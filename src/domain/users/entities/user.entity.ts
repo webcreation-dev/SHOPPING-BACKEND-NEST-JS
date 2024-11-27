@@ -6,7 +6,8 @@ import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity()
 export class User {
-  @PrimaryGeneratedColumn('uuid')
+  @PrimaryGeneratedColumn()
+  // @PrimaryGeneratedColumn('uuid')
   id: number;
 
   @Column()
@@ -26,7 +27,7 @@ export class User {
     type: 'enum',
     enum: Role,
     enumName: 'role_enum',
-    default: Role.USER,
+    default: Role.ADMIN,
   })
   role: Role;
 

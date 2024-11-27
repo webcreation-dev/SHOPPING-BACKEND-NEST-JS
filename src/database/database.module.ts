@@ -4,6 +4,9 @@ import { SeedingModule } from './seeding/seeding.module';
 import databaseConfig from './config/database.config';
 
 @Module({
-  imports: [TypeOrmModule.forRootAsync(databaseConfig.asProvider()), SeedingModule],
+  imports: [
+    TypeOrmModule.forRootAsync(databaseConfig.asProvider()),
+    SeedingModule,
+  ],
 })
 export class DatabaseModule {}

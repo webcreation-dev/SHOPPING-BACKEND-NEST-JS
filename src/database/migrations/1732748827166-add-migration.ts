@@ -1,7 +1,7 @@
 import { MigrationInterface, QueryRunner } from "typeorm";
 
-export class CreateMigrationTables1732524207718 implements MigrationInterface {
-    name = 'CreateMigrationTables1732524207718'
+export class AddMigration1732748827166 implements MigrationInterface {
+    name = 'AddMigration1732748827166'
 
     public async up(queryRunner: QueryRunner): Promise<void> {
         await queryRunner.query(`
@@ -64,6 +64,7 @@ export class CreateMigrationTables1732524207718 implements MigrationInterface {
                 "email" character varying NOT NULL,
                 "phone" character varying NOT NULL,
                 "password" character varying NOT NULL,
+                "role" "public"."role_enum" NOT NULL DEFAULT 'ADMIN',
                 "created_at" TIMESTAMP NOT NULL DEFAULT now(),
                 "updated_at" TIMESTAMP NOT NULL DEFAULT now(),
                 "deletedAt" TIMESTAMP,

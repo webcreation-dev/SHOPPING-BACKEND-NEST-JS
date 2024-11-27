@@ -1,6 +1,7 @@
-import { IsUUID } from 'class-validator';
+import { IsNumber, IsUUID } from 'class-validator';
 
 export class IdDto {
-  @IsUUID()
+  @IsNumber()
+  // @IsUUID()
   readonly id: number;
 }
