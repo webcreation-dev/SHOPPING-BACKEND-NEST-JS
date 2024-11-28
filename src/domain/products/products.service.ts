@@ -6,12 +6,17 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { PaginationDto } from 'common/dto/pagination.dto';
 import { DEFAULT_PAGE_SIZE } from 'common/util/common.constants';
+import { StorageService } from 'files/storage/storage.service';
+import { pathExists } from 'fs-extra';
+import { join } from 'path';
+import { BASE_PATH, FilePath, MaxFileCount } from 'files/utils/file.constant';
 
 @Injectable()
 export class ProductsService {
   constructor(
     @InjectRepository(Product)
     private readonly productsRepository: Repository<Product>,
+    private readonly storageService: StorageService,
   ) {}
 
   create(createProductDto: CreateProductDto) {
@@ -50,6 +55,63 @@ export class ProductsService {
 
   async remove(id: number) {
     const product = await this.findOne(id);
-    return this.productsRepository.remove(product);
+    await this.productsRepository.remove(product);
+
+    await this.deleteBaseDir(id);
+
+    return product;
+  }
+
+  async uploadImages(id: number, files: Express.Multer.File[]) {
+    await this.findOne(id);
+
+    const { BASE, IMAGES } = FilePath.Products;
+    const path = join(BASE, id.toString(), IMAGES);
+
+    if (await pathExists(join(BASE_PATH, path))) {
+      const incomingFilecount = files.length;
+      const dirFilecount = await this.storageService.getDirFilecount(path);
+      const totalFilecount = incomingFilecount + dirFilecount;
+
+      this.storageService.validateFilecount(
+        totalFilecount,
+        MaxFileCount.PRODUCT_IMAGES,
+      );
+    }
+
+    await this.storageService.createDir(path);
+
+    await Promise.all(
+      files.map((file) => this.storageService.saveFile(path, file)),
+    );
+  }
+
+  async downloadImage(id: number, filename: string) {
+    await this.findOne(id);
+
+    const { BASE, IMAGES } = FilePath.Products;
+    const path = join(BASE, id.toString(), IMAGES, filename);
+
+    await this.storageService.validatePath(path);
+
+    return this.storageService.getFile(path);
+  }
+
+  async deleteImage(id: number, filename: string) {
+    await this.findOne(id);
+
+    const { BASE, IMAGES } = FilePath.Products;
+    const path = join(BASE, id.toString(), IMAGES, filename);
+
+    await this.storageService.delete(path);
+
+    return this.storageService.validatePath(path);
+  }
+
+  private async deleteBaseDir(id: number) {
+    const { BASE } = FilePath.Products;
+
+    const path = join(BASE, id.toString());
+    await this.storageService.delete(path);
   }
 }

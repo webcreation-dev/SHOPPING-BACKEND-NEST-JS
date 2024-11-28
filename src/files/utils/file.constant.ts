@@ -3,3 +3,10 @@ export const MaxFileCount = {
 } as const satisfies Record<string, number>;
 
 export const BASE_PATH = 'upload';
+
+export const FilePath = {
+  Products: {
+    BASE: 'products',
+    IMAGES: 'images',
+  },
+} as const satisfies Record<string, Record<string, string>>;
