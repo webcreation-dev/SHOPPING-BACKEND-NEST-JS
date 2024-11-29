@@ -19,9 +19,16 @@ import { Public } from 'auth/decorators/public.decorator';
 import { Role } from 'auth/roles/enums/role.enum';
 import { Roles } from 'auth/decorators/roles.decorator';
 import { createParseFilePipe } from 'files/utils/file-validation.util';
-import { MaxFileCount } from 'files/utils/file.constant';
+import {
+  MaxFileCount,
+  MULTIPART_FORMDATA_KEY,
+} from 'files/utils/file.constant';
 import { FilesInterceptor } from '@nestjs/platform-express';
 import { IdFilenameDto } from 'files/dto/id-filename.dto';
+import { ApiBody, ApiConsumes, ApiOkResponse } from '@nestjs/swagger';
+import { FilesSchema } from 'files/swagger/schemas/files.schema';
+import { FileSchema } from 'files/swagger/schemas/file.schema';
+import { BodyInterceptor } from 'files/interceptors/body/body.interceptor';
 
 @Controller('products')
 export class ProductsController {
@@ -58,7 +65,12 @@ export class ProductsController {
   }
 
   @Roles(Role.MANAGER)
-  @UseInterceptors(FilesInterceptor('files', MaxFileCount.PRODUCT_IMAGES))
+  @UseInterceptors(
+    FilesInterceptor('files', MaxFileCount.PRODUCT_IMAGES),
+    BodyInterceptor,
+  )
+  @ApiConsumes(MULTIPART_FORMDATA_KEY)
+  @ApiBody({ type: FilesSchema })
   @Post(':id/images')
   uploadImages(
     @Param() { id }: IdDto,
@@ -75,6 +87,7 @@ export class ProductsController {
   }
 
   @Roles(Role.MANAGER)
+  @ApiOkResponse({ type: FileSchema })
   @Delete(':id/images/:filename')
   deleteImage(@Param() { id, filename }: IdFilenameDto) {
     return this.productsService.deleteImage(id, filename);

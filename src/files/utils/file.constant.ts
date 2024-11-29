@@ -10,3 +10,5 @@ export const FilePath = {
     IMAGES: 'images',
   },
 } as const satisfies Record<string, Record<string, string>>;
+
+export const MULTIPART_FORMDATA_KEY = 'multipart/form-data';
