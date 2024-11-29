@@ -8,7 +8,6 @@ import {
   Delete,
   Query,
   UseInterceptors,
-  ParseFilePipe,
   UploadedFiles,
 } from '@nestjs/common';
 import { ProductsService } from './products.service';
@@ -19,7 +18,7 @@ import { PaginationDto } from 'common/dto/pagination.dto';
 import { Public } from 'auth/decorators/public.decorator';
 import { Role } from 'auth/roles/enums/role.enum';
 import { Roles } from 'auth/decorators/roles.decorator';
-import { createFileValidators } from 'files/utils/file-validation.util';
+import { createParseFilePipe } from 'files/utils/file-validation.util';
 import { MaxFileCount } from 'files/utils/file.constant';
 import { FilesInterceptor } from '@nestjs/platform-express';
 import { IdFilenameDto } from 'files/dto/id-filename.dto';
@@ -63,11 +62,7 @@ export class ProductsController {
   @Post(':id/images')
   uploadImages(
     @Param() { id }: IdDto,
-    @UploadedFiles(
-      new ParseFilePipe({
-        validators: createFileValidators('2MB', 'png', 'jpeg'),
-      }),
-    )
+    @UploadedFiles(createParseFilePipe('2MB', 'png', 'jpeg'))
     files: Express.Multer.File[],
   ) {
     return this.productsService.uploadImages(id, files);
