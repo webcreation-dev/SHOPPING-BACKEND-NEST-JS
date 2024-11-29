@@ -14,7 +14,6 @@ import { ProductsService } from './products.service';
 import { CreateProductDto } from './dto/create-product.dto';
 import { UpdateProductDto } from './dto/update-product.dto';
 import { IdDto } from 'common/dto/id.dto';
-import { PaginationDto } from 'querying/dto/pagination.dto';
 import { Public } from 'auth/decorators/public.decorator';
 import { Role } from 'auth/roles/enums/role.enum';
 import { Roles } from 'auth/decorators/roles.decorator';
@@ -29,6 +28,7 @@ import { ApiBody, ApiConsumes, ApiOkResponse } from '@nestjs/swagger';
 import { FilesSchema } from 'files/swagger/schemas/files.schema';
 import { FileSchema } from 'files/swagger/schemas/file.schema';
 import { BodyInterceptor } from 'files/interceptors/body/body.interceptor';
+import { ProductsQueryDto } from './dto/querying/products-query.dto';
 
 @Controller('products')
 export class ProductsController {
@@ -42,8 +42,8 @@ export class ProductsController {
 
   @Public()
   @Get()
-  findAll(@Query() paginationDto: PaginationDto) {
-    return this.productsService.findAll(paginationDto);
+  findAll(@Query() productsQueryDto: ProductsQueryDto) {
+    return this.productsService.findAll(productsQueryDto);
   }
 
   @Public()
