@@ -12,13 +12,13 @@ import { UsersService } from './users.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { IdDto } from 'common/dto/id.dto';
-import { PaginationDto } from 'common/dto/pagination.dto';
 import { Public } from 'auth/decorators/public.decorator';
 import { Role } from 'auth/roles/enums/role.enum';
 import { Roles } from 'auth/decorators/roles.decorator';
 import { CurrentUser } from 'auth/decorators/user.decorator';
 import { RequestUser } from 'auth/interfaces/request-user.interface';
 import { LoginDto } from 'auth/dto/login.dto';
+import { PaginationDto } from 'querying/dto/pagination.dto';
 
 @Controller('users')
 export class UsersController {

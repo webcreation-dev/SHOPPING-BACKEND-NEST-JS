@@ -4,12 +4,13 @@ import { UpdateProductDto } from './dto/update-product.dto';
 import { Product } from './entities/product.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { PaginationDto } from 'common/dto/pagination.dto';
-import { DEFAULT_PAGE_SIZE } from 'common/util/common.constants';
+import { DefaultPageSize } from 'querying/util/querying.constants';
 import { StorageService } from 'files/storage/storage.service';
 import { pathExists } from 'fs-extra';
 import { join } from 'path';
 import { BASE_PATH, FilePath, MaxFileCount } from 'files/utils/file.constant';
+import { PaginationDto } from 'querying/dto/pagination.dto';
+import { PaginationService } from 'querying/pagination.service';
 
 @Injectable()
 export class ProductsService {
@@ -17,6 +18,7 @@ export class ProductsService {
     @InjectRepository(Product)
     private readonly productsRepository: Repository<Product>,
     private readonly storageService: StorageService,
+    private readonly paginationService: PaginationService,
   ) {}
 
   create(createProductDto: CreateProductDto) {
@@ -24,13 +26,18 @@ export class ProductsService {
     return this.productsRepository.save(user);
   }
 
-  findAll(paginationDto: PaginationDto) {
-    const { limit, offset } = paginationDto;
+  async findAll(paginationDto: PaginationDto) {
+    const { page } = paginationDto;
+    const limit = paginationDto.limit ?? DefaultPageSize.PRODUCT;
+    const offset = this.paginationService.calculateOffset(limit, page);
 
-    return this.productsRepository.find({
+    const [data, count] = await this.productsRepository.findAndCount({
       skip: offset,
-      take: limit ?? DEFAULT_PAGE_SIZE.CATEGORY,
+      take: limit,
     });
+    const meta = this.paginationService.createMeta(limit, page, count);
+
+    return { data, meta };
   }
 
   async findOne(id: number) {

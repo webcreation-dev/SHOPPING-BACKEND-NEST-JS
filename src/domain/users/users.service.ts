@@ -6,8 +6,7 @@ import {
   UnauthorizedException,
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { PaginationDto } from 'common/dto/pagination.dto';
-import { DEFAULT_PAGE_SIZE } from 'common/util/common.constants';
+import { DefaultPageSize } from 'querying/util/querying.constants';
 import { Repository } from 'typeorm';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
@@ -17,6 +16,8 @@ import { compareUserId } from 'auth/util/authentication.util';
 import { Role } from 'auth/roles/enums/role.enum';
 import { HashingService } from 'auth/hashing/hashing.service';
 import { LoginDto } from 'auth/dto/login.dto';
+import { PaginationDto } from 'querying/dto/pagination.dto';
+import { PaginationService } from 'querying/pagination.service';
 
 @Injectable()
 export class UsersService {
@@ -24,6 +25,7 @@ export class UsersService {
     @InjectRepository(User)
     private readonly usersRepository: Repository<User>,
     private readonly hashingService: HashingService,
+    private readonly paginationService: PaginationService,
   ) {}
 
   async create(createUserDto: CreateUserDto) {
@@ -31,13 +33,18 @@ export class UsersService {
     return this.usersRepository.save(user);
   }
 
-  findAll(paginationDto: PaginationDto) {
-    const { limit, offset } = paginationDto;
+  async findAll(paginationDto: PaginationDto) {
+    const { page } = paginationDto;
+    const limit = paginationDto.limit ?? DefaultPageSize.USER;
+    const offset = this.paginationService.calculateOffset(limit, page);
 
-    return this.usersRepository.find({
+    const [data, count] = await this.usersRepository.findAndCount({
       skip: offset,
-      take: limit ?? DEFAULT_PAGE_SIZE.USER,
+      take: limit,
     });
+    const meta = this.paginationService.createMeta(limit, page, count);
+
+    return { data, meta };
   }
 
   async findOne(id: number) {

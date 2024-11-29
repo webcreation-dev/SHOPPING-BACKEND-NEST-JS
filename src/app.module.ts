@@ -10,6 +10,7 @@ import { ProductsModule } from './domain/products/products.module';
 import { SeedingModule } from 'database/seeding/seeding.module';
 import { AuthModule } from './auth/auth.module';
 import { FilesModule } from './files/files.module';
+import { QueryingModule } from './querying/querying.module';
 
 @Module({
   imports: [
@@ -24,6 +25,7 @@ import { FilesModule } from './files/files.module';
     SeedingModule,
     AuthModule,
     FilesModule,
+    QueryingModule,
   ],
 })
 export class AppModule {}
