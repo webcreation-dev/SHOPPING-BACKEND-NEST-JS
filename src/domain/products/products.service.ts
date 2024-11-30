@@ -11,6 +11,7 @@ import { join } from 'path';
 import { BASE_PATH, FilePath, MaxFileCount } from 'files/utils/file.constant';
 import { PaginationService } from 'querying/pagination.service';
 import { ProductsQueryDto } from './dto/querying/products-query.dto';
+import { FilteringService } from 'querying/filtering.service';
 
 @Injectable()
 export class ProductsService {
@@ -19,6 +20,7 @@ export class ProductsService {
     private readonly productsRepository: Repository<Product>,
     private readonly storageService: StorageService,
     private readonly paginationService: PaginationService,
+    private readonly filteringService: FilteringService,
   ) {}
 
   create(createProductDto: CreateProductDto) {
@@ -35,7 +37,7 @@ export class ProductsService {
     const [data, count] = await this.productsRepository.findAndCount({
       where: {
         name: name ? ILike(`%${name}%`) : undefined,
-        price,
+        price: this.filteringService.compare(price),
         categories: { id: categoryId },
       },
       order: { [sort]: order },
