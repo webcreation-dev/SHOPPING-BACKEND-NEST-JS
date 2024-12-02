@@ -5,6 +5,7 @@ import { HttpError } from 'common/util/http-error.util';
 import { DatabaseError } from 'database/interfaces/database-error.interface';
 import { Response } from 'express';
 import { QueryFailedError } from 'typeorm';
+import { ErrorResponseUtil } from 'common/util/error-response.util';
 
 @Catch(QueryFailedError)
 export class DatabaseExceptionFilter extends BaseExceptionFilter {
@@ -21,11 +22,11 @@ export class DatabaseExceptionFilter extends BaseExceptionFilter {
     const { status, error } = httpError;
     const { fieldName, fieldValue } = this.extractMessageData(detail);
 
-    const meta = { description, fieldName, fieldValue, table };
+    const meta = { fieldName, fieldValue, table };
 
     const errorResponse = ErrorResponseUtil.createErrorResponse(
       status,
-      message,
+      description,
       error,
       meta,
     );

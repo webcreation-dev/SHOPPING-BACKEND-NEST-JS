@@ -9,6 +9,7 @@ import { extractFromText } from 'common/regex/regex.util';
 import { HttpError } from 'common/util/http-error.util';
 import { Response } from 'express';
 import { extension } from 'mime-types';
+import { ErrorResponseUtil } from 'common/util/error-response.util';
 
 @Catch(UnprocessableEntityException)
 export class FilesExceptionFilter implements ExceptionFilter {
