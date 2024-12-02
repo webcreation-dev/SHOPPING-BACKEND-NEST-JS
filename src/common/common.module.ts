@@ -11,6 +11,7 @@ import { ThrottlerGuard } from '@nestjs/throttler';
 import { NotFoundExceptionFilter } from 'database/exception-filters/not-found-exception/not-found-exception.filter';
 import { DatabaseExceptionFilter } from 'database/exception-filters/database-exception/database-exception.filter';
 import { HttpExceptionFilter } from 'database/exception-filters/http-exception/http-exception.filter';
+import { FilesExceptionFilter } from 'files/exception-filters/files-exception/files-exception.filter';
 
 @Module({
   providers: [
@@ -45,6 +46,10 @@ import { HttpExceptionFilter } from 'database/exception-filters/http-exception/h
     {
       provide: APP_FILTER,
       useClass: HttpExceptionFilter,
+    },
+    {
+      provide: APP_FILTER,
+      useClass: FilesExceptionFilter,
     },
   ],
 })

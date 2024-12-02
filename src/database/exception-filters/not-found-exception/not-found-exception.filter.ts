@@ -3,6 +3,7 @@ import { EntityNotFoundError } from 'typeorm';
 import { Response } from 'express';
 import { HttpError } from 'common/util/http-error.util';
 import { extractFromText } from 'common/regex/regex.util';
+import { ErrorResponseUtil } from 'common/util/error-response.util';
 
 @Catch(EntityNotFoundError)
 export class NotFoundExceptionFilter implements ExceptionFilter {
@@ -12,11 +13,13 @@ export class NotFoundExceptionFilter implements ExceptionFilter {
     const { entityName } = this.extractMessageData(exception.message);
     const message = `${entityName} not found`;
 
-    response.status(status).json({
-      statusCode: status,
+    const errorResponse = ErrorResponseUtil.createErrorResponse(
+      status,
       message,
       error,
-    });
+    );
+
+    response.status(status).json(errorResponse);
   }
 
   private extractMessageData(message: string) {

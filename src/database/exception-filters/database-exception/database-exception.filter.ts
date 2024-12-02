@@ -23,12 +23,14 @@ export class DatabaseExceptionFilter extends BaseExceptionFilter {
 
     const meta = { description, fieldName, fieldValue, table };
 
-    response.status(status).json({
-      statusCode: status,
-      message: detail,
+    const errorResponse = ErrorResponseUtil.createErrorResponse(
+      status,
+      message,
       error,
       meta,
-    });
+    );
+
+    response.status(status).json(errorResponse);
   }
 
   private readonly FIELD_NAME_REGEX = /Key \((\w+)\)=/;

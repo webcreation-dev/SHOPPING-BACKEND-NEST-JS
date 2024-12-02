@@ -19,14 +19,17 @@ export class FilesExceptionFilter implements ExceptionFilter {
     const { httpError, ...meta } = this.createErrorData(message);
     const { status, error } = httpError;
 
-    response.status(status).json({
-      statusCode: status,
+    const errorResponse = ErrorResponseUtil.createErrorResponse(
+      status,
       message,
       error,
       meta,
-    });
+    );
+
+    response.status(status).json(errorResponse);
   }
 
+  private readonly MAX_FILE_SIZE_REGEX = /less than (\d+)/;
   private extractMaxSize(message: string) {
     const maxSizeStr = extractFromText(message, this.MAX_FILE_SIZE_REGEX);
 
@@ -36,6 +39,7 @@ export class FilesExceptionFilter implements ExceptionFilter {
     return maxSize;
   }
 
+  private readonly FILE_TYPES_REGEX = /\/(.*)\//;
   private extractFileTypes(message: string) {
     const mediaTypesStr = extractFromText(message, this.FILE_TYPES_REGEX);
 
@@ -47,9 +51,6 @@ export class FilesExceptionFilter implements ExceptionFilter {
     const fileTypes = mediaTypes.map((type) => extension(type));
     return fileTypes;
   }
-
-  private readonly MAX_FILE_SIZE_REGEX = /less than (\d+)/;
-  private readonly FILE_TYPES_REGEX = /\/(.*)\//;
 
   private createErrorData(message: string) {
     let httpError: HttpError;
