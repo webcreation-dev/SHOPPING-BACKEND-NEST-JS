@@ -3,6 +3,7 @@ import {
   Catch,
   ExceptionFilter,
   UnprocessableEntityException,
+  HttpException,
 } from '@nestjs/common';
 import * as bytes from 'bytes';
 import { extractFromText } from 'common/regex/regex.util';
@@ -13,18 +14,17 @@ import { ErrorResponseUtil } from 'common/util/error-response.util';
 
 @Catch(UnprocessableEntityException)
 export class FilesExceptionFilter implements ExceptionFilter {
-  catch(exception: UnprocessableEntityException, host: ArgumentsHost) {
-    const response = host.switchToHttp().getResponse<Response>();
-    const { message } = exception;
+  catch(exception: HttpException, host: ArgumentsHost) {
+    const ctx = host.switchToHttp();
+    const response = ctx.getResponse<Response>();
 
-    const { httpError, ...meta } = this.createErrorData(message);
-    const { status, error } = httpError;
+    const status = exception.getStatus();
+    const message = exception.getResponse();
 
     const errorResponse = ErrorResponseUtil.createErrorResponse(
       status,
       message,
-      error,
-      meta,
+      exception.name,
     );
 
     response.status(status).json(errorResponse);
