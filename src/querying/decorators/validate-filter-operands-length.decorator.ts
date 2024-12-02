@@ -1,3 +1,6 @@
+import { ValidateBy, ValidationArguments } from 'class-validator';
+import { FilterOperationDto } from 'querying/dto/filter-operation.dto';
+
 const VALIDATE_FILTER_OPERANDS_LENGTH_KEY = 'validateFilterOperandsLength';
 
 const validateFilterOperandsLength = (args: ValidationArguments) => {

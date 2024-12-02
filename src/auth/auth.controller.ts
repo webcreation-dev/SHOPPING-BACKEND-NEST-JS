@@ -18,7 +18,7 @@ import { IdDto } from 'common/dto/id.dto';
 import { RoleDto } from './roles/dto/role.dto';
 import { Role } from './roles/enums/role.enum';
 import { Roles } from './decorators/roles.decorator';
-import { ApiBody, ApiOkResponse } from '@nestjs/swagger';
+import { ApiBody, ApiOkResponse, ApiExcludeEndpoint } from '@nestjs/swagger';
 import { LoginDto } from './dto/login.dto';
 import { JwtCookieHeader } from './swagger/jwt-cookie.header';
 
@@ -43,11 +43,12 @@ export class AuthController {
     });
   }
 
-  @Get('profile')
+  @Get('user')
   getProfile(@CurrentUser() { id }: RequestUser) {
     return this.authService.getProfile(id);
   }
 
+  @ApiExcludeEndpoint()
   @Roles(Role.ADMIN)
   @Patch(':id/assign-role')
   assignRole(@Param() { id }: IdDto, @Body() { role }: RoleDto) {

@@ -9,8 +9,8 @@ async function bootstrap() {
   app.use(helmet());
 
   const config = new DocumentBuilder()
-    .setTitle('SHOP BACKEND')
-    .setDescription('Documentation for the shop API')
+    .setTitle('LOCAPAY BACKEND')
+    .setDescription('Documentation for the LOCAPAY API')
     .addBearerAuth()
     .addSecurityRequirements('bearer')
     .setVersion('1.0')

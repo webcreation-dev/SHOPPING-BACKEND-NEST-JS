@@ -19,7 +19,9 @@ import { CurrentUser } from 'auth/decorators/user.decorator';
 import { RequestUser } from 'auth/interfaces/request-user.interface';
 import { LoginDto } from 'auth/dto/login.dto';
 import { PaginationDto } from 'querying/dto/pagination.dto';
+import { ApiExcludeController } from '@nestjs/swagger';
 
+@ApiExcludeController()
 @Controller('users')
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}

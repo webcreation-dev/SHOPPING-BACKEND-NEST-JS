@@ -10,6 +10,7 @@ import { RolesGuard } from 'auth/guards/roles/roles.guard';
 import { ThrottlerGuard } from '@nestjs/throttler';
 import { NotFoundExceptionFilter } from 'database/exception-filters/not-found-exception/not-found-exception.filter';
 import { DatabaseExceptionFilter } from 'database/exception-filters/database-exception/database-exception.filter';
+import { HttpExceptionFilter } from 'database/exception-filters/http-exception/http-exception.filter';
 
 @Module({
   providers: [
@@ -40,6 +41,10 @@ import { DatabaseExceptionFilter } from 'database/exception-filters/database-exc
     {
       provide: APP_FILTER,
       useClass: DatabaseExceptionFilter,
+    },
+    {
+      provide: APP_FILTER,
+      useClass: HttpExceptionFilter,
     },
   ],
 })

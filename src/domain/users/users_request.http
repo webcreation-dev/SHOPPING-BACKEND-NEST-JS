@@ -13,15 +13,15 @@ Content-Type: application/json
 
 ### GET ALL
 GET {{baseUrl}}/users
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjEsImlhdCI6MTczMjc1MTUxNiwiZXhwIjoxNzMzMzU2MzE2fQ.-Qt5EnYdz8TMAbU1dIPWsDVP8HCS1n75EffUyenJb1Y
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjIsImlhdCI6MTczMzEyNzI4MCwiZXhwIjoxNzMzNzMyMDgwfQ.Ow28Jgp1OlgEtVDUuR8_aJjVdpWE2-3zrpkFgzUByDs
 
 ### GET ONE
 GET {{baseUrl}}/users/25
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjEsImlhdCI6MTczMjc1MTUxNiwiZXhwIjoxNzMzMzU2MzE2fQ.-Qt5EnYdz8TMAbU1dIPWsDVP8HCS1n75EffUyenJb1Y
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjIsImlhdCI6MTczMzEyNzI4MCwiZXhwIjoxNzMzNzMyMDgwfQ.Ow28Jgp1OlgEtVDUuR8_aJjVdpWE2-3zrpkFgzUByDs
 
 ### UPDATE
-PATCH {{baseUrl}}/users/1
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjEsImlhdCI6MTczMjc1MTUxNiwiZXhwIjoxNzMzMzU2MzE2fQ.-Qt5EnYdz8TMAbU1dIPWsDVP8HCS1n75EffUyenJb1Y
+PATCH {{baseUrl}}/users/25
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjIsImlhdCI6MTczMzEyNzI4MCwiZXhwIjoxNzMzNzMyMDgwfQ.Ow28Jgp1OlgEtVDUuR8_aJjVdpWE2-3zrpkFgzUByDs
 Content-Type: application/json
 
 {
