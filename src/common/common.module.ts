@@ -12,6 +12,7 @@ import { NotFoundExceptionFilter } from 'database/exception-filters/not-found-ex
 import { DatabaseExceptionFilter } from 'database/exception-filters/database-exception/database-exception.filter';
 import { HttpExceptionFilter } from 'database/exception-filters/http-exception/http-exception.filter';
 import { FilesExceptionFilter } from 'files/exception-filters/files-exception/files-exception.filter';
+import { IsUniqueConstraint } from './decorators/validators/is-unique.validator';
 
 @Module({
   providers: [
@@ -51,6 +52,7 @@ import { FilesExceptionFilter } from 'files/exception-filters/files-exception/fi
       provide: APP_FILTER,
       useClass: FilesExceptionFilter,
     },
+    IsUniqueConstraint,
   ],
 })
 export class CommonModule {}

@@ -4,10 +4,13 @@ import * as dotenvExpand from 'dotenv-expand';
 
 dotenvExpand.expand(dotenv.config());
 
-export default new DataSource({
+const dataSource = new DataSource({
   type: 'postgres',
   url: process.env.DATASOURCE_URL,
-  entities: ['dist/domain/**/*.entity.js'],
+  entities: ['dist/domain/**/*.entity.js'], // Assure-toi que les entités sont correctement importées
   migrations: ['dist/database/migrations/*.js'],
-  name: 'default',
 });
+
+dataSource.initialize();
+
+export default dataSource;

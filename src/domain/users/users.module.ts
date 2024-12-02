@@ -6,11 +6,10 @@ import { User } from './entities/user.entity';
 import { AuthModule } from 'auth/auth.module';
 import { UsersSubscriber } from './subscribers/users.subscriber';
 import { QueryingModule } from 'querying/querying.module';
-import { IsUniqueConstraint } from 'common/decorators/validators/is-unique.decorator';
 
 @Module({
   imports: [TypeOrmModule.forFeature([User]), AuthModule, QueryingModule],
   controllers: [UsersController],
-  providers: [UsersService, UsersSubscriber, IsUniqueConstraint],
+  providers: [UsersService, UsersSubscriber],
 })
 export class UsersModule {}
