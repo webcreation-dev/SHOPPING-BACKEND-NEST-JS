@@ -9,4 +9,5 @@ export default new DataSource({
   url: process.env.DATASOURCE_URL,
   entities: ['dist/domain/**/*.entity.js'],
   migrations: ['dist/database/migrations/*.js'],
+  name: 'default',
 });

@@ -1,7 +1,7 @@
 import { MigrationInterface, QueryRunner } from "typeorm";
 
-export class TablesMigrations1733087686888 implements MigrationInterface {
-    name = 'TablesMigrations1733087686888'
+export class DatabaseMigrations1733173511874 implements MigrationInterface {
+    name = 'DatabaseMigrations1733173511874'
 
     public async up(queryRunner: QueryRunner): Promise<void> {
         await queryRunner.query(`
@@ -24,9 +24,6 @@ export class TablesMigrations1733087686888 implements MigrationInterface {
             )
         `);
         await queryRunner.query(`
-            CREATE TYPE "public"."role_enum" AS ENUM('ADMIN', 'MANAGER', 'USER')
-        `);
-        await queryRunner.query(`
             CREATE TABLE "user" (
                 "id" SERIAL NOT NULL,
                 "name" character varying NOT NULL,
@@ -40,16 +37,6 @@ export class TablesMigrations1733087686888 implements MigrationInterface {
                 CONSTRAINT "UQ_e12875dfb3b1d92d7d7c5377e22" UNIQUE ("email"),
                 CONSTRAINT "UQ_8e1f623798118e629b46a9e6299" UNIQUE ("phone"),
                 CONSTRAINT "PK_cace4a159ff9f2512dd42373760" PRIMARY KEY ("id")
-            )
-        `);
-        await queryRunner.query(`
-            CREATE TYPE "public"."order_status_enum" AS ENUM(
-                'AWAITING_PAYMENT',
-                'AWAITING_SHIPMENT',
-                'SHIPPED',
-                'IN_TRANSIT',
-                'COMPLETED',
-                'CANCELED'
             )
         `);
         await queryRunner.query(`
@@ -163,13 +150,7 @@ export class TablesMigrations1733087686888 implements MigrationInterface {
             DROP TABLE "order"
         `);
         await queryRunner.query(`
-            DROP TYPE "public"."order_status_enum"
-        `);
-        await queryRunner.query(`
             DROP TABLE "user"
-        `);
-        await queryRunner.query(`
-            DROP TYPE "public"."role_enum"
         `);
         await queryRunner.query(`
             DROP TABLE "payment"
