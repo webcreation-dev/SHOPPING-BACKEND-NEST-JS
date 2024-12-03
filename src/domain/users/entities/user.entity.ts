@@ -2,7 +2,14 @@ import { Role } from 'auth/roles/enums/role.enum';
 import { Exclude } from 'class-transformer';
 import { RegistryDates } from 'common/embedded/registry-dates.embedded';
 import { Order } from 'orders/entities/order.entity';
-import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
+import { Property } from 'properties/entities/property.entity';
+import {
+  Column,
+  Entity,
+  OneToMany,
+  PrimaryGeneratedColumn,
+  ManyToMany,
+} from 'typeorm';
 
 @Entity()
 export class User {
@@ -35,6 +42,9 @@ export class User {
     cascade: ['soft-remove', 'recover'],
   })
   orders: Order[];
+
+  @ManyToMany(() => Property, (property) => property.users)
+  wishlist: Property[];
 
   get isDeleted() {
     return !!this.registryDates.deletedAt;

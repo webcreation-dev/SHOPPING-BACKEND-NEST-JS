@@ -12,6 +12,7 @@ import { AuthModule } from './auth/auth.module';
 import { FilesModule } from './files/files.module';
 import { QueryingModule } from './querying/querying.module';
 import { OtpModule } from './otp/otp.module';
+import { PropertiesModule } from './domain/properties/properties.module';
 
 @Module({
   imports: [
@@ -28,6 +29,7 @@ import { OtpModule } from './otp/otp.module';
     FilesModule,
     QueryingModule,
     OtpModule,
+    PropertiesModule,
   ],
 })
 export class AppModule {}

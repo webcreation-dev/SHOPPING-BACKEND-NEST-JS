@@ -2,7 +2,7 @@
 
 ### GET ALL
 GET {{baseUrl}}/users
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjksImlhdCI6MTczMzIzMDAxNCwiZXhwIjoxNzMzODM0ODE0fQ.0jkT4FdQDDYKLczvcSh7RU3V0bsmErgp_5p9lbKKfNA
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjEzLCJpYXQiOjE3MzMyMzk1MjcsImV4cCI6MTczMzg0NDMyN30.K6Ktqaq-iyqnX_SO9i4NwD4sbEVGArnRRuM24J44tgM
 
 ### GET ONE
 GET {{baseUrl}}/users/25
