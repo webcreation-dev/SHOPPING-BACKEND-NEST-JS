@@ -11,8 +11,10 @@ import { ThrottlerGuard } from '@nestjs/throttler';
 import { NotFoundExceptionFilter } from 'database/exception-filters/not-found-exception/not-found-exception.filter';
 import { DatabaseExceptionFilter } from 'database/exception-filters/database-exception/database-exception.filter';
 import { HttpExceptionFilter } from 'database/exception-filters/http-exception/http-exception.filter';
+import { EntityMetadataExceptionFilter } from 'database/exception-filters/entity-metadata-exception/entity-metadata-exception.filter';
 import { FilesExceptionFilter } from 'files/exception-filters/files-exception/files-exception.filter';
 import { IsUniqueConstraint } from './decorators/validators/is-unique.validator';
+import { ResponseFormatInterceptor } from './interceptors/sucess-response.interceptor';
 
 @Module({
   providers: [
@@ -23,6 +25,10 @@ import { IsUniqueConstraint } from './decorators/validators/is-unique.validator'
     {
       provide: APP_INTERCEPTOR,
       useClass: ClassSerializerInterceptor,
+    },
+    {
+      provide: APP_INTERCEPTOR,
+      useClass: ResponseFormatInterceptor,
     },
     {
       provide: APP_GUARD,
@@ -51,6 +57,10 @@ import { IsUniqueConstraint } from './decorators/validators/is-unique.validator'
     {
       provide: APP_FILTER,
       useClass: FilesExceptionFilter,
+    },
+    {
+      provide: APP_FILTER,
+      useClass: EntityMetadataExceptionFilter,
     },
     IsUniqueConstraint,
   ],

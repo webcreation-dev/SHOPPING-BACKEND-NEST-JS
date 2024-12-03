@@ -5,7 +5,6 @@ import { IsUnique } from 'common/decorators/validators/is-unique.decorator';
 
 export class CreateUserDto {
   @Length(2, 50)
-  @IsUnique(User, 'name', { message: 'Name must be unique' })
   readonly name: string;
 
   @IsEmail()
