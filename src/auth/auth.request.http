@@ -9,7 +9,7 @@ Content-Type: application/json
       "name": "Julian",
       "phone": "22955803034",
       "password": "Julianosis1234*",
-      "password_confirmation": "Julianosis1234*"
+      "password_confirmation": "Julianosis123*"
   }
 
 ### VERIFY OTP

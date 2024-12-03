@@ -1,5 +1,6 @@
 import { IsString } from 'class-validator';
 import { IsPassword } from 'common/decorators/validators/is-password.decorator';
+import { Match } from 'common/decorators/validators/match.decorator';
 
 export class PasswordDto {
   /**
@@ -15,5 +16,6 @@ export class PasswordDto {
   readonly password: string;
 
   @IsString()
+  @Match('password', { message: 'Passwords do not match' })
   readonly password_confirmation: string;
 }
