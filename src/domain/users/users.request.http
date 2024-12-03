@@ -1,17 +1,16 @@
 @baseUrl = http://localhost:3000
 
-
 ### GET ALL
 GET {{baseUrl}}/users
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjEsImlhdCI6MTczMzIyNDYzMywiZXhwIjoxNzMzODI5NDMzfQ.2BfvjFu0bwFjqS8II9XOk6sGuF0hQWzuO43PjwLA5yc
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjksImlhdCI6MTczMzIzMDAxNCwiZXhwIjoxNzMzODM0ODE0fQ.0jkT4FdQDDYKLczvcSh7RU3V0bsmErgp_5p9lbKKfNA
 
 ### GET ONE
 GET {{baseUrl}}/users/25
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjEsImlhdCI6MTczMzIyNDYzMywiZXhwIjoxNzMzODI5NDMzfQ.2BfvjFu0bwFjqS8II9XOk6sGuF0hQWzuO43PjwLA5yc
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjksImlhdCI6MTczMzIzMDAxNCwiZXhwIjoxNzMzODM0ODE0fQ.0jkT4FdQDDYKLczvcSh7RU3V0bsmErgp_5p9lbKKfNA
 
 ### UPDATE
 PATCH {{baseUrl}}/users/25
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjEsImlhdCI6MTczMzIyNDYzMywiZXhwIjoxNzMzODI5NDMzfQ.2BfvjFu0bwFjqS8II9XOk6sGuF0hQWzuO43PjwLA5yc
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjksImlhdCI6MTczMzIzMDAxNCwiZXhwIjoxNzMzODM0ODE0fQ.0jkT4FdQDDYKLczvcSh7RU3V0bsmErgp_5p9lbKKfNA
 Content-Type: application/json
 
 {
@@ -19,12 +18,12 @@ Content-Type: application/json
 }
 
 ### DELETE or SOFT DELETE
-DELETE {{baseUrl}}/users/1
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjEsImlhdCI6MTczMzIyNDYzMywiZXhwIjoxNzMzODI5NDMzfQ.2BfvjFu0bwFjqS8II9XOk6sGuF0hQWzuO43PjwLA5yc
+DELETE {{baseUrl}}/users/9
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjksImlhdCI6MTczMzIzMDAxNCwiZXhwIjoxNzMzODM0ODE0fQ.0jkT4FdQDDYKLczvcSh7RU3V0bsmErgp_5p9lbKKfNA
 Content-Type: application/json
 
 {
-    "soft": true
+    "soft": false
 }
 
 ### RECOVER SOFT DELETE

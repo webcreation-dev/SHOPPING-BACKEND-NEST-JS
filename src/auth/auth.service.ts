@@ -54,10 +54,7 @@ export class AuthService {
     const { phone } = createUserDto;
     this.tempUserService.storeTempUser(phone, createUserDto);
 
-    const sendOtp = await this.otpService.sendOtp(phone);
-    if (!sendOtp) {
-      throw new UnauthorizedException('Failed to send OTP');
-    }
+    await this.otpService.sendOtp(phone);
 
     return phone;
   }
@@ -65,23 +62,19 @@ export class AuthService {
   async verifyOtp(saveUserDto: SaveUserDto) {
     const { phone, otp } = saveUserDto;
 
-    const isValidOtp = await this.otpService.verifyOtp(otp, phone);
-    if (!isValidOtp) {
-      throw new UnauthorizedException('Invalid OTP');
+    const tempUser = this.tempUserService.getTempUser(phone);
+    if (!tempUser) {
+      throw new UnauthorizedException(
+        'No registration process found for this phone number',
+      );
     }
 
-    const tempUser = this.tempUserService.getTempUser(phone);
-    console.log(tempUser);
-    // if (!tempUser) {
-    //   throw new UnauthorizedException(
-    //     'No registration process found for this phone number',
-    //   );
-    // }
+    await this.otpService.verifyOtp(otp, phone);
 
-    // const user = await this.usersService.create(tempUser);
-    // const currentUser: RequestUser = { id: user.id, role: user.role };
-    // const token = await this.login(currentUser);
-    // return token;
+    const user = await this.usersService.create(tempUser);
+    const currentUser: RequestUser = { id: user.id, role: user.role };
+    const token = await this.login(currentUser);
+    return token;
   }
 
   login(user: RequestUser) {
