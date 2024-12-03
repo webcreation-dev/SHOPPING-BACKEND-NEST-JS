@@ -7,8 +7,9 @@ Content-Type: application/json
 
   {
       "name": "Julian",
-      "phone": "22955803033",
-      "password": "Julianosis1234*"
+      "phone": "22955803034",
+      "password": "Julianosis1234*",
+      "password_confirmation": "Julianosis1234*"
   }
 
 ### VERIFY OTP
@@ -16,7 +17,7 @@ POST {{baseUrl}}/{{resource}}/verify_otp
 Content-Type: application/json
 
   {
-      "phone": "22955803033",
+      "phone": "22955803034",
       "otp": 813574
   }
 

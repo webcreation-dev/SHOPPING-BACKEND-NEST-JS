@@ -54,7 +54,7 @@ export class AuthService {
     const { phone } = createUserDto;
     this.tempUserService.storeTempUser(phone, createUserDto);
 
-    await this.otpService.sendOtp(phone);
+    // await this.otpService.sendOtp(phone);
 
     return phone;
   }
@@ -69,7 +69,7 @@ export class AuthService {
       );
     }
 
-    await this.otpService.verifyOtp(otp, phone);
+    // await this.otpService.verifyOtp(otp, phone);
 
     const user = await this.usersService.create(tempUser);
     const currentUser: RequestUser = { id: user.id, role: user.role };

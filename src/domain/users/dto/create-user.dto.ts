@@ -1,25 +1,13 @@
 import { IsPhoneNumber, Length } from 'class-validator';
-import { IsPassword } from 'common/decorators/validators/is-password.decorator';
 import { User } from '../entities/user.entity';
-import { IsUnique } from 'common/decorators/validators/is-unique.decorator';
+import { IsUnique } from 'common/decorators/validators/is-unique/is-unique.decorator';
+import { PasswordDto } from './password.dto';
 
-export class CreateUserDto {
+export class CreateUserDto extends PasswordDto {
   @Length(2, 50)
   readonly name: string;
 
   @IsPhoneNumber('BJ')
   @IsUnique(User, 'phone', { message: 'Phone must be unique' })
   readonly phone: string;
-
-  /**
-   * Requires:
-   * 1. 8 to 20 characters
-   * 2. At least one
-   * - Lowercase letter
-   * - Uppercase letter
-   * - Number
-   * - Special character
-   */
-  @IsPassword()
-  readonly password: string;
 }

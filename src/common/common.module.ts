@@ -13,7 +13,6 @@ import { DatabaseExceptionFilter } from 'database/exception-filters/database-exc
 import { HttpExceptionFilter } from 'database/exception-filters/http-exception/http-exception.filter';
 import { EntityMetadataExceptionFilter } from 'database/exception-filters/entity-metadata-exception/entity-metadata-exception.filter';
 import { FilesExceptionFilter } from 'files/exception-filters/files-exception/files-exception.filter';
-import { IsUniqueConstraint } from './decorators/validators/is-unique.validator';
 import { ResponseFormatInterceptor } from './interceptors/sucess-response.interceptor';
 
 @Module({
@@ -62,7 +61,6 @@ import { ResponseFormatInterceptor } from './interceptors/sucess-response.interc
       provide: APP_FILTER,
       useClass: EntityMetadataExceptionFilter,
     },
-    IsUniqueConstraint,
   ],
 })
 export class CommonModule {}
