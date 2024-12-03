@@ -1,4 +1,9 @@
-import { MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
+import {
+  MiddlewareConsumer,
+  Module,
+  NestModule,
+  forwardRef,
+} from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { AuthController } from './auth.controller';
 import { HashingService } from './hashing/hashing.service';
@@ -14,6 +19,7 @@ import { ConfigModule } from '@nestjs/config';
 import { JwtStrategy } from './strategies/jwt.strategy';
 import { ThrottlerModule } from '@nestjs/throttler';
 import { THROTTLER_MODULE_OPTIONS } from './util/auth.constants';
+import { UsersModule } from '../domain/users/users.module';
 
 @Module({
   imports: [
@@ -22,6 +28,7 @@ import { THROTTLER_MODULE_OPTIONS } from './util/auth.constants';
     JwtModule.registerAsync(jwtConfig.asProvider()),
     ConfigModule.forFeature(jwtConfig),
     ThrottlerModule.forRoot(THROTTLER_MODULE_OPTIONS),
+    forwardRef(() => UsersModule),
   ],
   controllers: [AuthController],
   providers: [

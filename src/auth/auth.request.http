@@ -1,6 +1,16 @@
 @baseUrl = http://localhost:3000
 @resource = auth
 
+### REGISTER 
+POST {{baseUrl}}/{{resource}}/register
+Content-Type: application/json
+  
+  {
+      "name": "Juliano",
+      "phone": "22992535413",
+      "password": "Julianosiss1234*"
+  }
+
 ### LOGIN 
 POST {{baseUrl}}/{{resource}}/login
 Content-Type: application/json

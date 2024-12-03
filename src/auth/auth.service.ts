@@ -11,6 +11,8 @@ import { RequestUser } from './interfaces/request-user.interface';
 import { JwtService } from '@nestjs/jwt';
 import { JwtPayload } from './interfaces/jwt-payload.interface';
 import { Role } from './roles/enums/role.enum';
+import { UsersService } from '../domain/users/users.service';
+import { CreateUserDto } from '../domain/users/dto/create-user.dto';
 
 @Injectable()
 export class AuthService {
@@ -19,6 +21,7 @@ export class AuthService {
     private readonly usersRepository: Repository<User>,
     private readonly hashingService: HashingService,
     private readonly jwtService: JwtService,
+    private readonly usersService: UsersService,
   ) {}
 
   async validateLocal(phone: number, password: string) {
@@ -40,6 +43,13 @@ export class AuthService {
     }
 
     return this.createRequestUser(user);
+  }
+
+  async register(createUserDto: CreateUserDto) {
+    const user = await this.usersService.create(createUserDto);
+    const currentUser = { id: user.id, role: user.role };
+    const token = this.login(currentUser);
+    return token;
   }
 
   login(user: RequestUser) {
