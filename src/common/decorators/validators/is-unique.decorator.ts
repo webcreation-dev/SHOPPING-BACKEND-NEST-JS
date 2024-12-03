@@ -1,5 +1,5 @@
 import { registerDecorator, ValidationOptions } from 'class-validator';
-import { IsUniqueConstraint } from './is-unique.validator';
+import { GenericValidatorConstraint } from './generic-validation/generic.validator';
 
 export function IsUnique(
   entityClass: new () => any,
@@ -11,8 +11,8 @@ export function IsUnique(
       target: object.constructor,
       propertyName: propertyName,
       options: validationOptions,
-      constraints: [entityClass, property],
-      validator: IsUniqueConstraint,
+      constraints: [entityClass, property, 'unique'],
+      validator: GenericValidatorConstraint,
     });
   };
 }

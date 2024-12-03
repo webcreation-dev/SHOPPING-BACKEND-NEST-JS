@@ -1,5 +1,5 @@
 import { registerDecorator, ValidationOptions } from 'class-validator';
-import { IsExistConstraint } from './is-exist.validator';
+import { GenericValidatorConstraint } from './generic-validation/generic.validator';
 
 export function IsExist(
   entityClass: new () => any,
@@ -11,8 +11,8 @@ export function IsExist(
       target: object.constructor,
       propertyName: propertyName,
       options: validationOptions,
-      constraints: [entityClass, property],
-      validator: IsExistConstraint,
+      constraints: [entityClass, property, 'exists'],
+      validator: GenericValidatorConstraint,
     });
   };
 }

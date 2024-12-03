@@ -1,6 +1,6 @@
 import { IsPhoneNumber, Length } from 'class-validator';
 import { User } from '../entities/user.entity';
-import { IsUnique } from 'common/decorators/validators/is-unique/is-unique.decorator';
+import { IsUnique } from 'common/decorators/validators/is-unique.decorator';
 import { PasswordDto } from './password.dto';
 
 export class CreateUserDto extends PasswordDto {
