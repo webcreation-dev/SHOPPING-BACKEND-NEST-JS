@@ -11,6 +11,7 @@ import { SeedingModule } from 'database/seeding/seeding.module';
 import { AuthModule } from './auth/auth.module';
 import { FilesModule } from './files/files.module';
 import { QueryingModule } from './querying/querying.module';
+import { OtpModule } from './otp/otp.module';
 
 @Module({
   imports: [
@@ -26,6 +27,7 @@ import { QueryingModule } from './querying/querying.module';
     AuthModule,
     FilesModule,
     QueryingModule,
+    OtpModule,
   ],
 })
 export class AppModule {}

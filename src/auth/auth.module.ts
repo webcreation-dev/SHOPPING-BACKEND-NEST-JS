@@ -20,6 +20,7 @@ import { JwtStrategy } from './strategies/jwt.strategy';
 import { ThrottlerModule } from '@nestjs/throttler';
 import { THROTTLER_MODULE_OPTIONS } from './util/auth.constants';
 import { UsersModule } from '../domain/users/users.module';
+import { OtpModule } from '../otp/otp.module';
 
 @Module({
   imports: [
@@ -29,6 +30,7 @@ import { UsersModule } from '../domain/users/users.module';
     ConfigModule.forFeature(jwtConfig),
     ThrottlerModule.forRoot(THROTTLER_MODULE_OPTIONS),
     forwardRef(() => UsersModule),
+    OtpModule,
   ],
   controllers: [AuthController],
   providers: [

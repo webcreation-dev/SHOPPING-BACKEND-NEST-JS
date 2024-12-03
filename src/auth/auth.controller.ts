@@ -20,10 +20,14 @@ import { ApiBody, ApiOkResponse, ApiExcludeEndpoint } from '@nestjs/swagger';
 import { LoginDto } from './dto/login.dto';
 import { JwtCookieHeader } from './swagger/jwt-cookie.header';
 import { CreateUserDto } from '../domain/users/dto/create-user.dto';
+import { OtpService } from '../otp/otp.service';
 
 @Controller('auth')
 export class AuthController {
-  constructor(private readonly authService: AuthService) {}
+  constructor(
+    private readonly authService: AuthService,
+    private readonly otpService: OtpService,
+  ) {}
 
   @ApiBody({ type: CreateUserDto })
   @ApiOkResponse({ headers: JwtCookieHeader })

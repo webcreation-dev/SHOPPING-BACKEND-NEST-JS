@@ -7,8 +7,8 @@ Content-Type: application/json
   
   {
       "name": "Juliano",
-      "phone": "22992535413",
-      "password": "Julianosiss1234*"
+      "phone": "22996135159",
+      "password": "Julianosis1234*"
   }
 
 ### LOGIN 
@@ -16,8 +16,8 @@ POST {{baseUrl}}/{{resource}}/login
 Content-Type: application/json
   
   {
-      "phone": "22996135413",
-      "password": "Julianosiss1234*"
+      "phone": "22996135159",
+      "password": "Julianosis1234*"
   }
 
 

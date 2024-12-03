@@ -7,7 +7,7 @@ export class CreateUserDto {
   @Length(2, 50)
   readonly name: string;
 
-  @IsPhoneNumber('BR')
+  @IsPhoneNumber('BJ')
   @IsUnique(User, 'phone', { message: 'Phone must be unique' })
   readonly phone: string;
 
