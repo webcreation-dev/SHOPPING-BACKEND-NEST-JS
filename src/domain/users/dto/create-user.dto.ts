@@ -1,4 +1,4 @@
-import { IsEmail, IsPhoneNumber, Length } from 'class-validator';
+import { IsPhoneNumber, Length } from 'class-validator';
 import { IsPassword } from 'common/decorators/validators/is-password.decorator';
 import { User } from '../entities/user.entity';
 import { IsUnique } from 'common/decorators/validators/is-unique.decorator';
@@ -6,10 +6,6 @@ import { IsUnique } from 'common/decorators/validators/is-unique.decorator';
 export class CreateUserDto {
   @Length(2, 50)
   readonly name: string;
-
-  @IsEmail()
-  @IsUnique(User, 'email', { message: 'Email must be unique' })
-  readonly email: string;
 
   @IsPhoneNumber('BR')
   @IsUnique(User, 'phone', { message: 'Phone must be unique' })

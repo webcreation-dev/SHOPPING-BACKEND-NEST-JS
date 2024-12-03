@@ -21,13 +21,13 @@ export class AuthService {
     private readonly jwtService: JwtService,
   ) {}
 
-  async validateLocal(email: string, password: string) {
+  async validateLocal(phone: number, password: string) {
     const user = await this.usersRepository.findOne({
       select: {
         id: true,
         password: true,
       },
-      where: { email },
+      where: { phone: phone.toString() },
     });
 
     if (!user) {

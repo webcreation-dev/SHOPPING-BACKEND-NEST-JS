@@ -5,14 +5,12 @@ import {
   Param,
   Patch,
   Post,
-  Res,
   UseGuards,
 } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { LocalAuthGuard } from './guards/local-auth/local-auth.guard';
 import { CurrentUser } from './decorators/user.decorator';
 import { RequestUser } from './interfaces/request-user.interface';
-import { Response } from 'express';
 import { Public } from './decorators/public.decorator';
 import { IdDto } from 'common/dto/id.dto';
 import { RoleDto } from './roles/dto/role.dto';
@@ -31,16 +29,10 @@ export class AuthController {
   @Public()
   @UseGuards(LocalAuthGuard)
   @Post('login')
-  login(
-    @CurrentUser() user: RequestUser,
-    @Res({ passthrough: true }) response: Response,
-  ) {
+  login(@CurrentUser() user: RequestUser) {
     const token = this.authService.login(user);
-    response.cookie('token', token, {
-      secure: true,
-      httpOnly: true,
-      sameSite: true,
-    });
+
+    return { access_token: token };
   }
 
   @Get('user')

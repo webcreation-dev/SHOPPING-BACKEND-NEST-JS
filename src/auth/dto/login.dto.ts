@@ -1,9 +1,9 @@
-import { IsEmail } from 'class-validator';
+import { IsPhoneNumber } from 'class-validator';
 import { IsPassword } from 'common/decorators/validators/is-password.decorator';
 
 export class LoginDto {
-  @IsEmail()
-  readonly email: string;
+  @IsPhoneNumber('BR')
+  readonly phone: string;
 
   @IsPassword()
   readonly password: string;

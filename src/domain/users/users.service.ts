@@ -94,10 +94,10 @@ export class UsersService {
   }
 
   async recover(loginDto: LoginDto) {
-    const { email, password } = loginDto;
+    const { phone, password } = loginDto;
 
     const user = await this.usersRepository.findOne({
-      where: { email },
+      where: { phone },
       relations: {
         orders: {
           items: true,
@@ -107,7 +107,7 @@ export class UsersService {
       withDeleted: true,
     });
     if (!user) {
-      throw new UnauthorizedException('Invalid email');
+      throw new UnauthorizedException('Invalid phone');
     }
 
     const isMatch = await this.hashingService.compare(password, user.password);

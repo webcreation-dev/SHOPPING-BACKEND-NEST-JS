@@ -80,13 +80,11 @@ export class SeedingService {
 
       const u1 = usersRepository.create({
         name: 'Pedro Faria',
-        email: 'jarulf@mail.com',
         phone: '988888888',
         password: '123456',
       });
       const u2 = usersRepository.create({
         name: 'Chris Metzen',
-        email: 'chris@blizz.com',
         phone: '977777777',
         password: '654321',
       });

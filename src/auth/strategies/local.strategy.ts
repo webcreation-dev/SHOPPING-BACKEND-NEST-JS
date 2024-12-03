@@ -7,11 +7,11 @@ import { Strategy } from 'passport-local';
 export class LocalStrategy extends PassportStrategy(Strategy) {
   constructor(private readonly authService: AuthService) {
     super({
-      usernameField: 'email',
+      usernameField: 'phone',
     });
   }
 
-  validate(email: string, password: string) {
-    return this.authService.validateLocal(email, password);
+  validate(phone: number, password: string) {
+    return this.authService.validateLocal(phone, password);
   }
 }
