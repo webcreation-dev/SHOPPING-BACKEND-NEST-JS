@@ -20,21 +20,27 @@ import { ApiBody, ApiOkResponse, ApiExcludeEndpoint } from '@nestjs/swagger';
 import { LoginDto } from './dto/login.dto';
 import { JwtCookieHeader } from './swagger/jwt-cookie.header';
 import { CreateUserDto } from '../domain/users/dto/create-user.dto';
-import { OtpService } from '../otp/otp.service';
+import { SaveUserDto } from '../domain/users/dto/save-user.dto';
 
 @Controller('auth')
 export class AuthController {
-  constructor(
-    private readonly authService: AuthService,
-    private readonly otpService: OtpService,
-  ) {}
+  constructor(private readonly authService: AuthService) {}
 
   @ApiBody({ type: CreateUserDto })
   @ApiOkResponse({ headers: JwtCookieHeader })
   @Public()
   @Post('register')
   async register(@Body() createUserDto: CreateUserDto) {
-    const token = await this.authService.register(createUserDto);
+    const phone = await this.authService.register(createUserDto);
+    return { phone: phone };
+  }
+
+  @ApiBody({ type: SaveUserDto })
+  @ApiOkResponse({ headers: JwtCookieHeader })
+  @Public()
+  @Post('verify_otp')
+  async verifyOtp(@Body() saveUserDto: SaveUserDto) {
+    const token = await this.authService.verifyOtp(saveUserDto);
     return { access_token: token };
   }
 

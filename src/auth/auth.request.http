@@ -4,11 +4,20 @@
 ### REGISTER 
 POST {{baseUrl}}/{{resource}}/register
 Content-Type: application/json
-  
+
   {
       "name": "Juliano",
-      "phone": "22996135159",
+      "phone": "22955803033",
       "password": "Julianosis1234*"
+  }
+
+### VERIFY OTP
+POST {{baseUrl}}/{{resource}}/verify_otp
+Content-Type: application/json
+
+  {
+      "phone": "22955803033",
+      "otp": 310317
   }
 
 ### LOGIN 

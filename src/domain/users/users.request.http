@@ -1,26 +1,17 @@
 @baseUrl = http://localhost:3000
 
-### CREATE 
-POST {{baseUrl}}/users
-Content-Type: application/json
-  
-  {
-      "name": "John Doe",
-      "phone": "22996135413",
-      "password": "Julianosiss1234*"
-  }
 
 ### GET ALL
 GET {{baseUrl}}/users
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjIsImlhdCI6MTczMzEyNzI4MCwiZXhwIjoxNzMzNzMyMDgwfQ.Ow28Jgp1OlgEtVDUuR8_aJjVdpWE2-3zrpkFgzUByDs
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjEsImlhdCI6MTczMzIyNDYzMywiZXhwIjoxNzMzODI5NDMzfQ.2BfvjFu0bwFjqS8II9XOk6sGuF0hQWzuO43PjwLA5yc
 
 ### GET ONE
 GET {{baseUrl}}/users/25
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjIsImlhdCI6MTczMzEyNzI4MCwiZXhwIjoxNzMzNzMyMDgwfQ.Ow28Jgp1OlgEtVDUuR8_aJjVdpWE2-3zrpkFgzUByDs
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjEsImlhdCI6MTczMzIyNDYzMywiZXhwIjoxNzMzODI5NDMzfQ.2BfvjFu0bwFjqS8II9XOk6sGuF0hQWzuO43PjwLA5yc
 
 ### UPDATE
 PATCH {{baseUrl}}/users/25
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjIsImlhdCI6MTczMzEyNzI4MCwiZXhwIjoxNzMzNzMyMDgwfQ.Ow28Jgp1OlgEtVDUuR8_aJjVdpWE2-3zrpkFgzUByDs
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjEsImlhdCI6MTczMzIyNDYzMywiZXhwIjoxNzMzODI5NDMzfQ.2BfvjFu0bwFjqS8II9XOk6sGuF0hQWzuO43PjwLA5yc
 Content-Type: application/json
 
 {
@@ -28,8 +19,8 @@ Content-Type: application/json
 }
 
 ### DELETE or SOFT DELETE
-
 DELETE {{baseUrl}}/users/1
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjEsImlhdCI6MTczMzIyNDYzMywiZXhwIjoxNzMzODI5NDMzfQ.2BfvjFu0bwFjqS8II9XOk6sGuF0hQWzuO43PjwLA5yc
 Content-Type: application/json
 
 {

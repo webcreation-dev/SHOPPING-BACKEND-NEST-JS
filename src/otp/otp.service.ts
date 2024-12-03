@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, HttpException } from '@nestjs/common';
 import { HttpService } from '@nestjs/axios';
 import { ConfigService } from '@nestjs/config';
 
@@ -18,36 +18,45 @@ export class OtpService {
   }
 
   async sendOtp(sendTo: string): Promise<any> {
-    const response = await this.httpService
-      .post(
-        `${this.apiUrl}/send`,
-        { send_to: sendTo, app_id: this.apiId },
-        {
-          headers: {
-            Authorization: this.authHeader,
-            'Content-Type': 'application/json',
-            Accept: 'application/json',
+    try {
+      const response = await this.httpService
+        .post(
+          `${this.apiUrl}/send`,
+          { send_to: sendTo, app_id: this.apiId },
+          {
+            headers: {
+              Authorization: this.authHeader,
+              'Content-Type': 'application/json',
+              Accept: 'application/json',
+            },
           },
-        },
-      )
-      .toPromise();
-    return response.data;
+        )
+        .toPromise();
+
+      return response.status;
+    } catch (error) {
+      throw new HttpException(error.response?.data, error.response?.status);
+    }
   }
 
-  async verifyOtp(code: string, sendTo: string): Promise<any> {
-    const response = await this.httpService
-      .post(
-        `${this.apiUrl}/verify`,
-        { code, send_to: sendTo, app_id: this.apiId },
-        {
-          headers: {
-            Authorization: this.authHeader,
-            'Content-Type': 'application/json',
-            Accept: 'application/json',
+  async verifyOtp(code: number, sendTo: string): Promise<any> {
+    try {
+      const response = await this.httpService
+        .post(
+          `${this.apiUrl}/verify`,
+          { code, send_to: sendTo, app_id: this.apiId },
+          {
+            headers: {
+              Authorization: this.authHeader,
+              'Content-Type': 'application/json',
+              Accept: 'application/json',
+            },
           },
-        },
-      )
-      .toPromise();
-    return response.data;
+        )
+        .toPromise();
+      return response.data;
+    } catch (error) {
+      throw new HttpException(error.response?.data, error.response?.status);
+    }
   }
 }

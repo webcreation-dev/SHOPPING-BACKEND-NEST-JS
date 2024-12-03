@@ -13,6 +13,9 @@ import { JwtPayload } from './interfaces/jwt-payload.interface';
 import { Role } from './roles/enums/role.enum';
 import { UsersService } from '../domain/users/users.service';
 import { CreateUserDto } from '../domain/users/dto/create-user.dto';
+import { SaveUserDto } from '../domain/users/dto/save-user.dto';
+import { OtpService } from 'otp/otp.service';
+import { TempUserService } from './temp-user.service';
 
 @Injectable()
 export class AuthService {
@@ -22,6 +25,8 @@ export class AuthService {
     private readonly hashingService: HashingService,
     private readonly jwtService: JwtService,
     private readonly usersService: UsersService,
+    private readonly otpService: OtpService,
+    private readonly tempUserService: TempUserService,
   ) {}
 
   async validateLocal(phone: number, password: string) {
@@ -46,10 +51,37 @@ export class AuthService {
   }
 
   async register(createUserDto: CreateUserDto) {
-    const user = await this.usersService.create(createUserDto);
-    const currentUser: RequestUser = { id: user.id, role: user.role };
-    const token = await this.login(currentUser);
-    return token;
+    const { phone } = createUserDto;
+    this.tempUserService.storeTempUser(phone, createUserDto);
+
+    const sendOtp = await this.otpService.sendOtp(phone);
+    if (!sendOtp) {
+      throw new UnauthorizedException('Failed to send OTP');
+    }
+
+    return phone;
+  }
+
+  async verifyOtp(saveUserDto: SaveUserDto) {
+    const { phone, otp } = saveUserDto;
+
+    const isValidOtp = await this.otpService.verifyOtp(otp, phone);
+    if (!isValidOtp) {
+      throw new UnauthorizedException('Invalid OTP');
+    }
+
+    const tempUser = this.tempUserService.getTempUser(phone);
+    console.log(tempUser);
+    // if (!tempUser) {
+    //   throw new UnauthorizedException(
+    //     'No registration process found for this phone number',
+    //   );
+    // }
+
+    // const user = await this.usersService.create(tempUser);
+    // const currentUser: RequestUser = { id: user.id, role: user.role };
+    // const token = await this.login(currentUser);
+    // return token;
   }
 
   login(user: RequestUser) {

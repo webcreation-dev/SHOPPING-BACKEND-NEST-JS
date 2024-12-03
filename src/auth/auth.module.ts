@@ -21,6 +21,7 @@ import { ThrottlerModule } from '@nestjs/throttler';
 import { THROTTLER_MODULE_OPTIONS } from './util/auth.constants';
 import { UsersModule } from '../domain/users/users.module';
 import { OtpModule } from '../otp/otp.module';
+import { TempUserService } from './temp-user.service';
 
 @Module({
   imports: [
@@ -41,6 +42,7 @@ import { OtpModule } from '../otp/otp.module';
     },
     LocalStrategy,
     JwtStrategy,
+    TempUserService,
   ],
   exports: [HashingService],
 })
