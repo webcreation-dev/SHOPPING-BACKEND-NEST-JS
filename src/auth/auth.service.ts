@@ -47,8 +47,8 @@ export class AuthService {
 
   async register(createUserDto: CreateUserDto) {
     const user = await this.usersService.create(createUserDto);
-    const currentUser = { id: user.id, role: user.role };
-    const token = this.login(currentUser);
+    const currentUser: RequestUser = { id: user.id, role: user.role };
+    const token = await this.login(currentUser);
     return token;
   }
 
