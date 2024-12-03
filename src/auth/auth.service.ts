@@ -16,6 +16,8 @@ import { CreateUserDto } from '../domain/users/dto/create-user.dto';
 import { SaveUserDto } from '../domain/users/dto/save-user.dto';
 import { OtpService } from 'otp/otp.service';
 import { TempUserService } from './temp-user.service';
+import { ForgotPasswordDto } from '../domain/users/dto/forgot-password.dto';
+import { ResetPasswordDto } from '../domain/users/dto/reset-password.dto';
 
 @Injectable()
 export class AuthService {
@@ -104,6 +106,24 @@ export class AuthService {
       throw new NotFoundException('User not found');
     }
     return this.usersRepository.save(user);
+  }
+
+  async forgotPassword(forgotPasswordDto: ForgotPasswordDto) {
+    const { phone } = forgotPasswordDto;
+    // await this.otpService.sendOtp(phone);
+    return phone;
+  }
+
+  async resetPassword(resetPasswordDto: ResetPasswordDto) {
+    const { phone, otp, password } = resetPasswordDto;
+
+    // await this.otpService.verifyOtp(otp, phone);
+
+    const user = await this.usersRepository.findOne({ where: { phone } });
+    user.password = await this.hashingService.hash(password);
+    await this.usersRepository.save(user);
+
+    return user;
   }
 
   private createRequestUser(user: User) {

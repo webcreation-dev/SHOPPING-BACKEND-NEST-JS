@@ -18,7 +18,7 @@ Content-Type: application/json
 }
 
 ### DELETE or SOFT DELETE
-DELETE {{baseUrl}}/users/9
+DELETE {{baseUrl}}/users/12
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjksImlhdCI6MTczMzIzMDAxNCwiZXhwIjoxNzMzODM0ODE0fQ.0jkT4FdQDDYKLczvcSh7RU3V0bsmErgp_5p9lbKKfNA
 Content-Type: application/json
 

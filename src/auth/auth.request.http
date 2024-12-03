@@ -7,9 +7,9 @@ Content-Type: application/json
 
   {
       "name": "Julian",
-      "phone": "22955803034",
+      "phone": "22955803035",
       "password": "Julianosis1234*",
-      "password_confirmation": "Julianosis123*"
+      "password_confirmation": "Julianosis1234*"
   }
 
 ### VERIFY OTP
@@ -17,7 +17,7 @@ POST {{baseUrl}}/{{resource}}/verify_otp
 Content-Type: application/json
 
   {
-      "phone": "22955803034",
+      "phone": "22955803035",
       "otp": 813574
   }
 
@@ -26,8 +26,29 @@ POST {{baseUrl}}/{{resource}}/login
 Content-Type: application/json
   
   {
-      "phone": "22955803033",
+      "phone": "22955803035",
       "password": "Julianosis1234*"
+  }
+
+
+### FORGOT PASSWORD 
+POST {{baseUrl}}/{{resource}}/forgot_password
+Content-Type: application/json
+  
+  {
+      "phone": "22955803035"
+  }
+
+
+### RESET PASSWORD 
+POST {{baseUrl}}/{{resource}}/reset_password
+Content-Type: application/json
+  
+  {
+      "phone": "22955803035",
+      "otp": 813574,
+      "password": "Julianosis1234*",
+      "password_confirmation": "Julianosis1234*"
   }
 
 

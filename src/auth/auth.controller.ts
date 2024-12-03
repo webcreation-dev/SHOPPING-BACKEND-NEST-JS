@@ -21,6 +21,8 @@ import { LoginDto } from './dto/login.dto';
 import { JwtCookieHeader } from './swagger/jwt-cookie.header';
 import { CreateUserDto } from '../domain/users/dto/create-user.dto';
 import { SaveUserDto } from '../domain/users/dto/save-user.dto';
+import { ForgotPasswordDto } from '../domain/users/dto/forgot-password.dto';
+import { ResetPasswordDto } from '../domain/users/dto/reset-password.dto';
 
 @Controller('auth')
 export class AuthController {
@@ -57,6 +59,18 @@ export class AuthController {
   @Get('user')
   getProfile(@CurrentUser() { id }: RequestUser) {
     return this.authService.getProfile(id);
+  }
+
+  @Public()
+  @Post('forgot_password')
+  async forgotPassword(@Body() forgotPasswordDto: ForgotPasswordDto) {
+    return this.authService.forgotPassword(forgotPasswordDto);
+  }
+
+  @Public()
+  @Post('reset_password')
+  async resetPassword(@Body() resetPasswordDto: ResetPasswordDto) {
+    return this.authService.resetPassword(resetPasswordDto);
   }
 
   @ApiExcludeEndpoint()
