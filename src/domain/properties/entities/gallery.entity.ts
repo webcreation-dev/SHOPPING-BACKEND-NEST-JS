@@ -1,14 +1,16 @@
-import { Entity, PrimaryGeneratedColumn, Column, ManyToOne } from 'typeorm';
+import { Entity, Column, PrimaryGeneratedColumn, ManyToOne } from 'typeorm';
 import { Property } from './property.entity';
 
 @Entity()
 export class Gallery {
-  @PrimaryGeneratedColumn('uuid')
-  id: string;
+  @PrimaryGeneratedColumn()
+  id: number;
 
   @Column()
   url: string;
 
-  @ManyToOne(() => Property, (property) => property.galleries)
+  @ManyToOne(() => Property, (property) => property.galleries, {
+    onDelete: 'CASCADE',
+  })
   property: Property;
 }
