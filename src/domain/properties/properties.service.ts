@@ -40,7 +40,7 @@ export class PropertiesService {
         name: createPropertyDto.name,
         description: createPropertyDto.description,
         price: createPropertyDto.price,
-        // location: createPropertyDto.location,
+        location: createPropertyDto.location,
       });
 
       const savedProperty = await propertyRepository.save(property);

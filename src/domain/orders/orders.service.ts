@@ -1,3 +1,4 @@
+
 import { Injectable } from '@nestjs/common';
 import { CreateOrderDto } from './dto/create-order.dto';
 import { DefaultPageSize } from 'querying/util/querying.constants';
@@ -58,7 +59,6 @@ export class OrdersService {
           product: true,
         },
         customer: true,
-        payment: true,
       },
     });
   }

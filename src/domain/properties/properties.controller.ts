@@ -8,7 +8,6 @@ import {
   Delete,
   Query,
   UseInterceptors,
-  UploadedFile,
   UploadedFiles,
 } from '@nestjs/common';
 import { PropertiesService } from './properties.service';
@@ -16,7 +15,7 @@ import { CreatePropertyDto } from './dto/create-property.dto';
 import { UpdatePropertyDto } from './dto/update-property.dto';
 import { ApiConsumes, ApiBody } from '@nestjs/swagger';
 import { createParseFilePipe } from 'files/utils/file-validation.util';
-import { FileInterceptor, FilesInterceptor } from '@nestjs/platform-express';
+import { FilesInterceptor } from '@nestjs/platform-express';
 import { PropertiesQueryDto } from './dto/querying/properties-query.dto';
 import { BodyInterceptor } from 'files/interceptors/body/body.interceptor';
 import { FilesSchema } from 'files/swagger/schemas/files.schema';
@@ -29,17 +28,11 @@ import {
 export class PropertiesController {
   constructor(private readonly propertiesService: PropertiesService) {}
 
-  @Post('/upload')
-  @UseInterceptors(FileInterceptor('file'))
-  uploadFile(@UploadedFile() file: Express.Multer.File) {
-    console.log(file);
-  }
-
   @ApiConsumes(MULTIPART_FORMDATA_KEY)
   @ApiBody({ type: CreatePropertyDto })
   @UseInterceptors(
     FilesInterceptor('files', MaxFileCount.PROPERTY_IMAGES),
-    // BodyInterceptor,
+    BodyInterceptor,
   )
   @Post()
   create(
@@ -56,7 +49,7 @@ export class PropertiesController {
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
+  async findOne(@Param('id') id: string) {
     return this.propertiesService.findOne(id);
   }
 
