@@ -10,7 +10,7 @@ import {
 
 @Entity()
 export class Payment {
-  @PrimaryGeneratedColumn('uuid')
+  @PrimaryGeneratedColumn()
   id: number;
 
   @Column(() => RegistryDates, { prefix: false })

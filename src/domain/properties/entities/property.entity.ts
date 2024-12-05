@@ -10,10 +10,11 @@ import {
 import { User } from 'users/entities/user.entity';
 import { Location } from './location.entity';
 import { Gallery } from './gallery.entity';
+import { RegistryDates } from 'common/embedded/registry-dates.embedded';
 
 @Entity()
 export class Property {
-  @PrimaryGeneratedColumn('uuid')
+  @PrimaryGeneratedColumn()
   id: string;
 
   @Column()
@@ -21,6 +22,12 @@ export class Property {
 
   @Column()
   description: string;
+
+  @Column({ type: 'decimal', precision: 6, scale: 2 })
+  price: number;
+
+  @Column(() => RegistryDates, { prefix: false })
+  registryDates: RegistryDates;
 
   @ManyToMany(() => User, (user) => user.wishlist)
   users: User[];

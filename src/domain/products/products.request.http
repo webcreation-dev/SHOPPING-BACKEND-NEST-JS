@@ -31,3 +31,15 @@ Content-Type: application/json
 ### DELETE
 
 DELETE {{baseUrl}}/products/1
+
+### UPLOAD
+
+POST http://localhost:3000/products/1/upload
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjE3LCJpYXQiOjE3MzMzNTExMDgsImV4cCI6MTczMzk1NTkwOH0.sOQBb2Pk1-9WUcmH0NkHBLyx5pznT-Q-otmVtbXYAwU
+Content-Type: multipart/form-data
+
+files=@/
+name=test
+description=test
+price=100
+location={"latitude":1.02,"longitude":1.05}

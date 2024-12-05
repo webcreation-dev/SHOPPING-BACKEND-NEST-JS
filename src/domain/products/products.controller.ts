@@ -29,7 +29,10 @@ import { FilesSchema } from 'files/swagger/schemas/files.schema';
 import { FileSchema } from 'files/swagger/schemas/file.schema';
 import { BodyInterceptor } from 'files/interceptors/body/body.interceptor';
 import { ProductsQueryDto } from './dto/querying/products-query.dto';
+import { CreatePropertyDto } from 'properties/dto/create-property.dto';
+import { ApiExcludeEndpoint } from '@nestjs/swagger';
 
+// @ApiExcludeEndpoint()
 @Controller('products')
 export class ProductsController {
   constructor(private readonly productsService: ProductsService) {}
@@ -64,22 +67,51 @@ export class ProductsController {
     return this.productsService.remove(id);
   }
 
+  @ApiConsumes(MULTIPART_FORMDATA_KEY)
+  @ApiBody({ type: CreatePropertyDto })
   @Roles(Role.MANAGER)
   @UseInterceptors(
     FilesInterceptor('files', MaxFileCount.PRODUCT_IMAGES),
     BodyInterceptor,
   )
-  @ApiConsumes(MULTIPART_FORMDATA_KEY)
-  @ApiBody({ type: FilesSchema })
   @Post(':id/images')
   uploadImages(
     @Param() { id }: IdDto,
+    @Body() createPropertyDto: CreatePropertyDto,
     @UploadedFiles(createParseFilePipe('2MB', 'png', 'jpeg'))
     files: Express.Multer.File[],
   ) {
-    return this.productsService.uploadImages(id, files);
+    console.log(files, createPropertyDto);
+    return;
   }
 
+  @Post(':id/upload')
+  @ApiConsumes('multipart/form-data') // Documentation Swagger pour multipart
+  @ApiBody({ type: CreatePropertyDto }) // Associe le DTO pour Swagger
+  @UseInterceptors(FilesInterceptor('files', 10)) // Max 10 fichiers
+  uploadProperty(
+    @Param('id') id: string,
+    @Body() createPropertyDto: CreatePropertyDto,
+    @UploadedFiles() files: Express.Multer.File[], // Les fichiers reçus
+  ) {
+    // // Vous pouvez maintenant traiter les fichiers et les données
+    // if (!files || files.length === 0) {
+    //   throw new BadRequestException('No files uploaded!');
+    // }
+
+    console.log('Files:', files);
+    console.log('Data:', createPropertyDto);
+
+    return {
+      message: 'Files and data received successfully',
+      data: createPropertyDto,
+      files: files.map((file) => ({
+        originalName: file.originalname,
+        size: file.size,
+        mimeType: file.mimetype,
+      })),
+    };
+  }
   @Public()
   @Get(':id/images/:filename')
   downloadImage(@Param() { id, filename }: IdFilenameDto) {

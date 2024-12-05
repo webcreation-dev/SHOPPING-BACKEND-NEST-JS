@@ -3,7 +3,7 @@ import { Property } from './property.entity';
 
 @Entity()
 export class Location {
-  @PrimaryGeneratedColumn('uuid')
+  @PrimaryGeneratedColumn()
   id: string;
 
   @Column('decimal', { precision: 10, scale: 6 })

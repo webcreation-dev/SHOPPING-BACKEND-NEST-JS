@@ -15,7 +15,7 @@ import { Expose } from 'class-transformer';
 
 @Entity()
 export class Order {
-  @PrimaryGeneratedColumn('uuid')
+  @PrimaryGeneratedColumn()
   id: number;
 
   @Column({

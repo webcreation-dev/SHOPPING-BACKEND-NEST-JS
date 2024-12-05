@@ -10,6 +10,10 @@ import { Gallery } from './entities/gallery.entity';
 import { DataSource } from 'typeorm';
 import { UpdatePropertyDto } from './dto/update-property.dto';
 import { NotFoundException } from '@nestjs/common';
+import { PaginationService } from 'querying/pagination.service';
+import { PropertiesQueryDto } from './dto/querying/properties-query.dto';
+import { DefaultPageSize } from 'querying/util/querying.constants';
+import { FilteringService } from 'querying/filtering.service';
 
 @Injectable()
 export class PropertiesService {
@@ -20,6 +24,8 @@ export class PropertiesService {
     private readonly propertiesRepository: Repository<Property>,
     @InjectRepository(Gallery)
     private readonly galleriesRepository: Repository<Gallery>,
+    private readonly paginationService: PaginationService,
+    private readonly filteringService: FilteringService,
   ) {}
 
   async create(
@@ -33,7 +39,8 @@ export class PropertiesService {
       const property = propertyRepository.create({
         name: createPropertyDto.name,
         description: createPropertyDto.description,
-        location: createPropertyDto.location,
+        price: createPropertyDto.price,
+        // location: createPropertyDto.location,
       });
 
       const savedProperty = await propertyRepository.save(property);
@@ -68,10 +75,25 @@ export class PropertiesService {
     });
   }
 
-  findAll(): Promise<Property[]> {
-    return this.propertiesRepository.find({
+  async findAll(propertiesQueryDto: PropertiesQueryDto) {
+    const { page, name, price, sort, order } = propertiesQueryDto;
+
+    const limit = propertiesQueryDto.limit ?? DefaultPageSize.PROPERTY;
+    const offset = this.paginationService.calculateOffset(limit, page);
+
+    const [data, count] = await this.propertiesRepository.findAndCount({
+      where: {
+        name: name ? this.filteringService.contains(name) : undefined,
+        price: price ? this.filteringService.compare(price) : undefined,
+      },
+      order: { [sort]: order },
+      skip: offset,
+      take: limit,
       relations: ['location', 'galleries'],
     });
+    const meta = this.paginationService.createMeta(limit, page, count);
+
+    return { data, meta };
   }
 
   findOne(id: string): Promise<Property> {

@@ -14,7 +14,7 @@ import {
 @Entity()
 export class User {
   @PrimaryGeneratedColumn()
-  // @PrimaryGeneratedColumn('uuid')
+  // @PrimaryGeneratedColumn()
   id: number;
 
   @Column()
