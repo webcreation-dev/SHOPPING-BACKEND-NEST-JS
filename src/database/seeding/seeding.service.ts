@@ -3,7 +3,6 @@ import { Category } from 'categories/entities/category.entity';
 import { OrderItem } from 'orders/entities/order-item.entity';
 import { Order } from 'orders/entities/order.entity';
 import { OrderStatus } from 'orders/enums/order-status.enum';
-import { Payment } from 'payments/entities/payment.entity';
 import { Product } from 'products/entities/product.entity';
 import { DataSource } from 'typeorm';
 import { User } from 'users/entities/user.entity';
@@ -22,7 +21,6 @@ export class SeedingService {
       const productsRepository = queryRunner.manager.getRepository(Product);
       const ordersRepository = queryRunner.manager.getRepository(Order);
       const orderItemsRepository = queryRunner.manager.getRepository(OrderItem);
-      const paymentsRepository = queryRunner.manager.getRepository(Payment);
 
       const orders = await ordersRepository.find();
       await ordersRepository.remove(orders);
@@ -112,13 +110,11 @@ export class SeedingService {
         price: p5.price,
       });
 
-      const pay1 = paymentsRepository.create();
 
       const o1 = ordersRepository.create({
         customer: u1,
         items: [oi1, oi2],
         status: OrderStatus.AWAITING_SHIPMENT,
-        payment: pay1,
       });
       const o2 = ordersRepository.create({
         customer: u2,

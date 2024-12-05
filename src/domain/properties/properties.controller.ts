@@ -21,7 +21,7 @@ import { MultipartFormData } from 'files/decorators/multipart.decorator';
 export class PropertiesController {
   constructor(private readonly propertiesService: PropertiesService) {}
 
-  @Post()
+@Post()
   @MultipartFormData(CreatePropertyDto, MaxFileCount.PROPERTY_IMAGES)
   create(
     @Body() createPropertyDto: CreatePropertyDto,
@@ -38,7 +38,7 @@ export class PropertiesController {
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
+  async findOne(@Param('id') id: string) {
     return this.propertiesService.findOne(id);
   }
 

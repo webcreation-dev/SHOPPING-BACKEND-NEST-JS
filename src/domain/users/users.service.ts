@@ -53,7 +53,6 @@ export class UsersService {
       relations: {
         orders: {
           items: true,
-          payment: true,
         },
       },
     });
@@ -101,7 +100,6 @@ export class UsersService {
       relations: {
         orders: {
           items: true,
-          payment: true,
         },
       },
       withDeleted: true,

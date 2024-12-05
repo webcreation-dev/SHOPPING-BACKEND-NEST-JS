@@ -7,10 +7,10 @@ export class Location {
   id: string;
 
   @Column('decimal', { precision: 10, scale: 6 })
-  latitude: number;
+  latitude: string;
 
   @Column('decimal', { precision: 10, scale: 6 })
-  longitude: number;
+  longitude: string;
 
   @OneToOne(() => Property, (property) => property.location)
   property: Property;

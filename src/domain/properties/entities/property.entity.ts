@@ -11,6 +11,7 @@ import { User } from 'users/entities/user.entity';
 import { Location } from './location.entity';
 import { Gallery } from './gallery.entity';
 import { RegistryDates } from 'common/embedded/registry-dates.embedded';
+import { Exclude } from 'class-transformer';
 
 @Entity()
 export class Property {
@@ -26,6 +27,7 @@ export class Property {
   @Column({ type: 'decimal', precision: 6, scale: 2 })
   price: number;
 
+  @Exclude()
   @Column(() => RegistryDates, { prefix: false })
   registryDates: RegistryDates;
 
