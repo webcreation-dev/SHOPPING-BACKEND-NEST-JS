@@ -7,46 +7,28 @@ import {
   Patch,
   Delete,
   Query,
-  UseInterceptors,
-  UploadedFile,
   UploadedFiles,
 } from '@nestjs/common';
 import { PropertiesService } from './properties.service';
 import { CreatePropertyDto } from './dto/create-property.dto';
 import { UpdatePropertyDto } from './dto/update-property.dto';
-import { ApiConsumes, ApiBody } from '@nestjs/swagger';
 import { createParseFilePipe } from 'files/utils/file-validation.util';
-import { FileInterceptor, FilesInterceptor } from '@nestjs/platform-express';
 import { PropertiesQueryDto } from './dto/querying/properties-query.dto';
-import { BodyInterceptor } from 'files/interceptors/body/body.interceptor';
-import { FilesSchema } from 'files/swagger/schemas/files.schema';
-import {
-  MaxFileCount,
-  MULTIPART_FORMDATA_KEY,
-} from 'files/utils/file.constant';
+import { MaxFileCount } from 'files/utils/file.constant';
+import { MultipartFormData } from 'files/decorators/multipart.decorator';
 
 @Controller('properties')
 export class PropertiesController {
   constructor(private readonly propertiesService: PropertiesService) {}
 
-  @Post('/upload')
-  @UseInterceptors(FileInterceptor('file'))
-  uploadFile(@UploadedFile() file: Express.Multer.File) {
-    console.log(file);
-  }
-
-  @ApiConsumes(MULTIPART_FORMDATA_KEY)
-  @ApiBody({ type: CreatePropertyDto })
-  @UseInterceptors(
-    FilesInterceptor('files', MaxFileCount.PROPERTY_IMAGES),
-    // BodyInterceptor,
-  )
   @Post()
+  @MultipartFormData(CreatePropertyDto, MaxFileCount.PROPERTY_IMAGES)
   create(
     @Body() createPropertyDto: CreatePropertyDto,
     @UploadedFiles(createParseFilePipe('2MB', 'png', 'jpeg'))
     files: Express.Multer.File[],
   ) {
+    console.log(files, createPropertyDto);
     return this.propertiesService.create(createPropertyDto, files);
   }
 
@@ -61,12 +43,7 @@ export class PropertiesController {
   }
 
   @Patch(':id')
-  @UseInterceptors(
-    FilesInterceptor('files', MaxFileCount.PROPERTY_IMAGES),
-    BodyInterceptor,
-  )
-  @ApiConsumes(MULTIPART_FORMDATA_KEY)
-  @ApiBody({ type: FilesSchema })
+  @MultipartFormData(UpdatePropertyDto, MaxFileCount.PROPERTY_IMAGES)
   update(
     @Param('id') id: string,
     @Body() updatePropertyDto: UpdatePropertyDto,

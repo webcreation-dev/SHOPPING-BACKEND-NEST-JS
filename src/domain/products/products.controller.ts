@@ -25,14 +25,13 @@ import {
 import { FilesInterceptor } from '@nestjs/platform-express';
 import { IdFilenameDto } from 'files/dto/id-filename.dto';
 import { ApiBody, ApiConsumes, ApiOkResponse } from '@nestjs/swagger';
-import { FilesSchema } from 'files/swagger/schemas/files.schema';
 import { FileSchema } from 'files/swagger/schemas/file.schema';
 import { BodyInterceptor } from 'files/interceptors/body/body.interceptor';
 import { ProductsQueryDto } from './dto/querying/products-query.dto';
 import { CreatePropertyDto } from 'properties/dto/create-property.dto';
-import { ApiExcludeEndpoint } from '@nestjs/swagger';
+import { ApiExcludeController } from '@nestjs/swagger';
 
-// @ApiExcludeEndpoint()
+@ApiExcludeController()
 @Controller('products')
 export class ProductsController {
   constructor(private readonly productsService: ProductsService) {}
