@@ -159,7 +159,7 @@ export class PropertiesService {
   }
 
   async removeGallery(id: number, removeGalleryDto: RemoveGalleryDto) {
-    const { galleryIds } = removeGalleryDto;
+    const galleryIds = removeGalleryDto.galleryIds.map((gallery) => gallery.id);
 
     const galleries = await this.galleriesRepository.find({
       where: {

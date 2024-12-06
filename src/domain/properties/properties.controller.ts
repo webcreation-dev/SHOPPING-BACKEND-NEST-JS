@@ -49,7 +49,8 @@ export class PropertiesController {
   }
 
   @Get(':id')
-  async findOne(@Param('id') { id }: IdDto) {
+  async findOne(@Param() { id }: IdDto) {
+    console.log(id);
     return this.propertiesService.findOne(id);
   }
 
@@ -81,7 +82,7 @@ export class PropertiesController {
 
   @Roles(Role.ADMIN)
   @Delete(':id')
-  remove(@Param('id') { id }: IdDto) {
+  remove(@Param() { id }: IdDto) {
     return this.propertiesService.remove(id);
   }
 

@@ -24,8 +24,9 @@ import { ApiExcludeController } from '@nestjs/swagger';
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
-  @Roles(Role.ADMIN)
+  // @Roles(Role.ADMIN)
   @Get()
+  @Public()
   findAll(@Query() paginationDto: PaginationDto) {
     return this.usersService.findAll(paginationDto);
   }
@@ -44,6 +45,7 @@ export class UsersController {
     return this.usersService.update(id, updateUserDto, user);
   }
 
+  @Public()
   @Roles(Role.ADMIN)
   @Delete(':id')
   remove(
