@@ -98,6 +98,6 @@ export class PropertiesController {
 
   @Get('user/wishlist')
   getWishlist(@CurrentUser() user: User) {
-    return this.propertiesService.getWishlist(user);
+    return this.propertiesService.getUserWishlist(user);
   }
 }
