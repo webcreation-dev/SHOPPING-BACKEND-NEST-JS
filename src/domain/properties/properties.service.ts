@@ -1,19 +1,20 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { Repository, DataSource, In } from 'typeorm';
 import { Property } from './entities/property.entity';
 import { CreatePropertyDto } from './dto/create-property.dto';
 import { StorageService } from 'files/storage/storage.service';
 import { join } from 'path';
 import { BASE_PATH } from 'files/utils/file.constant';
 import { Gallery } from './entities/gallery.entity';
-import { DataSource } from 'typeorm';
 import { UpdatePropertyDto } from './dto/update-property.dto';
-import { NotFoundException } from '@nestjs/common';
 import { PaginationService } from 'querying/pagination.service';
 import { PropertiesQueryDto } from './dto/querying/properties-query.dto';
 import { DefaultPageSize } from 'querying/util/querying.constants';
 import { FilteringService } from 'querying/filtering.service';
+import { UsersService } from 'domain/users/users.service';
+import { User } from 'users/entities/user.entity';
+import { RemoveGalleryDto } from './dto/remove-gallery.dto';
 
 @Injectable()
 export class PropertiesService {
@@ -26,24 +27,26 @@ export class PropertiesService {
     private readonly galleriesRepository: Repository<Gallery>,
     private readonly paginationService: PaginationService,
     private readonly filteringService: FilteringService,
+    private readonly usersservice: UsersService,
+    @InjectRepository(User)
+    private readonly usersRepository: Repository<User>,
   ) {}
 
   async create(
     createPropertyDto: CreatePropertyDto,
     files: Express.Multer.File[],
-  ): Promise<Property> {
+    user: User,
+  ) {
     return this.dataSource.transaction(async (manager) => {
-      const propertyRepository = manager.getRepository(Property);
+      const propertiesRepository = manager.getRepository(Property);
       const galleryRepository = manager.getRepository(Gallery);
 
-      const property = propertyRepository.create({
-        name: createPropertyDto.name,
-        description: createPropertyDto.description,
-        price: createPropertyDto.price,
-        location: createPropertyDto.location,
+      const property = propertiesRepository.create({
+        ...createPropertyDto,
+        owner: user,
       });
 
-      const savedProperty = await propertyRepository.save(property);
+      const savedProperty = await propertiesRepository.save(property);
 
       const galleryPath = join(
         BASE_PATH,
@@ -71,7 +74,7 @@ export class PropertiesService {
       );
 
       savedProperty.galleries = galleries;
-      return propertyRepository.save(savedProperty);
+      return propertiesRepository.save(savedProperty);
     });
   }
 
@@ -96,7 +99,7 @@ export class PropertiesService {
     return { data, meta };
   }
 
-  findOne(id: string): Promise<Property> {
+  findOne(id: number): Promise<Property> {
     return this.propertiesRepository.findOneOrFail({
       where: { id },
       relations: ['location', 'galleries'],
@@ -104,62 +107,114 @@ export class PropertiesService {
   }
 
   async update(
-    id: string,
+    id: number,
     updatePropertyDto: UpdatePropertyDto,
+  ): Promise<Property> {
+    const property = await this.propertiesRepository.findOne({
+      where: { id },
+      relations: ['galleries'],
+    });
+
+    Object.assign(property, updatePropertyDto);
+
+    return this.propertiesRepository.save(property);
+  }
+
+  async addGallery(
+    id: number,
     files: Express.Multer.File[],
   ): Promise<Property> {
     const property = await this.propertiesRepository.findOne({
       where: { id },
       relations: ['galleries'],
     });
-    if (!property) {
-      throw new NotFoundException(`Property with ID ${id} not found`);
-    }
 
-    Object.assign(property, updatePropertyDto);
+    const galleryPath = join(
+      BASE_PATH,
+      'properties',
+      property.id.toString(),
+      'gallery',
+    );
+    await this.storageService.createDir(galleryPath);
 
-    if (files && files.length > 0) {
-      const galleryPath = join(
-        BASE_PATH,
-        'properties',
-        property.id.toString(),
-        'gallery',
-      );
-      await this.storageService.createDir(galleryPath);
+    const galleries = await Promise.all(
+      files.map(async (file) => {
+        const uniqueFilename = this.storageService.genUniqueFilename(
+          file.originalname,
+        );
+        await this.storageService.saveFile(galleryPath, {
+          ...file,
+          originalname: uniqueFilename,
+        });
+        const gallery = this.galleriesRepository.create({
+          url: join(galleryPath, uniqueFilename),
+          property,
+        });
+        return this.galleriesRepository.save(gallery);
+      }),
+    );
 
-      const galleries = await Promise.all(
-        files.map(async (file) => {
-          const uniqueFilename = this.storageService.genUniqueFilename(
-            file.originalname,
-          );
-          await this.storageService.saveFile(galleryPath, {
-            ...file,
-            originalname: uniqueFilename,
-          });
-          const gallery = this.galleriesRepository.create({
-            url: join(galleryPath, uniqueFilename),
-            property,
-          });
-          return this.galleriesRepository.save(gallery);
-        }),
-      );
-
-      property.galleries.push(...galleries);
-    }
-
+    property.galleries.push(...galleries);
     return this.propertiesRepository.save(property);
   }
 
-  async removeGallery(propertyId: string, galleryId: number): Promise<void> {
-    const gallery = await this.galleriesRepository.findOneOrFail({
-      where: { id: galleryId, property: { id: propertyId } },
+  async removeGallery(id: number, removeGalleryDto: RemoveGalleryDto) {
+    const { galleryIds } = removeGalleryDto;
+
+    const galleries = await this.galleriesRepository.find({
+      where: {
+        id: In(galleryIds),
+        property: { id },
+      },
     });
 
-    await this.storageService.delete(gallery.url);
-    await this.galleriesRepository.remove(gallery);
+    if (galleries.length !== galleryIds.length) {
+      throw new NotFoundException(
+        `Some galleries not found for property with ID ${id}`,
+      );
+    }
+
+    await Promise.all(
+      galleries.map(async (gallery) => {
+        await this.storageService.delete(gallery.url);
+        await this.galleriesRepository.remove(gallery);
+      }),
+    );
   }
 
-  async remove(id: string): Promise<void> {
+  async remove(id: number): Promise<void> {
     await this.propertiesRepository.delete(id);
+  }
+
+  async findPropertiesByUser(user: User): Promise<Property[]> {
+    return this.propertiesRepository.find({
+      where: { owner: { id: user.id } },
+      relations: ['location', 'galleries'],
+    });
+  }
+
+  async toggleWishlist(user: User, propertyId: number): Promise<void> {
+    const property = await this.propertiesRepository.findOne({
+      where: { id: propertyId },
+    });
+
+    const wishlistIndex = user.wishlist.findIndex((p) => p.id === propertyId);
+
+    if (wishlistIndex === -1) {
+      user.wishlist.push(property);
+    } else {
+      user.wishlist.splice(wishlistIndex, 1);
+    }
+
+    await this.usersRepository.save(user);
+  }
+
+  async getWishlist(user: User): Promise<Property[]> {
+    const userWithWishlist = await this.usersRepository.findOne({
+      where: { id: user.id },
+      relations: ['wishlist'],
+    });
+
+    return userWithWishlist.wishlist;
   }
 }

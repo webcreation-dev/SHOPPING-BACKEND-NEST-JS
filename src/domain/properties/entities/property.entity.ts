@@ -3,6 +3,7 @@ import {
   PrimaryGeneratedColumn,
   Column,
   ManyToMany,
+  ManyToOne,
   OneToOne,
   OneToMany,
   JoinColumn,
@@ -16,7 +17,7 @@ import { Exclude } from 'class-transformer';
 @Entity()
 export class Property {
   @PrimaryGeneratedColumn()
-  id: string;
+  id: number;
 
   @Column()
   name: string;
@@ -30,6 +31,10 @@ export class Property {
   @Exclude()
   @Column(() => RegistryDates, { prefix: false })
   registryDates: RegistryDates;
+
+  @ManyToOne(() => User, (user) => user.properties)
+  @JoinColumn({ name: 'user_id' }) // Assure-toi que la clé étrangère est correcte
+  owner: User;
 
   @ManyToMany(() => User, (user) => user.wishlist)
   users: User[];

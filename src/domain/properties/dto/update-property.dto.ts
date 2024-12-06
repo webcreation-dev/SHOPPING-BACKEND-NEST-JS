@@ -1,9 +1,4 @@
-import { PartialType } from '@nestjs/swagger';
+import { PartialType } from '@nestjs/mapped-types';
 import { CreatePropertyDto } from './create-property.dto';
-import { IntersectionType } from '@nestjs/swagger';
-import { FilesSchema } from 'files/swagger/schemas/files.schema';
 
-export class UpdatePropertyDto extends IntersectionType(
-  PartialType(CreatePropertyDto),
-  FilesSchema,
-) {}
+export class UpdatePropertyDto extends PartialType(CreatePropertyDto) {}

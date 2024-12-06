@@ -46,6 +46,9 @@ export class User {
   @ManyToMany(() => Property, (property) => property.users)
   wishlist: Property[];
 
+  @OneToMany(() => Property, (property) => property.owner)
+  properties: Property[];
+
   get isDeleted() {
     return !!this.registryDates.deletedAt;
   }

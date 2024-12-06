@@ -4,7 +4,7 @@ import { Property } from './property.entity';
 @Entity()
 export class Location {
   @PrimaryGeneratedColumn()
-  id: string;
+  id: number;
 
   @Column('decimal', { precision: 10, scale: 6 })
   latitude: string;
