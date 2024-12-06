@@ -9,6 +9,7 @@ import {
   OneToMany,
   PrimaryGeneratedColumn,
   ManyToMany,
+  JoinTable,
 } from 'typeorm';
 
 @Entity()
@@ -43,7 +44,8 @@ export class User {
   })
   orders: Order[];
 
-  @ManyToMany(() => Property, (property) => property.users)
+  @ManyToMany(() => Property)
+  @JoinTable()
   wishlist: Property[];
 
   @OneToMany(() => Property, (property) => property.owner)

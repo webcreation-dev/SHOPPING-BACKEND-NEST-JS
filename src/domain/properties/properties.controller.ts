@@ -91,11 +91,8 @@ export class PropertiesController {
     return this.propertiesService.findPropertiesByUser(user);
   }
 
-  @Post('wishlist/:propertyId')
-  toggleWishlist(
-    @CurrentUser() user: User,
-    @Param('propertyId') { id }: IdDto,
-  ) {
+  @Post('wishlist/:id')
+  toggleWishlist(@CurrentUser() user: User, @Param() { id }: IdDto) {
     return this.propertiesService.toggleWishlist(user, id);
   }
 

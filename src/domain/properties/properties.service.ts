@@ -110,7 +110,7 @@ export class PropertiesService {
     id: number,
     updatePropertyDto: UpdatePropertyDto,
   ): Promise<Property> {
-    const property = await this.propertiesRepository.findOne({
+    const property = await this.propertiesRepository.findOneOrFail({
       where: { id },
       relations: ['galleries'],
     });
@@ -124,7 +124,7 @@ export class PropertiesService {
     id: number,
     files: Express.Multer.File[],
   ): Promise<Property> {
-    const property = await this.propertiesRepository.findOne({
+    const property = await this.propertiesRepository.findOneOrFail({
       where: { id },
       relations: ['galleries'],
     });
@@ -194,11 +194,19 @@ export class PropertiesService {
   }
 
   async toggleWishlist(user: User, propertyId: number): Promise<void> {
-    const property = await this.propertiesRepository.findOne({
+    const property = await this.propertiesRepository.findOneOrFail({
       where: { id: propertyId },
     });
 
-    const wishlistIndex = user.wishlist.findIndex((p) => p.id === propertyId);
+    // Assurez-vous que la wishlist de l'utilisateur est initialisée (vide si elle est undefined)
+    if (!user.wishlist) {
+      user.wishlist = [];
+    }
+
+    // Utilisation de getWishlist pour garantir que la wishlist est un tableau
+    const wishlistIndex = (await this.getWishlist(user)).findIndex(
+      (p) => p.id === propertyId,
+    );
 
     if (wishlistIndex === -1) {
       user.wishlist.push(property);
@@ -210,11 +218,10 @@ export class PropertiesService {
   }
 
   async getWishlist(user: User): Promise<Property[]> {
-    const userWithWishlist = await this.usersRepository.findOne({
+    const userWithWishlist = await this.usersRepository.findOneOrFail({
       where: { id: user.id },
       relations: ['wishlist'],
     });
-
-    return userWithWishlist.wishlist;
+    return userWithWishlist.wishlist || [];
   }
 }
