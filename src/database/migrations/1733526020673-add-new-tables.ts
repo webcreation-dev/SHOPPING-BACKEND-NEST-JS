@@ -1,20 +1,9 @@
 import { MigrationInterface, QueryRunner } from "typeorm";
 
-export class NewTables1733404848140 implements MigrationInterface {
-    name = 'NewTables1733404848140'
+export class AddNewTables1733526020673 implements MigrationInterface {
+    name = 'AddNewTables1733526020673'
 
     public async up(queryRunner: QueryRunner): Promise<void> {
-        await queryRunner.query(`
-            CREATE TABLE "payment" (
-                "id" SERIAL NOT NULL,
-                "orderId" integer NOT NULL,
-                "created_at" TIMESTAMP NOT NULL DEFAULT now(),
-                "updated_at" TIMESTAMP NOT NULL DEFAULT now(),
-                "deletedAt" TIMESTAMP,
-                CONSTRAINT "REL_d09d285fe1645cd2f0db811e29" UNIQUE ("orderId"),
-                CONSTRAINT "PK_fcaec7df5adf9cac408c686b2ab" PRIMARY KEY ("id")
-            )
-        `);
         await queryRunner.query(`
             CREATE TABLE "category" (
                 "id" SERIAL NOT NULL,
@@ -58,11 +47,17 @@ export class NewTables1733404848140 implements MigrationInterface {
             )
         `);
         await queryRunner.query(`
-            CREATE TABLE "location" (
+            CREATE TABLE "user" (
                 "id" SERIAL NOT NULL,
-                "latitude" numeric(10, 6) NOT NULL,
-                "longitude" numeric(10, 6) NOT NULL,
-                CONSTRAINT "PK_876d7bdba03c72251ec4c2dc827" PRIMARY KEY ("id")
+                "name" character varying NOT NULL,
+                "phone" character varying NOT NULL,
+                "password" character varying NOT NULL,
+                "role" "public"."role_enum" NOT NULL DEFAULT 'ADMIN',
+                "created_at" TIMESTAMP NOT NULL DEFAULT now(),
+                "updated_at" TIMESTAMP NOT NULL DEFAULT now(),
+                "deletedAt" TIMESTAMP,
+                CONSTRAINT "UQ_8e1f623798118e629b46a9e6299" UNIQUE ("phone"),
+                CONSTRAINT "PK_cace4a159ff9f2512dd42373760" PRIMARY KEY ("id")
             )
         `);
         await queryRunner.query(`
@@ -79,6 +74,7 @@ export class NewTables1733404848140 implements MigrationInterface {
                 "name" character varying NOT NULL,
                 "description" character varying NOT NULL,
                 "price" numeric(6, 2) NOT NULL,
+                "user_id" integer,
                 "locationId" integer,
                 "created_at" TIMESTAMP NOT NULL DEFAULT now(),
                 "updated_at" TIMESTAMP NOT NULL DEFAULT now(),
@@ -88,17 +84,11 @@ export class NewTables1733404848140 implements MigrationInterface {
             )
         `);
         await queryRunner.query(`
-            CREATE TABLE "user" (
+            CREATE TABLE "location" (
                 "id" SERIAL NOT NULL,
-                "name" character varying NOT NULL,
-                "phone" character varying NOT NULL,
-                "password" character varying NOT NULL,
-                "role" "public"."role_enum" NOT NULL DEFAULT 'ADMIN',
-                "created_at" TIMESTAMP NOT NULL DEFAULT now(),
-                "updated_at" TIMESTAMP NOT NULL DEFAULT now(),
-                "deletedAt" TIMESTAMP,
-                CONSTRAINT "UQ_8e1f623798118e629b46a9e6299" UNIQUE ("phone"),
-                CONSTRAINT "PK_cace4a159ff9f2512dd42373760" PRIMARY KEY ("id")
+                "latitude" numeric(10, 6) NOT NULL,
+                "longitude" numeric(10, 6) NOT NULL,
+                CONSTRAINT "PK_876d7bdba03c72251ec4c2dc827" PRIMARY KEY ("id")
             )
         `);
         await queryRunner.query(`
@@ -115,8 +105,17 @@ export class NewTables1733404848140 implements MigrationInterface {
             CREATE INDEX "IDX_70eb26cea4105a27ce856dca20" ON "product_to_category" ("categoryId")
         `);
         await queryRunner.query(`
-            ALTER TABLE "payment"
-            ADD CONSTRAINT "FK_d09d285fe1645cd2f0db811e293" FOREIGN KEY ("orderId") REFERENCES "order"("id") ON DELETE CASCADE ON UPDATE NO ACTION
+            CREATE TABLE "user_wishlist_property" (
+                "userId" integer NOT NULL,
+                "propertyId" integer NOT NULL,
+                CONSTRAINT "PK_6bb40f1c9689b22e3bcb185a46b" PRIMARY KEY ("userId", "propertyId")
+            )
+        `);
+        await queryRunner.query(`
+            CREATE INDEX "IDX_4af1bd0fd3a85baa0422690a4f" ON "user_wishlist_property" ("userId")
+        `);
+        await queryRunner.query(`
+            CREATE INDEX "IDX_de1530b78db22bdbe885036713" ON "user_wishlist_property" ("propertyId")
         `);
         await queryRunner.query(`
             ALTER TABLE "order_item"
@@ -136,6 +135,10 @@ export class NewTables1733404848140 implements MigrationInterface {
         `);
         await queryRunner.query(`
             ALTER TABLE "property"
+            ADD CONSTRAINT "FK_723792fc2012f8a4c47915d1e25" FOREIGN KEY ("user_id") REFERENCES "user"("id") ON DELETE NO ACTION ON UPDATE NO ACTION
+        `);
+        await queryRunner.query(`
+            ALTER TABLE "property"
             ADD CONSTRAINT "FK_d285b373822984e1951c21a3c18" FOREIGN KEY ("locationId") REFERENCES "location"("id") ON DELETE NO ACTION ON UPDATE NO ACTION
         `);
         await queryRunner.query(`
@@ -146,9 +149,23 @@ export class NewTables1733404848140 implements MigrationInterface {
             ALTER TABLE "product_to_category"
             ADD CONSTRAINT "FK_70eb26cea4105a27ce856dca20d" FOREIGN KEY ("categoryId") REFERENCES "category"("id") ON DELETE NO ACTION ON UPDATE NO ACTION
         `);
+        await queryRunner.query(`
+            ALTER TABLE "user_wishlist_property"
+            ADD CONSTRAINT "FK_4af1bd0fd3a85baa0422690a4ff" FOREIGN KEY ("userId") REFERENCES "user"("id") ON DELETE CASCADE ON UPDATE CASCADE
+        `);
+        await queryRunner.query(`
+            ALTER TABLE "user_wishlist_property"
+            ADD CONSTRAINT "FK_de1530b78db22bdbe885036713a" FOREIGN KEY ("propertyId") REFERENCES "property"("id") ON DELETE CASCADE ON UPDATE CASCADE
+        `);
     }
 
     public async down(queryRunner: QueryRunner): Promise<void> {
+        await queryRunner.query(`
+            ALTER TABLE "user_wishlist_property" DROP CONSTRAINT "FK_de1530b78db22bdbe885036713a"
+        `);
+        await queryRunner.query(`
+            ALTER TABLE "user_wishlist_property" DROP CONSTRAINT "FK_4af1bd0fd3a85baa0422690a4ff"
+        `);
         await queryRunner.query(`
             ALTER TABLE "product_to_category" DROP CONSTRAINT "FK_70eb26cea4105a27ce856dca20d"
         `);
@@ -157,6 +174,9 @@ export class NewTables1733404848140 implements MigrationInterface {
         `);
         await queryRunner.query(`
             ALTER TABLE "property" DROP CONSTRAINT "FK_d285b373822984e1951c21a3c18"
+        `);
+        await queryRunner.query(`
+            ALTER TABLE "property" DROP CONSTRAINT "FK_723792fc2012f8a4c47915d1e25"
         `);
         await queryRunner.query(`
             ALTER TABLE "gallery" DROP CONSTRAINT "FK_96c88a83bf3357b98162620293e"
@@ -171,7 +191,13 @@ export class NewTables1733404848140 implements MigrationInterface {
             ALTER TABLE "order_item" DROP CONSTRAINT "FK_646bf9ece6f45dbe41c203e06e0"
         `);
         await queryRunner.query(`
-            ALTER TABLE "payment" DROP CONSTRAINT "FK_d09d285fe1645cd2f0db811e293"
+            DROP INDEX "public"."IDX_de1530b78db22bdbe885036713"
+        `);
+        await queryRunner.query(`
+            DROP INDEX "public"."IDX_4af1bd0fd3a85baa0422690a4f"
+        `);
+        await queryRunner.query(`
+            DROP TABLE "user_wishlist_property"
         `);
         await queryRunner.query(`
             DROP INDEX "public"."IDX_70eb26cea4105a27ce856dca20"
@@ -183,7 +209,7 @@ export class NewTables1733404848140 implements MigrationInterface {
             DROP TABLE "product_to_category"
         `);
         await queryRunner.query(`
-            DROP TABLE "user"
+            DROP TABLE "location"
         `);
         await queryRunner.query(`
             DROP TABLE "property"
@@ -192,7 +218,7 @@ export class NewTables1733404848140 implements MigrationInterface {
             DROP TABLE "gallery"
         `);
         await queryRunner.query(`
-            DROP TABLE "location"
+            DROP TABLE "user"
         `);
         await queryRunner.query(`
             DROP TABLE "order"
@@ -205,9 +231,6 @@ export class NewTables1733404848140 implements MigrationInterface {
         `);
         await queryRunner.query(`
             DROP TABLE "category"
-        `);
-        await queryRunner.query(`
-            DROP TABLE "payment"
         `);
     }
 

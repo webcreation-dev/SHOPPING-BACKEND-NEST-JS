@@ -26,6 +26,14 @@ export class FseService implements StorageService {
     await writeFile(fullPath, buffer);
   }
 
+  async saveFiles(dir: string, files: Express.Multer.File[]) {
+    await Promise.all(
+      files.map(async (file) => {
+        await this.saveFile(dir, file);
+      }),
+    );
+  }
+
   async createDir(path: string) {
     const fullPath = join(BASE_PATH, path);
     await mkdirp(fullPath);

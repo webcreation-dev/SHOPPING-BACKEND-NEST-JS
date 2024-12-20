@@ -16,4 +16,8 @@ export class TempUserService {
   removeTempUser(phone: string) {
     this.tempUsers.delete(phone);
   }
+
+  clearAllTempUsers() {
+    this.tempUsers.clear();
+  }
 }

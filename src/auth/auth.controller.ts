@@ -16,7 +16,12 @@ import { IdDto } from 'common/dto/id.dto';
 import { RoleDto } from './roles/dto/role.dto';
 import { Role } from './roles/enums/role.enum';
 import { Roles } from './decorators/roles.decorator';
-import { ApiBody, ApiOkResponse, ApiExcludeEndpoint } from '@nestjs/swagger';
+import {
+  ApiBody,
+  ApiOkResponse,
+  ApiExcludeEndpoint,
+  ApiOperation,
+} from '@nestjs/swagger';
 import { LoginDto } from './dto/login.dto';
 import { JwtCookieHeader } from './swagger/jwt-cookie.header';
 import { CreateUserDto } from '../domain/users/dto/create-user.dto';
@@ -28,6 +33,7 @@ import { ResetPasswordDto } from '../domain/users/dto/reset-password.dto';
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
 
+  @ApiOperation({ summary: 'Inscription' })
   @ApiBody({ type: CreateUserDto })
   @ApiOkResponse({ headers: JwtCookieHeader })
   @Public()

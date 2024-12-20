@@ -54,6 +54,7 @@ export class AuthService {
 
   async register(createUserDto: CreateUserDto) {
     const { phone } = createUserDto;
+
     this.tempUserService.storeTempUser(phone, createUserDto);
 
     // await this.otpService.sendOtp(phone);
