@@ -1,4 +1,4 @@
-import { Body, Controller, Post, UseGuards } from '@nestjs/common';
+import { Body, Controller, Get, Post, UseGuards } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { ApiBody, ApiOkResponse, ApiOperation } from '@nestjs/swagger';
 import { JwtCookieHeader, LoginDto, RequestUser } from '@app/common';
@@ -7,6 +7,7 @@ import { SaveUserDto } from './users/dto/save-user-dto';
 import { Public } from './decorators/public.decorator';
 import { CurrentUser } from './decorators/user.decorator';
 import { LocalAuthGuard } from './guards/local-auth/local-auth.guard';
+import { User } from './users/entities/user.entity';
 
 @Controller('auth')
 export class AuthController {
@@ -32,19 +33,19 @@ export class AuthController {
     return phone;
   }
 
-  // @ApiBody({ type: SaveUserDto })
-  // @ApiOkResponse({ headers: JwtCookieHeader })
-  // @Public()
-  // @Post('verify_otp')
-  // async verifyOtp(@Body() saveUserDto: SaveUserDto) {
-  //   const user = await this.authService.verifyOtp(saveUserDto);
-  //   return { subscribed: user };
-  // }
+  @ApiBody({ type: SaveUserDto })
+  @ApiOkResponse({ headers: JwtCookieHeader })
+  @Public()
+  @Post('verify_otp')
+  async verifyOtp(@Body() saveUserDto: SaveUserDto) {
+    const user = await this.authService.verifyOtp(saveUserDto);
+    return { subscribed: user };
+  }
 
-  // @Get('user')
-  // async getUser(@CurrentUser() user: User) {
-  //   return await this.authService.getUser(user);
-  // }
+  @Get('user')
+  async getUser(@CurrentUser() user: User) {
+    return await this.authService.getUser(user);
+  }
 
   // @Public()
   // @Post('forgot_password')

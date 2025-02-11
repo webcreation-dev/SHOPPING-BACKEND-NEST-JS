@@ -1,12 +1,9 @@
 import { MigrationInterface, QueryRunner } from "typeorm";
 
-export class New1739268335823 implements MigrationInterface {
-    name = 'New1739268335823'
+export class New1739288353106 implements MigrationInterface {
+    name = 'New1739288353106'
 
     public async up(queryRunner: QueryRunner): Promise<void> {
-        await queryRunner.query(`
-            CREATE TYPE "public"."role_enum" AS ENUM('MANAGER', 'USER')
-        `);
         await queryRunner.query(`
             CREATE TABLE "role" (
                 "id" SERIAL NOT NULL,
@@ -18,12 +15,8 @@ export class New1739268335823 implements MigrationInterface {
             )
         `);
         await queryRunner.query(`
-            CREATE TYPE "public"."app_type_enum" AS ENUM('LOCAPAY', 'LOCAPAY_BUSINESS')
-        `);
-        await queryRunner.query(`
             CREATE TABLE "user" (
                 "id" SERIAL NOT NULL,
-                "email" character varying NOT NULL,
                 "phone" character varying NOT NULL,
                 "password" character varying NOT NULL,
                 "app_type" "public"."app_type_enum" NOT NULL,
@@ -31,7 +24,6 @@ export class New1739268335823 implements MigrationInterface {
                 "created_at" TIMESTAMP NOT NULL DEFAULT now(),
                 "updated_at" TIMESTAMP NOT NULL DEFAULT now(),
                 "deletedAt" TIMESTAMP,
-                CONSTRAINT "UQ_e12875dfb3b1d92d7d7c5377e22" UNIQUE ("email"),
                 CONSTRAINT "UQ_8e1f623798118e629b46a9e6299" UNIQUE ("phone"),
                 CONSTRAINT "PK_cace4a159ff9f2512dd42373760" PRIMARY KEY ("id")
             )
@@ -79,13 +71,7 @@ export class New1739268335823 implements MigrationInterface {
             DROP TABLE "user"
         `);
         await queryRunner.query(`
-            DROP TYPE "public"."app_type_enum"
-        `);
-        await queryRunner.query(`
             DROP TABLE "role"
-        `);
-        await queryRunner.query(`
-            DROP TYPE "public"."role_enum"
         `);
     }
 

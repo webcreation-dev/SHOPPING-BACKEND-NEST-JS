@@ -36,34 +36,6 @@ export class UsersService {
     return this.usersRepository.create(user);
   }
 
-  // async toogleWishlist(user: User, toogleWishlistDto: toogleWishlistDto) {
-  //   const { propertyId } = toogleWishlistDto;
-
-  //   await firstValueFrom(
-  //     this.propertiesService
-  //       .send('get_property', {
-  //         propertyId: propertyId.id,
-  //       })
-  //       .pipe(
-  //         map((res) => res),
-  //         catchError(() => {
-  //           throw new NotFoundException('Entity not found.');
-  //         }),
-  //       ),
-  //   );
-
-  //   if (user.wishlistedProperties.includes(propertyId.id)) {
-  //     user.wishlistedProperties = user.wishlistedProperties.filter(
-  //       (id) => id !== propertyId.id,
-  //     );
-  //   } else {
-  //     user.wishlistedProperties.push(propertyId.id);
-  //   }
-
-  //   await this.usersRepository.save(user);
-  //   return user;
-  // }
-
   private async getRole($app_type) {
     switch ($app_type) {
       case AppTypeEnum.LOCAPAY:
@@ -75,28 +47,8 @@ export class UsersService {
     }
   }
 
-  // async getUser({ id }: User) {
-  //   const user = await this.usersRepository.findOne({ id });
-  //   return this.propertiesService
-  //     .send('get_properties', {
-  //       propertyIds: user.wishlistedProperties,
-  //     })
-  //     .pipe(
-  //       map((res) => {
-  //         return {
-  //           ...user,
-  //           wishlist: res,
-  //         };
-  //       }),
-  //       catchError((error) => {
-  //         if (error.message === 'Entity not found.') {
-  //           throw new NotFoundException(
-  //             `One or more properties in the wishlist could not be found.`,
-  //           );
-  //         }
-  //         // Propager les autres erreurs comme elles sont
-  //         return throwError(() => error);
-  //       }),
-  //     );
-  // }
+  async getUser({ id }: User) {
+    const user = await this.usersRepository.findOne({ id });
+    return user;
+  }
 }

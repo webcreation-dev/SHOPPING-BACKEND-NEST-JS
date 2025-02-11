@@ -14,12 +14,17 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
     private readonly authService: AuthService,
   ) {
     super({
-      jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
+      jwtFromRequest: (req) => {
+        const token = ExtractJwt.fromAuthHeaderAsBearerToken()(req);
+        console.log('Jeton JWT extrait:', token, jwtConfiguration.secret);
+        return token;
+      },
       secretOrKey: jwtConfiguration.secret,
     });
   }
 
   validate(payload: JwtPayload) {
-    // return this.authService.validateJwt(payload);
+    console.log('Payload reçu:', payload);
+    return this.authService.validateJwt(payload);
   }
 }

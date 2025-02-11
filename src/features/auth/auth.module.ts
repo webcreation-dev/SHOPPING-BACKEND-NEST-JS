@@ -6,6 +6,8 @@ import { JwtModule } from '@nestjs/jwt';
 import { ConfigModule } from '@nestjs/config';
 import { ThrottlerModule } from '@nestjs/throttler';
 import {
+  JwtStrategy,
+  LocalStrategy,
   LoginValidationMiddleware,
   OtpModule,
   THROTTLER_MODULE_OPTIONS,
@@ -31,6 +33,8 @@ import { UsersModule } from './users/users.module';
       provide: HashingService,
       useClass: BcryptService,
     },
+    JwtStrategy,
+    LocalStrategy,
   ],
   exports: [HashingService],
 })

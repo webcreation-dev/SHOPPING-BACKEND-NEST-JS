@@ -6,9 +6,6 @@ import { Role } from './role.entity';
 @Entity()
 export class User extends AbstractEntity<User> {
   @Column({ unique: true })
-  email: string;
-
-  @Column({ unique: true })
   phone: string;
 
   @Exclude()

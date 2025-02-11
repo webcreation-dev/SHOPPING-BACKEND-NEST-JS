@@ -17,7 +17,7 @@ export class AuthService {
     private readonly configService: ConfigService,
     private readonly jwtService: JwtService,
 
-    // private readonly usersRepository: UsersRepository,
+    private readonly usersRepository: UsersRepository,
     private readonly tempUserService: TempUserService,
     private readonly hashingService: HashingService,
     private readonly otpService: OtpService,
@@ -40,7 +40,7 @@ export class AuthService {
 
     this.tempUserService.storeTempUser(phone, createUserDto);
 
-    await this.otpService.sendOtp(phone);
+    // await this.otpService.sendOtp(phone);
 
     return phone;
   }
@@ -70,16 +70,16 @@ export class AuthService {
   }
 
   async validateLocal(phone: string, password: string) {
-    // const user = await this.usersRepository.findOne({ phone });
-    // const isMatch = await this.hashingService.compare(password, user.password);
-    // if (!isMatch) {
-    //   throw new UnauthorizedException('Invalid credentials');
-    // }
-    // return this.createRequestUser(user);
+    const user = await this.usersRepository.findOne({ phone }, { roles: true });
+    const isMatch = await this.hashingService.compare(password, user.password);
+    if (!isMatch) {
+      throw new UnauthorizedException('Invalid credentials');
+    }
+    return this.createRequestUser(user);
   }
 
   async validateJwt(payload: JwtPayload) {
-    // return this.usersRepository.findOne({ id: payload.sub }, { roles: true });
+    return this.usersRepository.findOne({ id: payload.sub }, { roles: true });
   }
 
   private createRequestUser(user: User) {
@@ -94,7 +94,7 @@ export class AuthService {
 
   async validateToken(jwt: string) {
     const payload: JwtPayload = this.jwtService.verify(jwt);
-    // return this.usersRepository.findOne({ id: payload.sub }, { roles: true });
+    return this.usersRepository.findOne({ id: payload.sub }, { roles: true });
   }
 
   // async forgotPassword(forgotPasswordDto: ForgotPasswordDto) {
@@ -115,10 +115,10 @@ export class AuthService {
   //   return user;
   // }
 
-  // async getUser(user: User) {
-  //   const CurrentUser = await this.usersService.getUser(user);
-  //   return CurrentUser;
-  // }
+  async getUser(user: User) {
+    const CurrentUser = await this.usersService.getUser(user);
+    return CurrentUser;
+  }
 
   // async toogleWishlist(user: User, toogleWishlistDto: toogleWishlistDto) {
   //   return await this.usersService.toogleWishlist(user, toogleWishlistDto);

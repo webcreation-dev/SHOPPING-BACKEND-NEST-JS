@@ -10,7 +10,7 @@ const dataSource = new DataSource({
   entities: [
     'dist/src/features/auth/users/entities/user.entity.js',
     'dist/src/features/auth/users/entities/role.entity.js',
-  ], 
+  ],
   migrations: ['dist/libs/common/src/database/migrations/*.js'],
 });
 

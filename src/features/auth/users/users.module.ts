@@ -22,7 +22,8 @@ import { User } from './entities/user.entity';
     UsersRepository,
     UsersSubscriber,
     RolesRepository,
+    UsersRepository,
   ],
-  exports: [UsersService, TempUserService],
+  exports: [UsersService, TempUserService, UsersRepository],
 })
 export class UsersModule {}
