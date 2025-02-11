@@ -9,11 +9,17 @@
     "target": "ES2021",
     "sourceMap": true,
     "outDir": "./dist",
-    "baseUrl": "./src",
+    "baseUrl": "./",
     "paths": {
       "*": [
-        "domain/*",
+        "features/*",
         "*"
+      ],
+      "@app/common": [
+        "libs/common/src"
+      ],
+      "@app/common/*": [
+        "libs/common/src/*"
       ]
     },
     "incremental": true,

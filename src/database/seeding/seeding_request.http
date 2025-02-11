@@ -1,6 +1,0 @@
-@baseUrl = http://localhost:3000
-
-### SEED DATA
-POST {{baseUrl}}/seeding
-Content-Type: application/json
-
