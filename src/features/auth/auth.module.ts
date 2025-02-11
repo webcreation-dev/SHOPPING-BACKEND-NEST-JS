@@ -1,9 +1,4 @@
-import {
-  forwardRef,
-  MiddlewareConsumer,
-  Module,
-  NestModule,
-} from '@nestjs/common';
+import { MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { AuthController } from './auth.controller';
 import { PassportModule } from '@nestjs/passport';
@@ -18,6 +13,7 @@ import {
 import jwtConfig from 'libs/common/src/auth/config/jwt.config';
 import { HashingService } from './hashing/hashing.service';
 import { BcryptService } from './hashing/bcrypt.service';
+import { UsersModule } from './users/users.module';
 
 @Module({
   imports: [
@@ -26,6 +22,7 @@ import { BcryptService } from './hashing/bcrypt.service';
     ConfigModule.forFeature(jwtConfig),
     ThrottlerModule.forRoot(THROTTLER_MODULE_OPTIONS),
     OtpModule,
+    UsersModule,
   ],
   controllers: [AuthController],
   providers: [

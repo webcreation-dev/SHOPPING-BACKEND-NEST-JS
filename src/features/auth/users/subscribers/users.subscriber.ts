@@ -7,7 +7,7 @@ import {
   UpdateEvent,
 } from 'typeorm';
 import { User } from '../entities/user.entity';
-import { HashingService } from '../../hashing/hashing.service';
+import { HashingService } from 'libs/common/src';
 
 @EventSubscriber()
 export class UsersSubscriber implements EntitySubscriberInterface<User> {
