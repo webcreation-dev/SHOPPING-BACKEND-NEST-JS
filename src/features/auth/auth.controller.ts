@@ -8,6 +8,8 @@ import { Public } from './decorators/public.decorator';
 import { CurrentUser } from './decorators/user.decorator';
 import { LocalAuthGuard } from './guards/local-auth/local-auth.guard';
 import { User } from './users/entities/user.entity';
+import { ForgotPasswordDto } from './users/dto/forgot-password-dto';
+import { ResetPasswordDto } from './users/dto/reset-password-dto';
 
 @Controller('auth')
 export class AuthController {
@@ -47,17 +49,17 @@ export class AuthController {
     return await this.authService.getUser(user);
   }
 
-  // @Public()
-  // @Post('forgot_password')
-  // async forgotPassword(@Body() forgotPasswordDto: ForgotPasswordDto) {
-  //   return this.authService.forgotPassword(forgotPasswordDto);
-  // }
+  @Public()
+  @Post('forgot_password')
+  async forgotPassword(@Body() forgotPasswordDto: ForgotPasswordDto) {
+    return this.authService.forgotPassword(forgotPasswordDto);
+  }
 
-  // @Public()
-  // @Post('reset_password')
-  // async resetPassword(@Body() resetPasswordDto: ResetPasswordDto) {
-  //   return this.authService.resetPassword(resetPasswordDto);
-  // }
+  @Public()
+  @Post('reset_password')
+  async resetPassword(@Body() resetPasswordDto: ResetPasswordDto) {
+    return this.authService.resetPassword(resetPasswordDto);
+  }
 
   // @Post('toogle_wishlist')
   // async addWishlist(

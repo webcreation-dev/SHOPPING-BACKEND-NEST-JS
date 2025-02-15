@@ -25,7 +25,7 @@ import { UsersModule } from './features/auth/users/users.module';
     QueryingModule,
     OtpModule,
     // PropertiesModule,
-    LoggerModule,
+    // LoggerModule,
   ],
 })
 export class AppModule {}

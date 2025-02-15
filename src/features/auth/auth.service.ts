@@ -10,6 +10,8 @@ import { CreateUserDto } from './users/dto/create-user.dto';
 import { User } from './users/entities/user.entity';
 import { HashingService } from './hashing/hashing.service';
 import { TempUserService } from './users/temps/temp-user.service';
+import { ResetPasswordDto } from './users/dto/reset-password-dto';
+import { ForgotPasswordDto } from './users/dto/forgot-password-dto';
 
 @Injectable()
 export class AuthService {
@@ -97,27 +99,28 @@ export class AuthService {
     return this.usersRepository.findOne({ id: payload.sub }, { roles: true });
   }
 
-  // async forgotPassword(forgotPasswordDto: ForgotPasswordDto) {
-  //   const { phone } = forgotPasswordDto;
-  //   await this.otpService.sendOtp(phone);
-  //   return phone;
-  // }
+  async forgotPassword(forgotPasswordDto: ForgotPasswordDto) {
+    const { phone } = forgotPasswordDto;
+    // await this.otpService.sendOtp(phone);
+    return phone;
+  }
 
-  // async resetPassword(resetPasswordDto: ResetPasswordDto) {
-  //   const { phone, otp, password } = resetPasswordDto;
+  async resetPassword(resetPasswordDto: ResetPasswordDto) {
+    const { phone, otp, password } = resetPasswordDto;
 
-  //   await this.otpService.verifyOtp(otp, phone);
+    // await this.otpService.verifyOtp(otp, phone);
 
-  //   const user = await this.usersRepository.findOne({ where: { phone } });
-  //   user.password = await this.hashingService.hash(password);
-  //   await this.usersRepository.save(user);
+    const hashedPassword = await this.hashingService.hash(password);
 
-  //   return user;
-  // }
+    return this.usersRepository.findOneAndUpdate(
+      { phone },
+      { password: hashedPassword },
+    );
+  }
 
   async getUser(user: User) {
-    const CurrentUser = await this.usersService.getUser(user);
-    return CurrentUser;
+    const currentUser = await this.usersService.getUser(user);
+    return currentUser;
   }
 
   // async toogleWishlist(user: User, toogleWishlistDto: toogleWishlistDto) {
