@@ -1,5 +1,5 @@
 import { Module } from '@nestjs/common';
-// import { PropertiesModule } from './features/properties/properties.module';
+import { PropertiesModule } from './features/properties/properties.module';
 import {
   CommonModule,
   DatabaseModule,
@@ -24,7 +24,7 @@ import { UsersModule } from './features/auth/users/users.module';
     FilesModule,
     QueryingModule,
     OtpModule,
-    // PropertiesModule,
+    PropertiesModule,
     // LoggerModule,
   ],
 })
