@@ -113,20 +113,17 @@ export class PropertiesService {
   }
 
   async addImages(id: number, files: File[]) {
-    const property = await this.findOne(id);
-
-    const savedPaths = await this.uploadImages(property.id, files);
-
-    // 3. Créer et sauvegarder chaque galerie
-    for (const path of savedPaths) {
-      const gallery = new Gallery({
-        url: path,
-        property, // Associer chaque galerie à la propriété créée
-      });
-      await this.galleriesRepository.create(gallery);
-    }
-
-    return this.findOne(id);
+    // const property = await this.findOne(id);
+    // const savedPaths = await this.uploadImages(property.id, files);
+    // // 3. Créer et sauvegarder chaque galerie
+    // for (const path of savedPaths) {
+    //   const gallery = new Gallery({
+    //     url: path,
+    //     property, // Associer chaque galerie à la propriété créée
+    //   });
+    //   await this.galleriesRepository.create(gallery);
+    // }
+    // return this.findOne(id);
   }
 
   async deleteImages(id: number, filenames: string[]) {
