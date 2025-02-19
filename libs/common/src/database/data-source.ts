@@ -17,6 +17,7 @@ const dataSource = new DataSource({
   extra: {
     ssl: {
       rejectUnauthorized: false,
+      require: true,
     },
   },
 });
