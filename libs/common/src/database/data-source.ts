@@ -7,12 +7,16 @@ dotenvExpand.expand(dotenv.config());
 const dataSource = new DataSource({
   type: 'postgres',
   url: process.env.DATABASE_URL,
-  ssl: true,
+  synchronize: false,
   entities: [
     'dist/src/features/auth/users/entities/user.entity.js',
     'dist/src/features/auth/users/entities/role.entity.js',
   ],
   migrations: ['dist/libs/common/src/database/migrations/*.js'],
+
+  ssl: {
+    rejectUnauthorized: false,
+  },
 });
 
 dataSource.initialize();
