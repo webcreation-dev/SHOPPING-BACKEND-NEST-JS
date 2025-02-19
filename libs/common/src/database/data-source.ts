@@ -13,9 +13,10 @@ const dataSource = new DataSource({
     'dist/src/features/auth/users/entities/role.entity.js',
   ],
   migrations: ['dist/libs/common/src/database/migrations/*.js'],
-
-  ssl: {
-    rejectUnauthorized: false,
+  extra: {
+    ssl: {
+      rejectUnauthorized: false,
+    },
   },
 });
 
