@@ -1,18 +1,11 @@
 import { MigrationInterface, QueryRunner } from "typeorm";
 
-export class New1739288353106 implements MigrationInterface {
-    name = 'New1739288353106'
+export class New1740007204184 implements MigrationInterface {
+    name = 'New1740007204184'
 
     public async up(queryRunner: QueryRunner): Promise<void> {
         await queryRunner.query(`
-            CREATE TABLE "role" (
-                "id" SERIAL NOT NULL,
-                "name" "public"."role_enum" NOT NULL,
-                "created_at" TIMESTAMP NOT NULL DEFAULT now(),
-                "updated_at" TIMESTAMP NOT NULL DEFAULT now(),
-                "deletedAt" TIMESTAMP,
-                CONSTRAINT "PK_b36bcfe02fc8de3c57a8b2391c2" PRIMARY KEY ("id")
-            )
+            CREATE TYPE "public"."app_type_enum" AS ENUM('LOCAPAY', 'LOCAPAY_BUSINESS')
         `);
         await queryRunner.query(`
             CREATE TABLE "user" (
@@ -26,6 +19,19 @@ export class New1739288353106 implements MigrationInterface {
                 "deletedAt" TIMESTAMP,
                 CONSTRAINT "UQ_8e1f623798118e629b46a9e6299" UNIQUE ("phone"),
                 CONSTRAINT "PK_cace4a159ff9f2512dd42373760" PRIMARY KEY ("id")
+            )
+        `);
+        await queryRunner.query(`
+            CREATE TYPE "public"."role_enum" AS ENUM('MANAGER', 'USER')
+        `);
+        await queryRunner.query(`
+            CREATE TABLE "role" (
+                "id" SERIAL NOT NULL,
+                "name" "public"."role_enum" NOT NULL,
+                "created_at" TIMESTAMP NOT NULL DEFAULT now(),
+                "updated_at" TIMESTAMP NOT NULL DEFAULT now(),
+                "deletedAt" TIMESTAMP,
+                CONSTRAINT "PK_b36bcfe02fc8de3c57a8b2391c2" PRIMARY KEY ("id")
             )
         `);
         await queryRunner.query(`
@@ -68,10 +74,16 @@ export class New1739288353106 implements MigrationInterface {
             DROP TABLE "user_roles_role"
         `);
         await queryRunner.query(`
+            DROP TABLE "role"
+        `);
+        await queryRunner.query(`
+            DROP TYPE "public"."role_enum"
+        `);
+        await queryRunner.query(`
             DROP TABLE "user"
         `);
         await queryRunner.query(`
-            DROP TABLE "role"
+            DROP TYPE "public"."app_type_enum"
         `);
     }
 
