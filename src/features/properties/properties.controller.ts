@@ -9,7 +9,6 @@ import {
   Post,
   Query,
   UploadedFiles,
-  UseGuards,
   UseInterceptors,
 } from '@nestjs/common';
 import { PropertiesService } from './properties.service';
@@ -19,7 +18,6 @@ import {
   createParseFilePipe,
   File,
   IdDto,
-  JwtAuthGuard,
   MaxFileCount,
   CurrentUser,
 } from '@app/common';
@@ -32,19 +30,18 @@ import { User } from '../auth/users/entities/user.entity';
 export class PropertiesController {
   constructor(private readonly propertiesService: PropertiesService) {}
 
-  @UseInterceptors(FilesInterceptor('files', MaxFileCount.PROPERTY_IMAGES))
-  @UseGuards(JwtAuthGuard)
+  // @UseInterceptors(FilesInterceptor('files', MaxFileCount.PROPERTY_IMAGES))
   @Post()
   create(
     @Body() createPropertyDto: CreatePropertyDto,
 
-    @UploadedFiles(createParseFilePipe('2MB', 'png', 'jpeg'))
-    files: File[],
+    // @UploadedFiles(createParseFilePipe('2MB', 'png', 'jpeg'))
+    // files: File[],
 
     @CurrentUser()
     user: User,
   ) {
-    return this.propertiesService.create(createPropertyDto, files, user);
+    return this.propertiesService.create(createPropertyDto, user);
   }
 
   @Get()

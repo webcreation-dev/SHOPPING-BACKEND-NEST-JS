@@ -5,7 +5,6 @@ import {
   DatabaseModule,
   EnvModule,
   FilesModule,
-  LoggerModule,
   OtpModule,
   QueryingModule,
 } from '@app/common';

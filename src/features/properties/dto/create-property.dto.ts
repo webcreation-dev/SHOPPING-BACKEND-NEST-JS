@@ -98,9 +98,9 @@ export class CreatePropertyDto {
 
   @IsString()
   @IsNotEmpty()
-  longitude: string;
+  longitude: number;
 
   @IsString()
   @IsNotEmpty()
-  latitude: string;
+  latitude: number;
 }

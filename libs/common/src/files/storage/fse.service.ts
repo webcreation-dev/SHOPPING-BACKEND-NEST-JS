@@ -24,6 +24,8 @@ export class FseService implements StorageService {
     const uniqueFilename = this.genUniqueFilename(originalname);
     const fullPath = join(BASE_PATH, path, uniqueFilename);
     await writeFile(fullPath, buffer);
+
+    return fullPath;
   }
 
   async saveFiles(dir: string, files: Express.Multer.File[]) {

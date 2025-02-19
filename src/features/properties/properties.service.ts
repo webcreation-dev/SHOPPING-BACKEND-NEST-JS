@@ -14,8 +14,8 @@ import { join } from 'path';
 import { pathExists } from 'fs-extra';
 import { GalleriesRepository } from './galleries.repository';
 import { CreatePropertyDto } from './dto/create-property.dto';
-import { Property } from './models/property.entity';
-import { Gallery } from './models/gallery.entity';
+import { Property } from './entities/property.entity';
+import { Gallery } from './entities/gallery.entity';
 import { UpdatePropertyDto } from './dto/update-property.dto';
 import { PropertiesQueryDto } from './dto/querying/properties-query.dto';
 import { FindOptionsOrder } from 'typeorm';
@@ -59,7 +59,7 @@ export class PropertiesService {
 
   async create(
     createPropertyDto: CreatePropertyDto,
-    files: File[],
+    // files: File[],
     { id }: User,
   ) {
     // 1. Sauvegarder la propriété en utilisant PropertyRepository
@@ -113,17 +113,17 @@ export class PropertiesService {
   }
 
   async addImages(id: number, files: File[]) {
-    // const property = await this.findOne(id);
-    // const savedPaths = await this.uploadImages(property.id, files);
-    // // 3. Créer et sauvegarder chaque galerie
-    // for (const path of savedPaths) {
-    //   const gallery = new Gallery({
-    //     url: path,
-    //     property, // Associer chaque galerie à la propriété créée
-    //   });
-    //   await this.galleriesRepository.create(gallery);
-    // }
-    // return this.findOne(id);
+    const property = await this.findOne(id);
+    const savedPaths = await this.uploadImages(property.id, files);
+    // 3. Créer et sauvegarder chaque galerie
+    for (const path of savedPaths) {
+      const gallery = new Gallery({
+        url: path,
+        property, // Associer chaque galerie à la propriété créée
+      });
+      await this.galleriesRepository.create(gallery);
+    }
+    return this.findOne(id);
   }
 
   async deleteImages(id: number, filenames: string[]) {
