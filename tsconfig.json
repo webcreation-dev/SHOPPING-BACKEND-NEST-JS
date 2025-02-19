@@ -29,5 +29,8 @@
     "strictBindCallApply": false,
     "forceConsistentCasingInFileNames": false,
     "noFallthroughCasesInSwitch": false
-  }
+  },
+  "include": [
+    "libs/common/src/**/*.ts",
+  ]
 }

@@ -14,12 +14,6 @@ const dataSource = new DataSource({
     'dist/src/features/properties/entities/*.js',
   ],
   migrations: ['dist/libs/common/src/database/migrations/*.js'],
-  ssl: true,
-  extra: {
-    ssl: {
-      rejectUnauthorized: false,
-    },
-  },
 });
 
 dataSource.initialize();

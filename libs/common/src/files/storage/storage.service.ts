@@ -1,5 +1,4 @@
 import { Injectable, StreamableFile } from '@nestjs/common';
-
 @Injectable()
 export abstract class StorageService {
   abstract saveFile(path: string, file: Express.Multer.File): Promise<string>;
