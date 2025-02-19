@@ -55,10 +55,10 @@ export class Property extends AbstractEntity<Property> {
   is_active: boolean;
 
   @Column('decimal', { precision: 10, scale: 6 })
-  latitude: string;
+  latitude: number;
 
   @Column('decimal', { precision: 10, scale: 6 })
-  longitude: string;
+  longitude: number;
 
   @Column()
   userId: number;
