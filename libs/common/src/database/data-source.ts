@@ -14,11 +14,11 @@ const dataSource = new DataSource({
     'dist/src/features/properties/entities/*.js',
   ],
   migrations: ['dist/libs/common/src/database/migrations/*.js'],
-  // extra: {
-  //   ssl: {
-  //     rejectUnauthorized: false,
-  //   },
-  // },
+  extra: {
+    ssl: {
+      rejectUnauthorized: false,
+    },
+  },
 });
 
 dataSource.initialize();
