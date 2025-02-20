@@ -1,0 +1,962 @@
+{
+  "openapi": "3.0.0",
+  "paths": {
+    "/auth/login": {
+      "post": {
+        "operationId": "AuthController_login",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/LoginDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "headers": {
+              "Set-Cookie": {
+                "description": "JWT cookie",
+                "schema": {
+                  "type": "string"
+                }
+              }
+            },
+            "description": ""
+          },
+          "201": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Auth"
+        ]
+      }
+    },
+    "/auth/register": {
+      "post": {
+        "operationId": "AuthController_register",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateUserDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "headers": {
+              "Set-Cookie": {
+                "description": "JWT cookie",
+                "schema": {
+                  "type": "string"
+                }
+              }
+            },
+            "description": ""
+          },
+          "201": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        },
+        "summary": "Inscription",
+        "tags": [
+          "Auth"
+        ]
+      }
+    },
+    "/auth/verify_otp": {
+      "post": {
+        "operationId": "AuthController_verifyOtp",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SaveUserDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "headers": {
+              "Set-Cookie": {
+                "description": "JWT cookie",
+                "schema": {
+                  "type": "string"
+                }
+              }
+            },
+            "description": ""
+          },
+          "201": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Auth"
+        ]
+      }
+    },
+    "/auth/user": {
+      "get": {
+        "operationId": "AuthController_getUser",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/User"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Auth"
+        ]
+      }
+    },
+    "/auth/forgot_password": {
+      "post": {
+        "operationId": "AuthController_forgotPassword",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ForgotPasswordDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Auth"
+        ]
+      }
+    },
+    "/auth/reset_password": {
+      "post": {
+        "operationId": "AuthController_resetPassword",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ResetPasswordDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/User"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Auth"
+        ]
+      }
+    },
+    "/properties": {
+      "post": {
+        "operationId": "PropertiesController_create",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreatePropertyDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Property"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Properties"
+        ]
+      },
+      "get": {
+        "operationId": "PropertiesController_findAll",
+        "parameters": [
+          {
+            "name": "limit",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "maximum": 100,
+              "type": "number"
+            }
+          },
+          {
+            "name": "page",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "maximum": 25,
+              "default": 1,
+              "type": "number"
+            }
+          },
+          {
+            "name": "name",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "price",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "$ref": "#/components/schemas/FilterOperationDto"
+            }
+          },
+          {
+            "name": "order",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "default": "ASC",
+              "type": "string",
+              "enum": [
+                "ASC",
+                "DESC"
+              ]
+            }
+          },
+          {
+            "name": "sort",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "default": "rent_price",
+              "type": "string",
+              "enum": [
+                "description",
+                "rent_price"
+              ]
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Properties"
+        ]
+      }
+    },
+    "/properties/{id}": {
+      "get": {
+        "operationId": "PropertiesController_findOne",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "number"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Property"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Properties"
+        ]
+      },
+      "patch": {
+        "operationId": "PropertiesController_update",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "number"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdatePropertyDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Property"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Properties"
+        ]
+      },
+      "delete": {
+        "operationId": "PropertiesController_remove",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "number"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Properties"
+        ]
+      }
+    },
+    "/properties/{id}/images": {
+      "post": {
+        "operationId": "PropertiesController_addImages",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "number"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Property"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Properties"
+        ]
+      },
+      "delete": {
+        "operationId": "PropertiesController_deleteImages",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "number"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/FilenamesDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Properties"
+        ]
+      }
+    }
+  },
+  "info": {
+    "title": "LOCAPAY BACKEND",
+    "description": "Documentation for the LOCAPAY API",
+    "version": "1.0",
+    "contact": {}
+  },
+  "tags": [],
+  "servers": [],
+  "components": {
+    "securitySchemes": {
+      "bearer": {
+        "scheme": "bearer",
+        "bearerFormat": "JWT",
+        "type": "http"
+      }
+    },
+    "schemas": {
+      "LoginDto": {
+        "type": "object",
+        "properties": {
+          "phone": {
+            "type": "string"
+          },
+          "password": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "phone",
+          "password"
+        ]
+      },
+      "CreateUserDto": {
+        "type": "object",
+        "properties": {
+          "phone": {
+            "type": "string"
+          },
+          "password": {
+            "type": "string"
+          },
+          "app_type": {
+            "type": "string",
+            "enum": [
+              "LOCAPAY",
+              "LOCAPAY_BUSINESS"
+            ]
+          }
+        },
+        "required": [
+          "phone",
+          "password",
+          "app_type"
+        ]
+      },
+      "SaveUserDto": {
+        "type": "object",
+        "properties": {
+          "otp": {
+            "type": "number"
+          }
+        },
+        "required": [
+          "otp"
+        ]
+      },
+      "RegistryDates": {
+        "type": "object",
+        "properties": {
+          "created_at": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "updated_at": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "deletedAt": {
+            "format": "date-time",
+            "type": "string"
+          }
+        },
+        "required": [
+          "created_at",
+          "updated_at",
+          "deletedAt"
+        ]
+      },
+      "User": {
+        "type": "object",
+        "properties": {
+          "phone": {
+            "type": "string"
+          },
+          "password": {
+            "type": "string"
+          },
+          "app_type": {
+            "enum": [
+              "LOCAPAY",
+              "LOCAPAY_BUSINESS"
+            ],
+            "type": "string"
+          },
+          "wishlistedProperties": {
+            "type": "array",
+            "items": {
+              "type": "number"
+            }
+          },
+          "roles": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Role"
+            }
+          },
+          "id": {
+            "type": "number"
+          },
+          "registryDates": {
+            "$ref": "#/components/schemas/RegistryDates"
+          }
+        },
+        "required": [
+          "phone",
+          "password",
+          "app_type",
+          "wishlistedProperties",
+          "roles",
+          "id",
+          "registryDates"
+        ]
+      },
+      "Role": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "enum": [
+              "MANAGER",
+              "USER"
+            ]
+          },
+          "users": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/User"
+            }
+          },
+          "id": {
+            "type": "number"
+          },
+          "registryDates": {
+            "$ref": "#/components/schemas/RegistryDates"
+          }
+        },
+        "required": [
+          "name",
+          "users",
+          "id",
+          "registryDates"
+        ]
+      },
+      "ForgotPasswordDto": {
+        "type": "object",
+        "properties": {}
+      },
+      "ResetPasswordDto": {
+        "type": "object",
+        "properties": {
+          "otp": {
+            "type": "number"
+          }
+        },
+        "required": [
+          "otp"
+        ]
+      },
+      "CreatePropertyDto": {
+        "type": "object",
+        "properties": {
+          "number_rooms": {
+            "type": "number"
+          },
+          "number_living_rooms": {
+            "type": "number"
+          },
+          "rent_price": {
+            "type": "number"
+          },
+          "is_prepaid": {
+            "type": "boolean"
+          },
+          "month_advance": {
+            "type": "number"
+          },
+          "number_households": {
+            "type": "number"
+          },
+          "is_terace": {
+            "type": "boolean"
+          },
+          "is_fence": {
+            "type": "boolean"
+          },
+          "water_commission": {
+            "type": "number"
+          },
+          "paint": {
+            "type": "string",
+            "enum": [
+              "NO",
+              "YES_CLIENT",
+              "YES_OWNER"
+            ]
+          },
+          "sanitary": {
+            "type": "string",
+            "enum": [
+              "NO",
+              "YES",
+              "MIDDLE"
+            ]
+          },
+          "water_meter_type": {
+            "type": "string",
+            "enum": [
+              "SONEB",
+              "FORAGE"
+            ]
+          },
+          "water_drilling_rate": {
+            "type": "number"
+          },
+          "electricity_commission": {
+            "type": "number"
+          },
+          "electricity_meter_type": {
+            "type": "string",
+            "enum": [
+              "PERSONAL",
+              "DECOUNTER"
+            ]
+          },
+          "electricity_decounter_meter_rate": {
+            "type": "number"
+          },
+          "electricity_personal_meter_type": {
+            "type": "string",
+            "enum": [
+              "PREPAID",
+              "POST_PREPAID"
+            ]
+          },
+          "description": {
+            "type": "string"
+          },
+          "visit_price": {
+            "type": "number"
+          },
+          "longitude": {
+            "type": "number"
+          },
+          "latitude": {
+            "type": "number"
+          }
+        },
+        "required": [
+          "number_rooms",
+          "number_living_rooms",
+          "rent_price",
+          "is_prepaid",
+          "month_advance",
+          "number_households",
+          "is_terace",
+          "is_fence",
+          "water_commission",
+          "paint",
+          "sanitary",
+          "water_meter_type",
+          "water_drilling_rate",
+          "electricity_commission",
+          "electricity_meter_type",
+          "electricity_decounter_meter_rate",
+          "electricity_personal_meter_type",
+          "description",
+          "visit_price",
+          "longitude",
+          "latitude"
+        ]
+      },
+      "Property": {
+        "type": "object",
+        "properties": {
+          "number_rooms": {
+            "type": "number"
+          },
+          "number_living_rooms": {
+            "type": "number"
+          },
+          "rent_price": {
+            "type": "number"
+          },
+          "is_prepaid": {
+            "type": "boolean"
+          },
+          "month_advance": {
+            "type": "number"
+          },
+          "number_households": {
+            "type": "number"
+          },
+          "is_terace": {
+            "type": "boolean"
+          },
+          "is_fence": {
+            "type": "boolean"
+          },
+          "description": {
+            "type": "string"
+          },
+          "visit_price": {
+            "type": "number"
+          },
+          "water_commission": {
+            "type": "number"
+          },
+          "water_drilling_rate": {
+            "type": "number"
+          },
+          "electricity_commission": {
+            "type": "number"
+          },
+          "electricity_decounter_meter_rate": {
+            "type": "number"
+          },
+          "is_active": {
+            "type": "boolean"
+          },
+          "latitude": {
+            "type": "number"
+          },
+          "longitude": {
+            "type": "number"
+          },
+          "userId": {
+            "type": "number"
+          },
+          "water_meter_type": {
+            "enum": [
+              "SONEB",
+              "FORAGE"
+            ],
+            "type": "string"
+          },
+          "paint": {
+            "enum": [
+              "NO",
+              "YES_CLIENT",
+              "YES_OWNER"
+            ],
+            "type": "string"
+          },
+          "sanitary": {
+            "enum": [
+              "NO",
+              "YES",
+              "MIDDLE"
+            ],
+            "type": "string"
+          },
+          "electricity_meter_type": {
+            "enum": [
+              "PERSONAL",
+              "DECOUNTER"
+            ],
+            "type": "string"
+          },
+          "electricity_personal_meter_type": {
+            "enum": [
+              "PREPAID",
+              "POST_PREPAID"
+            ],
+            "type": "string"
+          },
+          "galleries": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Gallery"
+            }
+          },
+          "id": {
+            "type": "number"
+          },
+          "registryDates": {
+            "$ref": "#/components/schemas/RegistryDates"
+          }
+        },
+        "required": [
+          "number_rooms",
+          "number_living_rooms",
+          "rent_price",
+          "is_prepaid",
+          "month_advance",
+          "number_households",
+          "is_terace",
+          "is_fence",
+          "description",
+          "visit_price",
+          "water_commission",
+          "water_drilling_rate",
+          "electricity_commission",
+          "electricity_decounter_meter_rate",
+          "is_active",
+          "latitude",
+          "longitude",
+          "userId",
+          "water_meter_type",
+          "paint",
+          "sanitary",
+          "electricity_meter_type",
+          "electricity_personal_meter_type",
+          "galleries",
+          "id",
+          "registryDates"
+        ]
+      },
+      "Gallery": {
+        "type": "object",
+        "properties": {
+          "url": {
+            "type": "string"
+          },
+          "property": {
+            "$ref": "#/components/schemas/Property"
+          },
+          "id": {
+            "type": "number"
+          },
+          "registryDates": {
+            "$ref": "#/components/schemas/RegistryDates"
+          }
+        },
+        "required": [
+          "url",
+          "property",
+          "id",
+          "registryDates"
+        ]
+      },
+      "FilterOperationDto": {
+        "type": "object",
+        "properties": {
+          "operator": {
+            "type": "string",
+            "enum": [
+              "gt",
+              "gte",
+              "lt",
+              "lte",
+              "eq",
+              "btw"
+            ]
+          },
+          "operands": {
+            "type": "array",
+            "items": {
+              "type": "number"
+            }
+          },
+          "manyFieldValidation": {
+            "type": "object"
+          }
+        },
+        "required": [
+          "operator",
+          "operands",
+          "manyFieldValidation"
+        ]
+      },
+      "UpdatePropertyDto": {
+        "type": "object",
+        "properties": {}
+      },
+      "FilenamesDto": {
+        "type": "object",
+        "properties": {
+          "filenames": {
+            "minItems": 1,
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        },
+        "required": [
+          "filenames"
+        ]
+      }
+    }
+  },
+  "security": [
+    {
+      "bearer": []
+    }
+  ]
+}
