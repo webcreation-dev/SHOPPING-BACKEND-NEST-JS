@@ -38,3 +38,5 @@ export * from './middleware/login-validation/login-validation.middleware';
 
 // dto
 export * from './dto/login.dto';
+export * from './dto/forgot-password-dto';
+export * from './dto/reset-password-dto';

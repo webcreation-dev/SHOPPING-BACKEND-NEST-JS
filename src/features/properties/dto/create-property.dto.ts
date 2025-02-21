@@ -96,11 +96,11 @@ export class CreatePropertyDto {
   @IsNotEmpty()
   visit_price: number;
 
-  @IsString()
+  @IsNumber()
   @IsNotEmpty()
   longitude: number;
 
-  @IsString()
+  @IsNumber()
   @IsNotEmpty()
   latitude: number;
 }

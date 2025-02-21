@@ -31,6 +31,7 @@
             "description": ""
           }
         },
+        "summary": "LOGIN",
         "tags": [
           "Auth"
         ]
@@ -51,17 +52,6 @@
           }
         },
         "responses": {
-          "200": {
-            "headers": {
-              "Set-Cookie": {
-                "description": "JWT cookie",
-                "schema": {
-                  "type": "string"
-                }
-              }
-            },
-            "description": ""
-          },
           "201": {
             "description": "",
             "content": {
@@ -73,7 +63,7 @@
             }
           }
         },
-        "summary": "Inscription",
+        "summary": "REGISTER",
         "tags": [
           "Auth"
         ]
@@ -94,21 +84,11 @@
           }
         },
         "responses": {
-          "200": {
-            "headers": {
-              "Set-Cookie": {
-                "description": "JWT cookie",
-                "schema": {
-                  "type": "string"
-                }
-              }
-            },
-            "description": ""
-          },
           "201": {
             "description": ""
           }
         },
+        "summary": "VERIFY OTP",
         "tags": [
           "Auth"
         ]
@@ -118,6 +98,16 @@
       "get": {
         "operationId": "AuthController_getUser",
         "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "string"
+              }
+            }
+          }
+        },
         "responses": {
           "200": {
             "description": "",
@@ -130,6 +120,7 @@
             }
           }
         },
+        "summary": "GET USER",
         "tags": [
           "Auth"
         ]
@@ -144,7 +135,7 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/ForgotPasswordDto"
+                "$ref": "#/components/schemas/LoginDto"
               }
             }
           }
@@ -161,6 +152,7 @@
             }
           }
         },
+        "summary": "FORGOT PASSWORD",
         "tags": [
           "Auth"
         ]
@@ -192,6 +184,7 @@
             }
           }
         },
+        "summary": "RESET PASSWORD",
         "tags": [
           "Auth"
         ]
@@ -223,6 +216,7 @@
             }
           }
         },
+        "summary": "CREATE PROPERTY",
         "tags": [
           "Properties"
         ]
@@ -292,11 +286,22 @@
             }
           }
         ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PropertiesQueryDto"
+              }
+            }
+          }
+        },
         "responses": {
           "200": {
             "description": ""
           }
         },
+        "summary": "GET ALL",
         "tags": [
           "Properties"
         ]
@@ -315,6 +320,16 @@
             }
           }
         ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "string"
+              }
+            }
+          }
+        },
         "responses": {
           "200": {
             "description": "",
@@ -327,6 +342,7 @@
             }
           }
         },
+        "summary": "GET ONE PROPERTY",
         "tags": [
           "Properties"
         ]
@@ -365,6 +381,7 @@
             }
           }
         },
+        "summary": "UPDATE PROPERTY",
         "tags": [
           "Properties"
         ]
@@ -381,11 +398,22 @@
             }
           }
         ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "string"
+              }
+            }
+          }
+        },
         "responses": {
           "200": {
             "description": ""
           }
         },
+        "summary": "DELETE PROPERTY",
         "tags": [
           "Properties"
         ]
@@ -404,6 +432,16 @@
             }
           }
         ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "string"
+              }
+            }
+          }
+        },
         "responses": {
           "201": {
             "description": "",
@@ -416,6 +454,7 @@
             }
           }
         },
+        "summary": "ADD IMAGES PROPERTY",
         "tags": [
           "Properties"
         ]
@@ -447,6 +486,7 @@
             "description": ""
           }
         },
+        "summary": "DELETE IMAGES PROPERTY",
         "tags": [
           "Properties"
         ]
@@ -460,7 +500,12 @@
     "contact": {}
   },
   "tags": [],
-  "servers": [],
+  "servers": [
+    {
+      "url": "https://locapay-8f958cc17518.herokuapp.com",
+      "description": "Production Server"
+    }
+  ],
   "components": {
     "securitySchemes": {
       "bearer": {
@@ -615,10 +660,6 @@
           "id",
           "registryDates"
         ]
-      },
-      "ForgotPasswordDto": {
-        "type": "object",
-        "properties": {}
       },
       "ResetPasswordDto": {
         "type": "object",
@@ -932,6 +973,42 @@
           "operands",
           "manyFieldValidation"
         ]
+      },
+      "PropertiesQueryDto": {
+        "type": "object",
+        "properties": {
+          "limit": {
+            "type": "number",
+            "maximum": 100
+          },
+          "page": {
+            "type": "number",
+            "default": 1,
+            "maximum": 25
+          },
+          "name": {
+            "type": "string"
+          },
+          "price": {
+            "$ref": "#/components/schemas/FilterOperationDto"
+          },
+          "order": {
+            "type": "string",
+            "default": "ASC",
+            "enum": [
+              "ASC",
+              "DESC"
+            ]
+          },
+          "sort": {
+            "type": "string",
+            "default": "rent_price",
+            "enum": [
+              "description",
+              "rent_price"
+            ]
+          }
+        }
       },
       "UpdatePropertyDto": {
         "type": "object",

@@ -6,3 +6,4 @@ export * from './logger';
 export * from './otp';
 export * from './querying';
 export * from './auth';
+export * from './swagger';

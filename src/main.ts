@@ -16,6 +16,10 @@ async function bootstrap() {
     .addBearerAuth()
     .addSecurityRequirements('bearer')
     .setVersion('1.0')
+    .addServer(
+      'https://locapay-8f958cc17518.herokuapp.com',
+      'Production Server',
+    )
     .build();
 
   const document = SwaggerModule.createDocument(app, config);

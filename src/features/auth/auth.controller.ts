@@ -1,23 +1,26 @@
 import { Body, Controller, Get, Post, UseGuards } from '@nestjs/common';
 import { AuthService } from './auth.service';
-import { ApiBody, ApiOkResponse, ApiOperation } from '@nestjs/swagger';
-import { JwtCookieHeader, LoginDto, RequestUser } from '@app/common';
+import { ApiOkResponse } from '@nestjs/swagger';
+import {
+  ForgotPasswordDto,
+  HeaderOperation,
+  JwtCookieHeader,
+  LoginDto,
+  RequestUser,
+  ResetPasswordDto,
+} from '@app/common';
 import { CreateUserDto } from './users/dto/create-user.dto';
 import { SaveUserDto } from './users/dto/save-user-dto';
-import { Public } from './decorators/public.decorator';
 import { CurrentUser } from './decorators/user.decorator';
 import { LocalAuthGuard } from './guards/local-auth/local-auth.guard';
 import { User } from './users/entities/user.entity';
-import { ForgotPasswordDto } from './users/dto/forgot-password-dto';
-import { ResetPasswordDto } from './users/dto/reset-password-dto';
 
 @Controller('auth')
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
 
-  @ApiBody({ type: LoginDto })
+  @HeaderOperation('LOGIN', LoginDto, true)
   @ApiOkResponse({ headers: JwtCookieHeader })
-  @Public()
   @UseGuards(LocalAuthGuard)
   @Post('login')
   async login(@CurrentUser() user: RequestUser) {
@@ -25,37 +28,34 @@ export class AuthController {
     return { access_token: jwt };
   }
 
-  @ApiOperation({ summary: 'Inscription' })
-  @ApiBody({ type: CreateUserDto })
-  @ApiOkResponse({ headers: JwtCookieHeader })
-  @Public()
+  @HeaderOperation('REGISTER', CreateUserDto, true)
+  @UseGuards(LocalAuthGuard)
   @Post('register')
   async register(@Body() createUserDto: CreateUserDto) {
     const phone = await this.authService.register(createUserDto);
     return phone;
   }
 
-  @ApiBody({ type: SaveUserDto })
-  @ApiOkResponse({ headers: JwtCookieHeader })
-  @Public()
+  @HeaderOperation('VERIFY OTP', SaveUserDto, true)
   @Post('verify_otp')
   async verifyOtp(@Body() saveUserDto: SaveUserDto) {
     const user = await this.authService.verifyOtp(saveUserDto);
     return { subscribed: user };
   }
 
+  @HeaderOperation('GET USER')
   @Get('user')
   async getUser(@CurrentUser() user: User) {
     return await this.authService.getUser(user);
   }
 
-  @Public()
+  @HeaderOperation('FORGOT PASSWORD', LoginDto, true)
   @Post('forgot_password')
   async forgotPassword(@Body() forgotPasswordDto: ForgotPasswordDto) {
     return this.authService.forgotPassword(forgotPasswordDto);
   }
 
-  @Public()
+  @HeaderOperation('RESET PASSWORD', ResetPasswordDto, true)
   @Post('reset_password')
   async resetPassword(@Body() resetPasswordDto: ResetPasswordDto) {
     return this.authService.resetPassword(resetPasswordDto);

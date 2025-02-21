@@ -20,6 +20,9 @@ import {
   IdDto,
   MaxFileCount,
   CurrentUser,
+  Roles,
+  RoleEnum,
+  HeaderOperation,
 } from '@app/common';
 import { UpdatePropertyDto } from './dto/update-property.dto';
 import { FilenamesDto } from '@app/common';
@@ -30,41 +33,48 @@ import { User } from '../auth/users/entities/user.entity';
 export class PropertiesController {
   constructor(private readonly propertiesService: PropertiesService) {}
 
-  // @UseInterceptors(FilesInterceptor('files', MaxFileCount.PROPERTY_IMAGES))
   @Post()
+  @HeaderOperation('CREATE PROPERTY', CreatePropertyDto)
+  @UseInterceptors(FilesInterceptor('files', MaxFileCount.PROPERTY_IMAGES))
   create(
     @Body() createPropertyDto: CreatePropertyDto,
 
-    // @UploadedFiles(createParseFilePipe('2MB', 'png', 'jpeg'))
-    // files: File[],
+    @UploadedFiles(createParseFilePipe('2MB', 'png', 'jpeg'))
+    files: File[],
 
     @CurrentUser()
     user: User,
   ) {
-    return this.propertiesService.create(createPropertyDto, user);
+    return this.propertiesService.create(createPropertyDto, files, user);
   }
 
   @Get()
+  @Roles(RoleEnum.MANAGER)
+  @HeaderOperation('GET ALL', PropertiesQueryDto)
   findAll(@Query() propertiesQueryDto: PropertiesQueryDto) {
     return this.propertiesService.findAll(propertiesQueryDto);
   }
 
   @Get(':id')
+  @HeaderOperation('GET ONE PROPERTY')
   findOne(@Param('id', ParseIntPipe) id: number) {
     return this.propertiesService.findOne(id);
   }
 
   @Patch(':id')
+  @HeaderOperation('UPDATE PROPERTY', UpdatePropertyDto)
   update(@Param() { id }: IdDto, @Body() updatePropertyDto: UpdatePropertyDto) {
     return this.propertiesService.update(id, updatePropertyDto);
   }
   @Delete(':id')
+  @HeaderOperation('DELETE PROPERTY')
   async remove(@Param() { id }: IdDto) {
     return this.propertiesService.remove(id);
   }
 
-  @UseInterceptors(FilesInterceptor('files', MaxFileCount.PRODUCT_IMAGES))
   @Post(':id/images')
+  @HeaderOperation('ADD IMAGES PROPERTY')
+  @UseInterceptors(FilesInterceptor('files', MaxFileCount.PRODUCT_IMAGES))
   addImages(
     @Param('id', ParseIntPipe) id: number,
     @UploadedFiles(createParseFilePipe('2MB', 'png', 'jpeg'))
@@ -74,6 +84,7 @@ export class PropertiesController {
   }
 
   @Delete(':id/images')
+  @HeaderOperation('DELETE IMAGES PROPERTY', FilenamesDto)
   deleteImages(
     @Param('id', ParseIntPipe) id: number,
     @Body() { filenames }: FilenamesDto,

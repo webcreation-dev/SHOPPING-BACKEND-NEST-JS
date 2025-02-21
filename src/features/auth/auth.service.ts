@@ -10,8 +10,8 @@ import { CreateUserDto } from './users/dto/create-user.dto';
 import { User } from './users/entities/user.entity';
 import { HashingService } from './hashing/hashing.service';
 import { TempUserService } from './users/temps/temp-user.service';
-import { ResetPasswordDto } from './users/dto/reset-password-dto';
-import { ForgotPasswordDto } from './users/dto/forgot-password-dto';
+import { ResetPasswordDto } from '../../../libs/common/src/auth/dto/reset-password-dto';
+import { ForgotPasswordDto } from '../../../libs/common/src/auth/dto/forgot-password-dto';
 
 @Injectable()
 export class AuthService {
