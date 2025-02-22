@@ -39,24 +39,23 @@ export class PropertiesController {
   constructor(private readonly propertiesService: PropertiesService) {}
 
   @Post()
-  // @Roles(RoleEnum.MANAGER)
+  @Roles(RoleEnum.MANAGER)
   @HeaderOperation('CREATE ', CreatePropertyDto)
-  // @UseInterceptors(FilesInterceptor('files', MaxFileCount.PROPERTY_IMAGES))
+  @UseInterceptors(FilesInterceptor('files', MaxFileCount.PROPERTY_IMAGES))
   create(
     @Body() createPropertyDto: CreatePropertyDto,
 
-    // @UploadedFiles(createParseFilePipe('2MB', 'png', 'jpeg'))
-    // files: File[],
+    @UploadedFiles(createParseFilePipe('2MB', 'png', 'jpeg'))
+    files: File[],
 
     @CurrentUser()
     user: User,
   ) {
-    return this.propertiesService.create(createPropertyDto, user);
+    return this.propertiesService.create(createPropertyDto, files, user);
   }
 
   @Get()
   @ApiPaginatedResponse(Property)
-  // @Roles(RoleEnum.MANAGER)
   @HeaderOperation('GET ALL', PropertiesQueryDto)
   findAll(@Query() propertiesQueryDto: PropertiesQueryDto) {
     return this.propertiesService.findAll(propertiesQueryDto);
@@ -69,17 +68,20 @@ export class PropertiesController {
   }
 
   @Patch(':id')
+  @Roles(RoleEnum.MANAGER)
   @HeaderOperation('UPDATE ', UpdatePropertyDto)
   update(@Param() { id }: IdDto, @Body() updatePropertyDto: UpdatePropertyDto) {
     return this.propertiesService.update(id, updatePropertyDto);
   }
   @Delete(':id')
+  @Roles(RoleEnum.MANAGER)
   @HeaderOperation('DELETE PROPERTY')
   async remove(@Param() { id }: IdDto) {
     return this.propertiesService.remove(id);
   }
 
   @Post(':id/images')
+  @Roles(RoleEnum.MANAGER)
   @HeaderOperation('ADD IMAGES', FilesSchema)
   @ApiConsumes(MULTIPART_FORMDATA_KEY)
   @UseInterceptors(FilesInterceptor('files', MaxFileCount.PRODUCT_IMAGES))
@@ -92,6 +94,7 @@ export class PropertiesController {
   }
 
   @Delete(':id/images')
+  @Roles(RoleEnum.MANAGER)
   @HeaderOperation('DELETE IMAGES', FilenamesDto)
   deleteImages(
     @Param('id', ParseIntPipe) id: number,

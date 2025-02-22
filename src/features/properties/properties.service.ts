@@ -59,7 +59,7 @@ export class PropertiesService {
 
   async create(
     createPropertyDto: CreatePropertyDto,
-    // files: File[],
+    files: File[],
     { id }: User,
   ) {
     // 1. Sauvegarder la propriété en utilisant PropertyRepository
@@ -71,16 +71,16 @@ export class PropertiesService {
     );
 
     // 2. Sauvegarder les fichiers dans un dossier
-    // const savedPaths = await this.uploadImages(property.id, files);
+    const savedPaths = await this.uploadImages(property.id, files);
 
-    // // 3. Créer et sauvegarder chaque galerie
-    // for (const path of savedPaths) {
-    //   const gallery = new Gallery({
-    //     url: path,
-    //     property,
-    //   });
-    //   await this.galleriesRepository.create(gallery);
-    // }
+    // 3. Créer et sauvegarder chaque galerie
+    for (const path of savedPaths) {
+      const gallery = new Gallery({
+        url: path,
+        property,
+      });
+      await this.galleriesRepository.create(gallery);
+    }
 
     // 4. Retourner la propriété avec ses galeries
     return this.propertiesRepository.findOne(
