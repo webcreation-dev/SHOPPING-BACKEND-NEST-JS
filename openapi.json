@@ -16,17 +16,6 @@
           }
         },
         "responses": {
-          "200": {
-            "headers": {
-              "Set-Cookie": {
-                "description": "JWT cookie",
-                "schema": {
-                  "type": "string"
-                }
-              }
-            },
-            "description": ""
-          },
           "201": {
             "description": ""
           }
@@ -57,7 +46,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "type": "string"
+                  "type": "object"
                 }
               }
             }
@@ -135,7 +124,7 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/LoginDto"
+                "$ref": "#/components/schemas/ForgotPasswordDto"
               }
             }
           }
@@ -216,7 +205,7 @@
             }
           }
         },
-        "summary": "CREATE PROPERTY",
+        "summary": "CREATE ",
         "tags": [
           "Properties"
         ]
@@ -298,7 +287,25 @@
         },
         "responses": {
           "200": {
-            "description": ""
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "title": "PaginatedResponseOfProperty",
+                  "properties": {
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/Property"
+                      }
+                    },
+                    "meta": {
+                      "$ref": "#/components/schemas/PaginationMeta"
+                    }
+                  }
+                }
+              }
+            }
           }
         },
         "summary": "GET ALL",
@@ -342,7 +349,7 @@
             }
           }
         },
-        "summary": "GET ONE PROPERTY",
+        "summary": "GET ONE ",
         "tags": [
           "Properties"
         ]
@@ -381,7 +388,7 @@
             }
           }
         },
-        "summary": "UPDATE PROPERTY",
+        "summary": "UPDATE ",
         "tags": [
           "Properties"
         ]
@@ -435,9 +442,9 @@
         "requestBody": {
           "required": true,
           "content": {
-            "application/json": {
+            "multipart/form-data": {
               "schema": {
-                "type": "string"
+                "$ref": "#/components/schemas/FilesSchema"
               }
             }
           }
@@ -454,7 +461,7 @@
             }
           }
         },
-        "summary": "ADD IMAGES PROPERTY",
+        "summary": "ADD IMAGES",
         "tags": [
           "Properties"
         ]
@@ -486,7 +493,7 @@
             "description": ""
           }
         },
-        "summary": "DELETE IMAGES PROPERTY",
+        "summary": "DELETE IMAGES",
         "tags": [
           "Properties"
         ]
@@ -660,6 +667,10 @@
           "id",
           "registryDates"
         ]
+      },
+      "ForgotPasswordDto": {
+        "type": "object",
+        "properties": {}
       },
       "ResetPasswordDto": {
         "type": "object",
@@ -944,6 +955,37 @@
           "registryDates"
         ]
       },
+      "PaginationMeta": {
+        "type": "object",
+        "properties": {
+          "itemsPerPage": {
+            "type": "number"
+          },
+          "totalItems": {
+            "type": "number"
+          },
+          "currentPage": {
+            "type": "number"
+          },
+          "totalPages": {
+            "type": "number"
+          },
+          "hasNextPage": {
+            "type": "boolean"
+          },
+          "hasPreviousPage": {
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "itemsPerPage",
+          "totalItems",
+          "currentPage",
+          "totalPages",
+          "hasNextPage",
+          "hasPreviousPage"
+        ]
+      },
       "FilterOperationDto": {
         "type": "object",
         "properties": {
@@ -1013,6 +1055,21 @@
       "UpdatePropertyDto": {
         "type": "object",
         "properties": {}
+      },
+      "FilesSchema": {
+        "type": "object",
+        "properties": {
+          "files": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "format": "binary"
+            }
+          }
+        },
+        "required": [
+          "files"
+        ]
       },
       "FilenamesDto": {
         "type": "object",

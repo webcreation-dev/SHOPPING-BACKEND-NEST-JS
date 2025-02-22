@@ -1,10 +1,9 @@
-import { IsPhoneNumber } from 'class-validator';
-import { IsPassword } from '../../usual/decorators/validators/is-password.decorator';
+import { IsPhoneNumber, IsStrongPassword } from 'class-validator';
 
 export class LoginDto {
   @IsPhoneNumber('BJ')
   readonly phone: string;
 
-  @IsPassword()
+  @IsStrongPassword()
   readonly password: string;
 }

@@ -23,46 +23,53 @@ import {
   Roles,
   RoleEnum,
   HeaderOperation,
+  MULTIPART_FORMDATA_KEY,
+  ApiPaginatedResponse,
 } from '@app/common';
 import { UpdatePropertyDto } from './dto/update-property.dto';
 import { FilenamesDto } from '@app/common';
 import { PropertiesQueryDto } from './dto/querying/properties-query.dto';
 import { User } from '../auth/users/entities/user.entity';
+import { Property } from './entities/property.entity';
+import { FilesSchema } from 'libs/common/src/files/swagger/schemas/files.schema';
+import { ApiConsumes } from '@nestjs/swagger';
 
 @Controller('properties')
 export class PropertiesController {
   constructor(private readonly propertiesService: PropertiesService) {}
 
   @Post()
-  @HeaderOperation('CREATE PROPERTY', CreatePropertyDto)
-  @UseInterceptors(FilesInterceptor('files', MaxFileCount.PROPERTY_IMAGES))
+  // @Roles(RoleEnum.MANAGER)
+  @HeaderOperation('CREATE ', CreatePropertyDto)
+  // @UseInterceptors(FilesInterceptor('files', MaxFileCount.PROPERTY_IMAGES))
   create(
     @Body() createPropertyDto: CreatePropertyDto,
 
-    @UploadedFiles(createParseFilePipe('2MB', 'png', 'jpeg'))
-    files: File[],
+    // @UploadedFiles(createParseFilePipe('2MB', 'png', 'jpeg'))
+    // files: File[],
 
     @CurrentUser()
     user: User,
   ) {
-    return this.propertiesService.create(createPropertyDto, files, user);
+    return this.propertiesService.create(createPropertyDto, user);
   }
 
   @Get()
-  @Roles(RoleEnum.MANAGER)
+  @ApiPaginatedResponse(Property)
+  // @Roles(RoleEnum.MANAGER)
   @HeaderOperation('GET ALL', PropertiesQueryDto)
   findAll(@Query() propertiesQueryDto: PropertiesQueryDto) {
     return this.propertiesService.findAll(propertiesQueryDto);
   }
 
   @Get(':id')
-  @HeaderOperation('GET ONE PROPERTY')
+  @HeaderOperation('GET ONE ')
   findOne(@Param('id', ParseIntPipe) id: number) {
     return this.propertiesService.findOne(id);
   }
 
   @Patch(':id')
-  @HeaderOperation('UPDATE PROPERTY', UpdatePropertyDto)
+  @HeaderOperation('UPDATE ', UpdatePropertyDto)
   update(@Param() { id }: IdDto, @Body() updatePropertyDto: UpdatePropertyDto) {
     return this.propertiesService.update(id, updatePropertyDto);
   }
@@ -73,7 +80,8 @@ export class PropertiesController {
   }
 
   @Post(':id/images')
-  @HeaderOperation('ADD IMAGES PROPERTY')
+  @HeaderOperation('ADD IMAGES', FilesSchema)
+  @ApiConsumes(MULTIPART_FORMDATA_KEY)
   @UseInterceptors(FilesInterceptor('files', MaxFileCount.PRODUCT_IMAGES))
   addImages(
     @Param('id', ParseIntPipe) id: number,
@@ -84,7 +92,7 @@ export class PropertiesController {
   }
 
   @Delete(':id/images')
-  @HeaderOperation('DELETE IMAGES PROPERTY', FilenamesDto)
+  @HeaderOperation('DELETE IMAGES', FilenamesDto)
   deleteImages(
     @Param('id', ParseIntPipe) id: number,
     @Body() { filenames }: FilenamesDto,

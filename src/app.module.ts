@@ -5,6 +5,7 @@ import {
   DatabaseModule,
   EnvModule,
   FilesModule,
+  LoggerModule,
   OtpModule,
   QueryingModule,
 } from '@app/common';
@@ -24,7 +25,7 @@ import { UsersModule } from './features/auth/users/users.module';
     QueryingModule,
     OtpModule,
     PropertiesModule,
-    // LoggerModule,
+    LoggerModule,
   ],
 })
 export class AppModule {}

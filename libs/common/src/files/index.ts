@@ -14,3 +14,9 @@ export * from './utils/file-validation.util';
 export * from './utils/file.constant';
 
 export * from './types/file.types';
+
+export * from './swagger/decorators/api-file-property.decorator';
+export * from './swagger/decorators/api-files-property.decorator';
+
+export * from './swagger/schemas/file.schema';
+export * from './swagger/schemas/files.schema';

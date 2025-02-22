@@ -6,6 +6,7 @@ import {
   HeaderOperation,
   JwtCookieHeader,
   LoginDto,
+  Public,
   RequestUser,
   ResetPasswordDto,
 } from '@app/common';
@@ -20,7 +21,7 @@ export class AuthController {
   constructor(private readonly authService: AuthService) {}
 
   @HeaderOperation('LOGIN', LoginDto, true)
-  @ApiOkResponse({ headers: JwtCookieHeader })
+  // @ApiOkResponse({ headers: JwtCookieHeader })
   @UseGuards(LocalAuthGuard)
   @Post('login')
   async login(@CurrentUser() user: RequestUser) {
@@ -29,11 +30,12 @@ export class AuthController {
   }
 
   @HeaderOperation('REGISTER', CreateUserDto, true)
-  @UseGuards(LocalAuthGuard)
+  @Public()
   @Post('register')
   async register(@Body() createUserDto: CreateUserDto) {
     const phone = await this.authService.register(createUserDto);
     return phone;
+    return true;
   }
 
   @HeaderOperation('VERIFY OTP', SaveUserDto, true)
@@ -49,7 +51,7 @@ export class AuthController {
     return await this.authService.getUser(user);
   }
 
-  @HeaderOperation('FORGOT PASSWORD', LoginDto, true)
+  @HeaderOperation('FORGOT PASSWORD', ForgotPasswordDto, true)
   @Post('forgot_password')
   async forgotPassword(@Body() forgotPasswordDto: ForgotPasswordDto) {
     return this.authService.forgotPassword(forgotPasswordDto);

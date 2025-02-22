@@ -10,3 +10,5 @@ export * from './util/querying.constants';
 
 export * from './filtering.service';
 export * from './pagination.service';
+
+export * from './swagger/decorators/api-paginated-response.decorator';
