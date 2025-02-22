@@ -108,6 +108,7 @@ export class PropertiesService {
   }
 
   async remove(id: number) {
+    await this.findOne(id);
     await this.propertiesRepository.findOneAndDelete({ id });
     await this.deleteBaseDir(id);
   }
@@ -139,7 +140,9 @@ export class PropertiesService {
       await this.storageService.validatePath(path);
 
       await this.storageService.delete(path);
-      await this.galleriesRepository.findOneAndDelete({ url: filename });
+      await this.galleriesRepository.findOneAndDelete({
+        url: join(BASE_PATH, path),
+      });
     });
 
     await Promise.all(deleteOperations);

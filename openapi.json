@@ -1054,7 +1054,93 @@
       },
       "UpdatePropertyDto": {
         "type": "object",
-        "properties": {}
+        "properties": {
+          "number_rooms": {
+            "type": "number"
+          },
+          "number_living_rooms": {
+            "type": "number"
+          },
+          "rent_price": {
+            "type": "number"
+          },
+          "is_prepaid": {
+            "type": "boolean"
+          },
+          "month_advance": {
+            "type": "number"
+          },
+          "number_households": {
+            "type": "number"
+          },
+          "is_terace": {
+            "type": "boolean"
+          },
+          "is_fence": {
+            "type": "boolean"
+          },
+          "water_commission": {
+            "type": "number"
+          },
+          "paint": {
+            "type": "string",
+            "enum": [
+              "NO",
+              "YES_CLIENT",
+              "YES_OWNER"
+            ]
+          },
+          "sanitary": {
+            "type": "string",
+            "enum": [
+              "NO",
+              "YES",
+              "MIDDLE"
+            ]
+          },
+          "water_meter_type": {
+            "type": "string",
+            "enum": [
+              "SONEB",
+              "FORAGE"
+            ]
+          },
+          "water_drilling_rate": {
+            "type": "number"
+          },
+          "electricity_commission": {
+            "type": "number"
+          },
+          "electricity_meter_type": {
+            "type": "string",
+            "enum": [
+              "PERSONAL",
+              "DECOUNTER"
+            ]
+          },
+          "electricity_decounter_meter_rate": {
+            "type": "number"
+          },
+          "electricity_personal_meter_type": {
+            "type": "string",
+            "enum": [
+              "PREPAID",
+              "POST_PREPAID"
+            ]
+          },
+          "description": {
+            "type": "string"
+          },
+          "visit_price": {
+            "type": "number"
+          },
+          "longitude": {
+            "type": "number"
+          },
+          "latitude": {
+            "type": "number"
+          }
+        }
       },
       "FilesSchema": {
         "type": "object",

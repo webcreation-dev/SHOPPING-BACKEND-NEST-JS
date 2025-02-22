@@ -16,7 +16,7 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
     super({
       jwtFromRequest: (req) => {
         const token = ExtractJwt.fromAuthHeaderAsBearerToken()(req);
-        console.log('Jeton JWT extrait:', token, jwtConfiguration.secret);
+        // console.log('Jeton JWT extrait:', token, jwtConfiguration.secret);
         return token;
       },
       secretOrKey: jwtConfiguration.secret,
@@ -24,7 +24,6 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
   }
 
   validate(payload: JwtPayload) {
-    console.log('Payload reçu:', payload);
     return this.authService.validateJwt(payload);
   }
 }
