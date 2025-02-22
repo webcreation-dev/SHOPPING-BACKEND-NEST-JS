@@ -21,7 +21,6 @@ export class AuthController {
   constructor(private readonly authService: AuthService) {}
 
   @HeaderOperation('LOGIN', LoginDto, true)
-  // @ApiOkResponse({ headers: JwtCookieHeader })
   @UseGuards(LocalAuthGuard)
   @Post('login')
   async login(@CurrentUser() user: RequestUser) {

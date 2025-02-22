@@ -9,6 +9,7 @@ import {
   Post,
   Query,
   UploadedFiles,
+  UseGuards,
   UseInterceptors,
 } from '@nestjs/common';
 import { PropertiesService } from './properties.service';
@@ -25,6 +26,7 @@ import {
   HeaderOperation,
   MULTIPART_FORMDATA_KEY,
   ApiPaginatedResponse,
+  RolesGuard,
 } from '@app/common';
 import { UpdatePropertyDto } from './dto/update-property.dto';
 import { FilenamesDto } from '@app/common';
@@ -39,7 +41,7 @@ export class PropertiesController {
   constructor(private readonly propertiesService: PropertiesService) {}
 
   @Post()
-  @Roles(RoleEnum.MANAGER)
+  // @Roles(RoleEnum.USER)
   @HeaderOperation('CREATE ', CreatePropertyDto)
   @UseInterceptors(FilesInterceptor('files', MaxFileCount.PROPERTY_IMAGES))
   create(
@@ -62,26 +64,28 @@ export class PropertiesController {
   }
 
   @Get(':id')
-  @HeaderOperation('GET ONE ')
+  @HeaderOperation('GET ONE')
+  // @Roles(RoleEnum.MANAGER)
+  // @UseGuards(RolesGuard)
   findOne(@Param('id', ParseIntPipe) id: number) {
     return this.propertiesService.findOne(id);
   }
 
   @Patch(':id')
-  @Roles(RoleEnum.MANAGER)
+  // @Roles(RoleEnum.MANAGER)
   @HeaderOperation('UPDATE ', UpdatePropertyDto)
   update(@Param() { id }: IdDto, @Body() updatePropertyDto: UpdatePropertyDto) {
     return this.propertiesService.update(id, updatePropertyDto);
   }
   @Delete(':id')
-  @Roles(RoleEnum.MANAGER)
+  // @Roles(RoleEnum.MANAGER)
   @HeaderOperation('DELETE PROPERTY')
   async remove(@Param() { id }: IdDto) {
     return this.propertiesService.remove(id);
   }
 
   @Post(':id/images')
-  @Roles(RoleEnum.MANAGER)
+  // @Roles(RoleEnum.MANAGER)
   @HeaderOperation('ADD IMAGES', FilesSchema)
   @ApiConsumes(MULTIPART_FORMDATA_KEY)
   @UseInterceptors(FilesInterceptor('files', MaxFileCount.PRODUCT_IMAGES))
@@ -94,7 +98,7 @@ export class PropertiesController {
   }
 
   @Delete(':id/images')
-  @Roles(RoleEnum.MANAGER)
+  // @Roles(RoleEnum.MANAGER)
   @HeaderOperation('DELETE IMAGES', FilenamesDto)
   deleteImages(
     @Param('id', ParseIntPipe) id: number,
