@@ -20,6 +20,9 @@ import { UpdatePropertyDto } from './dto/update-property.dto';
 import { PropertiesQueryDto } from './dto/querying/properties-query.dto';
 import { FindOptionsOrder } from 'typeorm';
 import { User } from '../auth/users/entities/user.entity';
+import { UsersService } from '../auth/users/users.service';
+import { ToogleWishlistDto } from '../auth/users/dto/toogle-wishlist.dto';
+import { UsersRepository } from '../auth/users/users.repository';
 
 @Injectable()
 export class PropertiesService {
@@ -29,6 +32,8 @@ export class PropertiesService {
     private readonly storageService: StorageService,
     private readonly paginationService: PaginationService,
     private readonly filteringService: FilteringService,
+    private readonly usersService: UsersService,
+    private readonly usersRepository: UsersRepository,
   ) {}
 
   async findAll(propertiesQueryDto: PropertiesQueryDto) {
@@ -62,11 +67,13 @@ export class PropertiesService {
     files: File[],
     { id }: User,
   ) {
+    const userData = await this.usersService.findOne(id);
+
     // 1. Sauvegarder la propriété en utilisant PropertyRepository
     const property = await this.propertiesRepository.create(
       new Property({
         ...createPropertyDto,
-        userId: id,
+        user: userData,
       }),
     );
 
@@ -180,5 +187,22 @@ export class PropertiesService {
 
     const path = join(BASE, id.toString());
     await this.storageService.delete(path);
+  }
+
+  async toogleWishlist(user: User, toogleWishlistDto: ToogleWishlistDto) {
+    const { propertyId } = toogleWishlistDto;
+
+    await this.findOne(propertyId);
+
+    if (user.wishlistedProperties.includes(propertyId)) {
+      user.wishlistedProperties = user.wishlistedProperties.filter(
+        (id) => id !== propertyId,
+      );
+    } else {
+      user.wishlistedProperties.push(propertyId);
+    }
+
+    await this.usersRepository.save(user);
+    return user;
   }
 }

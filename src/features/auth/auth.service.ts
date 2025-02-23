@@ -12,6 +12,7 @@ import { HashingService } from './hashing/hashing.service';
 import { TempUserService } from './users/temps/temp-user.service';
 import { ResetPasswordDto } from '../../../libs/common/src/auth/dto/reset-password-dto';
 import { ForgotPasswordDto } from '../../../libs/common/src/auth/dto/forgot-password-dto';
+import { PropertiesService } from 'src/features/properties/properties.service';
 
 @Injectable()
 export class AuthService {
@@ -24,6 +25,7 @@ export class AuthService {
     private readonly hashingService: HashingService,
     private readonly otpService: OtpService,
     private readonly usersService: UsersService,
+    private readonly propertiesService: PropertiesService,
   ) {}
 
   async login(user: RequestUser) {
@@ -124,7 +126,7 @@ export class AuthService {
     return currentUser;
   }
 
-  // async toogleWishlist(user: User, toogleWishlistDto: toogleWishlistDto) {
-  //   return await this.usersService.toogleWishlist(user, toogleWishlistDto);
-  // }
+  async toogleWishlist(user: User, toogleWishlistDto: toogleWishlistDto) {
+    return await this.propertiesService.toogleWishlist(user, toogleWishlistDto);
+  }
 }

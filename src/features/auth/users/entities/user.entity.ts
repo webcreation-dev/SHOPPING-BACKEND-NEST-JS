@@ -1,8 +1,9 @@
-import { Column, Entity, JoinTable, ManyToMany } from 'typeorm';
+import { Column, Entity, JoinTable, ManyToMany, OneToMany } from 'typeorm';
 import { Exclude } from 'class-transformer';
 import { AbstractEntity, AppTypeEnum } from '@app/common';
 import { Role } from './role.entity';
 import { SexeEnum } from '../enums/sexe.enum';
+import { Property } from 'src/features/properties/entities/property.entity';
 
 @Entity()
 export class User extends AbstractEntity<User> {
@@ -48,4 +49,7 @@ export class User extends AbstractEntity<User> {
   @ManyToMany(() => Role, { cascade: true })
   @JoinTable()
   roles: Role[];
+
+  @OneToMany(() => Property, (property) => property.user)
+  properties: Property[];
 }

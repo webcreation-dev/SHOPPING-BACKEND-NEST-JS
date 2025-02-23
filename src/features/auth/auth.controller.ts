@@ -15,6 +15,7 @@ import { LocalAuthGuard } from './guards/local-auth/local-auth.guard';
 import { User } from './users/entities/user.entity';
 import { LoginResponseDto } from 'src/features/auth/dto/login-response.dto';
 import { SendOtpResponseDto } from './dto/send-otp-response.dto';
+import { ToogleWishlistDto } from './users/dto/toogle-wishlist.dto';
 
 @Controller('auth')
 export class AuthController {
@@ -63,11 +64,12 @@ export class AuthController {
     return this.authService.resetPassword(resetPasswordDto);
   }
 
-  // @Post('toogle_wishlist')
-  // async addWishlist(
-  //   @Body() toogleWishlistDto: toogleWishlistDto,
-  //   @CurrentUser() user: User,
-  // ) {
-  //   return await this.authService.toogleWishlist(user, toogleWishlistDto);
-  // }
+  @HeaderOperation('TOGLE WISHLIST', ToogleWishlistDto, null)
+  @Post('toogle_wishlist')
+  async addWishlist(
+    @Body() toogleWishlistDto: ToogleWishlistDto,
+    @CurrentUser() user: User,
+  ) {
+    return await this.authService.toogleWishlist(user, toogleWishlistDto);
+  }
 }

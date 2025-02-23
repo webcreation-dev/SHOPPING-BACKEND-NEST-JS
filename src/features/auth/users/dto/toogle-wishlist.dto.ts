@@ -1,6 +1,6 @@
-import { IdDto, IsEntity } from '@app/common';
+import { IsEntity } from '@app/common';
 
-export class toogleWishlistDto {
+export class ToogleWishlistDto {
   @IsEntity()
-  readonly propertyId: IdDto;
+  readonly propertyId: number;
 }

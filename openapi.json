@@ -209,6 +209,38 @@
         ]
       }
     },
+    "/auth/toogle_wishlist": {
+      "post": {
+        "operationId": "AuthController_addWishlist",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ToogleWishlistDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        },
+        "summary": "TOGLE WISHLIST",
+        "tags": [
+          "Auth"
+        ]
+      }
+    },
     "/properties": {
       "post": {
         "operationId": "PropertiesController_create",
@@ -599,6 +631,165 @@
           "registryDates"
         ]
       },
+      "Gallery": {
+        "type": "object",
+        "properties": {
+          "url": {
+            "type": "string"
+          },
+          "property": {
+            "$ref": "#/components/schemas/Property"
+          },
+          "id": {
+            "type": "number"
+          },
+          "registryDates": {
+            "$ref": "#/components/schemas/RegistryDates"
+          }
+        },
+        "required": [
+          "url",
+          "property",
+          "id",
+          "registryDates"
+        ]
+      },
+      "Property": {
+        "type": "object",
+        "properties": {
+          "number_rooms": {
+            "type": "number"
+          },
+          "number_living_rooms": {
+            "type": "number"
+          },
+          "rent_price": {
+            "type": "number"
+          },
+          "is_prepaid": {
+            "type": "boolean"
+          },
+          "month_advance": {
+            "type": "number"
+          },
+          "number_households": {
+            "type": "number"
+          },
+          "is_terace": {
+            "type": "boolean"
+          },
+          "is_fence": {
+            "type": "boolean"
+          },
+          "description": {
+            "type": "string"
+          },
+          "visit_price": {
+            "type": "number"
+          },
+          "water_commission": {
+            "type": "number"
+          },
+          "water_drilling_rate": {
+            "type": "number"
+          },
+          "electricity_commission": {
+            "type": "number"
+          },
+          "electricity_decounter_meter_rate": {
+            "type": "number"
+          },
+          "is_active": {
+            "type": "boolean"
+          },
+          "latitude": {
+            "type": "number"
+          },
+          "longitude": {
+            "type": "number"
+          },
+          "water_meter_type": {
+            "enum": [
+              "SONEB",
+              "FORAGE"
+            ],
+            "type": "string"
+          },
+          "paint": {
+            "enum": [
+              "NO",
+              "YES_CLIENT",
+              "YES_OWNER"
+            ],
+            "type": "string"
+          },
+          "sanitary": {
+            "enum": [
+              "NO",
+              "YES",
+              "MIDDLE"
+            ],
+            "type": "string"
+          },
+          "electricity_meter_type": {
+            "enum": [
+              "PERSONAL",
+              "DECOUNTER"
+            ],
+            "type": "string"
+          },
+          "electricity_personal_meter_type": {
+            "enum": [
+              "PREPAID",
+              "POST_PREPAID"
+            ],
+            "type": "string"
+          },
+          "galleries": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Gallery"
+            }
+          },
+          "user": {
+            "$ref": "#/components/schemas/User"
+          },
+          "id": {
+            "type": "number"
+          },
+          "registryDates": {
+            "$ref": "#/components/schemas/RegistryDates"
+          }
+        },
+        "required": [
+          "number_rooms",
+          "number_living_rooms",
+          "rent_price",
+          "is_prepaid",
+          "month_advance",
+          "number_households",
+          "is_terace",
+          "is_fence",
+          "description",
+          "visit_price",
+          "water_commission",
+          "water_drilling_rate",
+          "electricity_commission",
+          "electricity_decounter_meter_rate",
+          "is_active",
+          "latitude",
+          "longitude",
+          "water_meter_type",
+          "paint",
+          "sanitary",
+          "electricity_meter_type",
+          "electricity_personal_meter_type",
+          "galleries",
+          "user",
+          "id",
+          "registryDates"
+        ]
+      },
       "User": {
         "type": "object",
         "properties": {
@@ -649,6 +840,12 @@
               "$ref": "#/components/schemas/Role"
             }
           },
+          "properties": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Property"
+            }
+          },
           "id": {
             "type": "number"
           },
@@ -668,6 +865,7 @@
           "balance_moov",
           "wishlistedProperties",
           "roles",
+          "properties",
           "id",
           "registryDates"
         ]
@@ -782,6 +980,17 @@
           "password"
         ]
       },
+      "ToogleWishlistDto": {
+        "type": "object",
+        "properties": {
+          "propertyId": {
+            "type": "number"
+          }
+        },
+        "required": [
+          "propertyId"
+        ]
+      },
       "CreatePropertyDto": {
         "type": "object",
         "properties": {
@@ -893,165 +1102,6 @@
           "visit_price",
           "longitude",
           "latitude"
-        ]
-      },
-      "Property": {
-        "type": "object",
-        "properties": {
-          "number_rooms": {
-            "type": "number"
-          },
-          "number_living_rooms": {
-            "type": "number"
-          },
-          "rent_price": {
-            "type": "number"
-          },
-          "is_prepaid": {
-            "type": "boolean"
-          },
-          "month_advance": {
-            "type": "number"
-          },
-          "number_households": {
-            "type": "number"
-          },
-          "is_terace": {
-            "type": "boolean"
-          },
-          "is_fence": {
-            "type": "boolean"
-          },
-          "description": {
-            "type": "string"
-          },
-          "visit_price": {
-            "type": "number"
-          },
-          "water_commission": {
-            "type": "number"
-          },
-          "water_drilling_rate": {
-            "type": "number"
-          },
-          "electricity_commission": {
-            "type": "number"
-          },
-          "electricity_decounter_meter_rate": {
-            "type": "number"
-          },
-          "is_active": {
-            "type": "boolean"
-          },
-          "latitude": {
-            "type": "number"
-          },
-          "longitude": {
-            "type": "number"
-          },
-          "userId": {
-            "type": "number"
-          },
-          "water_meter_type": {
-            "enum": [
-              "SONEB",
-              "FORAGE"
-            ],
-            "type": "string"
-          },
-          "paint": {
-            "enum": [
-              "NO",
-              "YES_CLIENT",
-              "YES_OWNER"
-            ],
-            "type": "string"
-          },
-          "sanitary": {
-            "enum": [
-              "NO",
-              "YES",
-              "MIDDLE"
-            ],
-            "type": "string"
-          },
-          "electricity_meter_type": {
-            "enum": [
-              "PERSONAL",
-              "DECOUNTER"
-            ],
-            "type": "string"
-          },
-          "electricity_personal_meter_type": {
-            "enum": [
-              "PREPAID",
-              "POST_PREPAID"
-            ],
-            "type": "string"
-          },
-          "galleries": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/Gallery"
-            }
-          },
-          "id": {
-            "type": "number"
-          },
-          "registryDates": {
-            "$ref": "#/components/schemas/RegistryDates"
-          }
-        },
-        "required": [
-          "number_rooms",
-          "number_living_rooms",
-          "rent_price",
-          "is_prepaid",
-          "month_advance",
-          "number_households",
-          "is_terace",
-          "is_fence",
-          "description",
-          "visit_price",
-          "water_commission",
-          "water_drilling_rate",
-          "electricity_commission",
-          "electricity_decounter_meter_rate",
-          "is_active",
-          "latitude",
-          "longitude",
-          "userId",
-          "water_meter_type",
-          "paint",
-          "sanitary",
-          "electricity_meter_type",
-          "electricity_personal_meter_type",
-          "galleries",
-          "id",
-          "registryDates"
-        ]
-      },
-      "Gallery": {
-        "type": "object",
-        "properties": {
-          "url": {
-            "type": "string"
-          },
-          "property": {
-            "$ref": "#/components/schemas/Property"
-          },
-          "id": {
-            "type": "number"
-          },
-          "registryDates": {
-            "$ref": "#/components/schemas/RegistryDates"
-          }
-        },
-        "required": [
-          "url",
-          "property",
-          "id",
-          "registryDates"
         ]
       },
       "PaginationMeta": {

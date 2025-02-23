@@ -16,6 +16,7 @@ import jwtConfig from 'libs/common/src/auth/config/jwt.config';
 import { HashingService } from './hashing/hashing.service';
 import { BcryptService } from './hashing/bcrypt.service';
 import { UsersModule } from './users/users.module';
+import { PropertiesModule } from '../properties/properties.module';
 
 @Module({
   imports: [
@@ -25,6 +26,7 @@ import { UsersModule } from './users/users.module';
     ThrottlerModule.forRoot(THROTTLER_MODULE_OPTIONS),
     OtpModule,
     UsersModule,
+    PropertiesModule,
   ],
   controllers: [AuthController],
   providers: [
