@@ -41,26 +41,26 @@ import { ResponseFormatInterceptor } from './interceptors/sucess-response.interc
       provide: APP_GUARD,
       useClass: ThrottlerGuard,
     },
-    {
-      provide: APP_FILTER,
-      useClass: NotFoundExceptionFilter,
-    },
-    {
-      provide: APP_FILTER,
-      useClass: DatabaseExceptionFilter,
-    },
-    {
-      provide: APP_FILTER,
-      useClass: HttpExceptionFilter,
-    },
-    {
-      provide: APP_FILTER,
-      useClass: FilesExceptionFilter,
-    },
-    {
-      provide: APP_FILTER,
-      useClass: EntityMetadataExceptionFilter,
-    },
+    // {
+    //   provide: APP_FILTER,
+    //   useClass: NotFoundExceptionFilter,
+    // },
+    // {
+    //   provide: APP_FILTER,
+    //   useClass: DatabaseExceptionFilter,
+    // },
+    // {
+    //   provide: APP_FILTER,
+    //   useClass: HttpExceptionFilter,
+    // },
+    // {
+    //   provide: APP_FILTER,
+    //   useClass: FilesExceptionFilter,
+    // },
+    // {
+    //   provide: APP_FILTER,
+    //   useClass: EntityMetadataExceptionFilter,
+    // },
   ],
 })
 export class CommonModule {}

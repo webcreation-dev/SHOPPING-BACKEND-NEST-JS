@@ -9,8 +9,8 @@ const dataSource = new DataSource({
   url: process.env.DATASOURCE_URL,
   synchronize: false,
   entities: [
-    // 'dist/src/features/auth/users/entities/user.entity.js',
-    // 'dist/src/features/auth/users/entities/role.entity.js',
+    'dist/src/features/auth/users/entities/user.entity.js',
+    'dist/src/features/auth/users/entities/role.entity.js',
 
     'dist/src/features/properties/entities/gallery.entity.js',
     'dist/src/features/properties/entities/property.entity.js',

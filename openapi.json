@@ -678,13 +678,13 @@
           "user": {
             "$ref": "#/components/schemas/User"
           },
-          "token": {
+          "access_token": {
             "type": "string"
           }
         },
         "required": [
           "user",
-          "token"
+          "access_token"
         ]
       },
       "CreateUserDto": {
