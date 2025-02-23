@@ -569,51 +569,6 @@
           "deletedAt"
         ]
       },
-      "User": {
-        "type": "object",
-        "properties": {
-          "phone": {
-            "type": "string"
-          },
-          "password": {
-            "type": "string"
-          },
-          "app_type": {
-            "enum": [
-              "LOCAPAY",
-              "LOCAPAY_BUSINESS"
-            ],
-            "type": "string"
-          },
-          "wishlistedProperties": {
-            "type": "array",
-            "items": {
-              "type": "number"
-            }
-          },
-          "roles": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/Role"
-            }
-          },
-          "id": {
-            "type": "number"
-          },
-          "registryDates": {
-            "$ref": "#/components/schemas/RegistryDates"
-          }
-        },
-        "required": [
-          "phone",
-          "password",
-          "app_type",
-          "wishlistedProperties",
-          "roles",
-          "id",
-          "registryDates"
-        ]
-      },
       "Role": {
         "type": "object",
         "properties": {
@@ -644,10 +599,13 @@
           "registryDates"
         ]
       },
-      "LoginResponseDto": {
+      "User": {
         "type": "object",
         "properties": {
-          "token": {
+          "lastname": {
+            "type": "string"
+          },
+          "firstname": {
             "type": "string"
           },
           "phone": {
@@ -661,6 +619,22 @@
               "LOCAPAY",
               "LOCAPAY_BUSINESS"
             ],
+            "type": "string"
+          },
+          "image": {
+            "type": "string"
+          },
+          "sexe": {
+            "enum": [
+              "M",
+              "F"
+            ],
+            "type": "string"
+          },
+          "balance_mtn": {
+            "type": "string"
+          },
+          "balance_moov": {
             "type": "string"
           },
           "wishlistedProperties": {
@@ -683,21 +657,54 @@
           }
         },
         "required": [
-          "token",
+          "lastname",
+          "firstname",
           "phone",
           "password",
           "app_type",
+          "image",
+          "sexe",
+          "balance_mtn",
+          "balance_moov",
           "wishlistedProperties",
           "roles",
           "id",
           "registryDates"
         ]
       },
+      "LoginResponseDto": {
+        "type": "object",
+        "properties": {
+          "user": {
+            "$ref": "#/components/schemas/User"
+          },
+          "token": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "user",
+          "token"
+        ]
+      },
       "CreateUserDto": {
         "type": "object",
         "properties": {
+          "lastname": {
+            "type": "string"
+          },
+          "firstname": {
+            "type": "string"
+          },
           "phone": {
             "type": "string"
+          },
+          "sexe": {
+            "type": "string",
+            "enum": [
+              "M",
+              "F"
+            ]
           },
           "password": {
             "type": "string"
@@ -711,7 +718,10 @@
           }
         },
         "required": [
+          "lastname",
+          "firstname",
           "phone",
+          "sexe",
           "password",
           "app_type"
         ]

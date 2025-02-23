@@ -35,8 +35,7 @@ export class AuthService {
     );
     const userData = await this.usersService.findOne(user.id);
 
-    return { ...userData, token: this.jwtService.sign(payload) };
-    // return userData;
+    return { user: userData, access_token: this.jwtService.sign(payload) };
   }
 
   async register(createUserDto: CreateUserDto) {

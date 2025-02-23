@@ -2,9 +2,16 @@ import { Column, Entity, JoinTable, ManyToMany } from 'typeorm';
 import { Exclude } from 'class-transformer';
 import { AbstractEntity, AppTypeEnum } from '@app/common';
 import { Role } from './role.entity';
+import { SexeEnum } from '../enums/sexe.enum';
 
 @Entity()
 export class User extends AbstractEntity<User> {
+  @Column()
+  lastname: string;
+
+  @Column()
+  firstname: string;
+
   @Column({ unique: true })
   phone: string;
 
@@ -18,6 +25,22 @@ export class User extends AbstractEntity<User> {
     enumName: 'app_type_enum',
   })
   app_type: AppTypeEnum;
+
+  @Column({ nullable: true })
+  image: string;
+
+  @Column({
+    type: 'enum',
+    enum: SexeEnum,
+    enumName: 'sexe_enum',
+  })
+  sexe: SexeEnum;
+
+  @Column({ nullable: true })
+  balance_mtn: string;
+
+  @Column({ nullable: true })
+  balance_moov: string;
 
   @Column('int', { array: true, default: '{}' })
   wishlistedProperties: number[];

@@ -24,8 +24,7 @@ export class AuthController {
   @UseGuards(LocalAuthGuard)
   @Post('login')
   async login(@CurrentUser() user: RequestUser): Promise<LoginResponseDto> {
-    const data = await this.authService.login(user);
-    return data;
+    return await this.authService.login(user);
   }
 
   @HeaderOperation('REGISTER', CreateUserDto, SendOtpResponseDto, true)
