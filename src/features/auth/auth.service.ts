@@ -33,8 +33,10 @@ export class AuthService {
     expires.setSeconds(
       expires.getSeconds() + this.configService.get('JWT_TTL'),
     );
+    const userData = await this.usersService.findOne(user.id);
 
-    return this.jwtService.sign(payload);
+    return { ...userData, token: this.jwtService.sign(payload) };
+    // return userData;
   }
 
   async register(createUserDto: CreateUserDto) {
@@ -44,7 +46,7 @@ export class AuthService {
 
     // await this.otpService.sendOtp(phone);
 
-    return phone;
+    return { phone_number: phone };
   }
 
   async verifyOtp(saveUserDto: SaveUserDto) {

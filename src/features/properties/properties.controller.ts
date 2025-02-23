@@ -74,6 +74,7 @@ export class PropertiesController {
   @Patch(':id')
   // @Roles(RoleEnum.MANAGER)
   @HeaderOperation('UPDATE ', UpdatePropertyDto)
+
   update(@Param() { id }: IdDto, @Body() updatePropertyDto: UpdatePropertyDto) {
     return this.propertiesService.update(id, updatePropertyDto);
   }

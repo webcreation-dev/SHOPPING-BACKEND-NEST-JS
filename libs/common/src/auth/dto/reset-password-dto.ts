@@ -1,13 +1,13 @@
 import { OtpDto } from '@app/common';
-import { IsNumber, IsPhoneNumber, IsStrongPassword } from 'class-validator';
+import { IsPhoneNumber, IsStrongPassword } from 'class-validator';
+import { ApiProperty } from '@nestjs/swagger';
 
 export class ResetPasswordDto extends OtpDto {
+  @ApiProperty()
   @IsPhoneNumber('BJ')
   readonly phone: string;
 
-  @IsNumber()
-  readonly otp: number;
-
+  @ApiProperty()
   @IsStrongPassword()
   readonly password: string;
 }

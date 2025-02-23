@@ -16,8 +16,25 @@
           }
         },
         "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/LoginResponseDto"
+                }
+              }
+            }
+          },
           "201": {
-            "description": ""
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/LoginResponseDto"
+                }
+              }
+            }
           }
         },
         "summary": "LOGIN",
@@ -41,15 +58,18 @@
           }
         },
         "responses": {
-          "201": {
+          "200": {
             "description": "",
             "content": {
               "application/json": {
                 "schema": {
-                  "type": "object"
+                  "$ref": "#/components/schemas/SendOtpResponseDto"
                 }
               }
             }
+          },
+          "201": {
+            "description": ""
           }
         },
         "summary": "REGISTER",
@@ -73,6 +93,16 @@
           }
         },
         "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/LoginResponseDto"
+                }
+              }
+            }
+          },
           "201": {
             "description": ""
           }
@@ -87,16 +117,6 @@
       "get": {
         "operationId": "AuthController_getUser",
         "parameters": [],
-        "requestBody": {
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": {
-                "type": "string"
-              }
-            }
-          }
-        },
         "responses": {
           "200": {
             "description": "",
@@ -130,6 +150,16 @@
           }
         },
         "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SendOtpResponseDto"
+                }
+              }
+            }
+          },
           "201": {
             "description": "",
             "content": {
@@ -327,16 +357,6 @@
             }
           }
         ],
-        "requestBody": {
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": {
-                "type": "string"
-              }
-            }
-          }
-        },
         "responses": {
           "200": {
             "description": "",
@@ -405,16 +425,6 @@
             }
           }
         ],
-        "requestBody": {
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": {
-                "type": "string"
-              }
-            }
-          }
-        },
         "responses": {
           "200": {
             "description": ""
@@ -537,40 +547,6 @@
           "password"
         ]
       },
-      "CreateUserDto": {
-        "type": "object",
-        "properties": {
-          "phone": {
-            "type": "string"
-          },
-          "password": {
-            "type": "string"
-          },
-          "app_type": {
-            "type": "string",
-            "enum": [
-              "LOCAPAY",
-              "LOCAPAY_BUSINESS"
-            ]
-          }
-        },
-        "required": [
-          "phone",
-          "password",
-          "app_type"
-        ]
-      },
-      "SaveUserDto": {
-        "type": "object",
-        "properties": {
-          "otp": {
-            "type": "number"
-          }
-        },
-        "required": [
-          "otp"
-        ]
-      },
       "RegistryDates": {
         "type": "object",
         "properties": {
@@ -668,19 +644,132 @@
           "registryDates"
         ]
       },
+      "LoginResponseDto": {
+        "type": "object",
+        "properties": {
+          "token": {
+            "type": "string"
+          },
+          "phone": {
+            "type": "string"
+          },
+          "password": {
+            "type": "string"
+          },
+          "app_type": {
+            "enum": [
+              "LOCAPAY",
+              "LOCAPAY_BUSINESS"
+            ],
+            "type": "string"
+          },
+          "wishlistedProperties": {
+            "type": "array",
+            "items": {
+              "type": "number"
+            }
+          },
+          "roles": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Role"
+            }
+          },
+          "id": {
+            "type": "number"
+          },
+          "registryDates": {
+            "$ref": "#/components/schemas/RegistryDates"
+          }
+        },
+        "required": [
+          "token",
+          "phone",
+          "password",
+          "app_type",
+          "wishlistedProperties",
+          "roles",
+          "id",
+          "registryDates"
+        ]
+      },
+      "CreateUserDto": {
+        "type": "object",
+        "properties": {
+          "phone": {
+            "type": "string"
+          },
+          "password": {
+            "type": "string"
+          },
+          "app_type": {
+            "type": "string",
+            "enum": [
+              "LOCAPAY",
+              "LOCAPAY_BUSINESS"
+            ]
+          }
+        },
+        "required": [
+          "phone",
+          "password",
+          "app_type"
+        ]
+      },
+      "SendOtpResponseDto": {
+        "type": "object",
+        "properties": {
+          "phone": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "phone"
+        ]
+      },
+      "SaveUserDto": {
+        "type": "object",
+        "properties": {
+          "otp": {
+            "type": "number"
+          },
+          "phone": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "otp",
+          "phone"
+        ]
+      },
       "ForgotPasswordDto": {
         "type": "object",
-        "properties": {}
+        "properties": {
+          "phone": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "phone"
+        ]
       },
       "ResetPasswordDto": {
         "type": "object",
         "properties": {
           "otp": {
             "type": "number"
+          },
+          "phone": {
+            "type": "string"
+          },
+          "password": {
+            "type": "string"
           }
         },
         "required": [
-          "otp"
+          "otp",
+          "phone",
+          "password"
         ]
       },
       "CreatePropertyDto": {
