@@ -13,6 +13,7 @@ import { TempUserService } from './users/temps/temp-user.service';
 import { ResetPasswordDto } from '../../../libs/common/src/auth/dto/reset-password-dto';
 import { ForgotPasswordDto } from '../../../libs/common/src/auth/dto/forgot-password-dto';
 import { PropertiesService } from 'src/features/properties/properties.service';
+import { ToogleWishlistDto } from './users/dto/toogle-wishlist.dto';
 
 @Injectable()
 export class AuthService {
@@ -126,7 +127,7 @@ export class AuthService {
     return currentUser;
   }
 
-  async toogleWishlist(user: User, toogleWishlistDto: toogleWishlistDto) {
+  async toogleWishlist(user: User, toogleWishlistDto: ToogleWishlistDto) {
     return await this.propertiesService.toogleWishlist(user, toogleWishlistDto);
   }
 }
