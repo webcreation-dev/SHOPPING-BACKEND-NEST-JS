@@ -94,12 +94,15 @@ export class PropertiesService {
     // 4. Retourner la propriété avec ses galeries
     return this.propertiesRepository.findOne(
       { id: property.id },
-      { galleries: true },
+      { galleries: true, user: true },
     );
   }
 
   async findOne(id: number) {
-    return this.propertiesRepository.findOne({ id }, { galleries: true });
+    return this.propertiesRepository.findOne(
+      { id },
+      { galleries: true, user: true },
+    );
   }
 
   async findMany(ids: number[]) {
@@ -192,18 +195,16 @@ export class PropertiesService {
   }
 
   async toogleWishlist(user: User, toggleWishlistDto: ToggleWishlistDto) {
-    const { propertyId } = toggleWishlistDto;
+    const { property_id } = toggleWishlistDto;
 
-    console.log(propertyId);
+    await this.findOne(property_id);
 
-    await this.findOne(propertyId);
-
-    if (user.wishlistedProperties.includes(propertyId)) {
+    if (user.wishlistedProperties.includes(property_id)) {
       user.wishlistedProperties = user.wishlistedProperties.filter(
-        (id) => id !== propertyId,
+        (id) => id !== property_id,
       );
     } else {
-      user.wishlistedProperties.push(propertyId);
+      user.wishlistedProperties.push(property_id);
     }
 
     await this.usersRepository.save(user);

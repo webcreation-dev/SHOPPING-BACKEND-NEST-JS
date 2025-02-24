@@ -540,6 +540,295 @@
           "Properties"
         ]
       }
+    },
+    "/visits": {
+      "post": {
+        "operationId": "VisitsController_create",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateVisitDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Visit"
+                }
+              }
+            }
+          }
+        },
+        "summary": "CREATE ",
+        "tags": [
+          "Visits"
+        ]
+      },
+      "get": {
+        "operationId": "VisitsController_findAll",
+        "parameters": [
+          {
+            "name": "limit",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "maximum": 100,
+              "type": "number"
+            }
+          },
+          {
+            "name": "page",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "maximum": 25,
+              "default": 1,
+              "type": "number"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/VisitsQueryDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "title": "PaginatedResponseOfVisit",
+                  "properties": {
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/Visit"
+                      }
+                    },
+                    "meta": {
+                      "$ref": "#/components/schemas/PaginationMeta"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "summary": "GET OWN",
+        "tags": [
+          "Visits"
+        ]
+      }
+    },
+    "/visits/managed": {
+      "get": {
+        "operationId": "VisitsController_findManaged",
+        "parameters": [
+          {
+            "name": "limit",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "maximum": 100,
+              "type": "number"
+            }
+          },
+          {
+            "name": "page",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "maximum": 25,
+              "default": 1,
+              "type": "number"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/VisitsQueryDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "title": "PaginatedResponseOfVisit",
+                  "properties": {
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/Visit"
+                      }
+                    },
+                    "meta": {
+                      "$ref": "#/components/schemas/PaginationMeta"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "summary": "GET MANAGED",
+        "tags": [
+          "Visits"
+        ]
+      }
+    },
+    "/visits/{id}": {
+      "get": {
+        "operationId": "VisitsController_findOne",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "number"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Visit"
+                }
+              }
+            }
+          }
+        },
+        "summary": "GET ONE",
+        "tags": [
+          "Visits"
+        ]
+      },
+      "patch": {
+        "operationId": "VisitsController_update",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "number"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateVisitDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Visit"
+                }
+              }
+            }
+          }
+        },
+        "summary": "UPDATE ",
+        "tags": [
+          "Visits"
+        ]
+      },
+      "delete": {
+        "operationId": "VisitsController_remove",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "number"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "summary": "DELETE",
+        "tags": [
+          "Visits"
+        ]
+      }
+    },
+    "/visits/{id}/finalize": {
+      "patch": {
+        "operationId": "VisitsController_finalize",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "number"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/FinalizeVisitDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Visit"
+                }
+              }
+            }
+          }
+        },
+        "summary": "FINALIZE ",
+        "tags": [
+          "Visits"
+        ]
+      }
     }
   },
   "info": {
@@ -654,6 +943,59 @@
           "registryDates"
         ]
       },
+      "Visit": {
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": "string"
+          },
+          "date": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "is_taken": {
+            "type": "boolean"
+          },
+          "is_paid": {
+            "type": "boolean"
+          },
+          "status": {
+            "enum": [
+              "WAITING",
+              "IN_PROGRESS",
+              "FINISHED"
+            ],
+            "type": "string"
+          },
+          "user": {
+            "$ref": "#/components/schemas/User"
+          },
+          "property": {
+            "$ref": "#/components/schemas/Property"
+          },
+          "manager": {
+            "$ref": "#/components/schemas/User"
+          },
+          "id": {
+            "type": "number"
+          },
+          "registryDates": {
+            "$ref": "#/components/schemas/RegistryDates"
+          }
+        },
+        "required": [
+          "code",
+          "date",
+          "is_taken",
+          "is_paid",
+          "status",
+          "user",
+          "property",
+          "manager",
+          "id",
+          "registryDates"
+        ]
+      },
       "Property": {
         "type": "object",
         "properties": {
@@ -751,6 +1093,12 @@
               "$ref": "#/components/schemas/Gallery"
             }
           },
+          "visits": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Visit"
+            }
+          },
           "user": {
             "$ref": "#/components/schemas/User"
           },
@@ -785,6 +1133,7 @@
           "electricity_meter_type",
           "electricity_personal_meter_type",
           "galleries",
+          "visits",
           "user",
           "id",
           "registryDates"
@@ -846,6 +1195,18 @@
               "$ref": "#/components/schemas/Property"
             }
           },
+          "visits": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Visit"
+            }
+          },
+          "managedVisits": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Visit"
+            }
+          },
           "id": {
             "type": "number"
           },
@@ -866,6 +1227,8 @@
           "wishlistedProperties",
           "roles",
           "properties",
+          "visits",
+          "managedVisits",
           "id",
           "registryDates"
         ]
@@ -1001,12 +1364,12 @@
       "ToggleWishlistDto": {
         "type": "object",
         "properties": {
-          "propertyId": {
+          "property_id": {
             "type": "number"
           }
         },
         "required": [
-          "propertyId"
+          "property_id"
         ]
       },
       "CreatePropertyDto": {
@@ -1337,6 +1700,67 @@
         },
         "required": [
           "filenames"
+        ]
+      },
+      "CreateVisitDto": {
+        "type": "object",
+        "properties": {
+          "property_id": {
+            "type": "number"
+          }
+        },
+        "required": [
+          "property_id"
+        ]
+      },
+      "VisitsQueryDto": {
+        "type": "object",
+        "properties": {
+          "limit": {
+            "type": "number",
+            "maximum": 100
+          },
+          "page": {
+            "type": "number",
+            "default": 1,
+            "maximum": 25
+          }
+        }
+      },
+      "UpdateVisitDto": {
+        "type": "object",
+        "properties": {
+          "date": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "WAITING",
+              "IN_PROGRESS",
+              "FINISHED"
+            ]
+          }
+        },
+        "required": [
+          "date",
+          "status"
+        ]
+      },
+      "FinalizeVisitDto": {
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": "string"
+          },
+          "is_taken": {
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "code",
+          "is_taken"
         ]
       }
     }

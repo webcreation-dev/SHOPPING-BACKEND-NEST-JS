@@ -1,7 +1,7 @@
 import { MigrationInterface, QueryRunner } from "typeorm";
 
-export class New1740363594901 implements MigrationInterface {
-    name = 'New1740363594901'
+export class New1740371712622 implements MigrationInterface {
+    name = 'New1740371712622'
 
     public async up(queryRunner: QueryRunner): Promise<void> {
         await queryRunner.query(`
@@ -15,6 +15,27 @@ export class New1740363594901 implements MigrationInterface {
                 "updated_at" TIMESTAMP NOT NULL DEFAULT now(),
                 "deletedAt" TIMESTAMP,
                 CONSTRAINT "PK_b36bcfe02fc8de3c57a8b2391c2" PRIMARY KEY ("id")
+            )
+        `);
+        await queryRunner.query(`
+            CREATE TYPE "public"."status_enum" AS ENUM('WAITING', 'IN_PROGRESS', 'FINISHED')
+        `);
+        await queryRunner.query(`
+            CREATE TABLE "visit" (
+                "id" SERIAL NOT NULL,
+                "code" character varying NOT NULL,
+                "date" TIMESTAMP,
+                "is_taken" boolean NOT NULL DEFAULT false,
+                "is_paid" boolean NOT NULL DEFAULT false,
+                "status" "public"."status_enum" NOT NULL DEFAULT 'WAITING',
+                "userId" integer,
+                "propertyId" integer,
+                "managerId" integer,
+                "created_at" TIMESTAMP NOT NULL DEFAULT now(),
+                "updated_at" TIMESTAMP NOT NULL DEFAULT now(),
+                "deletedAt" TIMESTAMP,
+                CONSTRAINT "UQ_4d486e35b6c38e8f4f390f47922" UNIQUE ("code"),
+                CONSTRAINT "PK_c9919ef5a07627657c535d8eb88" PRIMARY KEY ("id")
             )
         `);
         await queryRunner.query(`
@@ -115,6 +136,18 @@ export class New1740363594901 implements MigrationInterface {
             CREATE INDEX "IDX_4be2f7adf862634f5f803d246b" ON "user_roles_role" ("roleId")
         `);
         await queryRunner.query(`
+            ALTER TABLE "visit"
+            ADD CONSTRAINT "FK_27531e380326b478dacdd7b86d9" FOREIGN KEY ("userId") REFERENCES "user"("id") ON DELETE CASCADE ON UPDATE NO ACTION
+        `);
+        await queryRunner.query(`
+            ALTER TABLE "visit"
+            ADD CONSTRAINT "FK_f3ea1f66b0a9c6ce8318b95a4b3" FOREIGN KEY ("propertyId") REFERENCES "property"("id") ON DELETE CASCADE ON UPDATE NO ACTION
+        `);
+        await queryRunner.query(`
+            ALTER TABLE "visit"
+            ADD CONSTRAINT "FK_8a9fd2a4e430a2c72ace6c97726" FOREIGN KEY ("managerId") REFERENCES "user"("id") ON DELETE CASCADE ON UPDATE NO ACTION
+        `);
+        await queryRunner.query(`
             ALTER TABLE "property"
             ADD CONSTRAINT "FK_d90007b39cfcf412e15823bebc1" FOREIGN KEY ("userId") REFERENCES "user"("id") ON DELETE CASCADE ON UPDATE NO ACTION
         `);
@@ -144,6 +177,15 @@ export class New1740363594901 implements MigrationInterface {
         `);
         await queryRunner.query(`
             ALTER TABLE "property" DROP CONSTRAINT "FK_d90007b39cfcf412e15823bebc1"
+        `);
+        await queryRunner.query(`
+            ALTER TABLE "visit" DROP CONSTRAINT "FK_8a9fd2a4e430a2c72ace6c97726"
+        `);
+        await queryRunner.query(`
+            ALTER TABLE "visit" DROP CONSTRAINT "FK_f3ea1f66b0a9c6ce8318b95a4b3"
+        `);
+        await queryRunner.query(`
+            ALTER TABLE "visit" DROP CONSTRAINT "FK_27531e380326b478dacdd7b86d9"
         `);
         await queryRunner.query(`
             DROP INDEX "public"."IDX_4be2f7adf862634f5f803d246b"
@@ -183,6 +225,12 @@ export class New1740363594901 implements MigrationInterface {
         `);
         await queryRunner.query(`
             DROP TYPE "public"."app_type_enum"
+        `);
+        await queryRunner.query(`
+            DROP TABLE "visit"
+        `);
+        await queryRunner.query(`
+            DROP TYPE "public"."status_enum"
         `);
         await queryRunner.query(`
             DROP TABLE "role"

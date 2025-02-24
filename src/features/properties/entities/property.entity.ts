@@ -1,4 +1,4 @@
-import { Column, Entity, JoinColumn, ManyToOne, OneToMany } from 'typeorm';
+import { Column, Entity, ManyToOne, OneToMany } from 'typeorm';
 import { AbstractEntity } from '@app/common';
 import { Gallery } from './gallery.entity';
 import { WaterMeterTypeEnum } from '../enums/water_meter_type.enum';
@@ -7,6 +7,7 @@ import { SanitaryEnum } from '../enums/sanitary.enum';
 import { ElectricityMeterTypeEnum } from '../enums/electricity_meter_type.enum';
 import { ElectricityPersonalMeterTypeEnum } from '../enums/electricity_personal_meter_type.enum';
 import { User } from 'src/features/auth/users/entities/user.entity';
+import { Visit } from 'src/features/visits/entities/visit.entity';
 
 @Entity()
 export class Property extends AbstractEntity<Property> {
@@ -99,6 +100,9 @@ export class Property extends AbstractEntity<Property> {
 
   @OneToMany(() => Gallery, (gallery) => gallery.property, { cascade: true })
   galleries: Gallery[];
+
+  @OneToMany(() => Visit, (visit) => visit.property)
+  visits: Visit[];
 
   @ManyToOne(() => User, (user) => user.properties, { onDelete: 'CASCADE' })
   user: User;

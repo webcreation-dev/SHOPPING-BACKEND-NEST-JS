@@ -5,6 +5,7 @@ import { Role } from './role.entity';
 import { SexeEnum } from '../enums/sexe.enum';
 import { Property } from 'src/features/properties/entities/property.entity';
 import { AppTypeEnum } from '../enums/app_type.enum';
+import { Visit } from 'src/features/visits/entities/visit.entity';
 
 @Entity()
 export class User extends AbstractEntity<User> {
@@ -54,4 +55,10 @@ export class User extends AbstractEntity<User> {
 
   @OneToMany(() => Property, (property) => property.user)
   properties: Property[];
+
+  @OneToMany(() => Visit, (visit) => visit.user)
+  visits: Visit[];
+
+  @OneToMany(() => Visit, (visit) => visit.manager)
+  managedVisits: Visit[];
 }
