@@ -1,4 +1,4 @@
-import { Column, Entity, ManyToOne, OneToMany } from 'typeorm';
+import { Column, Entity, JoinColumn, ManyToOne, OneToMany } from 'typeorm';
 import { AbstractEntity } from '@app/common';
 import { Gallery } from './gallery.entity';
 import { WaterMeterTypeEnum } from '../enums/water_meter_type.enum';

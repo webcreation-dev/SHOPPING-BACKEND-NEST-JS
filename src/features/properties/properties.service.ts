@@ -8,7 +8,7 @@ import {
   PaginationService,
   StorageService,
 } from '@app/common';
-import { Injectable } from '@nestjs/common';
+import { forwardRef, Inject, Injectable } from '@nestjs/common';
 import { PropertiesRepository } from './properties.repository';
 import { join } from 'path';
 import { pathExists } from 'fs-extra';
@@ -21,7 +21,7 @@ import { PropertiesQueryDto } from './dto/querying/properties-query.dto';
 import { FindOptionsOrder } from 'typeorm';
 import { User } from '../auth/users/entities/user.entity';
 import { UsersService } from '../auth/users/users.service';
-import { ToogleWishlistDto } from '../auth/users/dto/toogle-wishlist.dto';
+import { ToggleWishlistDto } from '../auth/users/dto/toggle-wishlist.dto';
 import { UsersRepository } from '../auth/users/users.repository';
 
 @Injectable()
@@ -32,7 +32,9 @@ export class PropertiesService {
     private readonly storageService: StorageService,
     private readonly paginationService: PaginationService,
     private readonly filteringService: FilteringService,
+    @Inject(forwardRef(() => UsersService))
     private readonly usersService: UsersService,
+    @Inject(forwardRef(() => UsersRepository))
     private readonly usersRepository: UsersRepository,
   ) {}
 
@@ -189,8 +191,10 @@ export class PropertiesService {
     await this.storageService.delete(path);
   }
 
-  async toogleWishlist(user: User, toogleWishlistDto: ToogleWishlistDto) {
-    const { propertyId } = toogleWishlistDto;
+  async toogleWishlist(user: User, toggleWishlistDto: ToggleWishlistDto) {
+    const { propertyId } = toggleWishlistDto;
+
+    console.log(propertyId);
 
     await this.findOne(propertyId);
 

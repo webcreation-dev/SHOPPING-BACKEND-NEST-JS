@@ -1,6 +1,6 @@
 import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
-import { JwtPayload, RequestUser, RoleEnum } from '@app/common';
+import { JwtPayload, RequestUser } from '@app/common';
 import { ConfigService } from '@nestjs/config';
 import { UsersService } from './users/users.service';
 import { UsersRepository } from './users/users.repository';
@@ -12,8 +12,8 @@ import { HashingService } from './hashing/hashing.service';
 import { TempUserService } from './users/temps/temp-user.service';
 import { ResetPasswordDto } from '../../../libs/common/src/auth/dto/reset-password-dto';
 import { ForgotPasswordDto } from '../../../libs/common/src/auth/dto/forgot-password-dto';
-import { PropertiesService } from 'src/features/properties/properties.service';
-import { ToogleWishlistDto } from './users/dto/toogle-wishlist.dto';
+import { ToggleWishlistDto } from './users/dto/toggle-wishlist.dto';
+import { RoleEnum } from './users/enums/role.enum';
 
 @Injectable()
 export class AuthService {
@@ -26,7 +26,7 @@ export class AuthService {
     private readonly hashingService: HashingService,
     private readonly otpService: OtpService,
     private readonly usersService: UsersService,
-    private readonly propertiesService: PropertiesService,
+    // private readonly propertiesService: PropertiesService,
   ) {}
 
   async login(user: RequestUser) {
@@ -127,7 +127,7 @@ export class AuthService {
     return currentUser;
   }
 
-  async toogleWishlist(user: User, toogleWishlistDto: ToogleWishlistDto) {
-    return await this.propertiesService.toogleWishlist(user, toogleWishlistDto);
+  async toogleWishlist(user: User, toggleWishlistDto: ToggleWishlistDto) {
+    return await this.usersService.toogleWishlist(user, toggleWishlistDto);
   }
 }

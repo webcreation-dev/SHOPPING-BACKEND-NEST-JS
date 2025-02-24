@@ -1,4 +1,4 @@
-import { Module, forwardRef } from '@nestjs/common';
+import { forwardRef, Module } from '@nestjs/common';
 import { DatabaseModule, HashingModule } from '@app/common';
 import { UsersController } from './users.controller';
 import { UsersService } from './users.service';
@@ -8,12 +8,14 @@ import { RolesRepository } from './roles.repository';
 import { TempUserService } from './temps/temp-user.service';
 import { Role } from './entities/role.entity';
 import { User } from './entities/user.entity';
+import { PropertiesModule } from 'src/features/properties/properties.module';
 
 @Module({
   imports: [
     DatabaseModule,
     DatabaseModule.forFeature([User, Role]),
     HashingModule,
+    forwardRef(() => PropertiesModule),
   ],
   controllers: [UsersController],
   providers: [
@@ -22,7 +24,6 @@ import { User } from './entities/user.entity';
     UsersRepository,
     UsersSubscriber,
     RolesRepository,
-    UsersRepository,
   ],
   exports: [UsersService, TempUserService, UsersRepository],
 })

@@ -1,17 +1,22 @@
-import { Injectable } from '@nestjs/common';
-import { RoleEnum, AppTypeEnum } from '@app/common';
+import { forwardRef, Inject, Injectable } from '@nestjs/common';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UsersRepository } from './users.repository';
 import { RolesRepository } from './roles.repository';
 import { NotFoundException } from '@nestjs/common';
 import { Role } from './entities/role.entity';
 import { User } from './entities/user.entity';
+import { RoleEnum } from './enums/role.enum';
+import { AppTypeEnum } from './enums/app_type.enum';
+import { PropertiesService } from 'src/features/properties/properties.service';
+import { ToggleWishlistDto } from './dto/toggle-wishlist.dto';
 
 @Injectable()
 export class UsersService {
   constructor(
     private readonly usersRepository: UsersRepository,
     private readonly rolesRepository: RolesRepository,
+    @Inject(forwardRef(() => PropertiesService))
+    private readonly propertiesService: PropertiesService,
   ) {}
 
   async findOne(id: number) {
@@ -50,5 +55,9 @@ export class UsersService {
   async getUser({ id }: User) {
     const user = await this.usersRepository.findOne({ id }, { roles: true });
     return user;
+  }
+
+  async toogleWishlist(user: User, toggleWishlistDto: ToggleWishlistDto) {
+    return await this.propertiesService.toogleWishlist(user, toggleWishlistDto);
   }
 }

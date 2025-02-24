@@ -1,6 +1,7 @@
 import { Column, Entity, ManyToMany } from 'typeorm';
 import { User } from './user.entity';
-import { AbstractEntity, RoleEnum } from '@app/common';
+import { AbstractEntity } from '@app/common';
+import { RoleEnum } from '../enums/role.enum';
 
 @Entity()
 export class Role extends AbstractEntity<Role> {

@@ -1,9 +1,10 @@
 import { Column, Entity, JoinTable, ManyToMany, OneToMany } from 'typeorm';
 import { Exclude } from 'class-transformer';
-import { AbstractEntity, AppTypeEnum } from '@app/common';
+import { AbstractEntity } from '@app/common';
 import { Role } from './role.entity';
 import { SexeEnum } from '../enums/sexe.enum';
 import { Property } from 'src/features/properties/entities/property.entity';
+import { AppTypeEnum } from '../enums/app_type.enum';
 
 @Entity()
 export class User extends AbstractEntity<User> {
@@ -24,6 +25,7 @@ export class User extends AbstractEntity<User> {
     type: 'enum',
     enum: AppTypeEnum,
     enumName: 'app_type_enum',
+    default: AppTypeEnum.LOCAPAY,
   })
   app_type: AppTypeEnum;
 

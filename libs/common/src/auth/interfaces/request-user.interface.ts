@@ -1,4 +1,4 @@
-import { RoleEnum } from '../enums/role.enum';
+import { RoleEnum } from 'src/features/auth/users/enums/role.enum';
 
 export interface RequestUser {
   readonly id: number;

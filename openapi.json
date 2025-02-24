@@ -209,7 +209,7 @@
         ]
       }
     },
-    "/auth/toogle_wishlist": {
+    "/auth/toggle_wishlist": {
       "post": {
         "operationId": "AuthController_addWishlist",
         "parameters": [],
@@ -218,7 +218,7 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/ToogleWishlistDto"
+                "$ref": "#/components/schemas/ToggleWishlistDto"
               }
             }
           }
@@ -229,13 +229,13 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "type": "object"
+                  "$ref": "#/components/schemas/User"
                 }
               }
             }
           }
         },
-        "summary": "TOGLE WISHLIST",
+        "summary": "TOGGLE WISHLIST",
         "tags": [
           "Auth"
         ]
@@ -980,7 +980,7 @@
           "password"
         ]
       },
-      "ToogleWishlistDto": {
+      "ToggleWishlistDto": {
         "type": "object",
         "properties": {
           "propertyId": {

@@ -5,9 +5,6 @@ export * from './decorators/public.decorator';
 export * from './decorators/roles.decorator';
 export * from './decorators/user.decorator';
 
-//roles
-export * from './enums/role.enum';
-export * from './enums/app_type.enum';
 
 //guards
 export * from './guards/jwt-auth/jwt-auth.guard';
