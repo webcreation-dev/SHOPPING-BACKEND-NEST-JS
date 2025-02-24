@@ -123,7 +123,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/User"
+                  "$ref": "#/components/schemas/CurrentUserResponseDto"
                 }
               }
             }
@@ -948,6 +948,24 @@
         "required": [
           "otp",
           "phone"
+        ]
+      },
+      "CurrentUserResponseDto": {
+        "type": "object",
+        "properties": {
+          "user": {
+            "$ref": "#/components/schemas/User"
+          },
+          "wishlist": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Property"
+            }
+          }
+        },
+        "required": [
+          "user",
+          "wishlist"
         ]
       },
       "ForgotPasswordDto": {

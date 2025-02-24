@@ -53,8 +53,16 @@ export class UsersService {
   }
 
   async getUser({ id }: User) {
-    const user = await this.usersRepository.findOne({ id }, { roles: true });
-    return user;
+    const userData = await this.usersRepository.findOne(
+      { id },
+      { roles: true },
+    );
+    return {
+      user: userData,
+      wishlist: await this.propertiesService.findMany(
+        userData.wishlistedProperties,
+      ),
+    };
   }
 
   async toogleWishlist(user: User, toggleWishlistDto: ToggleWishlistDto) {

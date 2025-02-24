@@ -16,6 +16,7 @@ import { User } from './users/entities/user.entity';
 import { LoginResponseDto } from 'src/features/auth/dto/login-response.dto';
 import { SendOtpResponseDto } from './dto/send-otp-response.dto';
 import { ToggleWishlistDto } from './users/dto/toggle-wishlist.dto';
+import { CurrentUserResponseDto } from './dto/current_user-response.dto';
 
 @Controller('auth')
 export class AuthController {
@@ -41,7 +42,7 @@ export class AuthController {
     return await this.authService.verifyOtp(saveUserDto);
   }
 
-  @HeaderOperation('GET USER')
+  @HeaderOperation('GET USER', null, CurrentUserResponseDto)
   @Get('user')
   async getUser(@CurrentUser() user: User) {
     return await this.authService.getUser(user);
