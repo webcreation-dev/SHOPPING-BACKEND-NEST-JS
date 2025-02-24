@@ -2,7 +2,9 @@ import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import helmet from 'helmet';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
+import * as express from 'express';
 import { writeFileSync } from 'fs';
+import * as path from 'path';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -21,6 +23,10 @@ async function bootstrap() {
       'Production Server',
     )
     .build();
+
+  const uploadsPath = path.resolve(__dirname, '..', '..', 'upload');
+
+  app.use('/upload', express.static(uploadsPath));
 
   const document = SwaggerModule.createDocument(app, config);
   writeFileSync('./openapi.json', JSON.stringify(document, null, 2));
