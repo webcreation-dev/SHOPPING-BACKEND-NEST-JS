@@ -1,6 +1,14 @@
 import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
-import { JwtPayload, RequestUser } from '@app/common';
+import {
+  BASE_PATH,
+  File,
+  FilePath,
+  JwtPayload,
+  MaxFileCount,
+  RequestUser,
+  StorageService,
+} from '@app/common';
 import { ConfigService } from '@nestjs/config';
 import { UsersService } from './users/users.service';
 import { UsersRepository } from './users/users.repository';
@@ -14,6 +22,9 @@ import { ResetPasswordDto } from '../../../libs/common/src/auth/dto/reset-passwo
 import { ForgotPasswordDto } from '../../../libs/common/src/auth/dto/forgot-password-dto';
 import { ToggleWishlistDto } from './users/dto/toggle-wishlist.dto';
 import { RoleEnum } from './users/enums/role.enum';
+import { InitiateValidationUserDto } from './users/dto/initiate-validation-user.dto';
+import { join } from 'path';
+import { pathExists } from 'fs-extra';
 
 @Injectable()
 export class AuthService {
@@ -26,6 +37,7 @@ export class AuthService {
     private readonly hashingService: HashingService,
     private readonly otpService: OtpService,
     private readonly usersService: UsersService,
+    private readonly storageService: StorageService,
     // private readonly propertiesService: PropertiesService,
   ) {}
 
@@ -88,11 +100,44 @@ export class AuthService {
     return this.usersRepository.findOne({ id: payload.sub }, { roles: true });
   }
 
+  async initiateValidation(
+    initiateValidationUserDto: InitiateValidationUserDto,
+    card_image: File,
+    { id }: User,
+  ) {
+    return this.usersRepository.findOneAndUpdate(
+      { id },
+      {
+        ...initiateValidationUserDto,
+        card_image: await this.uploadImage(id, card_image),
+      },
+    );
+  }
+
+  async uploadImage(id: number, file: File) {
+    const { BASE, IMAGES } = FilePath.Users;
+    const path = join(BASE, id.toString(), IMAGES);
+
+    if (await pathExists(join(BASE_PATH, path))) {
+      const dirFilecount = await this.storageService.getDirFilecount(path);
+      const totalFilecount = dirFilecount + 1;
+
+      this.storageService.validateFilecount(
+        totalFilecount,
+        MaxFileCount.CARD_IMAGE,
+      );
+    }
+
+    await this.storageService.createDir(path);
+
+    const savedPath = await this.storageService.saveFile(path, file);
+    return savedPath;
+  }
+
   private createRequestUser(user: User) {
     const { id, roles } = user;
 
     const rolesEnum = roles.map((role) => role.name as RoleEnum);
-
     const requestUser: RequestUser = { id, roles: rolesEnum };
 
     return requestUser;

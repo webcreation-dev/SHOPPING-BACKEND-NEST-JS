@@ -6,6 +6,7 @@ import { SexeEnum } from '../enums/sexe.enum';
 import { Property } from 'src/features/properties/entities/property.entity';
 import { AppTypeEnum } from '../enums/app_type.enum';
 import { Visit } from 'src/features/visits/entities/visit.entity';
+import { StatusEnum } from '../enums/status.enum';
 
 @Entity()
 export class User extends AbstractEntity<User> {
@@ -30,8 +31,25 @@ export class User extends AbstractEntity<User> {
   })
   app_type: AppTypeEnum;
 
+  @Column({
+    type: 'enum',
+    enum: StatusEnum,
+    enumName: 'status_enum',
+    default: StatusEnum.PENDING,
+  })
+  status: StatusEnum;
+
   @Column({ nullable: true })
   image: string;
+
+  @Column({ nullable: true })
+  card_image: string;
+
+  @Column({ nullable: true })
+  card_number: number;
+
+  @Column({ nullable: true })
+  signature: string;
 
   @Column({
     type: 'enum',

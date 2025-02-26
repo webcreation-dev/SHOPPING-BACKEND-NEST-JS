@@ -6,6 +6,7 @@ import { JwtModule } from '@nestjs/jwt';
 import { ConfigModule } from '@nestjs/config';
 import { ThrottlerModule } from '@nestjs/throttler';
 import {
+  FilesModule,
   JwtStrategy,
   LocalStrategy,
   LoginValidationMiddleware,
@@ -25,6 +26,7 @@ import { UsersModule } from './users/users.module';
     ThrottlerModule.forRoot(THROTTLER_MODULE_OPTIONS),
     OtpModule,
     UsersModule,
+    FilesModule,
   ],
   controllers: [AuthController],
   providers: [

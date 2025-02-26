@@ -9,6 +9,7 @@ import { RoleEnum } from './enums/role.enum';
 import { AppTypeEnum } from './enums/app_type.enum';
 import { PropertiesService } from 'src/features/properties/properties.service';
 import { ToggleWishlistDto } from './dto/toggle-wishlist.dto';
+import { ValidateUserDto } from './dto/validate-user.dto';
 
 @Injectable()
 export class UsersService {
@@ -39,6 +40,14 @@ export class UsersService {
       ],
     });
     return this.usersRepository.create(user);
+  }
+
+  async validateUser(validateUserDto: ValidateUserDto) {
+    await this.findOne(validateUserDto.user_id);
+    return this.usersRepository.findOneAndUpdate(
+      { id: validateUserDto.user_id },
+      { status: validateUserDto.status },
+    );
   }
 
   private async getRole($app_type) {

@@ -241,6 +241,70 @@
         ]
       }
     },
+    "/auth/initiate_validation_user": {
+      "patch": {
+        "operationId": "AuthController_initiateValidation",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/InitiateValidationUserDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/User"
+                }
+              }
+            }
+          }
+        },
+        "summary": "INITIATE VALIDATION USER",
+        "tags": [
+          "Auth"
+        ]
+      }
+    },
+    "/users/validate_user": {
+      "post": {
+        "operationId": "UsersController_validateUser",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ValidateUserDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/User"
+                }
+              }
+            }
+          }
+        },
+        "summary": "VALIDATE USER",
+        "tags": [
+          "Users"
+        ]
+      }
+    },
     "/properties": {
       "post": {
         "operationId": "PropertiesController_create",
@@ -536,6 +600,129 @@
           }
         },
         "summary": "DELETE IMAGES",
+        "tags": [
+          "Properties"
+        ]
+      }
+    },
+    "/properties/{id}/add_articles": {
+      "patch": {
+        "operationId": "PropertiesController_addArticles",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "number"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AddArticlesDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Property"
+                }
+              }
+            }
+          }
+        },
+        "summary": "ADD ARTICLES",
+        "tags": [
+          "Properties"
+        ]
+      }
+    },
+    "/properties/{id}/update_article": {
+      "patch": {
+        "operationId": "PropertiesController_updateArticle",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "number"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateArticleDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Property"
+                }
+              }
+            }
+          }
+        },
+        "summary": "UPDATE ARTICLE",
+        "tags": [
+          "Properties"
+        ]
+      }
+    },
+    "/properties/{id}/remove_article": {
+      "delete": {
+        "operationId": "PropertiesController_removeArticle",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "number"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RemoveArticleDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Property"
+                }
+              }
+            }
+          }
+        },
+        "summary": "REMOVE ARTICLE",
         "tags": [
           "Properties"
         ]
@@ -1102,6 +1289,12 @@
           "user": {
             "$ref": "#/components/schemas/User"
           },
+          "articles": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
           "id": {
             "type": "number"
           },
@@ -1135,6 +1328,7 @@
           "galleries",
           "visits",
           "user",
+          "articles",
           "id",
           "registryDates"
         ]
@@ -1161,7 +1355,24 @@
             ],
             "type": "string"
           },
+          "status": {
+            "enum": [
+              "PENDING",
+              "ACCEPETD",
+              "REJECTED"
+            ],
+            "type": "string"
+          },
           "image": {
+            "type": "string"
+          },
+          "card_image": {
+            "type": "string"
+          },
+          "card_number": {
+            "type": "number"
+          },
+          "signature": {
             "type": "string"
           },
           "sexe": {
@@ -1220,7 +1431,11 @@
           "phone",
           "password",
           "app_type",
+          "status",
           "image",
+          "card_image",
+          "card_number",
+          "signature",
           "sexe",
           "balance_mtn",
           "balance_moov",
@@ -1370,6 +1585,37 @@
         },
         "required": [
           "property_id"
+        ]
+      },
+      "InitiateValidationUserDto": {
+        "type": "object",
+        "properties": {
+          "card_number": {
+            "type": "number"
+          }
+        },
+        "required": [
+          "card_number"
+        ]
+      },
+      "ValidateUserDto": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "string",
+            "enum": [
+              "PENDING",
+              "ACCEPETD",
+              "REJECTED"
+            ]
+          },
+          "user_id": {
+            "type": "number"
+          }
+        },
+        "required": [
+          "status",
+          "user_id"
         ]
       },
       "CreatePropertyDto": {
@@ -1700,6 +1946,62 @@
         },
         "required": [
           "filenames"
+        ]
+      },
+      "CreateArticleDto": {
+        "type": "object",
+        "properties": {
+          "title": {
+            "type": "string"
+          },
+          "content": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "title",
+          "content"
+        ]
+      },
+      "AddArticlesDto": {
+        "type": "object",
+        "properties": {
+          "articles": {
+            "minItems": 1,
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/CreateArticleDto"
+            }
+          }
+        },
+        "required": [
+          "articles"
+        ]
+      },
+      "UpdateArticleDto": {
+        "type": "object",
+        "properties": {
+          "article": {
+            "$ref": "#/components/schemas/CreateArticleDto"
+          },
+          "article_id": {
+            "type": "number"
+          }
+        },
+        "required": [
+          "article",
+          "article_id"
+        ]
+      },
+      "RemoveArticleDto": {
+        "type": "object",
+        "properties": {
+          "article_id": {
+            "type": "number"
+          }
+        },
+        "required": [
+          "article_id"
         ]
       },
       "CreateVisitDto": {

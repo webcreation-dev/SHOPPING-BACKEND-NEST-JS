@@ -23,6 +23,8 @@ import { User } from '../auth/users/entities/user.entity';
 import { UsersService } from '../auth/users/users.service';
 import { ToggleWishlistDto } from '../auth/users/dto/toggle-wishlist.dto';
 import { UsersRepository } from '../auth/users/users.repository';
+import { AddArticlesDto } from './dto/articles/add-article.dto';
+import { UpdateArticleDto } from './dto/articles/update-article.dto';
 
 @Injectable()
 export class PropertiesService {
@@ -209,5 +211,58 @@ export class PropertiesService {
 
     await this.usersRepository.save(user);
     return user;
+  }
+
+  async addArticles(id: number, addArticlesDto: AddArticlesDto) {
+    const property = await this.findOne(id);
+
+    const maxArticleId = property.articles.length
+      ? Math.max(...property.articles.map((a) => a.id))
+      : 0;
+
+    const newArticles = addArticlesDto.articles.map((article, index) => ({
+      id: maxArticleId + index + 1,
+      ...article,
+    }));
+
+    property.articles = [...property.articles, ...newArticles];
+
+    return this.propertiesRepository.findOneAndUpdate(
+      { id },
+      { articles: property.articles },
+    );
+  }
+
+  async updateArticle(id: number, updatedArticle: UpdateArticleDto) {
+    const property = await this.findOne(id);
+
+    const articleIndex = property.articles.findIndex(
+      (article) => article.id === updatedArticle.article_id,
+    );
+
+    property.articles[articleIndex] = {
+      ...property.articles[articleIndex],
+      ...updatedArticle.article,
+    };
+
+    return this.propertiesRepository.findOneAndUpdate(
+      { id },
+      { articles: property.articles },
+    );
+  }
+
+  async removeArticle(id: number, articleId: number) {
+    const property = await this.findOne(id);
+
+    const articleIndex = property.articles.findIndex(
+      (article) => article.id === articleId,
+    );
+
+    property.articles.splice(articleIndex, 1);
+
+    return this.propertiesRepository.findOneAndUpdate(
+      { id },
+      { articles: property.articles },
+    );
   }
 }

@@ -1,13 +1,26 @@
-import { Body, Controller, Get, Post, UseGuards } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  Patch,
+  Post,
+  UploadedFiles,
+  UseGuards,
+  UseInterceptors,
+} from '@nestjs/common';
 import { AuthService } from './auth.service';
 import {
+  createParseFilePipe,
+  File,
   ForgotPasswordDto,
   HeaderOperation,
   LoginDto,
+  MaxFileCount,
   Public,
   RequestUser,
   ResetPasswordDto,
 } from '@app/common';
+import { FilesInterceptor } from '@nestjs/platform-express';
 import { CreateUserDto } from './users/dto/create-user.dto';
 import { SaveUserDto } from './users/dto/save-user-dto';
 import { CurrentUser } from './decorators/user.decorator';
@@ -17,6 +30,7 @@ import { LoginResponseDto } from 'src/features/auth/dto/login-response.dto';
 import { SendOtpResponseDto } from './dto/send-otp-response.dto';
 import { ToggleWishlistDto } from './users/dto/toggle-wishlist.dto';
 import { CurrentUserResponseDto } from './dto/current_user-response.dto';
+import { InitiateValidationUserDto } from './users/dto/initiate-validation-user.dto';
 
 @Controller('auth')
 export class AuthController {
@@ -71,8 +85,21 @@ export class AuthController {
     @Body() toggleWishlistDto: ToggleWishlistDto,
     @CurrentUser() user: User,
   ) {
-    console.log('toggleWishlistDto', toggleWishlistDto);
-
     return await this.authService.toogleWishlist(user, toggleWishlistDto);
+  }
+
+  @HeaderOperation('INITIATE VALIDATION USER', InitiateValidationUserDto)
+  @UseInterceptors(FilesInterceptor('card_image', MaxFileCount.CARD_IMAGE))
+  @Patch('initiate_validation_user')
+  async initiateValidation(
+    @Body() initiateValidationUserDto: InitiateValidationUserDto,
+    @UploadedFiles(createParseFilePipe('2MB', 'png', 'jpeg')) card_image: File,
+    @CurrentUser() user: User,
+  ) {
+    return await this.authService.initiateValidation(
+      initiateValidationUserDto,
+      card_image,
+      user,
+    );
   }
 }

@@ -1,6 +1,7 @@
 export const MaxFileCount = {
   PRODUCT_IMAGES: 5,
   PROPERTY_IMAGES: 5,
+  CARD_IMAGE: 1,
 } as const satisfies Record<string, number>;
 
 export const BASE_PATH = 'upload';
@@ -8,6 +9,10 @@ export const BASE_PATH = 'upload';
 export const FilePath = {
   Products: {
     BASE: 'products',
+    IMAGES: 'images',
+  },
+  Users: {
+    BASE: 'users',
     IMAGES: 'images',
   },
   Properties: {

@@ -34,6 +34,9 @@ import { User } from '../auth/users/entities/user.entity';
 import { Property } from './entities/property.entity';
 import { FilesSchema } from 'libs/common/src/files/swagger/schemas/files.schema';
 import { ApiConsumes } from '@nestjs/swagger';
+import { AddArticlesDto } from './dto/articles/add-article.dto';
+import { UpdateArticleDto } from './dto/articles/update-article.dto';
+import { RemoveArticleDto } from './dto/articles/remove-article.dto';
 
 @Controller('properties')
 export class PropertiesController {
@@ -76,6 +79,7 @@ export class PropertiesController {
   update(@Param() { id }: IdDto, @Body() updatePropertyDto: UpdatePropertyDto) {
     return this.propertiesService.update(id, updatePropertyDto);
   }
+
   @Delete(':id')
   // @Roles(RoleEnum.MANAGER)
   @HeaderOperation('DELETE PROPERTY')
@@ -98,11 +102,36 @@ export class PropertiesController {
 
   @Delete(':id/images')
   // @Roles(RoleEnum.MANAGER)
+  @UseInterceptors(FilesInterceptor('files', MaxFileCount.PROPERTY_IMAGES))
   @HeaderOperation('DELETE IMAGES', FilenamesDto)
   deleteImages(
     @Param('id', ParseIntPipe) id: number,
     @Body() { filenames }: FilenamesDto,
   ) {
     return this.propertiesService.deleteImages(id, filenames);
+  }
+
+  @Patch(':id/add_articles')
+  @HeaderOperation('ADD ARTICLES', AddArticlesDto)
+  addArticles(@Param() { id }: IdDto, @Body() addArticlesDto: AddArticlesDto) {
+    return this.propertiesService.addArticles(id, addArticlesDto);
+  }
+
+  @Patch(':id/update_article')
+  @HeaderOperation('UPDATE ARTICLE', UpdateArticleDto)
+  updateArticle(
+    @Param() { id }: IdDto,
+    @Body() updateArticleDto: UpdateArticleDto,
+  ) {
+    return this.propertiesService.updateArticle(id, updateArticleDto);
+  }
+
+  @Delete(':id/remove_article')
+  @HeaderOperation('REMOVE ARTICLE', RemoveArticleDto)
+  removeArticle(
+    @Param() { id }: IdDto,
+    @Body() { article_id }: RemoveArticleDto,
+  ) {
+    return this.propertiesService.removeArticle(id, article_id);
   }
 }
