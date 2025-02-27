@@ -13,6 +13,7 @@ import { SeedingModule } from 'libs/common/src/database/seeding/seeding.module';
 import { AuthModule } from './features/auth/auth.module';
 import { UsersModule } from './features/auth/users/users.module';
 import { VisitsModule } from './features/visits/visits.module';
+import { ContractsModule } from './features/contracts/contracts.module';
 
 @Module({
   imports: [
@@ -27,7 +28,8 @@ import { VisitsModule } from './features/visits/visits.module';
     OtpModule,
     PropertiesModule,
     VisitsModule,
-    LoggerModule,
+    // LoggerModule,
+    ContractsModule,
   ],
 })
 export class AppModule {}

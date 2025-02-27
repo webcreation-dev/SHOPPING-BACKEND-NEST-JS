@@ -1,12 +1,13 @@
 import { Column, Entity, JoinTable, ManyToMany, OneToMany } from 'typeorm';
 import { Exclude } from 'class-transformer';
-import { AbstractEntity } from '@app/common';
+import { AbstractEntity } from 'libs/common/src/database/abstract.entity';
 import { Role } from './role.entity';
 import { SexeEnum } from '../enums/sexe.enum';
 import { Property } from 'src/features/properties/entities/property.entity';
 import { AppTypeEnum } from '../enums/app_type.enum';
 import { Visit } from 'src/features/visits/entities/visit.entity';
 import { StatusEnum } from '../enums/status.enum';
+import { Contract } from 'src/features/contracts/entities/contract.entity';
 
 @Entity()
 export class User extends AbstractEntity<User> {
@@ -18,6 +19,9 @@ export class User extends AbstractEntity<User> {
 
   @Column({ unique: true })
   phone: string;
+
+  @Column({ unique: true })
+  code: string;
 
   @Exclude()
   @Column()
@@ -34,7 +38,7 @@ export class User extends AbstractEntity<User> {
   @Column({
     type: 'enum',
     enum: StatusEnum,
-    enumName: 'status_enum',
+    enumName: 'status_user_enum',
     default: StatusEnum.PENDING,
   })
   status: StatusEnum;
@@ -79,4 +83,10 @@ export class User extends AbstractEntity<User> {
 
   @OneToMany(() => Visit, (visit) => visit.manager)
   managedVisits: Visit[];
+
+  @OneToMany(() => Contract, (contract) => contract.landlord)
+  managedContracts: Contract[];
+
+  @OneToMany(() => Contract, (contract) => contract.tenant)
+  contracts: Contract[];
 }

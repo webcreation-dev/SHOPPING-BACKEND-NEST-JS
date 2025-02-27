@@ -1,5 +1,5 @@
 import { Column, Entity, ManyToOne, OneToMany } from 'typeorm';
-import { AbstractEntity } from '@app/common';
+import { AbstractEntity } from 'libs/common/src/database/abstract.entity';
 import { Gallery } from './gallery.entity';
 import { WaterMeterTypeEnum } from '../enums/water_meter_type.enum';
 import { PaintEnum } from '../enums/paint.enum';
@@ -8,6 +8,7 @@ import { ElectricityMeterTypeEnum } from '../enums/electricity_meter_type.enum';
 import { ElectricityPersonalMeterTypeEnum } from '../enums/electricity_personal_meter_type.enum';
 import { User } from 'src/features/auth/users/entities/user.entity';
 import { Visit } from 'src/features/visits/entities/visit.entity';
+import { Contract } from 'src/features/contracts/entities/contract.entity';
 
 @Entity()
 export class Property extends AbstractEntity<Property> {
@@ -107,10 +108,13 @@ export class Property extends AbstractEntity<Property> {
   @ManyToOne(() => User, (user) => user.properties, { onDelete: 'CASCADE' })
   user: User;
 
-  @Column({ type: 'json', nullable: true })
+  @Column({ type: 'json', default: [] })
   articles: {
     id: number;
     title: string;
     content: string;
   }[];
+
+  @OneToMany(() => Contract, (contract) => contract.property)
+  contracts: Contract[];
 }

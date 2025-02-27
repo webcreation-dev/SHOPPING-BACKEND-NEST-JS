@@ -1,6 +1,6 @@
 import { Entity, Column, ManyToOne } from 'typeorm';
 import { Property } from './property.entity';
-import { AbstractEntity } from '@app/common';
+import { AbstractEntity } from 'libs/common/src/database/abstract.entity';
 
 @Entity()
 export class Gallery extends AbstractEntity<Gallery> {

@@ -2,6 +2,7 @@ export * from './common.module';
 export * from './dto/id.dto';
 export * from './decorators/validators/is-unique.decorator';
 export * from './decorators/validators/is-entity.decorator';
+export * from './decorators/validators/is-certified.decorator';
 export * from './decorators/validators/is-exist.decorator';
 export * from './decorators/validators/is-boolean.decorator';
 export * from './decorators/validators/is-cardinal.decorator';

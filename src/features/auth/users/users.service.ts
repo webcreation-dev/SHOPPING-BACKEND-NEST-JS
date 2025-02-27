@@ -10,6 +10,7 @@ import { AppTypeEnum } from './enums/app_type.enum';
 import { PropertiesService } from 'src/features/properties/properties.service';
 import { ToggleWishlistDto } from './dto/toggle-wishlist.dto';
 import { ValidateUserDto } from './dto/validate-user.dto';
+import { randomBytes } from 'crypto';
 
 @Injectable()
 export class UsersService {
@@ -33,6 +34,7 @@ export class UsersService {
     await this.rolesRepository.create(new Role({ name: RoleEnum.MANAGER }));
     const user = new User({
       ...createUserDto,
+      code: randomBytes(3).toString('hex').toUpperCase(),
       roles: [
         await this.rolesRepository.findOne({
           name: await this.getRole(createUserDto.app_type),

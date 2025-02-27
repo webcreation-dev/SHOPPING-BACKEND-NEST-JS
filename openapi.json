@@ -267,7 +267,7 @@
             }
           }
         },
-        "summary": "INITIATE VALIDATION USER",
+        "summary": "INITIATE VALIDATION",
         "tags": [
           "Auth"
         ]
@@ -1016,6 +1016,31 @@
           "Visits"
         ]
       }
+    },
+    "/contracts": {
+      "post": {
+        "operationId": "ContractsController_create",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateContractDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "summary": "CREATE ",
+        "tags": [
+          "Contracts"
+        ]
+      }
     }
   },
   "info": {
@@ -1183,6 +1208,54 @@
           "registryDates"
         ]
       },
+      "Contract": {
+        "type": "object",
+        "properties": {
+          "startDate": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "endDate": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "rent_price": {
+            "type": "number"
+          },
+          "articles": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "property": {
+            "$ref": "#/components/schemas/Property"
+          },
+          "landlord": {
+            "$ref": "#/components/schemas/User"
+          },
+          "tenant": {
+            "$ref": "#/components/schemas/User"
+          },
+          "id": {
+            "type": "number"
+          },
+          "registryDates": {
+            "$ref": "#/components/schemas/RegistryDates"
+          }
+        },
+        "required": [
+          "startDate",
+          "endDate",
+          "rent_price",
+          "articles",
+          "property",
+          "landlord",
+          "tenant",
+          "id",
+          "registryDates"
+        ]
+      },
       "Property": {
         "type": "object",
         "properties": {
@@ -1295,6 +1368,12 @@
               "type": "string"
             }
           },
+          "contracts": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Contract"
+            }
+          },
           "id": {
             "type": "number"
           },
@@ -1329,6 +1408,7 @@
           "visits",
           "user",
           "articles",
+          "contracts",
           "id",
           "registryDates"
         ]
@@ -1343,6 +1423,9 @@
             "type": "string"
           },
           "phone": {
+            "type": "string"
+          },
+          "code": {
             "type": "string"
           },
           "password": {
@@ -1418,6 +1501,18 @@
               "$ref": "#/components/schemas/Visit"
             }
           },
+          "managedContracts": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Contract"
+            }
+          },
+          "contracts": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Contract"
+            }
+          },
           "id": {
             "type": "number"
           },
@@ -1429,6 +1524,7 @@
           "lastname",
           "firstname",
           "phone",
+          "code",
           "password",
           "app_type",
           "status",
@@ -1444,6 +1540,8 @@
           "properties",
           "visits",
           "managedVisits",
+          "managedContracts",
+          "contracts",
           "id",
           "registryDates"
         ]
@@ -2063,6 +2161,17 @@
         "required": [
           "code",
           "is_taken"
+        ]
+      },
+      "CreateContractDto": {
+        "type": "object",
+        "properties": {
+          "tenant_id": {
+            "type": "number"
+          }
+        },
+        "required": [
+          "tenant_id"
         ]
       }
     }

@@ -88,7 +88,7 @@ export class AuthController {
     return await this.authService.toogleWishlist(user, toggleWishlistDto);
   }
 
-  @HeaderOperation('INITIATE VALIDATION USER', InitiateValidationUserDto)
+  @HeaderOperation('INITIATE VALIDATION', InitiateValidationUserDto)
   @UseInterceptors(FilesInterceptor('card_image', MaxFileCount.CARD_IMAGE))
   @Patch('initiate_validation_user')
   async initiateValidation(

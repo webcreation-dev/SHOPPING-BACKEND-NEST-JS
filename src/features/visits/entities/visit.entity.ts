@@ -1,5 +1,5 @@
 import { BeforeInsert, Column, Entity, ManyToOne } from 'typeorm';
-import { AbstractEntity } from '@app/common';
+import { AbstractEntity } from 'libs/common/src/database/abstract.entity';
 import { StatusEnum } from '../enums/status.enum';
 import { User } from 'src/features/auth/users/entities/user.entity';
 import { Property } from 'src/features/properties/entities/property.entity';
@@ -22,7 +22,7 @@ export class Visit extends AbstractEntity<Visit> {
   @Column({
     type: 'enum',
     enum: StatusEnum,
-    enumName: 'status_enum',
+    enumName: 'status_visit_enum',
     default: StatusEnum.WAITING,
   })
   status: StatusEnum;
@@ -40,6 +40,8 @@ export class Visit extends AbstractEntity<Visit> {
   })
   property: Property;
 
-  @ManyToOne(() => User, (manager) => manager.visits, { onDelete: 'CASCADE' })
+  @ManyToOne(() => User, (manager) => manager.managedVisits, {
+    onDelete: 'CASCADE',
+  })
   manager: User;
 }

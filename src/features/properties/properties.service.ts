@@ -241,10 +241,11 @@ export class PropertiesService {
     );
 
     property.articles[articleIndex] = {
-      ...property.articles[articleIndex],
-      ...updatedArticle.article,
+      ...property.articles[articleIndex], // Garde les anciennes données
+      ...updatedArticle.article, // Remplace avec les nouvelles données
     };
 
+    // Mise à jour de la propriété dans la base de données
     return this.propertiesRepository.findOneAndUpdate(
       { id },
       { articles: property.articles },
