@@ -26,7 +26,7 @@ export class UsersService {
   }
 
   async findAll(): Promise<User[]> {
-    return await this.usersRepository.find({}); // Cela doit renvoyer un tableau
+    return await this.usersRepository.find({});
   }
 
   async create(createUserDto: CreateUserDto) {

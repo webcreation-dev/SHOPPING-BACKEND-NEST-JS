@@ -108,6 +108,12 @@ export class Property extends AbstractEntity<Property> {
   @ManyToOne(() => User, (user) => user.properties, { onDelete: 'CASCADE' })
   user: User;
 
+  @ManyToOne(() => User, (owner) => owner.ownProperties, {
+    onDelete: 'CASCADE',
+    nullable: true,
+  })
+  owner: User;
+
   @Column({ type: 'json', default: [] })
   articles: {
     id: number;

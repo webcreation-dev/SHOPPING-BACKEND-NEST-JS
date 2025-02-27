@@ -227,10 +227,15 @@ export class PropertiesService {
 
     property.articles = [...property.articles, ...newArticles];
 
-    return this.propertiesRepository.findOneAndUpdate(
-      { id },
-      { articles: property.articles },
-    );
+    const updateData: any = { articles: property.articles };
+
+    if (addArticlesDto.owner_code) {
+      updateData.owner = await this.usersRepository.findOne({
+        code: addArticlesDto.owner_code,
+      });
+    }
+
+    return this.propertiesRepository.findOneAndUpdate({ id }, updateData);
   }
 
   async updateArticle(id: number, updatedArticle: UpdateArticleDto) {

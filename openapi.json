@@ -1033,7 +1033,14 @@
         },
         "responses": {
           "201": {
-            "description": ""
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Contract"
+                }
+              }
+            }
           }
         },
         "summary": "CREATE ",
@@ -1211,11 +1218,11 @@
       "Contract": {
         "type": "object",
         "properties": {
-          "startDate": {
+          "start_date": {
             "format": "date-time",
             "type": "string"
           },
-          "endDate": {
+          "end_date": {
             "format": "date-time",
             "type": "string"
           },
@@ -1245,8 +1252,8 @@
           }
         },
         "required": [
-          "startDate",
-          "endDate",
+          "start_date",
+          "end_date",
           "rent_price",
           "articles",
           "property",
@@ -1362,6 +1369,9 @@
           "user": {
             "$ref": "#/components/schemas/User"
           },
+          "owner": {
+            "$ref": "#/components/schemas/User"
+          },
           "articles": {
             "type": "array",
             "items": {
@@ -1407,6 +1417,7 @@
           "galleries",
           "visits",
           "user",
+          "owner",
           "articles",
           "contracts",
           "id",
@@ -1441,7 +1452,7 @@
           "status": {
             "enum": [
               "PENDING",
-              "ACCEPETD",
+              "ACCEPTED",
               "REJECTED"
             ],
             "type": "string"
@@ -1484,6 +1495,12 @@
             }
           },
           "properties": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Property"
+            }
+          },
+          "ownProperties": {
             "type": "array",
             "items": {
               "$ref": "#/components/schemas/Property"
@@ -1538,6 +1555,7 @@
           "wishlistedProperties",
           "roles",
           "properties",
+          "ownProperties",
           "visits",
           "managedVisits",
           "managedContracts",
@@ -1703,7 +1721,7 @@
             "type": "string",
             "enum": [
               "PENDING",
-              "ACCEPETD",
+              "ACCEPTED",
               "REJECTED"
             ]
           },
@@ -2070,6 +2088,12 @@
             "items": {
               "$ref": "#/components/schemas/CreateArticleDto"
             }
+          },
+          "owner_code": {
+            "type": "string"
+          },
+          "owner": {
+            "$ref": "#/components/schemas/User"
           }
         },
         "required": [
@@ -2168,10 +2192,28 @@
         "properties": {
           "tenant_id": {
             "type": "number"
+          },
+          "landlord_id": {
+            "type": "number"
+          },
+          "property_id": {
+            "type": "number"
+          },
+          "start_date": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "end_date": {
+            "format": "date-time",
+            "type": "string"
           }
         },
         "required": [
-          "tenant_id"
+          "tenant_id",
+          "landlord_id",
+          "property_id",
+          "start_date",
+          "end_date"
         ]
       }
     }

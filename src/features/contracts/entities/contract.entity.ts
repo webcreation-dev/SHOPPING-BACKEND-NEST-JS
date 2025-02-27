@@ -6,10 +6,10 @@ import { Entity, Column, ManyToOne } from 'typeorm';
 @Entity()
 export class Contract extends AbstractEntity<Contract> {
   @Column({ type: 'timestamp' })
-  startDate: Date;
+  start_date: Date;
 
   @Column({ type: 'timestamp' })
-  endDate: Date;
+  end_date: Date;
 
   @Column()
   rent_price: number;

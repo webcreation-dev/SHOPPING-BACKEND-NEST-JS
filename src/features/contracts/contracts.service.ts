@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable } from '@nestjs/common';
 import { User } from '../auth/users/entities/user.entity';
 import { UsersService } from '../auth/users/users.service';
 import { PropertiesService } from '../properties/properties.service';
@@ -55,26 +55,54 @@ export class ContractsService {
   //   return { data, meta };
   // }
 
-  async create({ tenant_id }: CreateContractDto, { id }: User) {
-    // const userData = await this.usersService.findOne(id);
-    // const property = await this.propertiesService.findOne(property_id);
-    // console.log('property', property);
-    // const contract = await this.contractsRepository.create(
-    //   new Contract({
-    //     user: userData,
-    //     property: property,
-    //     manager: property.user,
-    //   }),
-    // );
-    // return await this.findOne(contract.id);
+  async create(
+    {
+      tenant_id,
+      landlord_id,
+      property_id,
+      start_date,
+      end_date,
+    }: CreateContractDto,
+    { id }: User,
+  ) {
+    const [tenant, landlord, property] = await Promise.all([
+      this.usersService.findOne(tenant_id),
+      this.usersService.findOne(landlord_id),
+      this.propertiesService.findOne(property_id),
+    ]);
+
+    if (property.user.id !== id) {
+      throw new BadRequestException(
+        `Vous n'etes pas autorisé à effectué cette action.`,
+      );
+    }
+
+    if (property.user.id !== landlord_id && property.owner.id !== landlord_id) {
+      throw new BadRequestException(
+        `Vous n'etes pas autorisé à effectuer cette action.`,
+      );
+    }
+
+    const contract = await this.contractsRepository.create(
+      new Contract({
+        tenant,
+        landlord,
+        property,
+        start_date,
+        end_date,
+        articles: property.articles,
+        rent_price: property.rent_price,
+      }),
+    );
+    return await this.findOne(contract.id);
   }
 
-  // async findOne(id: number) {
-  //   return this.contractsRepository.findOne(
-  //     { id },
-  //     { user: true, property: true, manager: true },
-  //   );
-  // }
+  async findOne(id: number) {
+    return this.contractsRepository.findOne(
+      { id },
+      { tenant: true, landlord: true, property: true },
+    );
+  }
 
   // async findMany(ids: number[]) {
   //   const results = await Promise.allSettled(ids.map((id) => this.findOne(id)));
