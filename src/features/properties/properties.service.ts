@@ -25,6 +25,7 @@ import { ToggleWishlistDto } from '../auth/users/dto/toggle-wishlist.dto';
 import { UsersRepository } from '../auth/users/users.repository';
 import { AddArticlesDto } from './dto/articles/add-article.dto';
 import { UpdateArticleDto } from './dto/articles/update-article.dto';
+import { PropertyResource } from './resources/property.resource';
 
 @Injectable()
 export class PropertiesService {
@@ -38,6 +39,7 @@ export class PropertiesService {
     private readonly usersService: UsersService,
     @Inject(forwardRef(() => UsersRepository))
     private readonly usersRepository: UsersRepository,
+    private readonly propertyResource: PropertyResource,
   ) {}
 
   async findAll(propertiesQueryDto: PropertiesQueryDto) {
@@ -63,7 +65,7 @@ export class PropertiesService {
 
     const meta = this.paginationService.createMeta(limit, page, count);
 
-    return { data, meta };
+    return { data: this.propertyResource.formatCollection(data), meta };
   }
 
   async create(
@@ -148,8 +150,6 @@ export class PropertiesService {
 
     const deleteOperations = filenames.map(async (filename) => {
       const path = join(BASE, id.toString(), IMAGES, filename);
-
-      console.log(path);
 
       await this.storageService.validatePath(path);
 

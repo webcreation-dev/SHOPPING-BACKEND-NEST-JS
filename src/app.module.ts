@@ -5,8 +5,7 @@ import {
   DatabaseModule,
   EnvModule,
   FilesModule,
-  LoggerModule,
-  OtpModule,
+  // LoggerModule,
   QueryingModule,
 } from '@app/common';
 import { SeedingModule } from 'libs/common/src/database/seeding/seeding.module';
@@ -25,7 +24,6 @@ import { ContractsModule } from './features/contracts/contracts.module';
     UsersModule,
     FilesModule,
     QueryingModule,
-    OtpModule,
     PropertiesModule,
     VisitsModule,
     // LoggerModule,

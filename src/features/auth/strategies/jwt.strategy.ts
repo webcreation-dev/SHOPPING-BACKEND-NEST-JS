@@ -16,9 +16,9 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
     super({
       jwtFromRequest: (req) => {
         const token = ExtractJwt.fromAuthHeaderAsBearerToken()(req);
-        // console.log('Jeton JWT extrait:', token, jwtConfiguration.secret);
         return token;
       },
+      ignoreExpiration: true,
       secretOrKey: jwtConfiguration.secret,
     });
   }

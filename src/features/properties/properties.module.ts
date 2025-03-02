@@ -6,6 +6,7 @@ import { Property } from './entities/property.entity';
 import { PropertiesRepository } from './properties.repository';
 import { GalleriesModule } from './galleries.module';
 import { UsersModule } from '../auth/users/users.module';
+import { PropertyResource } from './resources/property.resource';
 
 @Module({
   imports: [
@@ -17,7 +18,7 @@ import { UsersModule } from '../auth/users/users.module';
     forwardRef(() => UsersModule),
   ],
   controllers: [PropertiesController],
-  providers: [PropertiesService, PropertiesRepository],
+  providers: [PropertiesService, PropertiesRepository, PropertyResource],
   exports: [PropertiesService, PropertiesRepository],
 })
 export class PropertiesModule {}

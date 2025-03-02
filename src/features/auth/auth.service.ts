@@ -11,7 +11,6 @@ import {
 } from '@app/common';
 import { ConfigService } from '@nestjs/config';
 import { UsersService } from './users/users.service';
-import { UsersRepository } from './users/users.repository';
 import { OtpService } from '@app/common';
 import { SaveUserDto } from './users/dto/save-user-dto';
 import { CreateUserDto } from './users/dto/create-user.dto';
@@ -25,6 +24,7 @@ import { RoleEnum } from './users/enums/role.enum';
 import { InitiateValidationUserDto } from './users/dto/initiate-validation-user.dto';
 import { join } from 'path';
 import { pathExists } from 'fs-extra';
+import { UsersRepository } from 'src/features/auth/users/users.repository';
 
 @Injectable()
 export class AuthService {
@@ -37,8 +37,8 @@ export class AuthService {
     private readonly hashingService: HashingService,
     private readonly otpService: OtpService,
     private readonly usersService: UsersService,
+    private readonly UsersRepository: UsersRepository,
     private readonly storageService: StorageService,
-    // private readonly propertiesService: PropertiesService,
   ) {}
 
   async login(user: RequestUser) {
@@ -150,6 +150,7 @@ export class AuthService {
 
   async forgotPassword(forgotPasswordDto: ForgotPasswordDto) {
     const { phone } = forgotPasswordDto;
+    await this.usersRepository.findOne({ phone });
     // await this.otpService.sendOtp(phone);
     return phone;
   }

@@ -1,12 +1,12 @@
 import { Module } from '@nestjs/common';
 import { HttpModule } from '@nestjs/axios';
-import { OtpService } from './otp.service';
+import { MomoMtnService } from './momo-mtn.service';
 import { ConfigModule } from '@nestjs/config';
 
 @Module({
   imports: [HttpModule, ConfigModule],
-  providers: [OtpService],
+  providers: [MomoMtnService],
   controllers: [],
-  exports: [OtpService],
+  exports: [MomoMtnService],
 })
-export class OtpModule {}
+export class MomoMtnModule {}

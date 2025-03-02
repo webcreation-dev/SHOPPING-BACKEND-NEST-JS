@@ -6,6 +6,7 @@ import { Contract } from './entities/contract.entity';
 import { ContractsRepository } from './contracts.repository';
 import { UsersModule } from '../auth/users/users.module';
 import { PropertiesModule } from '../properties/properties.module';
+import { MomoMtnModule } from 'libs/common/src/momo-mtn';
 
 @Module({
   imports: [
@@ -14,6 +15,7 @@ import { PropertiesModule } from '../properties/properties.module';
     QueryingModule,
     UsersModule,
     PropertiesModule,
+    MomoMtnModule,
   ],
   controllers: [ContractsController],
   providers: [ContractsService, ContractsRepository],

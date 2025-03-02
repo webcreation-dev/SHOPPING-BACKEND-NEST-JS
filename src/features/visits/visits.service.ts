@@ -59,8 +59,6 @@ export class VisitsService {
     const userData = await this.usersService.findOne(id);
     const property = await this.propertiesService.findOne(property_id);
 
-    console.log('property', property);
-
     const visit = await this.visitsRepository.create(
       new Visit({
         user: userData,
