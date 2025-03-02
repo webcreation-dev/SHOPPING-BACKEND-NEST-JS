@@ -1,15 +1,16 @@
 import * as Joi from 'joi';
 
 export const ENV_VALIDATION_SCHEMA = Joi.object({
-  // DATASOURCE_USERNAME: Joi.required(),
-  // DATASOURCE_PASSWORD: Joi.required(),
-  // DATASOURCE_HOST: Joi.required(),
-  // DATASOURCE_PORT: Joi.number().required(),
-  // DATASOURCE_DATABASE: Joi.required(),
-  DATASOURCE_URL: Joi.required(),
+  DATABASE_URL: Joi.required(),
   JWT_SECRET: Joi.required(),
   JWT_TTL: Joi.required(),
   OTP_APP_ID: Joi.required(),
   OTP_AUTH_KEY: Joi.required(),
-  OTP_API_URL: Joi.required(),
+  API_URL: Joi.required(),
+  API_URL_MOMO_MTN: Joi.required(),
+  API_MODE_MOMO_MTN: Joi.required(),
+  API_USER_MOMO_MTN: Joi.required(),
+  API_KEY_MOMO_MTN: Joi.required(),
+  OCP_APIM_SUBSCRIPTION_KEY_COLLECTION: Joi.required(),
+  OCP_APIM_SUBSCRIPTION_KEY_DISBURSEMENTS: Joi.required(),
 });
