@@ -96,16 +96,20 @@ export class PropertiesService {
     }
 
     // 4. Retourner la propriété avec ses galeries
-    return this.propertiesRepository.findOne(
-      { id: property.id },
-      { galleries: true, user: true },
+    return this.propertyResource.format(
+      await this.propertiesRepository.findOne(
+        { id: property.id },
+        { galleries: true, user: true },
+      ),
     );
   }
 
   async findOne(id: number) {
-    return this.propertiesRepository.findOne(
-      { id },
-      { galleries: true, user: true },
+    return this.propertyResource.format(
+      await this.propertiesRepository.findOne(
+        { id },
+        { galleries: true, user: true },
+      ),
     );
   }
 
