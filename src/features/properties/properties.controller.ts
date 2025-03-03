@@ -60,13 +60,13 @@ export class PropertiesController {
 
   @Get()
   @ApiPaginatedResponse(Property)
-  @HeaderOperation('GET ALL', PropertiesQueryDto)
+  @HeaderOperation('GET ALL', PropertiesQueryDto, null, true)
   findAll(@Query() propertiesQueryDto: PropertiesQueryDto) {
     return this.propertiesService.findAll(propertiesQueryDto);
   }
 
   @Get(':id')
-  @HeaderOperation('GET ONE')
+  @HeaderOperation('GET ONE', null, null, true)
   // @Roles(RoleEnum.MANAGER)
   // @UseGuards(RolesGuard)
   findOne(@Param('id', ParseIntPipe) id: number) {
