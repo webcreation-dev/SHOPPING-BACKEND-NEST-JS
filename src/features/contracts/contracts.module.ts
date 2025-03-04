@@ -3,10 +3,12 @@ import { ContractsController } from './contracts.controller';
 import { ContractsService } from './contracts.service';
 import { DatabaseModule, QueryingModule } from '@app/common';
 import { Contract } from './entities/contract.entity';
-import { ContractsRepository } from './contracts.repository';
+import { ContractsRepository } from './repositories/contracts.repository';
 import { UsersModule } from '../auth/users/users.module';
 import { PropertiesModule } from '../properties/properties.module';
 import { MomoMtnModule } from 'libs/common/src/momo-mtn';
+import { DuesRepository } from './repositories/dues.repository';
+import { AnnuitiesRepository } from './repositories/annuities.repository';
 
 @Module({
   imports: [
@@ -18,6 +20,11 @@ import { MomoMtnModule } from 'libs/common/src/momo-mtn';
     MomoMtnModule,
   ],
   controllers: [ContractsController],
-  providers: [ContractsService, ContractsRepository],
+  providers: [
+    ContractsService,
+    ContractsRepository,
+    DuesRepository,
+    AnnuitiesRepository,
+  ],
 })
 export class ContractsModule {}

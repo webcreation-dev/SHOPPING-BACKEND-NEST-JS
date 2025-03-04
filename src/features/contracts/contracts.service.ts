@@ -6,7 +6,11 @@ import { ContractsQueryDto } from './querying/contracts-query.dto';
 import { DefaultPageSize, PaginationService } from '@app/common';
 import { Contract } from './entities/contract.entity';
 import { CreateContractDto } from './dto/create-contract.dto';
-import { ContractsRepository } from './contracts.repository';
+import { ContractsRepository } from './repositories/contracts.repository';
+import { ActivateContractDto } from './dto/activate-contract.dto';
+import { StatusContractEnum } from './enums/status-contract.enum';
+import { DuesRepository } from './repositories/dues.repository';
+import { Due } from './entities/due.entity';
 
 @Injectable()
 export class ContractsService {
@@ -15,45 +19,46 @@ export class ContractsService {
     private readonly usersService: UsersService,
     private readonly propertiesService: PropertiesService,
     private readonly paginationService: PaginationService,
+    private readonly duesRepository: DuesRepository,
   ) {}
 
-  // async findAll(contractsQueryDto: ContractsQueryDto, user: User) {
-  //   return this.findContractsByFilter(contractsQueryDto, user, {
-  //     userId: user.id,
-  //   });
-  // }
+  async findOwn(contractsQueryDto: ContractsQueryDto, user: User) {
+    return this.findContractsByFilter(contractsQueryDto, user, {
+      tenantId: user.id,
+    });
+  }
 
-  // async findManaged(contractsQueryDto: ContractsQueryDto, user: User) {
-  //   return this.findContractsByFilter(contractsQueryDto, user, {
-  //     managerId: user.id,
-  //   });
-  // }
+  async findManaged(contractsQueryDto: ContractsQueryDto, user: User) {
+    return this.findContractsByFilter(contractsQueryDto, user, {
+      landlordId: user.id,
+    });
+  }
 
-  // async findContractsByFilter(
-  //   contractsQueryDto: ContractsQueryDto,
-  //   user: User,
-  //   filter: { userId?: number; managerId?: number },
-  // ) {
-  //   const { page } = contractsQueryDto;
-  //   const limit = contractsQueryDto.limit ?? DefaultPageSize.VISIT;
-  //   const offset = this.paginationService.calculateOffset(limit, page);
+  async findContractsByFilter(
+    contractsQueryDto: ContractsQueryDto,
+    user: User,
+    filter: { tenantId?: number; landlordId?: number },
+  ) {
+    const { page } = contractsQueryDto;
+    const limit = contractsQueryDto.limit ?? DefaultPageSize.CONTRACTS;
+    const offset = this.paginationService.calculateOffset(limit, page);
 
-  //   const whereCondition = filter.userId
-  //     ? { user: { id: filter.userId } }
-  //     : { manager: { id: filter.managerId } };
+    const whereCondition = filter.tenantId
+      ? { tenant: { id: filter.tenantId } }
+      : { landlord: { id: filter.landlordId } };
 
-  //   const [data, count] = await this.contractsRepository.findAndCount(
-  //     whereCondition,
-  //     {
-  //       relations: {},
-  //       skip: offset,
-  //       take: limit,
-  //     },
-  //   );
+    const [data, count] = await this.contractsRepository.findAndCount(
+      whereCondition,
+      {
+        relations: {},
+        skip: offset,
+        take: limit,
+      },
+    );
 
-  //   const meta = this.paginationService.createMeta(limit, page, count);
-  //   return { data, meta };
-  // }
+    const meta = this.paginationService.createMeta(limit, page, count);
+    return { data, meta };
+  }
 
   async create(
     {
@@ -104,26 +109,38 @@ export class ContractsService {
     );
   }
 
-  // async findMany(ids: number[]) {
-  //   const results = await Promise.allSettled(ids.map((id) => this.findOne(id)));
-  //   return results
-  //     .filter((result) => result.status === 'fulfilled')
-  //     .map((result: PromiseFulfilledResult<any>) => result.value);
-  // }
+  async findMany(ids: number[]) {
+    const results = await Promise.allSettled(ids.map((id) => this.findOne(id)));
+    return results
+      .filter((result) => result.status === 'fulfilled')
+      .map((result: PromiseFulfilledResult<any>) => result.value);
+  }
 
-  // async update(id: number, updateContractDto: UpdateContractDto) {
-  //   return this.contractsRepository.findOneAndUpdate({ id }, updateContractDto);
-  // }
+  async activate(
+    id: number,
+    user: User,
+    activateContractDto: ActivateContractDto,
+  ) {
+    await this.contractsRepository.find({
+      id,
+      tenant: { id: user.id },
+      status: StatusContractEnum.PENDING,
+    });
 
-  // async finalize(id: number, finalizeContractDto: FinalizeContractDto) {
-  //   return this.contractsRepository.findOneAndUpdate(
-  //     { id },
-  //     finalizeContractDto,
-  //   );
-  // }
+    const contract = await this.contractsRepository.findOneAndUpdate(
+      { id },
+      {
+        status: StatusContractEnum.ACTIVE,
+      },
+    );
 
-  // async remove(id: number) {
-  //   await this.findOne(id);
-  //   await this.contractsRepository.findOneAndDelete({ id });
-  // }
+    const firstDue = await this.duesRepository.create(
+      new Due({
+        amount_due: contract.rent_price,
+        contract,
+      }),
+    );
+
+    return contract;
+  }
 }

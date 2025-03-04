@@ -1,7 +1,7 @@
 import { MigrationInterface, QueryRunner } from "typeorm";
 
-export class New1740697591272 implements MigrationInterface {
-    name = 'New1740697591272'
+export class New1741117867929 implements MigrationInterface {
+    name = 'New1741117867929'
 
     public async up(queryRunner: QueryRunner): Promise<void> {
         await queryRunner.query(`
@@ -50,12 +50,45 @@ export class New1740697591272 implements MigrationInterface {
             )
         `);
         await queryRunner.query(`
+            CREATE TABLE "annuity" (
+                "id" SERIAL NOT NULL,
+                "amount" integer NOT NULL,
+                "dueId" integer,
+                "created_at" TIMESTAMP NOT NULL DEFAULT now(),
+                "updated_at" TIMESTAMP NOT NULL DEFAULT now(),
+                "deletedAt" TIMESTAMP,
+                CONSTRAINT "PK_6a5ea1125802532e936672d3624" PRIMARY KEY ("id")
+            )
+        `);
+        await queryRunner.query(`
+            CREATE TYPE "public"."status_due_enum" AS ENUM('WAITING', 'IN_PROGRESS', 'FINISHED')
+        `);
+        await queryRunner.query(`
+            CREATE TABLE "due" (
+                "id" SERIAL NOT NULL,
+                "amount_due" integer NOT NULL,
+                "amount_paid" integer NOT NULL DEFAULT '0',
+                "carry_over_amount" integer NOT NULL DEFAULT '0',
+                "due_date" TIMESTAMP NOT NULL DEFAULT now(),
+                "status_due" "public"."status_due_enum" NOT NULL DEFAULT 'WAITING',
+                "contractId" integer,
+                "created_at" TIMESTAMP NOT NULL DEFAULT now(),
+                "updated_at" TIMESTAMP NOT NULL DEFAULT now(),
+                "deletedAt" TIMESTAMP,
+                CONSTRAINT "PK_6b83d79ba2c446d7ccce62bad2e" PRIMARY KEY ("id")
+            )
+        `);
+        await queryRunner.query(`
+            CREATE TYPE "public"."status_contract_enum" AS ENUM('PENDING', 'ACTIVE', 'FINISHED')
+        `);
+        await queryRunner.query(`
             CREATE TABLE "contract" (
                 "id" SERIAL NOT NULL,
                 "start_date" TIMESTAMP NOT NULL,
                 "end_date" TIMESTAMP NOT NULL,
                 "rent_price" integer NOT NULL,
                 "articles" json,
+                "status" "public"."status_contract_enum" NOT NULL DEFAULT 'PENDING',
                 "propertyId" integer,
                 "landlordId" integer,
                 "tenantId" integer,
@@ -179,6 +212,14 @@ export class New1740697591272 implements MigrationInterface {
             ADD CONSTRAINT "FK_8a9fd2a4e430a2c72ace6c97726" FOREIGN KEY ("managerId") REFERENCES "user"("id") ON DELETE CASCADE ON UPDATE NO ACTION
         `);
         await queryRunner.query(`
+            ALTER TABLE "annuity"
+            ADD CONSTRAINT "FK_2b081fdd2d6f6ce70b471acba89" FOREIGN KEY ("dueId") REFERENCES "due"("id") ON DELETE CASCADE ON UPDATE NO ACTION
+        `);
+        await queryRunner.query(`
+            ALTER TABLE "due"
+            ADD CONSTRAINT "FK_ce799619f2776150d7b4a04f06b" FOREIGN KEY ("contractId") REFERENCES "contract"("id") ON DELETE CASCADE ON UPDATE NO ACTION
+        `);
+        await queryRunner.query(`
             ALTER TABLE "contract"
             ADD CONSTRAINT "FK_941cd11e8b67201836579929ced" FOREIGN KEY ("propertyId") REFERENCES "property"("id") ON DELETE CASCADE ON UPDATE NO ACTION
         `);
@@ -229,6 +270,12 @@ export class New1740697591272 implements MigrationInterface {
         `);
         await queryRunner.query(`
             ALTER TABLE "contract" DROP CONSTRAINT "FK_941cd11e8b67201836579929ced"
+        `);
+        await queryRunner.query(`
+            ALTER TABLE "due" DROP CONSTRAINT "FK_ce799619f2776150d7b4a04f06b"
+        `);
+        await queryRunner.query(`
+            ALTER TABLE "annuity" DROP CONSTRAINT "FK_2b081fdd2d6f6ce70b471acba89"
         `);
         await queryRunner.query(`
             ALTER TABLE "visit" DROP CONSTRAINT "FK_8a9fd2a4e430a2c72ace6c97726"
@@ -283,6 +330,18 @@ export class New1740697591272 implements MigrationInterface {
         `);
         await queryRunner.query(`
             DROP TABLE "contract"
+        `);
+        await queryRunner.query(`
+            DROP TYPE "public"."status_contract_enum"
+        `);
+        await queryRunner.query(`
+            DROP TABLE "due"
+        `);
+        await queryRunner.query(`
+            DROP TYPE "public"."status_due_enum"
+        `);
+        await queryRunner.query(`
+            DROP TABLE "annuity"
         `);
         await queryRunner.query(`
             DROP TABLE "visit"

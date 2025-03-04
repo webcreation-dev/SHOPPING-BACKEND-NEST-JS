@@ -1,7 +1,9 @@
 import { AbstractEntity } from 'libs/common/src/database/abstract.entity';
 import { User } from 'src/features/auth/users/entities/user.entity';
 import { Property } from 'src/features/properties/entities/property.entity';
-import { Entity, Column, ManyToOne } from 'typeorm';
+import { Entity, Column, ManyToOne, OneToMany } from 'typeorm';
+import { Due } from './due.entity';
+import { StatusContractEnum } from '../enums/status-contract.enum';
 
 @Entity()
 export class Contract extends AbstractEntity<Contract> {
@@ -21,6 +23,14 @@ export class Contract extends AbstractEntity<Contract> {
     content: string;
   }[];
 
+  @Column({
+    type: 'enum',
+    enum: StatusContractEnum,
+    enumName: 'status_contract_enum',
+    default: StatusContractEnum.PENDING,
+  })
+  status: StatusContractEnum;
+
   @ManyToOne(() => Property, (property) => property.contracts, {
     onDelete: 'CASCADE',
   })
@@ -35,4 +45,7 @@ export class Contract extends AbstractEntity<Contract> {
     onDelete: 'CASCADE',
   })
   tenant: User;
+
+  @OneToMany(() => Due, (dues) => dues.contract)
+  dues: Due[];
 }
