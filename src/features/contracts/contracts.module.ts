@@ -9,11 +9,13 @@ import { PropertiesModule } from '../properties/properties.module';
 import { MomoMtnModule } from 'libs/common/src/momo-mtn';
 import { DuesRepository } from './repositories/dues.repository';
 import { AnnuitiesRepository } from './repositories/annuities.repository';
+import { Due } from './entities/due.entity';
+import { Annuity } from './entities/annuity';
 
 @Module({
   imports: [
     DatabaseModule,
-    DatabaseModule.forFeature([Contract]),
+    DatabaseModule.forFeature([Contract, Due, Annuity]),
     QueryingModule,
     UsersModule,
     PropertiesModule,

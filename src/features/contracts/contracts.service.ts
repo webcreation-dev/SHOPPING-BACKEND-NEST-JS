@@ -105,7 +105,7 @@ export class ContractsService {
   async findOne(id: number) {
     return this.contractsRepository.findOne(
       { id },
-      { tenant: true, landlord: true, property: true },
+      { tenant: true, landlord: true, property: true, dues: true },
     );
   }
 
@@ -121,7 +121,7 @@ export class ContractsService {
     user: User,
     activateContractDto: ActivateContractDto,
   ) {
-    await this.contractsRepository.find({
+    await this.contractsRepository.findOne({
       id,
       tenant: { id: user.id },
       status: StatusContractEnum.PENDING,
@@ -134,7 +134,7 @@ export class ContractsService {
       },
     );
 
-    const firstDue = await this.duesRepository.create(
+    this.duesRepository.create(
       new Due({
         amount_due: contract.rent_price,
         contract,

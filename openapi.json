@@ -1026,6 +1026,156 @@
         "tags": [
           "Contracts"
         ]
+      },
+      "get": {
+        "operationId": "ContractsController_findAll",
+        "parameters": [
+          {
+            "name": "limit",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "maximum": 100,
+              "type": "number"
+            }
+          },
+          {
+            "name": "page",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "maximum": 25,
+              "default": 1,
+              "type": "number"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "summary": "GET OWN",
+        "tags": [
+          "Contracts"
+        ]
+      }
+    },
+    "/contracts/managed": {
+      "get": {
+        "operationId": "ContractsController_findManaged",
+        "parameters": [
+          {
+            "name": "limit",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "maximum": 100,
+              "type": "number"
+            }
+          },
+          {
+            "name": "page",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "maximum": 25,
+              "default": 1,
+              "type": "number"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ContractsQueryDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "summary": "GET MANAGED",
+        "tags": [
+          "Contracts"
+        ]
+      }
+    },
+    "/contracts/{id}": {
+      "get": {
+        "operationId": "ContractsController_findOne",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "number"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Contract"
+                }
+              }
+            }
+          }
+        },
+        "summary": "GET ONE",
+        "tags": [
+          "Contracts"
+        ]
+      }
+    },
+    "/contracts/{id}/activate": {
+      "patch": {
+        "operationId": "ContractsController_activate",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "number"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ActivateContractDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Contract"
+                }
+              }
+            }
+          }
+        },
+        "summary": "ACTIVATE",
+        "tags": [
+          "Contracts"
+        ]
       }
     }
   },
@@ -1194,6 +1344,51 @@
           "registryDates"
         ]
       },
+      "Due": {
+        "type": "object",
+        "properties": {
+          "amount_due": {
+            "type": "number"
+          },
+          "amount_paid": {
+            "type": "number"
+          },
+          "carry_over_amount": {
+            "type": "number"
+          },
+          "due_date": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "status_due": {
+            "type": "string",
+            "enum": [
+              "WAITING",
+              "IN_PROGRESS",
+              "FINISHED"
+            ]
+          },
+          "contract": {
+            "$ref": "#/components/schemas/Contract"
+          },
+          "id": {
+            "type": "number"
+          },
+          "registryDates": {
+            "$ref": "#/components/schemas/RegistryDates"
+          }
+        },
+        "required": [
+          "amount_due",
+          "amount_paid",
+          "carry_over_amount",
+          "due_date",
+          "status_due",
+          "contract",
+          "id",
+          "registryDates"
+        ]
+      },
       "Contract": {
         "type": "object",
         "properties": {
@@ -1214,6 +1409,14 @@
               "type": "string"
             }
           },
+          "status": {
+            "enum": [
+              "PENDING",
+              "ACTIVE",
+              "FINISHED"
+            ],
+            "type": "string"
+          },
           "property": {
             "$ref": "#/components/schemas/Property"
           },
@@ -1222,6 +1425,12 @@
           },
           "tenant": {
             "$ref": "#/components/schemas/User"
+          },
+          "dues": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Due"
+            }
           },
           "id": {
             "type": "number"
@@ -1235,9 +1444,11 @@
           "end_date",
           "rent_price",
           "articles",
+          "status",
           "property",
           "landlord",
           "tenant",
+          "dues",
           "id",
           "registryDates"
         ]
@@ -2194,6 +2405,24 @@
           "start_date",
           "end_date"
         ]
+      },
+      "ContractsQueryDto": {
+        "type": "object",
+        "properties": {
+          "limit": {
+            "type": "number",
+            "maximum": 100
+          },
+          "page": {
+            "type": "number",
+            "default": 1,
+            "maximum": 25
+          }
+        }
+      },
+      "ActivateContractDto": {
+        "type": "object",
+        "properties": {}
       }
     }
   },

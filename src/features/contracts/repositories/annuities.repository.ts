@@ -1,7 +1,7 @@
 import { Injectable, Logger } from '@nestjs/common';
 import { EntityManager } from 'typeorm';
 import { AbstractRepository } from '@app/common';
-import { Annuity } from '../entities/annuity.entity';
+import { Annuity } from '../entities/annuity';
 
 @Injectable()
 export class AnnuitiesRepository extends AbstractRepository<Annuity> {

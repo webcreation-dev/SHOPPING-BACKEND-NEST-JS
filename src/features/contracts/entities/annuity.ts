@@ -7,8 +7,8 @@ export class Annuity extends AbstractEntity<Annuity> {
   @Column()
   amount: number;
 
-  @ManyToOne(() => Due, (due) => due.annuities, {
-    onDelete: 'CASCADE',
-  })
-  due: Due;
+  // @ManyToOne(() => Due, (due) => due.annuities, {
+  //   onDelete: 'CASCADE',
+  // })
+  // due: Due;
 }

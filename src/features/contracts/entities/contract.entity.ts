@@ -46,6 +46,6 @@ export class Contract extends AbstractEntity<Contract> {
   })
   tenant: User;
 
-  @OneToMany(() => Due, (dues) => dues.contract)
+  @OneToMany(() => Due, (due) => due.contract)
   dues: Due[];
 }
