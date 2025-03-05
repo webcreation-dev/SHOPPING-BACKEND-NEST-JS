@@ -10,10 +10,11 @@ import {
 } from '@nestjs/common';
 import { ContractsService } from './contracts.service';
 import { CreateContractDto } from './dto/create-contract.dto';
-import { CurrentUser, HeaderOperation, IdDto } from '@app/common';
+import { ApiPaginatedResponse, CurrentUser, HeaderOperation, IdDto } from '@app/common';
 import { User } from '../auth/users/entities/user.entity';
 import { ContractsQueryDto } from './querying/contracts-query.dto';
 import { ActivateContractDto } from './dto/activate-contract.dto';
+import { Contract } from './entities/contract.entity';
 
 @Controller('contracts')
 export class ContractsController {
@@ -29,6 +30,7 @@ export class ContractsController {
   }
 
   @Get()
+  @ApiPaginatedResponse(Contract)
   @HeaderOperation('GET OWN')
   findAll(
     @Query() contractsQueryDto: ContractsQueryDto,
@@ -38,6 +40,7 @@ export class ContractsController {
   }
 
   @Get('/managed')
+  @ApiPaginatedResponse(Contract)
   @HeaderOperation('GET MANAGED', ContractsQueryDto)
   findManaged(
     @Query() contractsQueryDto: ContractsQueryDto,

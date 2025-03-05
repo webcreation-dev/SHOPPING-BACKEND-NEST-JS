@@ -1052,7 +1052,25 @@
         ],
         "responses": {
           "200": {
-            "description": ""
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "title": "PaginatedResponseOfContract",
+                  "properties": {
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/Contract"
+                      }
+                    },
+                    "meta": {
+                      "$ref": "#/components/schemas/PaginationMeta"
+                    }
+                  }
+                }
+              }
+            }
           }
         },
         "summary": "GET OWN",
@@ -1097,7 +1115,25 @@
         },
         "responses": {
           "200": {
-            "description": ""
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "title": "PaginatedResponseOfContract",
+                  "properties": {
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/Contract"
+                      }
+                    },
+                    "meta": {
+                      "$ref": "#/components/schemas/PaginationMeta"
+                    }
+                  }
+                }
+              }
+            }
           }
         },
         "summary": "GET MANAGED",
@@ -1344,6 +1380,29 @@
           "registryDates"
         ]
       },
+      "Annuity": {
+        "type": "object",
+        "properties": {
+          "amount": {
+            "type": "number"
+          },
+          "due": {
+            "$ref": "#/components/schemas/Due"
+          },
+          "id": {
+            "type": "number"
+          },
+          "registryDates": {
+            "$ref": "#/components/schemas/RegistryDates"
+          }
+        },
+        "required": [
+          "amount",
+          "due",
+          "id",
+          "registryDates"
+        ]
+      },
       "Due": {
         "type": "object",
         "properties": {
@@ -1371,6 +1430,12 @@
           "contract": {
             "$ref": "#/components/schemas/Contract"
           },
+          "annuities": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Annuity"
+            }
+          },
           "id": {
             "type": "number"
           },
@@ -1385,6 +1450,7 @@
           "due_date",
           "status_due",
           "contract",
+          "annuities",
           "id",
           "registryDates"
         ]

@@ -2,7 +2,7 @@ import { AbstractEntity } from 'libs/common/src/database/abstract.entity';
 import { Entity, Column, ManyToOne, OneToMany } from 'typeorm';
 import { StatusDueEnum } from '../enums/status-due.enum';
 import { Contract } from './contract.entity';
-import { Annuity } from './annuity';
+import { Annuity } from './annuity.entity';
 
 @Entity()
 export class Due extends AbstractEntity<Due> {
@@ -31,6 +31,6 @@ export class Due extends AbstractEntity<Due> {
   })
   contract: Contract;
 
-  // @OneToMany(() => Annuity, (annuity) => annuity.due)
-  // annuities: Annuity[];
+  @OneToMany(() => Annuity, (annuity) => annuity.due)
+  annuities: Annuity[];
 }

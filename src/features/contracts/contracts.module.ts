@@ -10,7 +10,7 @@ import { MomoMtnModule } from 'libs/common/src/momo-mtn';
 import { DuesRepository } from './repositories/dues.repository';
 import { AnnuitiesRepository } from './repositories/annuities.repository';
 import { Due } from './entities/due.entity';
-import { Annuity } from './entities/annuity';
+import { Annuity } from './entities/annuity.entity';
 
 @Module({
   imports: [

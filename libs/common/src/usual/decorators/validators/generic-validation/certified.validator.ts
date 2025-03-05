@@ -14,6 +14,8 @@ import { StatusEnum } from 'src/features/auth/users/enums/status.enum';
 export class CertifiedValidatorConstraint
   implements ValidatorConstraintInterface
 {
+  private errorMessage = '';
+
   async validate(value: any, args: ValidationArguments) {
     const [property] = args.constraints;
 
@@ -21,13 +23,18 @@ export class CertifiedValidatorConstraint
 
     const user = await repository.findOne({ where: { [property]: value } });
 
-    if (user.status === StatusEnum.ACCEPTED) {
+    if (!user) {
+      this.errorMessage = `Une des parties concernée n'as pas un encore un compte Locapay`;
+      return false;
+    }
+
+    if (user.status != StatusEnum.ACCEPTED) {
+      this.errorMessage = `Une des parties concernée n'as pas un encore un compte certifié Locapay`;
       return true;
     }
-    return false;
   }
 
   defaultMessage() {
-    return `Une des parties concernée n'as pas un encore un compte certifié Locapay`;
+    return this.errorMessage || `Erreur de validation du contrat.`;
   }
 }
