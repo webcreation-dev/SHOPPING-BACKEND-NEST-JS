@@ -34,10 +34,14 @@ export class ContractExistValidatorConstraint
 
     // check if the contract already exists
     const exists = await contractRepository.exist({
-      where: { tenant: { id: tenant_id }, property: { id: property_id } },
+      where: {
+        tenant: { id: tenant_id },
+        property: { id: property_id },
+        status: StatusContractEnum.ACTIVE || StatusContractEnum.PENDING,
+      },
     });
     if (exists) {
-      this.errorMessage = `Un contrat existe déjà pour ce locataire et ce bien.`;
+      this.errorMessage = `Un contrat actif ou en attente existe déjà pour ce locataire et ce bien.`;
       return false;
     }
 
@@ -45,11 +49,11 @@ export class ContractExistValidatorConstraint
     const activeContract = await contractRepository.exist({
       where: {
         property: { id: property_id },
-        status: StatusContractEnum.ACTIVE,
+        status: StatusContractEnum.ACTIVE || StatusContractEnum.PENDING,
       },
     });
     if (activeContract) {
-      this.errorMessage = `Un contrat actif existe déjà pour ce bien.`;
+      this.errorMessage = `Un contrat actif ou en attente existe déjà pour ce bien.`;
       return false;
     }
   }

@@ -1,4 +1,10 @@
-import { IsDate, IsNotEmpty, IsNumber, MinDate } from 'class-validator';
+import {
+  IsDate,
+  IsNotEmpty,
+  IsNumber,
+  IsOptional,
+  MinDate,
+} from 'class-validator';
 import { IsExist } from 'libs/common/src';
 import { IsCertified } from 'libs/common/src/usual/decorators/validators/is-certified.decorator';
 import { Property } from 'src/features/properties/entities/property.entity';
@@ -30,7 +36,7 @@ export class CreateContractDto {
   start_date: Date;
 
   @IsDate()
-  @IsNotEmpty()
+  @IsOptional()
   @MinDate(new Date(), { message: 'La date de fin doit être dans le futur.' })
   end_date: Date;
 }
