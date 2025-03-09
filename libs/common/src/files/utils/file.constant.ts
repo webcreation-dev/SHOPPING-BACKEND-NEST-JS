@@ -7,10 +7,6 @@ export const MaxFileCount = {
 export const BASE_PATH = 'upload';
 
 export const FilePath = {
-  Products: {
-    BASE: 'products',
-    IMAGES: 'images',
-  },
   Users: {
     BASE: 'users',
     IMAGES: 'images',

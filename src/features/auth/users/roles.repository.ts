@@ -1,7 +1,7 @@
 import { Injectable, Logger } from '@nestjs/common';
 import { EntityManager } from 'typeorm';
 import { Role } from './entities/role.entity';
-import { AbstractRepository } from 'libs/common/src';
+import { AbstractRepository } from 'libs/common/src/database/abstract.repository';
 
 @Injectable()
 export class RolesRepository extends AbstractRepository<Role> {

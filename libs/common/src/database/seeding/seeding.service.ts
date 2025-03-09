@@ -1,5 +1,9 @@
 import { Injectable } from '@nestjs/common';
+import { User } from 'src/features/auth/users/entities/user.entity';
 import { DataSource } from 'typeorm';
+import * as fs from 'fs';
+import { Gallery } from 'src/features/properties/entities/gallery.entity';
+import { Property } from 'src/features/properties/entities/property.entity';
 
 @Injectable()
 export class SeedingService {
@@ -11,116 +15,83 @@ export class SeedingService {
     await queryRunner.startTransaction();
     try {
       const usersRepository = queryRunner.manager.getRepository(User);
-      const categoriesRepository = queryRunner.manager.getRepository(Category);
-      const productsRepository = queryRunner.manager.getRepository(Product);
-      const ordersRepository = queryRunner.manager.getRepository(Order);
-      const orderItemsRepository = queryRunner.manager.getRepository(OrderItem);
+      const propertiesRepository = queryRunner.manager.getRepository(Property);
+      const galleriesRepository = queryRunner.manager.getRepository(Gallery);
 
-      const orders = await ordersRepository.find();
-      await ordersRepository.remove(orders);
-      const users = await usersRepository.find();
-      await usersRepository.remove(users);
-      const products = await productsRepository.find();
-      await productsRepository.remove(products);
-      const categories = await categoriesRepository.find();
-      await categoriesRepository.remove(categories);
+      // ✅ 1. Delete all data
+      await usersRepository.delete({});
 
-      const cat1 = categoriesRepository.create({ name: 'Electronics' });
-      const cat2 = categoriesRepository.create({ name: 'Books' });
-      const cat3 = categoriesRepository.create({ name: 'Computers' });
-      const cat4 = categoriesRepository.create({ name: 'Games' });
+      // ✅ 2. Charger les données
+      const usersData = JSON.parse(
+        fs.readFileSync(
+          'libs/common/src/database/seeding/data/user.json',
+          'utf8',
+        ),
+      );
+      const propertiesData = JSON.parse(
+        fs.readFileSync(
+          'libs/common/src/database/seeding/data/properties.json',
+          'utf8',
+        ),
+      );
 
-      await categoriesRepository.save([cat1, cat2, cat3, cat4]);
+      // ✅ 3. Insert data
 
-      const p1 = productsRepository.create({
-        name: 'Book of Cain',
-        description:
-          'The writings of an elderly scholar about this perilous world.',
-        price: 102.5,
-        categories: [cat2],
-      });
-      const p2 = productsRepository.create({
-        name: 'Smart TV',
-        price: 2350,
-        categories: [cat1, cat3],
-      });
-      const p3 = productsRepository.create({
-        name: 'Macbook Pro',
-        price: 1200,
-        categories: [cat3],
-      });
-      const p4 = productsRepository.create({
-        name: 'Gaming PC',
-        description: 'Latest generation hardware for the best experience.',
-        price: 2000,
-        categories: [cat3],
-      });
-      const p5 = productsRepository.create({
-        name: 'Game Mechanics: Advanced Game Design',
-        description: 'Learn how to craft well-designed game mechanics.',
-        price: 149.9,
-        categories: [cat2],
-      });
-      const p6 = productsRepository.create({
-        name: 'Warcraft III: Reign of Chaos',
-        description: 'A true classic in the RTS genre.',
-        price: 25.99,
-        categories: [cat4],
-      });
+      // ✅ USERS
+      const savedUsers = [];
+      for (const userData of usersData) {
+        const user = usersRepository.create(userData);
+        savedUsers.push(await usersRepository.save(user));
+      }
 
-      await productsRepository.save([p1, p2, p3, p4, p5, p6]);
+      // ✅ PROPERTIES & GALLERIES
+      for (const propertyData of propertiesData) {
+        const property = propertiesRepository.create(
+          new Property({
+            ...propertyData,
+            user: savedUsers[0],
+          }),
+        );
+        const savedProperty = await propertiesRepository.save(property);
 
-      const u1 = usersRepository.create({
-        name: 'Pedro Faria',
-        phone: '988888888',
-        password: '123456',
-      });
-      const u2 = usersRepository.create({
-        name: 'Chris Metzen',
-        phone: '977777777',
-        password: '654321',
-      });
+        // Ajout des images à la galerie
+        for (const imagePath of propertyData.images) {
+          const gallery = galleriesRepository.create(
+            new Gallery({
+              url: imagePath,
+              property: savedProperty,
+            }),
+          );
+          await galleriesRepository.save(gallery);
+        }
+      }
 
-      await usersRepository.save([u1, u2]);
+      // ✅ USERS
+      // for (const userData of usersData) {
+      //   const user = usersRepository.create(userData);
+      //   savedUsers.push(await usersRepository.save(user));
+      // }
 
-      const oi1 = orderItemsRepository.create({
-        product: p1,
-        quantity: 2,
-        price: p1.price,
-      });
-      const oi2 = orderItemsRepository.create({
-        product: p3,
-        quantity: 1,
-        price: p3.price,
-      });
-      const oi3 = orderItemsRepository.create({
-        product: p3,
-        quantity: 2,
-        price: p3.price,
-      });
-      const oi4 = orderItemsRepository.create({
-        product: p5,
-        quantity: 2,
-        price: p5.price,
-      });
+      // // ✅ PROPERTIES & GALLERIES
+      // for (const propertyData of propertiesData) {
+      //   // Création et sauvegarde de la propriété
+      //   const property = propertiesRepository.create({
+      //     ...propertyData,
+      //     user: savedUsers[0], // Associer à un utilisateur existant
+      //   });
 
-      const o1 = ordersRepository.create({
-        customer: u1,
-        items: [oi1, oi2],
-        status: OrderStatus.AWAITING_SHIPMENT,
-      });
-      const o2 = ordersRepository.create({
-        customer: u2,
-        items: [oi3],
-        status: OrderStatus.AWAITING_PAYMENT,
-      });
-      const o3 = ordersRepository.create({
-        customer: u1,
-        items: [oi4],
-        status: OrderStatus.AWAITING_PAYMENT,
-      });
+      //   const savedProperty = await propertiesRepository.save(property);
 
-      await ordersRepository.save([o1, o2, o3]);
+      //   // Ajout des images à la galerie
+      //   for (const imagePath of propertyData.images) {
+      //     const gallery = galleriesRepository.create({
+      //       url: imagePath,
+      //       property: savedProperty, // Associer la propriété sauvegardée
+      //     });
+
+      //     await galleriesRepository.save(gallery);
+      //   }
+      // }
 
       await queryRunner.commitTransaction();
     } catch (error) {

@@ -2,15 +2,10 @@ import { forwardRef, Inject, Injectable } from '@nestjs/common';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UsersRepository } from './users.repository';
 import { RolesRepository } from './roles.repository';
-import { NotFoundException } from '@nestjs/common';
-import { Role } from './entities/role.entity';
 import { User } from './entities/user.entity';
-import { RoleEnum } from './enums/role.enum';
-import { AppTypeEnum } from './enums/app_type.enum';
 import { PropertiesService } from 'src/features/properties/properties.service';
 import { ToggleWishlistDto } from './dto/toggle-wishlist.dto';
 import { ValidateUserDto } from './dto/validate-user.dto';
-import { randomBytes } from 'crypto';
 
 @Injectable()
 export class UsersService {
@@ -30,17 +25,7 @@ export class UsersService {
   }
 
   async create(createUserDto: CreateUserDto) {
-    await this.rolesRepository.create(new Role({ name: RoleEnum.USER }));
-    await this.rolesRepository.create(new Role({ name: RoleEnum.MANAGER }));
-    const user = new User({
-      ...createUserDto,
-      code: randomBytes(3).toString('hex').toUpperCase(),
-      roles: [
-        await this.rolesRepository.findOne({
-          name: await this.getRole(createUserDto.app_type),
-        }),
-      ],
-    });
+    const user = new User(createUserDto);
     return this.usersRepository.create(user);
   }
 
@@ -50,17 +35,6 @@ export class UsersService {
       { id: validateUserDto.user_id },
       { status: validateUserDto.status },
     );
-  }
-
-  private async getRole($app_type) {
-    switch ($app_type) {
-      case AppTypeEnum.LOCAPAY:
-        return RoleEnum.USER;
-      case AppTypeEnum.LOCAPAY_BUSINESS:
-        return RoleEnum.MANAGER;
-      default:
-        throw new NotFoundException(`Invalid user type`);
-    }
   }
 
   async getUser({ id }: User) {

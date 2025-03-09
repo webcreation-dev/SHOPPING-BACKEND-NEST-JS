@@ -1,4 +1,4 @@
-import { OtpDto } from '@app/common';
+import { OtpDto } from '../../otp/dto/otp.dto';
 import { IsPhoneNumber, IsStrongPassword } from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
 

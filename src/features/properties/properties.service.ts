@@ -150,7 +150,7 @@ export class PropertiesService {
   async deleteImages(id: number, filenames: string[]) {
     await this.findOne(id);
 
-    const { BASE, IMAGES } = FilePath.Products;
+    const { BASE, IMAGES } = FilePath.Properties;
 
     const deleteOperations = filenames.map(async (filename) => {
       const path = join(BASE, id.toString(), IMAGES, filename);
@@ -167,7 +167,7 @@ export class PropertiesService {
   }
 
   async uploadImages(id: number, files: File[]) {
-    const { BASE, IMAGES } = FilePath.Products;
+    const { BASE, IMAGES } = FilePath.Properties;
     const path = join(BASE, id.toString(), IMAGES);
 
     if (await pathExists(join(BASE_PATH, path))) {
@@ -194,7 +194,7 @@ export class PropertiesService {
   }
 
   private async deleteBaseDir(id: number) {
-    const { BASE } = FilePath.Products;
+    const { BASE } = FilePath.Properties;
 
     const path = join(BASE, id.toString());
     await this.storageService.delete(path);
