@@ -7,6 +7,13 @@
     "rent_price": 0,
     "commission": 0,
     "description": "string",
+    "articles": [
+      {
+        "id": 1,
+        "title": "khjl",
+        "content": "string"
+      }
+    ],
     "images": [
       "upload/properties/test/locapay_1.png",
       "upload/properties/test/locapay_2.png",

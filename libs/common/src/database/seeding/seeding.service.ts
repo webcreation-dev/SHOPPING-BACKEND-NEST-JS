@@ -4,6 +4,7 @@ import { DataSource } from 'typeorm';
 import * as fs from 'fs';
 import { Gallery } from 'src/features/properties/entities/gallery.entity';
 import { Property } from 'src/features/properties/entities/property.entity';
+import { Contract } from 'src/features/contracts/entities/contract.entity';
 
 @Injectable()
 export class SeedingService {
@@ -17,9 +18,13 @@ export class SeedingService {
       const usersRepository = queryRunner.manager.getRepository(User);
       const propertiesRepository = queryRunner.manager.getRepository(Property);
       const galleriesRepository = queryRunner.manager.getRepository(Gallery);
+      const contractsRepository = queryRunner.manager.getRepository(Contract);
 
       // ✅ 1. Delete all data
       await usersRepository.delete({});
+      await propertiesRepository.delete({});
+      await galleriesRepository.delete({});
+      await contractsRepository.delete({});
 
       // ✅ 2. Charger les données
       const usersData = JSON.parse(
@@ -45,13 +50,15 @@ export class SeedingService {
       }
 
       // ✅ PROPERTIES & GALLERIES
+      const savedProperties = [];
       for (const propertyData of propertiesData) {
         const property = propertiesRepository.create(
           new Property({
             ...propertyData,
-            user: savedUsers[0],
+            user: savedUsers[1],
           }),
         );
+        savedProperties.push(property);
         const savedProperty = await propertiesRepository.save(property);
 
         // Ajout des images à la galerie
@@ -65,6 +72,20 @@ export class SeedingService {
           await galleriesRepository.save(gallery);
         }
       }
+
+      // ✅ CONTRACTS
+      const contracts = contractsRepository.create(
+        new Contract({
+          tenant: savedUsers[0],
+          landlord: savedUsers[1],
+          property: savedProperties[0],
+          start_date: new Date(),
+          end_date: new Date(),
+          articles: savedProperties[0].articles,
+          rent_price: savedProperties[0].rent_price,
+        }),
+      );
+      await contractsRepository.save(contracts);
 
       await queryRunner.commitTransaction();
     } catch (error) {

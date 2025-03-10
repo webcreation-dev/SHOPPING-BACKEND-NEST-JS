@@ -5,6 +5,16 @@
     "phone": "2290196135159",
     "sexe": "M",
     "password": "password",
-    "app_type": "LOCAPAY"
+    "app_type": "LOCAPAY",
+    "status": "ACCEPTED"
+  },
+  {
+    "lastname": "HOUSSOU",
+    "firstname": "Jacob",
+    "phone": "2290167894105",
+    "sexe": "M",
+    "password": "password",
+    "app_type": "LOCAPAY_BUSINESS",
+    "status": "ACCEPTED"
   }
 ]
