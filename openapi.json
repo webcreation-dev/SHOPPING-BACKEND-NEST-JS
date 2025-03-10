@@ -368,6 +368,46 @@
             }
           },
           {
+            "name": "tarification",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "DAILY",
+                "MONTHLY"
+              ]
+            }
+          },
+          {
+            "name": "type",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "PARCEL",
+                "HOUSE",
+                "VILLA",
+                "STUDIO",
+                "APARTMENT",
+                "APARTMENT_FURNITURE",
+                "OFFICE",
+                "BUILDING",
+                "SHOP",
+                "STORE"
+              ]
+            }
+          },
+          {
+            "name": "to_sell",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "type": "boolean"
+            }
+          },
+          {
             "name": "order",
             "required": false,
             "in": "query",
@@ -2280,6 +2320,31 @@
           },
           "price": {
             "$ref": "#/components/schemas/FilterOperationDto"
+          },
+          "tarification": {
+            "enum": [
+              "DAILY",
+              "MONTHLY"
+            ],
+            "type": "string"
+          },
+          "type": {
+            "enum": [
+              "PARCEL",
+              "HOUSE",
+              "VILLA",
+              "STUDIO",
+              "APARTMENT",
+              "APARTMENT_FURNITURE",
+              "OFFICE",
+              "BUILDING",
+              "SHOP",
+              "STORE"
+            ],
+            "type": "string"
+          },
+          "to_sell": {
+            "type": "boolean"
           },
           "order": {
             "type": "string",

@@ -26,6 +26,8 @@ import { UsersRepository } from '../auth/users/users.repository';
 import { AddArticlesDto } from './dto/articles/add-article.dto';
 import { UpdateArticleDto } from './dto/articles/update-article.dto';
 import { PropertyResource } from './resources/property.resource';
+import { TypePropertyEnum } from './enums/type_property.enum';
+import { TarificationEnum } from './enums/tarification.enum';
 
 @Injectable()
 export class PropertiesService {
@@ -43,7 +45,8 @@ export class PropertiesService {
   ) {}
 
   async findAll(propertiesQueryDto: PropertiesQueryDto) {
-    const { page, name, price, sort, order } = propertiesQueryDto;
+    const { page, name, price, sort, order, type, tarification, to_sell } =
+      propertiesQueryDto;
 
     const limit = propertiesQueryDto.limit ?? DefaultPageSize.PROPERTY;
     const offset = this.paginationService.calculateOffset(limit, page);
@@ -54,6 +57,9 @@ export class PropertiesService {
       {
         description: name ? this.filteringService.contains(name) : undefined,
         rent_price: price ? this.filteringService.compare(price) : undefined,
+        type: type as TypePropertyEnum,
+        tarification: tarification as TarificationEnum,
+        to_sell: to_sell,
       },
       {
         relations: {
