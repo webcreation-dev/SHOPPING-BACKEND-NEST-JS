@@ -1,0 +1,54 @@
+Attribut globals à tous les types
+
+- to_sell (true or false)
+
+
+*  TYPE =  Parcelle & [Maison - Villa - Studio - Appartement - Appartement meublé - Bureau - Immeuble - Boutique - Magasin ( (to_sell == true))]
+
+- images
+- lien vidéo (optional)
+- tarification (journalier - mensuel) (required if(to_sell == false)) 
+- visit_price
+- rent_price (montant)
+- commission
+- description
+- latitude (optional)
+- longitude (optional)
+- arrondissement (optional)
+- commune (optional)
+- departement (optional)
+
+
+
+* TYPE = Maison - Villa - Studio - Appartement - Appartement meublé - Bureau - Immeuble - Boutique - Magasin  (to_sell == false)
+
+- images
+- description
+- lien video (optional)
+- tarification (journalier - mensuel)
+
+- number_living_rooms (required if_not(type == Studio || type == Boutique || type == Magasin))
+- number_rooms (required if_not(type == Studio || type == Boutique || type == Magasin))
+
+- number_bathrooms
+- number_households
+- paint
+- is_fence
+- is_terace
+- sanitary
+- water_meter_type
+- electricity_meter_type
+- electricity_personal_meter_type
+- electricity_decounter_meter_rate
+- rent_price
+- month_advance
+- caution
+- visit_price
+- commission
+- latitude (optional)
+- longitude (optional)
+- arrondissement (optional)
+- commune (optional)
+- departement (optional)
+
+

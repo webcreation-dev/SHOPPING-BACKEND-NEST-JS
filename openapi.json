@@ -1522,50 +1522,45 @@
       "Property": {
         "type": "object",
         "properties": {
-          "number_rooms": {
-            "type": "number"
-          },
-          "number_living_rooms": {
-            "type": "number"
-          },
-          "rent_price": {
-            "type": "number"
-          },
-          "is_prepaid": {
+          "to_sell": {
             "type": "boolean"
           },
-          "month_advance": {
-            "type": "number"
+          "video_url": {
+            "type": "string"
           },
-          "number_households": {
-            "type": "number"
+          "tarification": {
+            "enum": [
+              "DAILY",
+              "MONTHLY"
+            ],
+            "type": "string"
           },
-          "is_terace": {
-            "type": "boolean"
-          },
-          "is_fence": {
-            "type": "boolean"
-          },
-          "description": {
+          "type": {
+            "enum": [
+              "PARCEL",
+              "HOUSE",
+              "VILLA",
+              "STUDIO",
+              "APARTMENT",
+              "APARTMENT_FURNITURE",
+              "OFFICE",
+              "BUILDING",
+              "SHOP",
+              "STORE"
+            ],
             "type": "string"
           },
           "visit_price": {
             "type": "number"
           },
-          "water_commission": {
+          "rent_price": {
             "type": "number"
           },
-          "water_drilling_rate": {
+          "commission": {
             "type": "number"
           },
-          "electricity_commission": {
-            "type": "number"
-          },
-          "electricity_decounter_meter_rate": {
-            "type": "number"
-          },
-          "is_active": {
-            "type": "boolean"
+          "description": {
+            "type": "string"
           },
           "latitude": {
             "type": "number"
@@ -1573,18 +1568,45 @@
           "longitude": {
             "type": "number"
           },
-          "water_meter_type": {
-            "enum": [
-              "SONEB",
-              "FORAGE"
-            ],
+          "district": {
             "type": "string"
+          },
+          "municipality": {
+            "type": "string"
+          },
+          "department": {
+            "type": "string"
+          },
+          "number_households": {
+            "type": "number"
+          },
+          "number_living_rooms": {
+            "type": "number"
+          },
+          "number_rooms": {
+            "type": "number"
+          },
+          "number_bathrooms": {
+            "type": "number"
           },
           "paint": {
             "enum": [
               "NO",
               "YES_CLIENT",
               "YES_OWNER"
+            ],
+            "type": "string"
+          },
+          "is_fence": {
+            "type": "boolean"
+          },
+          "is_terace": {
+            "type": "boolean"
+          },
+          "water_meter_type": {
+            "enum": [
+              "SONEB",
+              "FORAGE"
             ],
             "type": "string"
           },
@@ -1609,6 +1631,24 @@
               "POST_PREPAID"
             ],
             "type": "string"
+          },
+          "electricity_decounter_meter_rate": {
+            "type": "number"
+          },
+          "month_advance": {
+            "type": "number"
+          },
+          "caution": {
+            "type": "number"
+          },
+          "water_drilling_rate": {
+            "type": "number"
+          },
+          "is_prepaid": {
+            "type": "boolean"
+          },
+          "is_active": {
+            "type": "boolean"
           },
           "galleries": {
             "type": "array",
@@ -1648,28 +1688,36 @@
           }
         },
         "required": [
-          "number_rooms",
-          "number_living_rooms",
-          "rent_price",
-          "is_prepaid",
-          "month_advance",
-          "number_households",
-          "is_terace",
-          "is_fence",
-          "description",
+          "to_sell",
+          "video_url",
+          "tarification",
+          "type",
           "visit_price",
-          "water_commission",
-          "water_drilling_rate",
-          "electricity_commission",
-          "electricity_decounter_meter_rate",
-          "is_active",
+          "rent_price",
+          "commission",
+          "description",
           "latitude",
           "longitude",
-          "water_meter_type",
+          "district",
+          "municipality",
+          "department",
+          "number_households",
+          "number_living_rooms",
+          "number_rooms",
+          "number_bathrooms",
           "paint",
+          "is_fence",
+          "is_terace",
+          "water_meter_type",
           "sanitary",
           "electricity_meter_type",
           "electricity_personal_meter_type",
+          "electricity_decounter_meter_rate",
+          "month_advance",
+          "caution",
+          "water_drilling_rate",
+          "is_prepaid",
+          "is_active",
           "galleries",
           "visits",
           "user",
@@ -1993,31 +2041,71 @@
       "CreatePropertyDto": {
         "type": "object",
         "properties": {
-          "number_rooms": {
-            "type": "number"
+          "type": {
+            "type": "string",
+            "enum": [
+              "PARCEL",
+              "HOUSE",
+              "VILLA",
+              "STUDIO",
+              "APARTMENT",
+              "APARTMENT_FURNITURE",
+              "OFFICE",
+              "BUILDING",
+              "SHOP",
+              "STORE"
+            ]
           },
-          "number_living_rooms": {
+          "to_sell": {
+            "type": "boolean"
+          },
+          "video_url": {
+            "type": "string"
+          },
+          "tarification": {
+            "type": "string",
+            "enum": [
+              "DAILY",
+              "MONTHLY"
+            ]
+          },
+          "visit_price": {
             "type": "number"
           },
           "rent_price": {
             "type": "number"
           },
-          "is_prepaid": {
-            "type": "boolean"
+          "commission": {
+            "type": "number"
           },
-          "month_advance": {
+          "description": {
+            "type": "string"
+          },
+          "latitude": {
+            "type": "number"
+          },
+          "longitude": {
+            "type": "number"
+          },
+          "district": {
+            "type": "string"
+          },
+          "municipality": {
+            "type": "string"
+          },
+          "department": {
+            "type": "string"
+          },
+          "number_living_rooms": {
+            "type": "number"
+          },
+          "number_rooms": {
+            "type": "number"
+          },
+          "number_bathrooms": {
             "type": "number"
           },
           "number_households": {
-            "type": "number"
-          },
-          "is_terace": {
-            "type": "boolean"
-          },
-          "is_fence": {
-            "type": "boolean"
-          },
-          "water_commission": {
             "type": "number"
           },
           "paint": {
@@ -2027,6 +2115,12 @@
               "YES_CLIENT",
               "YES_OWNER"
             ]
+          },
+          "is_fence": {
+            "type": "boolean"
+          },
+          "is_terace": {
+            "type": "boolean"
           },
           "sanitary": {
             "type": "string",
@@ -2043,21 +2137,12 @@
               "FORAGE"
             ]
           },
-          "water_drilling_rate": {
-            "type": "number"
-          },
-          "electricity_commission": {
-            "type": "number"
-          },
           "electricity_meter_type": {
             "type": "string",
             "enum": [
               "PERSONAL",
               "DECOUNTER"
             ]
-          },
-          "electricity_decounter_meter_rate": {
-            "type": "number"
           },
           "electricity_personal_meter_type": {
             "type": "string",
@@ -2066,41 +2151,41 @@
               "POST_PREPAID"
             ]
           },
-          "description": {
-            "type": "string"
-          },
-          "visit_price": {
+          "electricity_decounter_meter_rate": {
             "type": "number"
           },
-          "longitude": {
+          "month_advance": {
             "type": "number"
           },
-          "latitude": {
+          "caution": {
+            "type": "number"
+          },
+          "is_prepaid": {
+            "type": "boolean"
+          },
+          "water_drilling_rate": {
             "type": "number"
           }
         },
         "required": [
-          "number_rooms",
-          "number_living_rooms",
+          "type",
+          "to_sell",
+          "visit_price",
           "rent_price",
-          "is_prepaid",
-          "month_advance",
+          "commission",
+          "description",
+          "number_bathrooms",
           "number_households",
-          "is_terace",
-          "is_fence",
-          "water_commission",
           "paint",
+          "is_fence",
+          "is_terace",
           "sanitary",
           "water_meter_type",
-          "water_drilling_rate",
-          "electricity_commission",
           "electricity_meter_type",
-          "electricity_decounter_meter_rate",
-          "electricity_personal_meter_type",
-          "description",
-          "visit_price",
-          "longitude",
-          "latitude"
+          "month_advance",
+          "caution",
+          "is_prepaid",
+          "water_drilling_rate"
         ]
       },
       "PaginationMeta": {
@@ -2203,31 +2288,56 @@
       "UpdatePropertyDto": {
         "type": "object",
         "properties": {
-          "number_rooms": {
-            "type": "number"
+          "to_sell": {
+            "type": "boolean"
           },
-          "number_living_rooms": {
+          "video_url": {
+            "type": "string"
+          },
+          "tarification": {
+            "type": "string",
+            "enum": [
+              "DAILY",
+              "MONTHLY"
+            ]
+          },
+          "visit_price": {
             "type": "number"
           },
           "rent_price": {
             "type": "number"
           },
-          "is_prepaid": {
-            "type": "boolean"
+          "commission": {
+            "type": "number"
           },
-          "month_advance": {
+          "description": {
+            "type": "string"
+          },
+          "latitude": {
+            "type": "number"
+          },
+          "longitude": {
+            "type": "number"
+          },
+          "district": {
+            "type": "string"
+          },
+          "municipality": {
+            "type": "string"
+          },
+          "department": {
+            "type": "string"
+          },
+          "number_living_rooms": {
+            "type": "number"
+          },
+          "number_rooms": {
+            "type": "number"
+          },
+          "number_bathrooms": {
             "type": "number"
           },
           "number_households": {
-            "type": "number"
-          },
-          "is_terace": {
-            "type": "boolean"
-          },
-          "is_fence": {
-            "type": "boolean"
-          },
-          "water_commission": {
             "type": "number"
           },
           "paint": {
@@ -2237,6 +2347,12 @@
               "YES_CLIENT",
               "YES_OWNER"
             ]
+          },
+          "is_fence": {
+            "type": "boolean"
+          },
+          "is_terace": {
+            "type": "boolean"
           },
           "sanitary": {
             "type": "string",
@@ -2253,21 +2369,12 @@
               "FORAGE"
             ]
           },
-          "water_drilling_rate": {
-            "type": "number"
-          },
-          "electricity_commission": {
-            "type": "number"
-          },
           "electricity_meter_type": {
             "type": "string",
             "enum": [
               "PERSONAL",
               "DECOUNTER"
             ]
-          },
-          "electricity_decounter_meter_rate": {
-            "type": "number"
           },
           "electricity_personal_meter_type": {
             "type": "string",
@@ -2276,17 +2383,35 @@
               "POST_PREPAID"
             ]
           },
-          "description": {
-            "type": "string"
-          },
-          "visit_price": {
+          "electricity_decounter_meter_rate": {
             "type": "number"
           },
-          "longitude": {
+          "month_advance": {
             "type": "number"
           },
-          "latitude": {
+          "caution": {
             "type": "number"
+          },
+          "is_prepaid": {
+            "type": "boolean"
+          },
+          "water_drilling_rate": {
+            "type": "number"
+          },
+          "type": {
+            "type": "string",
+            "enum": [
+              "PARCEL",
+              "HOUSE",
+              "VILLA",
+              "STUDIO",
+              "APARTMENT",
+              "APARTMENT_FURNITURE",
+              "OFFICE",
+              "BUILDING",
+              "SHOP",
+              "STORE"
+            ]
           }
         }
       },

@@ -66,33 +66,6 @@ export class SeedingService {
         }
       }
 
-      // ✅ USERS
-      // for (const userData of usersData) {
-      //   const user = usersRepository.create(userData);
-      //   savedUsers.push(await usersRepository.save(user));
-      // }
-
-      // // ✅ PROPERTIES & GALLERIES
-      // for (const propertyData of propertiesData) {
-      //   // Création et sauvegarde de la propriété
-      //   const property = propertiesRepository.create({
-      //     ...propertyData,
-      //     user: savedUsers[0], // Associer à un utilisateur existant
-      //   });
-
-      //   const savedProperty = await propertiesRepository.save(property);
-
-      //   // Ajout des images à la galerie
-      //   for (const imagePath of propertyData.images) {
-      //     const gallery = galleriesRepository.create({
-      //       url: imagePath,
-      //       property: savedProperty, // Associer la propriété sauvegardée
-      //     });
-
-      //     await galleriesRepository.save(gallery);
-      //   }
-      // }
-
       await queryRunner.commitTransaction();
     } catch (error) {
       await queryRunner.rollbackTransaction();
