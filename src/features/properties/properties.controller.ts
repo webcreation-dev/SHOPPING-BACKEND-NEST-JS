@@ -76,9 +76,9 @@ export class PropertiesController {
   // @Roles(RoleEnum.MANAGER)
   // @UseGuards(RolesGuard)
   async findOne(@Param('id', ParseIntPipe) id: number) {
-    return this.propertyResource.format(
-      await this.propertiesService.findOne(id),
-    );
+    // return this.propertyResource.format(
+    return await this.propertiesService.findOne(id);
+    // );
   }
 
   @Patch(':id')

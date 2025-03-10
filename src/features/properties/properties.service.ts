@@ -48,6 +48,8 @@ export class PropertiesService {
     const limit = propertiesQueryDto.limit ?? DefaultPageSize.PROPERTY;
     const offset = this.paginationService.calculateOffset(limit, page);
 
+    // console.log(name, price, sort, order, limit, offset);
+
     const [data, count] = await this.propertiesRepository.findAndCount(
       {
         description: name ? this.filteringService.contains(name) : undefined,
@@ -105,7 +107,7 @@ export class PropertiesService {
   async findOne(id: number) {
     return await this.propertiesRepository.findOne(
       { id },
-      { galleries: true, user: true, owner: true, articles: true },
+      { galleries: true, user: true, owner: true },
     );
   }
 
