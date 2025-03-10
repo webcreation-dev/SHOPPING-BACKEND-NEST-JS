@@ -37,16 +37,20 @@ import { ApiConsumes } from '@nestjs/swagger';
 import { AddArticlesDto } from './dto/articles/add-article.dto';
 import { UpdateArticleDto } from './dto/articles/update-article.dto';
 import { RemoveArticleDto } from './dto/articles/remove-article.dto';
+import { PropertyResource } from './resources/property.resource';
 
 @Controller('properties')
 export class PropertiesController {
-  constructor(private readonly propertiesService: PropertiesService) {}
+  constructor(
+    private readonly propertiesService: PropertiesService,
+    private readonly propertyResource: PropertyResource,
+  ) {}
 
   @Post()
   // @Roles(RoleEnum.USER)
   @HeaderOperation('CREATE ', CreatePropertyDto)
   @UseInterceptors(FilesInterceptor('files', MaxFileCount.PROPERTY_IMAGES))
-  create(
+  async create(
     @Body() createPropertyDto: CreatePropertyDto,
 
     @UploadedFiles(createParseFilePipe('2MB', 'png', 'jpeg'))
@@ -55,7 +59,9 @@ export class PropertiesController {
     @CurrentUser()
     user: User,
   ) {
-    return this.propertiesService.create(createPropertyDto, files, user);
+    return this.propertyResource.format(
+      await this.propertiesService.create(createPropertyDto, files, user),
+    );
   }
 
   @Get()
@@ -69,8 +75,10 @@ export class PropertiesController {
   @HeaderOperation('GET ONE', null, null, true)
   // @Roles(RoleEnum.MANAGER)
   // @UseGuards(RolesGuard)
-  findOne(@Param('id', ParseIntPipe) id: number) {
-    return this.propertiesService.findOne(id);
+  async findOne(@Param('id', ParseIntPipe) id: number) {
+    return this.propertyResource.format(
+      await this.propertiesService.findOne(id),
+    );
   }
 
   @Patch(':id')

@@ -24,6 +24,9 @@ export class PropertyResource {
         ...gallery,
         url: `${process.env.API_URL}${gallery.url}`,
       })),
+      user: property.user,
+      owner: property.owner,
+      articles: property.articles,
     };
 
     if (property.type !== TypePropertyEnum.PARCEL) {
