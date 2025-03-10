@@ -11,7 +11,6 @@ import { ActivateContractDto } from './dto/activate-contract.dto';
 import { StatusContractEnum } from './enums/status-contract.enum';
 import { DuesRepository } from './repositories/dues.repository';
 import { Due } from './entities/due.entity';
-import { PropertiesRepository } from '../properties/properties.repository';
 
 @Injectable()
 export class ContractsService {
@@ -19,7 +18,6 @@ export class ContractsService {
     private readonly contractsRepository: ContractsRepository,
     private readonly usersService: UsersService,
     private readonly propertiesService: PropertiesService,
-    private readonly propertiesRepository: PropertiesRepository,
     private readonly paginationService: PaginationService,
     private readonly duesRepository: DuesRepository,
   ) {}
@@ -75,11 +73,7 @@ export class ContractsService {
     const [tenant, landlord, property] = await Promise.all([
       this.usersService.findOne(tenant_id),
       this.usersService.findOne(landlord_id),
-      // this.propertiesService.findOne(property_id),
-      this.propertiesRepository.findOne(
-        { id },
-        { galleries: true, user: true, owner: true, articles: true },
-      ),
+      this.propertiesService.findOne(property_id),
     ]);
 
     if (property.user.id !== id) {
