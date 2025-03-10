@@ -1,7 +1,7 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
 import { User } from '../auth/users/entities/user.entity';
 import { UsersService } from '../auth/users/users.service';
-import { PropertiesService } from '../properties/properties.service';
+// import { PropertiesService } from '../properties/properties.service';
 import { ContractsQueryDto } from './querying/contracts-query.dto';
 import { DefaultPageSize, PaginationService } from '@app/common';
 import { Contract } from './entities/contract.entity';
@@ -75,7 +75,7 @@ export class ContractsService {
       this.usersService.findOne(tenant_id),
       this.usersService.findOne(landlord_id),
       this.propertiesRepository.findOne(
-        { id },
+        { id: property_id },
         { galleries: true, user: true, owner: true, articles: true },
       ),
     ]);
