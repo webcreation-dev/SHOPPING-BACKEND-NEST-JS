@@ -43,4 +43,8 @@ export class FilteringService {
         return exhaustiveCheck;
     }
   }
+
+  isBoolean(binary: number) {
+    return binary === 1 ? true : false;
+  }
 }

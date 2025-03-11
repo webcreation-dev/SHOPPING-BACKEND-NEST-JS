@@ -4,10 +4,12 @@ import {
   ToFilterOperationDto,
 } from '@app/common';
 import {
-  IsBoolean,
   IsEnum,
+  IsNumber,
   IsOptional,
   IsString,
+  Max,
+  Min,
   ValidateNested,
 } from 'class-validator';
 import { TarificationEnum } from '../../enums/tarification.enum';
@@ -27,9 +29,10 @@ export class PropertiesFilterDto extends NameFilterDto {
   @IsEnum(TypePropertyEnum)
   readonly type?: TypePropertyEnum;
 
-  @IsOptional()
-  @IsBoolean()
-  readonly to_sell?: boolean;
+  @IsNumber()
+  @Min(0)
+  @Max(1)
+  readonly to_sell?: number;
 
   @IsString()
   @IsOptional()

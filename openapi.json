@@ -404,7 +404,9 @@
             "required": false,
             "in": "query",
             "schema": {
-              "type": "boolean"
+              "minimum": 0,
+              "maximum": 1,
+              "type": "number"
             }
           },
           {
@@ -2368,7 +2370,9 @@
             "type": "string"
           },
           "to_sell": {
-            "type": "boolean"
+            "type": "number",
+            "minimum": 0,
+            "maximum": 1
           },
           "district": {
             "type": "string"
