@@ -14,6 +14,7 @@ import { HttpExceptionFilter } from '../database/exception-filters/http-exceptio
 import { EntityMetadataExceptionFilter } from '../database/exception-filters/entity-metadata-exception/entity-metadata-exception.filter';
 import { FilesExceptionFilter } from '../files/exception-filters/files-exception/files-exception.filter';
 import { ResponseFormatInterceptor } from './interceptors/sucess-response.interceptor';
+import { BadRequestExceptionFilter } from '../database/exception-filters/bad-request-exception/bad-request-exception.filter';
 
 @Module({
   providers: [
@@ -60,6 +61,10 @@ import { ResponseFormatInterceptor } from './interceptors/sucess-response.interc
     {
       provide: APP_FILTER,
       useClass: EntityMetadataExceptionFilter,
+    },
+    {
+      provide: APP_FILTER,
+      useClass: BadRequestExceptionFilter,
     },
   ],
 })

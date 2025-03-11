@@ -29,6 +29,7 @@ export class PropertiesFilterDto extends NameFilterDto {
   @IsEnum(TypePropertyEnum)
   readonly type?: TypePropertyEnum;
 
+  @IsOptional()
   @IsNumber()
   @Min(0)
   @Max(1)
