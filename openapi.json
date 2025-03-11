@@ -408,6 +408,30 @@
             }
           },
           {
+            "name": "district",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "municipality",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "department",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
             "name": "order",
             "required": false,
             "in": "query",
@@ -2345,6 +2369,15 @@
           },
           "to_sell": {
             "type": "boolean"
+          },
+          "district": {
+            "type": "string"
+          },
+          "municipality": {
+            "type": "string"
+          },
+          "department": {
+            "type": "string"
           },
           "order": {
             "type": "string",

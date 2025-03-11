@@ -45,8 +45,19 @@ export class PropertiesService {
   ) {}
 
   async findAll(propertiesQueryDto: PropertiesQueryDto) {
-    const { page, name, price, sort, order, type, tarification, to_sell } =
-      propertiesQueryDto;
+    const {
+      page,
+      name,
+      price,
+      sort,
+      order,
+      type,
+      tarification,
+      to_sell,
+      district,
+      municipality,
+      department,
+    } = propertiesQueryDto;
 
     const limit = propertiesQueryDto.limit ?? DefaultPageSize.PROPERTY;
     const offset = this.paginationService.calculateOffset(limit, page);
@@ -59,6 +70,15 @@ export class PropertiesService {
         rent_price: price ? this.filteringService.compare(price) : undefined,
         type: type as TypePropertyEnum,
         tarification: tarification as TarificationEnum,
+        district: district
+          ? this.filteringService.contains(district)
+          : undefined,
+        municipality: municipality
+          ? this.filteringService.contains(municipality)
+          : undefined,
+        department: department
+          ? this.filteringService.contains(department)
+          : undefined,
         to_sell: to_sell,
       },
       {

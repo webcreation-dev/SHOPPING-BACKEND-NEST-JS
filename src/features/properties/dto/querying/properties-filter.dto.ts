@@ -3,7 +3,13 @@ import {
   NameFilterDto,
   ToFilterOperationDto,
 } from '@app/common';
-import { IsBoolean, IsEnum, IsOptional, ValidateNested } from 'class-validator';
+import {
+  IsBoolean,
+  IsEnum,
+  IsOptional,
+  IsString,
+  ValidateNested,
+} from 'class-validator';
 import { TarificationEnum } from '../../enums/tarification.enum';
 import { TypePropertyEnum } from '../../enums/type_property.enum';
 
@@ -24,4 +30,16 @@ export class PropertiesFilterDto extends NameFilterDto {
   @IsOptional()
   @IsBoolean()
   readonly to_sell?: boolean;
+
+  @IsString()
+  @IsOptional()
+  district?: string;
+
+  @IsString()
+  @IsOptional()
+  municipality?: string;
+
+  @IsString()
+  @IsOptional()
+  department?: string;
 }
