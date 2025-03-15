@@ -76,7 +76,7 @@ export class ContractsService {
 
     // if (property.user.id !== id) {
     //   throw new BadRequestException(
-    //     `Vous n'etes pas autorisé à effectué cette action.`,
+    //     `Vous n'etes pas autorisé à effectuer cette action.`,
     //   );
     // }
 

@@ -25,52 +25,58 @@ function isNotStudioShopStore(type: TypePropertyEnum): boolean {
 }
 
 export class SpecificAttributes {
-  @ValidateIf((o) => isNotStudioShopStore(o.type) && isNotParcel(o.type))
+  @ValidateIf(
+    (o) => isNotStudioShopStore(o.type) && isNotParcel(o.type) && !o.to_sell,
+  )
   @IsNumber()
   @IsNotEmpty()
   number_living_rooms?: number;
 
-  @ValidateIf((o) => isNotStudioShopStore(o.type) && isNotParcel(o.type))
+  @ValidateIf(
+    (o) => isNotStudioShopStore(o.type) && isNotParcel(o.type) && !o.to_sell,
+  )
   @IsNumber()
   @IsNotEmpty()
   number_rooms?: number;
 
-  @ValidateIf((o) => isNotParcel(o.type))
+  @ValidateIf((o) => isNotParcel(o.type) && !o.to_sell)
   @IsNumber()
   @IsNotEmpty()
   number_bathrooms: number;
 
-  @ValidateIf((o) => isNotParcel(o.type) && isNotStudioShopStore(o.type))
+  @ValidateIf(
+    (o) => isNotParcel(o.type) && isNotStudioShopStore(o.type) && !o.to_sell,
+  )
   @IsNumber()
   @IsNotEmpty()
   number_households: number;
 
-  @ValidateIf((o) => isNotParcel(o.type))
+  @ValidateIf((o) => isNotParcel(o.type) && !o.to_sell)
   @IsEnum(PaintEnum)
   @IsNotEmpty()
   paint: PaintEnum;
 
-  @ValidateIf((o) => isNotParcel(o.type))
+  @ValidateIf((o) => isNotParcel(o.type) && !o.to_sell)
   @IsBoolean()
   @IsNotEmpty()
   is_fence: boolean;
 
-  @ValidateIf((o) => isNotParcel(o.type))
+  @ValidateIf((o) => isNotParcel(o.type) && !o.to_sell)
   @IsBoolean()
   @IsNotEmpty()
   is_terace: boolean;
 
-  @ValidateIf((o) => isNotParcel(o.type))
+  @ValidateIf((o) => isNotParcel(o.type) && !o.to_sell)
   @IsEnum(SanitaryEnum)
   @IsNotEmpty()
   sanitary: SanitaryEnum;
 
-  @ValidateIf((o) => isNotParcel(o.type))
+  @ValidateIf((o) => isNotParcel(o.type) && !o.to_sell)
   @IsEnum(WaterMeterTypeEnum)
   @IsNotEmpty()
   water_meter_type: WaterMeterTypeEnum;
 
-  @ValidateIf((o) => isNotParcel(o.type))
+  @ValidateIf((o) => isNotParcel(o.type) && !o.to_sell)
   @IsEnum(ElectricityMeterTypeEnum)
   @IsNotEmpty()
   electricity_meter_type: ElectricityMeterTypeEnum;
@@ -78,7 +84,8 @@ export class SpecificAttributes {
   @ValidateIf(
     (o) =>
       o.electricity_meter_type === ElectricityMeterTypeEnum.PERSONAL &&
-      isNotParcel(o.type),
+      isNotParcel(o.type) &&
+      !o.to_sell,
   )
   @IsEnum(ElectricityPersonalMeterTypeEnum)
   @IsNotEmpty()
@@ -87,30 +94,33 @@ export class SpecificAttributes {
   @ValidateIf(
     (o) =>
       o.electricity_meter_type === ElectricityMeterTypeEnum.DECOUNTER &&
-      isNotParcel(o.type),
+      isNotParcel(o.type) &&
+      !o.to_sell,
   )
   @IsNumber()
   @IsNotEmpty()
   electricity_decounter_meter_rate?: number;
 
-  @ValidateIf((o) => isNotParcel(o.type))
+  @ValidateIf((o) => isNotParcel(o.type) && !o.to_sell)
   @IsNumber()
   @IsNotEmpty()
   month_advance: number;
 
-  @ValidateIf((o) => isNotParcel(o.type))
+  @ValidateIf((o) => isNotParcel(o.type) && !o.to_sell)
   @IsNumber()
   @IsNotEmpty()
   caution: number;
 
-  @ValidateIf((o) => isNotParcel(o.type))
+  @ValidateIf((o) => isNotParcel(o.type) && !o.to_sell)
   @IsBoolean()
   @IsNotEmpty()
   is_prepaid: boolean;
 
   @ValidateIf(
     (o) =>
-      o.water_meter_type === WaterMeterTypeEnum.FORAGE && isNotParcel(o.type),
+      o.water_meter_type === WaterMeterTypeEnum.FORAGE &&
+      isNotParcel(o.type) &&
+      !o.to_sell,
   )
   @IsNumber()
   @IsNotEmpty()
