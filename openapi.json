@@ -2713,18 +2713,13 @@
           "start_date": {
             "format": "date-time",
             "type": "string"
-          },
-          "end_date": {
-            "format": "date-time",
-            "type": "string"
           }
         },
         "required": [
           "tenant_id",
           "landlord_id",
           "property_id",
-          "start_date",
-          "end_date"
+          "start_date"
         ]
       },
       "ContractsQueryDto": {

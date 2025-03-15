@@ -20,17 +20,11 @@ export class ContractExistValidatorConstraint
     const dto: any = args.object;
     const contractRepository = AppDataSource.getRepository(Contract);
     const propertyRepository = AppDataSource.getRepository(Property);
-    const { tenant_id, landlord_id, property_id, start_date, end_date } = dto;
+    const { tenant_id, landlord_id, property_id } = dto;
 
     // check if the landlord is the same as the tenant
     if (tenant_id === landlord_id) {
       this.errorMessage = `Le locataire et le propriétaire doivent être différents.`;
-      return false;
-    }
-
-    // check if the contract dates are valid
-    if (new Date(start_date) >= new Date(end_date)) {
-      this.errorMessage = `La date de début doit être antérieure à la date de fin.`;
       return false;
     }
 
@@ -50,9 +44,20 @@ export class ContractExistValidatorConstraint
     // check if the property have article different of []
     const property = await propertyRepository.findOne({
       where: { id: property_id },
+      relations: ['owner', 'user'], // Charge explicitement les relations
     });
+
     if (!property || property.articles.length === 0) {
       this.errorMessage = `Le bien doit avoir au moins un article pour cette propriété.`;
+      return false;
+    }
+
+    // Vérifiez si le propriétaire ou l'utilisateur correspond au landlord_id
+    if (
+      (!property.owner || property.owner.id !== landlord_id) &&
+      (!property.user || property.user.id !== landlord_id)
+    ) {
+      this.errorMessage = `La location n'appartient pas au propriétaire.`;
       return false;
     }
 

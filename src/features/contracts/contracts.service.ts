@@ -62,13 +62,7 @@ export class ContractsService {
   }
 
   async create(
-    {
-      tenant_id,
-      landlord_id,
-      property_id,
-      start_date,
-      end_date,
-    }: CreateContractDto,
+    { tenant_id, landlord_id, property_id, start_date }: CreateContractDto,
     { id }: User,
   ) {
     const [tenant, landlord, property] = await Promise.all([
@@ -98,7 +92,6 @@ export class ContractsService {
         landlord,
         property,
         start_date,
-        end_date,
         articles: property.articles,
         rent_price: property.rent_price,
       }),

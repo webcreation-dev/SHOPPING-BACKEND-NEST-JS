@@ -82,6 +82,8 @@ export class PropertiesService {
       {
         relations: {
           galleries: true,
+          user: true,
+          owner: true,
         },
         order: { [sort]: order } as FindOptionsOrder<Property>,
         skip: offset,
