@@ -8,6 +8,7 @@ import { Contract } from 'src/features/contracts/entities/contract.entity';
 import AppDataSource from '../../../../database/data-source';
 import { StatusContractEnum } from 'src/features/contracts/enums/status-contract.enum';
 import { Property } from 'src/features/properties/entities/property.entity';
+import { In } from 'typeorm';
 
 @ValidatorConstraint({ async: true })
 @Injectable()
@@ -46,13 +47,12 @@ export class ContractExistValidatorConstraint
       where: { id: property_id },
       relations: ['owner', 'user'], // Charge explicitement les relations
     });
-
     if (!property || property.articles.length === 0) {
       this.errorMessage = `Le bien doit avoir au moins un article pour cette propriété.`;
       return false;
     }
 
-    // Vérifiez si le propriétaire ou l'utilisateur correspond au landlord_id
+    // check if the property is owned by the landlord
     if (
       (!property.owner || property.owner.id !== landlord_id) &&
       (!property.user || property.user.id !== landlord_id)
@@ -62,12 +62,13 @@ export class ContractExistValidatorConstraint
     }
 
     // check if there is an active contract
-    const activeContract = await contractRepository.exist({
+    const activeContract = await contractRepository.exists({
       where: {
         property: { id: property_id },
-        status: StatusContractEnum.ACTIVE || StatusContractEnum.PENDING,
+        status: In([StatusContractEnum.ACTIVE, StatusContractEnum.PENDING]),
       },
     });
+
     if (activeContract) {
       this.errorMessage = `Un contrat actif ou en attente existe déjà pour ce bien.`;
       return false;

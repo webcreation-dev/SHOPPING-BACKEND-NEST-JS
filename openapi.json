@@ -1114,7 +1114,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "type": "boolean"
+                  "$ref": "#/components/schemas/Contract"
                 }
               }
             }

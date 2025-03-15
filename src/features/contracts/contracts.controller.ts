@@ -31,8 +31,7 @@ export class ContractsController {
     @Body() createContractDto: CreateContractDto,
     @CurrentUser() user: User,
   ) {
-    // return this.contractsService.create(createContractDto, user);
-    return true;
+    return this.contractsService.create(createContractDto, user);
   }
 
   @Get()

@@ -70,21 +70,15 @@ export class ContractsService {
       this.usersService.findOne(landlord_id),
       this.propertiesRepository.findOne(
         { id: property_id },
-        { galleries: true, user: true, owner: true, articles: true },
+        { galleries: true, user: true, owner: true },
       ),
     ]);
 
-    if (property.user.id !== id) {
-      throw new BadRequestException(
-        `Vous n'etes pas autorisé à effectué cette action.`,
-      );
-    }
-
-    if (property.user.id !== landlord_id && property.owner.id !== landlord_id) {
-      throw new BadRequestException(
-        `Vous n'etes pas autorisé à effectuer cette action.`,
-      );
-    }
+    // if (property.user.id !== id) {
+    //   throw new BadRequestException(
+    //     `Vous n'etes pas autorisé à effectué cette action.`,
+    //   );
+    // }
 
     const contract = await this.contractsRepository.create(
       new Contract({
