@@ -6,6 +6,13 @@
     "rent_price": 3000,
     "commission": 0,
     "description": "Une très jolie maison",
+    "articles": [
+      {
+      "id": 1,
+      "title": "string",
+      "content": "string"
+      }
+    ],
     "images": [
       "upload/properties/test/locapay_1.png",
       "upload/properties/test/locapay_2.png",
@@ -21,6 +28,13 @@
     "rent_price": 3000,
     "commission": 0,
     "description": "Une très jolie maison",
+    "articles": [
+      {
+      "id": 1,
+      "title": "string",
+      "content": "string"
+      }
+    ],
     "images": [
       "upload/properties/test/locapay_1.png",
       "upload/properties/test/locapay_2.png",
@@ -36,6 +50,13 @@
     "rent_price": 3000,
     "commission": 0,
     "description": "Une très jolie maison",
+    "articles": [
+      {
+      "id": 1,
+      "title": "string",
+      "content": "string"
+      }
+    ],
     "images": [
       "upload/properties/test/locapay_1.png",
       "upload/properties/test/locapay_2.png",
@@ -51,6 +72,13 @@
     "rent_price": 3000,
     "commission": 0,
     "description": "Une très jolie maison",
+    "articles": [
+      {
+      "id": 1,
+      "title": "string",
+      "content": "string"
+      }
+    ],
     "images": [
       "upload/properties/test/locapay_1.png",
       "upload/properties/test/locapay_2.png",
@@ -66,6 +94,13 @@
     "rent_price": 3000,
     "commission": 0,
     "description": "Une très jolie maison",
+    "articles": [
+      {
+      "id": 1,
+      "title": "string",
+      "content": "string"
+      }
+    ],
     "images": [
       "upload/properties/test/locapay_1.png",
       "upload/properties/test/locapay_2.png",
@@ -81,6 +116,13 @@
     "rent_price": 3000,
     "commission": 0,
     "description": "Une très jolie maison",
+    "articles": [
+      {
+      "id": 1,
+      "title": "string",
+      "content": "string"
+      }
+    ],
     "images": [
       "upload/properties/test/locapay_1.png",
       "upload/properties/test/locapay_2.png",
@@ -96,6 +138,13 @@
     "rent_price": 3000,
     "commission": 0,
     "description": "Une très jolie maison",
+    "articles": [
+      {
+      "id": 1,
+      "title": "string",
+      "content": "string"
+      }
+    ],
     "images": [
       "upload/properties/test/locapay_1.png",
       "upload/properties/test/locapay_2.png",
@@ -111,6 +160,13 @@
     "rent_price": 3000,
     "commission": 0,
     "description": "Une très jolie maison",
+    "articles": [
+      {
+      "id": 1,
+      "title": "string",
+      "content": "string"
+      }
+    ],
     "images": [
       "upload/properties/test/locapay_1.png",
       "upload/properties/test/locapay_2.png",
@@ -126,6 +182,13 @@
     "rent_price": 3000,
     "commission": 0,
     "description": "Une très jolie maison",
+    "articles": [
+      {
+      "id": 1,
+      "title": "string",
+      "content": "string"
+      }
+    ],
     "images": [
       "upload/properties/test/locapay_1.png",
       "upload/properties/test/locapay_2.png",
@@ -141,6 +204,13 @@
     "rent_price": 3000,
     "commission": 0,
     "description": "Une très jolie maison",
+    "articles": [
+      {
+      "id": 1,
+      "title": "string",
+      "content": "string"
+      }
+    ],
     "images": [
       "upload/properties/test/locapay_1.png",
       "upload/properties/test/locapay_2.png",
@@ -198,6 +268,13 @@
     "longitude": 0,
     "latitude": 0,
     "caution": 0,
+    "articles": [
+      {
+      "id": 1,
+      "title": "string",
+      "content": "string"
+      }
+    ],
     "images": [
       "upload/properties/test/locapay_1.png",
       "upload/properties/test/locapay_2.png",
@@ -232,6 +309,13 @@
     "longitude": 0,
     "latitude": 0,
     "caution": 0,
+    "articles": [
+      {
+      "id": 1,
+      "title": "string",
+      "content": "string"
+      }
+    ],
     "images": [
       "upload/properties/test/locapay_1.png",
       "upload/properties/test/locapay_2.png",
@@ -266,6 +350,13 @@
     "longitude": 0,
     "latitude": 0,
     "caution": 0,
+    "articles": [
+      {
+      "id": 1,
+      "title": "string",
+      "content": "string"
+      }
+    ],
     "images": [
       "upload/properties/test/locapay_1.png",
       "upload/properties/test/locapay_2.png",
@@ -300,6 +391,13 @@
     "longitude": 0,
     "latitude": 0,
     "caution": 0,
+    "articles": [
+      {
+      "id": 1,
+      "title": "string",
+      "content": "string"
+      }
+    ],
     "images": [
       "upload/properties/test/locapay_1.png",
       "upload/properties/test/locapay_2.png",
@@ -334,6 +432,13 @@
     "longitude": 0,
     "latitude": 0,
     "caution": 0,
+    "articles": [
+      {
+      "id": 1,
+      "title": "string",
+      "content": "string"
+      }
+    ],
     "images": [
       "upload/properties/test/locapay_1.png",
       "upload/properties/test/locapay_2.png",
@@ -368,6 +473,13 @@
     "longitude": 0,
     "latitude": 0,
     "caution": 0,
+    "articles": [
+      {
+      "id": 1,
+      "title": "string",
+      "content": "string"
+      }
+    ],
     "images": [
       "upload/properties/test/locapay_1.png",
       "upload/properties/test/locapay_2.png",
@@ -402,6 +514,13 @@
     "longitude": 0,
     "latitude": 0,
     "caution": 0,
+    "articles": [
+      {
+      "id": 1,
+      "title": "string",
+      "content": "string"
+      }
+    ],
     "images": [
       "upload/properties/test/locapay_1.png",
       "upload/properties/test/locapay_2.png",
@@ -436,6 +555,13 @@
     "longitude": 0,
     "latitude": 0,
     "caution": 0,
+    "articles": [
+      {
+      "id": 1,
+      "title": "string",
+      "content": "string"
+      }
+    ],
     "images": [
       "upload/properties/test/locapay_1.png",
       "upload/properties/test/locapay_2.png",
@@ -470,6 +596,13 @@
     "longitude": 0,
     "latitude": 0,
     "caution": 0,
+    "articles": [
+      {
+      "id": 1,
+      "title": "string",
+      "content": "string"
+      }
+    ],
     "images": [
       "upload/properties/test/locapay_1.png",
       "upload/properties/test/locapay_2.png",

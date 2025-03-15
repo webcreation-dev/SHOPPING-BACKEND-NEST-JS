@@ -5,6 +5,7 @@ import * as fs from 'fs';
 import { Gallery } from 'src/features/properties/entities/gallery.entity';
 import { Property } from 'src/features/properties/entities/property.entity';
 import { Contract } from 'src/features/contracts/entities/contract.entity';
+import { Due } from 'src/features/contracts/entities/due.entity';
 
 @Injectable()
 export class SeedingService {
@@ -19,6 +20,7 @@ export class SeedingService {
       const propertiesRepository = queryRunner.manager.getRepository(Property);
       const galleriesRepository = queryRunner.manager.getRepository(Gallery);
       const contractsRepository = queryRunner.manager.getRepository(Contract);
+      const duesRepository = queryRunner.manager.getRepository(Due);
 
       // ✅ 1. Delete all data
       await usersRepository.delete({});
@@ -73,8 +75,8 @@ export class SeedingService {
         }
       }
 
-      // ✅ CONTRACTS
-      const contracts = contractsRepository.create(
+      // ✅ CONTRACTS & DUES
+      const contract = contractsRepository.create(
         new Contract({
           tenant: savedUsers[0],
           landlord: savedUsers[1],
@@ -85,7 +87,15 @@ export class SeedingService {
           rent_price: savedProperties[0].rent_price,
         }),
       );
-      await contractsRepository.save(contracts);
+      const saveContract = await contractsRepository.save(contract);
+
+      const due = await duesRepository.create(
+        new Due({
+          amount_due: saveContract.rent_price,
+          contract: saveContract,
+        }),
+      );
+      await duesRepository.save(due);
 
       await queryRunner.commitTransaction();
     } catch (error) {

@@ -62,8 +62,6 @@ export class PropertiesService {
     const limit = propertiesQueryDto.limit ?? DefaultPageSize.PROPERTY;
     const offset = this.paginationService.calculateOffset(limit, page);
 
-    console.log('to_sell', this.filteringService.isBoolean(to_sell));
-
     const [data, count] = await this.propertiesRepository.findAndCount(
       {
         description: name ? this.filteringService.contains(name) : undefined,

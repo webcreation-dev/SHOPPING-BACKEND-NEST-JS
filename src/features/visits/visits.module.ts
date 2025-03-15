@@ -6,6 +6,7 @@ import { Visit } from './entities/visit.entity';
 import { VisitsRepository } from './visits.repository';
 import { UsersModule } from '../auth/users/users.module';
 import { PropertiesModule } from '../properties/properties.module';
+import { VisitResource } from './resources/visit.resource';
 
 @Module({
   imports: [
@@ -16,6 +17,6 @@ import { PropertiesModule } from '../properties/properties.module';
     PropertiesModule,
   ],
   controllers: [VisitsController],
-  providers: [VisitsService, VisitsRepository],
+  providers: [VisitsService, VisitsRepository, VisitResource],
 })
 export class VisitsModule {}

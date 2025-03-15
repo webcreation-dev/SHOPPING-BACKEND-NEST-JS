@@ -9,6 +9,7 @@ import { PropertiesService } from '../properties/properties.service';
 import { VisitsQueryDto } from './querying/visits-query.dto';
 import { DefaultPageSize, PaginationService } from '@app/common';
 import { FinalizeVisitDto } from './dto/finalize-visit.dto';
+import { VisitResource } from 'src/features/visits/resources/visit.resource';
 
 @Injectable()
 export class VisitsService {
@@ -17,6 +18,7 @@ export class VisitsService {
     private readonly usersService: UsersService,
     private readonly propertiesService: PropertiesService,
     private readonly paginationService: PaginationService,
+    private readonly visitResource: VisitResource,
   ) {}
 
   async findAll(visitsQueryDto: VisitsQueryDto, user: User) {
@@ -45,14 +47,14 @@ export class VisitsService {
     const [data, count] = await this.visitsRepository.findAndCount(
       whereCondition,
       {
-        relations: {},
+        relations: { user: true, property: true, manager: true },
         skip: offset,
         take: limit,
       },
     );
 
     const meta = this.paginationService.createMeta(limit, page, count);
-    return { data, meta };
+    return { data: this.visitResource.formatCollection(data), meta };
   }
 
   async create({ property_id }: CreateVisitDto, { id }: User) {

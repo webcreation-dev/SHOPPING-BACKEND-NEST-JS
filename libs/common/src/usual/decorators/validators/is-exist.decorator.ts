@@ -2,7 +2,7 @@ import { registerDecorator, ValidationOptions } from 'class-validator';
 import { GenericValidatorConstraint } from './generic-validation/generic.validator';
 
 export function IsExist(
-  entityClass: { new (...args: any[]): any }, // Accepte des constructeurs avec des arguments
+  entityClass: { new (...args: any[]): any },
   property: string,
   validationOptions?: ValidationOptions,
 ) {
