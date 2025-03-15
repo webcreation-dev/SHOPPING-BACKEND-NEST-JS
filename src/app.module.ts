@@ -5,7 +5,7 @@ import {
   DatabaseModule,
   EnvModule,
   FilesModule,
-  // LoggerModule,
+  LoggerModule,
   QueryingModule,
 } from '@app/common';
 import { AuthModule } from './features/auth/auth.module';
@@ -24,7 +24,7 @@ import { ContractsModule } from './features/contracts/contracts.module';
     QueryingModule,
     PropertiesModule,
     VisitsModule,
-    // LoggerModule,
+    LoggerModule,
     ContractsModule,
   ],
 })

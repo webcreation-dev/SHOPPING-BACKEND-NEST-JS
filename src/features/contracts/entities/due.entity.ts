@@ -6,9 +6,6 @@ import { Annuity } from './annuity.entity';
 
 @Entity()
 export class Due extends AbstractEntity<Due> {
-  @Column()
-  amount_due: number;
-
   @Column({ default: 0 })
   amount_paid: number;
 

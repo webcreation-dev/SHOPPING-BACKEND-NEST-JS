@@ -67,9 +67,11 @@ export class ContractExistValidatorConstraint
       this.errorMessage = `Un contrat actif ou en attente existe déjà pour ce bien.`;
       return false;
     }
+
+    return true;
   }
 
   defaultMessage() {
-    return this.errorMessage || `Erreur de validation du contrat.`;
+    return this.errorMessage || `Erreur de validation du contrat. n°2`;
   }
 }

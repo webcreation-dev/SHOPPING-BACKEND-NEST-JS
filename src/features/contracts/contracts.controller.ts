@@ -10,7 +10,12 @@ import {
 } from '@nestjs/common';
 import { ContractsService } from './contracts.service';
 import { CreateContractDto } from './dto/create-contract.dto';
-import { ApiPaginatedResponse, CurrentUser, HeaderOperation, IdDto } from '@app/common';
+import {
+  ApiPaginatedResponse,
+  CurrentUser,
+  HeaderOperation,
+  IdDto,
+} from '@app/common';
 import { User } from '../auth/users/entities/user.entity';
 import { ContractsQueryDto } from './querying/contracts-query.dto';
 import { ActivateContractDto } from './dto/activate-contract.dto';
@@ -26,7 +31,8 @@ export class ContractsController {
     @Body() createContractDto: CreateContractDto,
     @CurrentUser() user: User,
   ) {
-    return this.contractsService.create(createContractDto, user);
+    // return this.contractsService.create(createContractDto, user);
+    return true;
   }
 
   @Get()

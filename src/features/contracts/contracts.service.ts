@@ -140,7 +140,6 @@ export class ContractsService {
 
     this.duesRepository.create(
       new Due({
-        amount_due: contract.rent_price,
         contract,
       }),
     );

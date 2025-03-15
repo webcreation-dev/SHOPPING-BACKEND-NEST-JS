@@ -16,13 +16,13 @@ export class CreateContractDto {
   @IsNumber()
   @IsNotEmpty()
   @IsExist(User, 'id')
-  @IsCertified('id')
+  @IsCertified(User, 'id')
   tenant_id: number;
 
   @IsNumber()
   @IsNotEmpty()
   @IsExist(User, 'id')
-  @IsCertified('id')
+  @IsCertified(User, 'id')
   landlord_id: number;
 
   @IsNumber()

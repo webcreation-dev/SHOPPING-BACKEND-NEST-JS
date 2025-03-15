@@ -91,7 +91,6 @@ export class SeedingService {
 
       const due = await duesRepository.create(
         new Due({
-          amount_due: saveContract.rent_price,
           contract: saveContract,
         }),
       );

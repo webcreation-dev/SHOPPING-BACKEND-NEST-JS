@@ -305,6 +305,31 @@
         ]
       }
     },
+    "/users": {
+      "get": {
+        "operationId": "UsersController_findAll",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/User"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "summary": "GET ALL",
+        "tags": [
+          "Users"
+        ]
+      }
+    },
     "/properties": {
       "post": {
         "operationId": "PropertiesController_create",
@@ -1089,7 +1114,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Contract"
+                  "type": "boolean"
                 }
               }
             }
@@ -1479,9 +1504,6 @@
       "Due": {
         "type": "object",
         "properties": {
-          "amount_due": {
-            "type": "number"
-          },
           "amount_paid": {
             "type": "number"
           },
@@ -1517,7 +1539,6 @@
           }
         },
         "required": [
-          "amount_due",
           "amount_paid",
           "carry_over_amount",
           "due_date",

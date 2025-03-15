@@ -1,4 +1,4 @@
-import { Body, Controller, Post } from '@nestjs/common';
+import { Body, Controller, Get, Post } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { HeaderOperation } from '@app/common';
 import { ValidateUserDto } from './dto/validate-user.dto';
@@ -11,5 +11,11 @@ export class UsersController {
   @Post('validate_user')
   async validateUser(@Body() validateUserDto: ValidateUserDto) {
     return this.usersService.validateUser(validateUserDto);
+  }
+
+  @HeaderOperation('GET ALL')
+  @Get()
+  async findAll() {
+    return this.usersService.findAll();
   }
 }
