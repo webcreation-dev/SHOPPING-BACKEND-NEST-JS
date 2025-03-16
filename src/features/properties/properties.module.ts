@@ -19,6 +19,6 @@ import { PropertyResource } from './resources/property.resource';
   ],
   controllers: [PropertiesController],
   providers: [PropertiesService, PropertiesRepository, PropertyResource],
-  exports: [PropertiesService, PropertiesRepository],
+  exports: [PropertiesService, PropertiesRepository, PropertyResource],
 })
 export class PropertiesModule {}

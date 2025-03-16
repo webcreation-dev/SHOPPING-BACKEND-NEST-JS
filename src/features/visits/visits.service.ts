@@ -10,6 +10,8 @@ import { VisitsQueryDto } from './querying/visits-query.dto';
 import { DefaultPageSize, PaginationService } from '@app/common';
 import { FinalizeVisitDto } from './dto/finalize-visit.dto';
 import { VisitResource } from 'src/features/visits/resources/visit.resource';
+import { PropertyResource } from '../properties/resources/property.resource';
+import { Property } from '../properties/entities/property.entity';
 
 @Injectable()
 export class VisitsService {
@@ -19,6 +21,7 @@ export class VisitsService {
     private readonly propertiesService: PropertiesService,
     private readonly paginationService: PaginationService,
     private readonly visitResource: VisitResource,
+    private readonly propertyResource: PropertyResource,
   ) {}
 
   async findAll(visitsQueryDto: VisitsQueryDto, user: User) {
@@ -52,6 +55,12 @@ export class VisitsService {
         take: limit,
       },
     );
+
+    for (const visit of data) {
+      visit.property = (await this.propertyResource.format(
+        await this.propertiesService.findOne(visit.property.id),
+      )) as Property;
+    }
 
     const meta = this.paginationService.createMeta(limit, page, count);
     return { data: this.visitResource.formatCollection(data), meta };
