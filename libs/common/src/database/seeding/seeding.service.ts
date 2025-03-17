@@ -91,13 +91,20 @@ export class SeedingService {
       );
       const saveContract = await contractsRepository.save(contract);
 
-      const due = await duesRepository.create(
+      const due1 = await duesRepository.create(
         new Due({
           contract: saveContract,
           carry_over_amount: saveContract.rent_price,
         }),
       );
-      await duesRepository.save(due);
+      const due2 = await duesRepository.create(
+        new Due({
+          contract: saveContract,
+          carry_over_amount: saveContract.rent_price,
+        }),
+      );
+      await duesRepository.save(due1);
+      await duesRepository.save(due2);
 
       await queryRunner.commitTransaction();
     } catch (error) {

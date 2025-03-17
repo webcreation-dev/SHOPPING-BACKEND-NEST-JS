@@ -9,6 +9,7 @@ import { User } from '../auth/users/entities/user.entity';
 import { StatusDueEnum } from '../contracts/enums/status-due.enum';
 import { Annuity } from '../contracts/entities/annuity.entity';
 import { AnnuitiesRepository } from '../contracts/repositories/annuities.repository';
+import { In } from 'typeorm';
 
 @Injectable()
 export class BillingsService {
@@ -34,16 +35,17 @@ export class BillingsService {
       if (lastDue) {
         const dueDate = lastDue[0].due_date;
 
-        if (
-          dueDate.getMonth() != now.getMonth() &&
-          dueDate.getFullYear() != now.getFullYear()
-        ) {
-          this.duesRepository.create(
-            new Due({
-              contract,
-            }),
-          );
-        }
+        // if (
+        //   dueDate.getMonth() != now.getMonth() &&
+        //   dueDate.getFullYear() != now.getFullYear()
+        // ) {
+        this.duesRepository.create(
+          new Due({
+            contract,
+            carry_over_amount: contract.rent_price,
+          }),
+        );
+        // }
       }
     }
   }
@@ -55,18 +57,17 @@ export class BillingsService {
       status: StatusContractEnum.ACTIVE,
     });
 
-
     const [dues] = await this.duesRepository.findAndCount(
       {
         contract: { id: contract.id },
-        status_due: StatusDueEnum.WAITING || StatusDueEnum.IN_PROGRESS,
+        status_due: In([StatusDueEnum.WAITING, StatusDueEnum.IN_PROGRESS]),
       },
       {
         order: { due_date: 'ASC' },
       },
     );
 
-    console.log('dues', dues);
+    console.log(dues);
 
     let remainingAmount = payDueDto.amount;
 
@@ -96,8 +97,15 @@ export class BillingsService {
         );
       }
 
+      console.log('solde restant', remainingAmount);
+      console.log('due', due);
+
       // payment for due waiting
-      if (due.status_due === StatusDueEnum.WAITING) {
+      if (
+        remainingAmount > 0 &&
+        due.amount_paid === 0 &&
+        due.status_due === StatusDueEnum.WAITING
+      ) {
         const carryOverPayment = Math.min(
           due.carry_over_amount,
           remainingAmount,
