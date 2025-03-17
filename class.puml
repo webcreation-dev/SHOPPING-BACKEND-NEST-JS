@@ -1,0 +1,118 @@
+@startuml
+
+class User {
+    + id : uuid
+    + name: string
+    + email: string 
+    + password: string   
+}
+
+' class Admin {
+' }
+
+' class Visitor {
+' }
+
+
+class Entity {
+    + id : uuid
+    + name: string
+}
+
+class Role {
+    + id : uuid
+    + name: string
+}
+
+class Post {
+    + id : uuid
+    + content : string
+}
+
+class Comment {
+    + id : uuid
+    + content : string
+}
+
+
+' class reaction_comment {
+'     # user_id : UUID [FK]
+'     # comment_id : UUID [FK]
+' }
+
+' class reaction_post {
+'     # user_id : UUID [FK]
+'     # post_id : UUID [FK]
+' }
+
+class Applyer {
+    + id : uuid
+    + firstname: striing
+    + lastname: striing
+    + email: string
+    + phone: int
+    + country: string
+    + cv: string
+    + motivation_letter: string
+}
+
+class Recruitment {
+    + id : uuid
+    + title: string
+    + description: string
+    + type: string
+    + contract_type: string
+    + city: string 
+    + exigence: string
+    + total_hiring: int
+}
+
+class Membership {
+    + id : uuid
+    + country: string
+    + motivation: string
+    + reason: string
+    + about_us: string
+    + opinion: string
+}
+
+class Product {
+    + id : uuid
+    + link: string
+    + image: string
+}
+
+class Event {
+    + id : uuid
+    + title: string
+    + type: enum
+    + subtitle: URL
+    + description: URL
+    + image: VARCHAR
+}
+
+class Newsletter {
+    + id : uuid
+    + email: VARCHAR
+}
+
+' === RELATIONS ENTRE LES TABLES ===
+
+Entity "1" -- "0..*" User
+Role "1" -right- "1..*" User
+Entity "1" -left- "1..*" Newsletter
+User "1" -down- "1..*" Recruitment
+Recruitment "1" -left- "1..*" Applyer
+User "1" -left- "1..*" Product
+Entity "1" -right- "1..*" Membership
+User "1" -- "1..*" Event
+User "1" -right- "1..*" Post
+(User, Post) .. Comment
+
+' Post "1" -up- "1..*" Comment
+' User "1" -up- "1..*" Comment
+
+' StockLocation "0..*" -down- "1..*" ProductVariante
+
+
+@enduml

@@ -1,7 +1,6 @@
-import { BadRequestException, Injectable } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { User } from '../auth/users/entities/user.entity';
 import { UsersService } from '../auth/users/users.service';
-// import { PropertiesService } from '../properties/properties.service';
 import { ContractsQueryDto } from './querying/contracts-query.dto';
 import { DefaultPageSize, PaginationService } from '@app/common';
 import { Contract } from './entities/contract.entity';
@@ -51,7 +50,7 @@ export class ContractsService {
     const [data, count] = await this.contractsRepository.findAndCount(
       whereCondition,
       {
-        relations: {},
+        relations: { tenant: true, landlord: true, property: true, dues: true },
         skip: offset,
         take: limit,
       },
@@ -127,10 +126,15 @@ export class ContractsService {
 
     this.duesRepository.create(
       new Due({
+        carry_over_amount: contract.rent_price,
         contract,
       }),
     );
 
     return contract;
+  }
+
+  async getAll(): Promise<Contract[]> {
+    return await this.contractsRepository.find({});
   }
 }

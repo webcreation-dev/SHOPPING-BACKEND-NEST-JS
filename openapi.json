@@ -1311,6 +1311,62 @@
           "Contracts"
         ]
       }
+    },
+    "/billings/generate_dues": {
+      "get": {
+        "operationId": "BillingsController_createDue",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "summary": "CREATE DUE",
+        "tags": [
+          "Billings"
+        ]
+      }
+    },
+    "/billings/{id}/pay": {
+      "post": {
+        "operationId": "BillingsController_payDue",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "number"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PayDueDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Contract"
+                }
+              }
+            }
+          }
+        },
+        "summary": "PAY DUE",
+        "tags": [
+          "Billings"
+        ]
+      }
     }
   },
   "info": {
@@ -2739,6 +2795,17 @@
       "ActivateContractDto": {
         "type": "object",
         "properties": {}
+      },
+      "PayDueDto": {
+        "type": "object",
+        "properties": {
+          "amount": {
+            "type": "number"
+          }
+        },
+        "required": [
+          "amount"
+        ]
       }
     }
   },

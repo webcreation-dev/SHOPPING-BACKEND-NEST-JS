@@ -12,6 +12,7 @@ import { AuthModule } from './features/auth/auth.module';
 import { UsersModule } from './features/auth/users/users.module';
 import { VisitsModule } from './features/visits/visits.module';
 import { ContractsModule } from './features/contracts/contracts.module';
+import { BillingsModule } from './features/billings/billings.module';
 
 @Module({
   imports: [
@@ -26,6 +27,7 @@ import { ContractsModule } from './features/contracts/contracts.module';
     VisitsModule,
     LoggerModule,
     ContractsModule,
+    BillingsModule,
   ],
 })
 export class AppModule {}

@@ -6,6 +6,7 @@ import { Gallery } from 'src/features/properties/entities/gallery.entity';
 import { Property } from 'src/features/properties/entities/property.entity';
 import { Contract } from 'src/features/contracts/entities/contract.entity';
 import { Due } from 'src/features/contracts/entities/due.entity';
+import { StatusContractEnum } from 'src/features/contracts/enums/status-contract.enum';
 
 @Injectable()
 export class SeedingService {
@@ -85,6 +86,7 @@ export class SeedingService {
           end_date: new Date(),
           articles: savedProperties[0].articles,
           rent_price: savedProperties[0].rent_price,
+          status: StatusContractEnum.ACTIVE,
         }),
       );
       const saveContract = await contractsRepository.save(contract);
@@ -92,6 +94,7 @@ export class SeedingService {
       const due = await duesRepository.create(
         new Due({
           contract: saveContract,
+          carry_over_amount: saveContract.rent_price,
         }),
       );
       await duesRepository.save(due);

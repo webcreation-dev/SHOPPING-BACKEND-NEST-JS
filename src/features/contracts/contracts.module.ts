@@ -28,5 +28,11 @@ import { Annuity } from './entities/annuity.entity';
     DuesRepository,
     AnnuitiesRepository,
   ],
+  exports: [
+    ContractsService,
+    DuesRepository,
+    AnnuitiesRepository,
+    ContractsRepository,
+  ],
 })
 export class ContractsModule {}
