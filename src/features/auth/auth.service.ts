@@ -1,11 +1,9 @@
 import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import {
-  BASE_PATH,
   File,
   FilePath,
   JwtPayload,
-  MaxFileCount,
   RequestUser,
   StorageService,
 } from '@app/common';
@@ -23,7 +21,6 @@ import { ToggleWishlistDto } from './users/dto/toggle-wishlist.dto';
 import { RoleEnum } from './users/enums/role.enum';
 import { InitiateValidationUserDto } from './users/dto/initiate-validation-user.dto';
 import { join } from 'path';
-import { pathExists } from 'fs-extra';
 import { UsersRepository } from 'src/features/auth/users/users.repository';
 
 @Injectable()
@@ -115,18 +112,10 @@ export class AuthService {
   }
 
   async uploadImage(id: number, file: File) {
+    console.log('card_new_image', file);
+
     const { BASE, IMAGES } = FilePath.Users;
     const path = join(BASE, id.toString(), IMAGES);
-
-    if (await pathExists(join(BASE_PATH, path))) {
-      const dirFilecount = await this.storageService.getDirFilecount(path);
-      const totalFilecount = dirFilecount + 1;
-
-      this.storageService.validateFilecount(
-        totalFilecount,
-        MaxFileCount.CARD_IMAGE,
-      );
-    }
 
     await this.storageService.createDir(path);
 

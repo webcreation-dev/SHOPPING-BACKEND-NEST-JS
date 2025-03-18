@@ -4,6 +4,7 @@ import {
   Get,
   Patch,
   Post,
+  UploadedFile,
   UploadedFiles,
   UseGuards,
   UseInterceptors,
@@ -20,7 +21,7 @@ import {
   RequestUser,
   ResetPasswordDto,
 } from '@app/common';
-import { FilesInterceptor } from '@nestjs/platform-express';
+import { FileInterceptor, FilesInterceptor } from '@nestjs/platform-express';
 import { CreateUserDto } from './users/dto/create-user.dto';
 import { SaveUserDto } from './users/dto/save-user-dto';
 import { CurrentUser } from './decorators/user.decorator';
@@ -89,11 +90,11 @@ export class AuthController {
   }
 
   @HeaderOperation('INITIATE VALIDATION', InitiateValidationUserDto)
-  @UseInterceptors(FilesInterceptor('card_image', MaxFileCount.CARD_IMAGE))
+  @UseInterceptors(FileInterceptor('card_image'))
   @Patch('initiate_validation_user')
   async initiateValidation(
     @Body() initiateValidationUserDto: InitiateValidationUserDto,
-    @UploadedFiles(createParseFilePipe('2MB', 'png', 'jpeg')) card_image: File,
+    @UploadedFile(createParseFilePipe('2MB', 'png', 'jpeg')) card_image: File,
     @CurrentUser() user: User,
   ) {
     return await this.authService.initiateValidation(
