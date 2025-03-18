@@ -41,13 +41,13 @@ export class VisitsService {
     user: User,
     filter: { userId?: number; managerId?: number },
   ) {
-    const { page } = visitsQueryDto;
+    const { page, status } = visitsQueryDto;
     const limit = visitsQueryDto.limit ?? DefaultPageSize.VISIT;
     const offset = this.paginationService.calculateOffset(limit, page);
 
     const whereCondition = filter.userId
-      ? { user: { id: filter.userId } }
-      : { manager: { id: filter.managerId } };
+      ? { user: { id: filter.userId }, status }
+      : { manager: { id: filter.managerId }, status };
 
     const [data, count] = await this.visitsRepository.findAndCount(
       whereCondition,

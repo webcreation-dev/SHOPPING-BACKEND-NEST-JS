@@ -857,6 +857,19 @@
               "default": 1,
               "type": "number"
             }
+          },
+          {
+            "name": "status",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "WAITING",
+                "IN_PROGRESS",
+                "FINISHED"
+              ]
+            }
           }
         ],
         "requestBody": {
@@ -919,6 +932,19 @@
               "maximum": 25,
               "default": 1,
               "type": "number"
+            }
+          },
+          {
+            "name": "status",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "WAITING",
+                "IN_PROGRESS",
+                "FINISHED"
+              ]
             }
           }
         ],
@@ -2699,6 +2725,14 @@
             "type": "number",
             "default": 1,
             "maximum": 25
+          },
+          "status": {
+            "enum": [
+              "WAITING",
+              "IN_PROGRESS",
+              "FINISHED"
+            ],
+            "type": "string"
           }
         }
       },
