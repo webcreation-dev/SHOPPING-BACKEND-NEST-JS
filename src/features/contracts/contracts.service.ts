@@ -68,16 +68,10 @@ export class ContractsService {
       this.usersService.findOne(tenant_id),
       this.usersService.findOne(landlord_id),
       this.propertiesRepository.findOne(
-        { id: property_id },
+        { id: property_id, user: { id } },
         { galleries: true, user: true, owner: true },
       ),
     ]);
-
-    // if (property.user.id !== id) {
-    //   throw new BadRequestException(
-    //     `Vous n'etes pas autorisé à effectuer cette action.`,
-    //   );
-    // }
 
     const contract = await this.contractsRepository.create(
       new Contract({
@@ -87,6 +81,7 @@ export class ContractsService {
         start_date,
         articles: property.articles,
         rent_price: property.rent_price,
+        caution: property.caution,
       }),
     );
     return await this.findOne(contract.id);
@@ -114,6 +109,7 @@ export class ContractsService {
     await this.contractsRepository.findOne({
       id,
       tenant: { id: user.id },
+      caution: activateContractDto.amount,
       status: StatusContractEnum.PENDING,
     });
 

@@ -1629,6 +1629,9 @@
           "rent_price": {
             "type": "number"
           },
+          "caution": {
+            "type": "number"
+          },
           "articles": {
             "type": "array",
             "items": {
@@ -1669,6 +1672,7 @@
           "start_date",
           "end_date",
           "rent_price",
+          "caution",
           "articles",
           "status",
           "property",
@@ -2812,7 +2816,14 @@
       },
       "ActivateContractDto": {
         "type": "object",
-        "properties": {}
+        "properties": {
+          "amount": {
+            "type": "number"
+          }
+        },
+        "required": [
+          "amount"
+        ]
       },
       "PayDueDto": {
         "type": "object",

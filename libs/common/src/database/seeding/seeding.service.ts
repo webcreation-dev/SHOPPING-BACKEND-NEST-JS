@@ -86,6 +86,7 @@ export class SeedingService {
           end_date: new Date(),
           articles: savedProperties[0].articles,
           rent_price: savedProperties[0].rent_price,
+          caution: savedProperties[0].caution,
           status: StatusContractEnum.ACTIVE,
         }),
       );

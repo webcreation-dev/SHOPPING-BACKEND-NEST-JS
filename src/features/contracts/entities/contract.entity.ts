@@ -16,6 +16,9 @@ export class Contract extends AbstractEntity<Contract> {
   @Column()
   rent_price: number;
 
+  @Column()
+  caution: number;
+
   @Column({ type: 'json', nullable: true })
   articles: {
     id: number;
