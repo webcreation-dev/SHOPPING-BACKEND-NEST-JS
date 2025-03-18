@@ -35,24 +35,24 @@ export class BillingsService {
       if (lastDue) {
         const dueDate = lastDue[0].due_date;
 
-        // if (
-        //   dueDate.getMonth() != now.getMonth() &&
-        //   dueDate.getFullYear() != now.getFullYear()
-        // ) {
-        this.duesRepository.create(
-          new Due({
-            contract,
-            carry_over_amount: contract.rent_price,
-          }),
-        );
-        // }
+        if (
+          dueDate.getMonth() != now.getMonth() &&
+          dueDate.getFullYear() != now.getFullYear()
+        ) {
+          this.duesRepository.create(
+            new Due({
+              contract,
+              carry_over_amount: contract.rent_price,
+            }),
+          );
+        }
       }
     }
   }
 
-  async payDue(id: number, user: User, payDueDto: PayDueDto) {
+  async payDue(user: User, payDueDto: PayDueDto) {
     const contract = await this.contractsRepository.findOne({
-      id,
+      id: payDueDto.contract_id,
       tenant: { id: user.id },
       status: StatusContractEnum.ACTIVE,
     });
@@ -66,8 +66,6 @@ export class BillingsService {
         order: { due_date: 'ASC' },
       },
     );
-
-    console.log(dues);
 
     let remainingAmount = payDueDto.amount;
 
@@ -97,9 +95,6 @@ export class BillingsService {
         );
       }
 
-      console.log('solde restant', remainingAmount);
-      console.log('due', due);
-
       // payment for due waiting
       if (
         remainingAmount > 0 &&
@@ -127,7 +122,7 @@ export class BillingsService {
       }
     }
 
-    return contract;
+    return await this.contractsService.findOne(contract.id);
   }
 
   async createAnnuity(due: Due, amount: number): Promise<Annuity> {

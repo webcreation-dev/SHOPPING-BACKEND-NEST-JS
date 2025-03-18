@@ -131,7 +131,7 @@ export class ContractsService {
       }),
     );
 
-    return contract;
+    return await this.findOne(contract.id);
   }
 
   async getAll(): Promise<Contract[]> {

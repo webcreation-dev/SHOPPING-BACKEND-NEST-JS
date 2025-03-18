@@ -22,10 +22,14 @@ import { User } from '../auth/users/entities/user.entity';
 import { VisitsQueryDto } from './querying/visits-query.dto';
 import { Visit } from './entities/visit.entity';
 import { FinalizeVisitDto } from './dto/finalize-visit.dto';
+import { VisitResource } from './resources/visit.resource';
 
 @Controller('visits')
 export class VisitsController {
-  constructor(private readonly visitsService: VisitsService) {}
+  constructor(
+    private readonly visitsService: VisitsService,
+    private readonly visitResource: VisitResource,
+  ) {}
 
   @Post()
   @HeaderOperation('CREATE ', CreateVisitDto)
@@ -52,8 +56,9 @@ export class VisitsController {
 
   @Get(':id')
   @HeaderOperation('GET ONE')
-  findOne(@Param('id', ParseIntPipe) id: number) {
-    return this.visitsService.findOne(id);
+  async findOne(@Param('id', ParseIntPipe) id: number) {
+    // return this.visitsService.findOne(id);
+    return this.visitResource.format(await this.visitsService.findOne(id));
   }
 
   @Patch(':id')

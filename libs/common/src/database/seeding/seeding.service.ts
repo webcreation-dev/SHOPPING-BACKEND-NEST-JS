@@ -91,20 +91,24 @@ export class SeedingService {
       );
       const saveContract = await contractsRepository.save(contract);
 
-      const due1 = await duesRepository.create(
-        new Due({
-          contract: saveContract,
-          carry_over_amount: saveContract.rent_price,
-        }),
-      );
-      const due2 = await duesRepository.create(
-        new Due({
-          contract: saveContract,
-          carry_over_amount: saveContract.rent_price,
-        }),
-      );
-      await duesRepository.save(due1);
-      await duesRepository.save(due2);
+      // create dues
+
+      const due_date = [
+        '2025-04-05T21:45:30.879Z',
+        '2025-05-05T21:45:30.879Z',
+        '2025-06-05T21:45:30.879Z',
+      ];
+
+      for (const date of due_date) {
+        const due = duesRepository.create(
+          new Due({
+            contract: saveContract,
+            due_date: new Date(date),
+            carry_over_amount: saveContract.rent_price,
+          }),
+        );
+        await duesRepository.save(due);
+      }
 
       await queryRunner.commitTransaction();
     } catch (error) {

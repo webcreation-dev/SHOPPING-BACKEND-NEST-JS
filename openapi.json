@@ -976,14 +976,7 @@
         ],
         "responses": {
           "200": {
-            "description": "",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Visit"
-                }
-              }
-            }
+            "description": ""
           }
         },
         "summary": "GET ONE",
@@ -1327,19 +1320,10 @@
         ]
       }
     },
-    "/billings/{id}/pay": {
+    "/billings/pay_dues": {
       "post": {
         "operationId": "BillingsController_payDue",
-        "parameters": [
-          {
-            "name": "id",
-            "required": true,
-            "in": "path",
-            "schema": {
-              "type": "number"
-            }
-          }
-        ],
+        "parameters": [],
         "requestBody": {
           "required": true,
           "content": {
@@ -2801,10 +2785,14 @@
         "properties": {
           "amount": {
             "type": "number"
+          },
+          "contract_id": {
+            "type": "number"
           }
         },
         "required": [
-          "amount"
+          "amount",
+          "contract_id"
         ]
       }
     }
