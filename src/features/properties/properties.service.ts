@@ -241,6 +241,11 @@ export class PropertiesService {
     return user;
   }
 
+  async getWishlist(user: User) {
+    const properties = await this.findMany(user.wishlistedProperties);
+    return properties;
+  }
+
   async addArticles(id: number, addArticlesDto: AddArticlesDto) {
     const property = await this.findOne(id);
 

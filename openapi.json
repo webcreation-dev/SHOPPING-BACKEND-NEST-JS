@@ -241,6 +241,31 @@
         ]
       }
     },
+    "/auth/wishlist": {
+      "get": {
+        "operationId": "AuthController_getWishlist",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Property"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "summary": "GET WISHLIST",
+        "tags": [
+          "Auth"
+        ]
+      }
+    },
     "/auth/initiate_validation_user": {
       "patch": {
         "operationId": "AuthController_initiateValidation",

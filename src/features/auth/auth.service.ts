@@ -22,6 +22,7 @@ import { RoleEnum } from './users/enums/role.enum';
 import { InitiateValidationUserDto } from './users/dto/initiate-validation-user.dto';
 import { join } from 'path';
 import { UsersRepository } from 'src/features/auth/users/users.repository';
+import { Property } from '../properties/entities/property.entity';
 
 @Injectable()
 export class AuthService {
@@ -164,5 +165,9 @@ export class AuthService {
 
   async toogleWishlist(user: User, toggleWishlistDto: ToggleWishlistDto) {
     return await this.usersService.toogleWishlist(user, toggleWishlistDto);
+  }
+
+  async getWishlist(user: User): Promise<Property[]> {
+    return await this.usersService.getWishlist(user);
   }
 }

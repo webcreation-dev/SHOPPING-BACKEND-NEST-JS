@@ -53,4 +53,8 @@ export class UsersService {
   async toogleWishlist(user: User, toggleWishlistDto: ToggleWishlistDto) {
     return await this.propertiesService.toogleWishlist(user, toggleWishlistDto);
   }
+
+  async getWishlist(user: User) {
+    return await this.propertiesService.getWishlist(user);
+  }
 }

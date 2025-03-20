@@ -89,6 +89,12 @@ export class AuthController {
     return await this.authService.toogleWishlist(user, toggleWishlistDto);
   }
 
+  @HeaderOperation('GET WISHLIST')
+  @Get('wishlist')
+  async getWishlist(@CurrentUser() user: User) {
+    return await this.authService.getWishlist(user);
+  }
+
   @HeaderOperation('INITIATE VALIDATION', InitiateValidationUserDto)
   @UseInterceptors(FileInterceptor('card_image'))
   @Patch('initiate_validation_user')
