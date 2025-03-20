@@ -5,7 +5,6 @@ import {
   Patch,
   Post,
   UploadedFile,
-  UploadedFiles,
   UseGuards,
   UseInterceptors,
 } from '@nestjs/common';
@@ -16,12 +15,11 @@ import {
   ForgotPasswordDto,
   HeaderOperation,
   LoginDto,
-  MaxFileCount,
   Public,
   RequestUser,
   ResetPasswordDto,
 } from '@app/common';
-import { FileInterceptor, FilesInterceptor } from '@nestjs/platform-express';
+import { FileInterceptor } from '@nestjs/platform-express';
 import { CreateUserDto } from './users/dto/create-user.dto';
 import { SaveUserDto } from './users/dto/save-user-dto';
 import { CurrentUser } from './decorators/user.decorator';
