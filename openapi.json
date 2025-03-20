@@ -1944,6 +1944,7 @@
           },
           "status": {
             "enum": [
+              "NOT_VERIFIED",
               "PENDING",
               "ACCEPTED",
               "REJECTED"
@@ -2213,6 +2214,7 @@
           "status": {
             "type": "string",
             "enum": [
+              "NOT_VERIFIED",
               "PENDING",
               "ACCEPTED",
               "REJECTED"

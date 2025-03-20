@@ -1,4 +1,5 @@
 export enum StatusEnum {
+  NOT_VERIFIED = 'NOT_VERIFIED',
   PENDING = 'PENDING',
   ACCEPTED = 'ACCEPTED',
   REJETED = 'REJECTED',

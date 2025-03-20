@@ -23,6 +23,7 @@ import { InitiateValidationUserDto } from './users/dto/initiate-validation-user.
 import { join } from 'path';
 import { UsersRepository } from 'src/features/auth/users/users.repository';
 import { Property } from '../properties/entities/property.entity';
+import { StatusEnum } from './users/enums/status.enum';
 
 @Injectable()
 export class AuthService {
@@ -108,6 +109,7 @@ export class AuthService {
       {
         ...initiateValidationUserDto,
         card_image: await this.uploadImage(id, card_image),
+        status: StatusEnum.PENDING,
       },
     );
   }

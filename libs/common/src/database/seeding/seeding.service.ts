@@ -81,12 +81,12 @@ export class SeedingService {
         new Contract({
           tenant: savedUsers[0],
           landlord: savedUsers[1],
-          property: savedProperties[0],
+          property: savedProperties[11],
           start_date: new Date(),
           end_date: new Date(),
-          articles: savedProperties[0].articles,
-          rent_price: savedProperties[0].rent_price,
-          caution: savedProperties[0].caution,
+          articles: savedProperties[11].articles,
+          rent_price: savedProperties[11].rent_price,
+          caution: savedProperties[11].caution,
           status: StatusContractEnum.ACTIVE,
         }),
       );

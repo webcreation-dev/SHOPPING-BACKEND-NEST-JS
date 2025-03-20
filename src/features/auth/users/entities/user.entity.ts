@@ -39,7 +39,7 @@ export class User extends AbstractEntity<User> {
     type: 'enum',
     enum: StatusEnum,
     enumName: 'status_user_enum',
-    default: StatusEnum.PENDING,
+    default: StatusEnum.NOT_VERIFIED,
   })
   status: StatusEnum;
 
