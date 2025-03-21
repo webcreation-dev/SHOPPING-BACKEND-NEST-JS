@@ -596,14 +596,7 @@
         },
         "responses": {
           "200": {
-            "description": "",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Property"
-                }
-              }
-            }
+            "description": ""
           }
         },
         "summary": "UPDATE ",
@@ -659,14 +652,7 @@
         },
         "responses": {
           "201": {
-            "description": "",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Property"
-                }
-              }
-            }
+            "description": ""
           }
         },
         "summary": "ADD IMAGES",
@@ -732,14 +718,7 @@
         },
         "responses": {
           "200": {
-            "description": "",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Property"
-                }
-              }
-            }
+            "description": ""
           }
         },
         "summary": "ADD ARTICLES",
@@ -773,14 +752,7 @@
         },
         "responses": {
           "200": {
-            "description": "",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Property"
-                }
-              }
-            }
+            "description": ""
           }
         },
         "summary": "UPDATE ARTICLE",
@@ -814,14 +786,7 @@
         },
         "responses": {
           "200": {
-            "description": "",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Property"
-                }
-              }
-            }
+            "description": ""
           }
         },
         "summary": "REMOVE ARTICLE",
@@ -846,14 +811,7 @@
         },
         "responses": {
           "201": {
-            "description": "",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Visit"
-                }
-              }
-            }
+            "description": ""
           }
         },
         "summary": "CREATE ",
@@ -1059,14 +1017,7 @@
         },
         "responses": {
           "200": {
-            "description": "",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Visit"
-                }
-              }
-            }
+            "description": ""
           }
         },
         "summary": "UPDATE ",
@@ -1122,14 +1073,7 @@
         },
         "responses": {
           "200": {
-            "description": "",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Visit"
-                }
-              }
-            }
+            "description": ""
           }
         },
         "summary": "FINALIZE ",
@@ -1533,12 +1477,12 @@
             "type": "boolean"
           },
           "status": {
+            "type": "string",
             "enum": [
               "WAITING",
               "IN_PROGRESS",
               "FINISHED"
-            ],
-            "type": "string"
+            ]
           },
           "user": {
             "$ref": "#/components/schemas/User"
@@ -1839,6 +1783,12 @@
           "is_active": {
             "type": "boolean"
           },
+          "articles": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
           "galleries": {
             "type": "array",
             "items": {
@@ -1856,12 +1806,6 @@
           },
           "owner": {
             "$ref": "#/components/schemas/User"
-          },
-          "articles": {
-            "type": "array",
-            "items": {
-              "type": "string"
-            }
           },
           "contracts": {
             "type": "array",
@@ -1907,11 +1851,11 @@
           "water_drilling_rate",
           "is_prepaid",
           "is_active",
+          "articles",
           "galleries",
           "visits",
           "user",
           "owner",
-          "articles",
           "contracts",
           "id",
           "registryDates"
@@ -2739,10 +2683,14 @@
         "properties": {
           "property_id": {
             "type": "number"
+          },
+          "visitor_id": {
+            "type": "number"
           }
         },
         "required": [
-          "property_id"
+          "property_id",
+          "visitor_id"
         ]
       },
       "VisitsQueryDto": {

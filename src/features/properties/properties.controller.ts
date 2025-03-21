@@ -37,14 +37,10 @@ import { ApiConsumes } from '@nestjs/swagger';
 import { AddArticlesDto } from './dto/articles/add-article.dto';
 import { UpdateArticleDto } from './dto/articles/update-article.dto';
 import { RemoveArticleDto } from './dto/articles/remove-article.dto';
-import { PropertyResource } from './resources/property.resource';
 
 @Controller('properties')
 export class PropertiesController {
-  constructor(
-    private readonly propertiesService: PropertiesService,
-    private readonly propertyResource: PropertyResource,
-  ) {}
+  constructor(private readonly propertiesService: PropertiesService) {}
 
   @Post()
   // @Roles(RoleEnum.USER)
@@ -59,9 +55,7 @@ export class PropertiesController {
     @CurrentUser()
     user: User,
   ) {
-    return this.propertyResource.format(
-      await this.propertiesService.create(createPropertyDto, files, user),
-    );
+    return await this.propertiesService.create(createPropertyDto, files, user);
   }
 
   @Get()
@@ -76,9 +70,7 @@ export class PropertiesController {
   // @Roles(RoleEnum.MANAGER)
   // @UseGuards(RolesGuard)
   async findOne(@Param('id', ParseIntPipe) id: number) {
-    return this.propertyResource.format(
-      await this.propertiesService.findOne(id),
-    );
+    return await this.propertiesService.findOne(id);
   }
 
   @Patch(':id')

@@ -138,6 +138,13 @@ export class Property extends AbstractEntity<Property> {
   @Column({ default: true })
   is_active: boolean;
 
+  @Column({ type: 'json', default: [] })
+  articles: {
+    id: number;
+    title: string;
+    content: string;
+  }[];
+
   @OneToMany(() => Gallery, (gallery) => gallery.property, { cascade: true })
   galleries: Gallery[];
 
@@ -152,13 +159,6 @@ export class Property extends AbstractEntity<Property> {
     nullable: true,
   })
   owner: User;
-
-  @Column({ type: 'json', default: [] })
-  articles: {
-    id: number;
-    title: string;
-    content: string;
-  }[];
 
   @OneToMany(() => Contract, (contract) => contract.property)
   contracts: Contract[];

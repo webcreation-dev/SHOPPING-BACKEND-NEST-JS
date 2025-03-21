@@ -30,17 +30,17 @@ export class ContractExistValidatorConstraint
     }
 
     // check if the contract already exists
-    // const exists = await contractRepository.exist({
-    //   where: {
-    //     tenant: { id: tenant_id },
-    //     property: { id: property_id },
-    //     status: StatusContractEnum.ACTIVE || StatusContractEnum.PENDING,
-    //   },
-    // });
-    // if (exists) {
-    //   this.errorMessage = `Un contrat actif ou en attente existe déjà pour ce locataire et ce bien.`;
-    //   return false;
-    // }
+    const exists = await contractRepository.exist({
+      where: {
+        tenant: { id: tenant_id },
+        property: { id: property_id },
+        status: In([StatusContractEnum.PENDING, StatusContractEnum.ACTIVE]),
+      },
+    });
+    if (exists) {
+      this.errorMessage = `Un contrat actif ou en attente existe déjà pour ce locataire et ce bien.`;
+      return false;
+    }
 
     // check if the property have article different of []
     const property = await propertyRepository.findOne({

@@ -84,6 +84,8 @@ export class PropertiesService {
           galleries: true,
           user: true,
           owner: true,
+          visits: true,
+          contracts: true,
         },
         order: { [sort]: order } as FindOptionsOrder<Property>,
         skip: offset,
@@ -124,16 +126,21 @@ export class PropertiesService {
     }
 
     // 4. Retourner la propriété avec ses galeries
-    return await this.propertiesRepository.findOne(
-      { id: property.id },
-      { galleries: true, user: true },
-    );
+    return await this.findOne(property.id);
   }
 
   async findOne(id: number) {
-    return await this.propertiesRepository.findOne(
-      { id },
-      { galleries: true, user: true, owner: true },
+    return this.propertyResource.format(
+      await this.propertiesRepository.findOne(
+        { id },
+        {
+          galleries: true,
+          user: true,
+          owner: true,
+          visits: true,
+          contracts: true,
+        },
+      ),
     );
   }
 
@@ -145,10 +152,8 @@ export class PropertiesService {
   }
 
   async update(id: number, updatePropertyDto: UpdatePropertyDto) {
-    return this.propertiesRepository.findOneAndUpdate(
-      { id },
-      updatePropertyDto,
-    );
+    await this.propertiesRepository.findOneAndUpdate({ id }, updatePropertyDto);
+    return await this.findOne(id);
   }
 
   async remove(id: number) {
@@ -158,7 +163,7 @@ export class PropertiesService {
   }
 
   async addImages(id: number, files: File[]) {
-    const property = await this.findOne(id);
+    const property = await this.propertiesRepository.findOne({ id });
     const savedPaths = await this.uploadImages(property.id, files);
     // 3. Créer et sauvegarder chaque galerie
     for (const path of savedPaths) {
@@ -210,7 +215,7 @@ export class PropertiesService {
     const savedPaths = await Promise.all(
       files.map(async (file) => {
         const filePath = await this.storageService.saveFile(path, file);
-        return filePath; // Retourne le chemin du fichier sauvegardé
+        return filePath;
       }),
     );
 
@@ -242,8 +247,7 @@ export class PropertiesService {
   }
 
   async getWishlist(user: User) {
-    const properties = await this.findMany(user.wishlistedProperties);
-    return properties;
+    return await this.findMany(user.wishlistedProperties);
   }
 
   async addArticles(id: number, addArticlesDto: AddArticlesDto) {
@@ -268,7 +272,8 @@ export class PropertiesService {
       });
     }
 
-    return this.propertiesRepository.findOneAndUpdate({ id }, updateData);
+    await this.propertiesRepository.findOneAndUpdate({ id }, updateData);
+    return this.findOne(id);
   }
 
   async updateArticle(id: number, updatedArticle: UpdateArticleDto) {
@@ -279,15 +284,16 @@ export class PropertiesService {
     );
 
     property.articles[articleIndex] = {
-      ...property.articles[articleIndex], // Garde les anciennes données
-      ...updatedArticle.article, // Remplace avec les nouvelles données
+      ...property.articles[articleIndex],
+      ...updatedArticle.article,
     };
 
-    // Mise à jour de la propriété dans la base de données
-    return this.propertiesRepository.findOneAndUpdate(
+    await this.propertiesRepository.findOneAndUpdate(
       { id },
       { articles: property.articles },
     );
+
+    return this.findOne(id);
   }
 
   async removeArticle(id: number, articleId: number) {
@@ -299,9 +305,11 @@ export class PropertiesService {
 
     property.articles.splice(articleIndex, 1);
 
-    return this.propertiesRepository.findOneAndUpdate(
+    await this.propertiesRepository.findOneAndUpdate(
       { id },
       { articles: property.articles },
     );
+
+    return this.findOne(id);
   }
 }

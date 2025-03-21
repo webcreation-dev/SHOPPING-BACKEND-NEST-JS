@@ -12,8 +12,7 @@ import { FinalizeVisitDto } from './dto/finalize-visit.dto';
 import { VisitResource } from 'src/features/visits/resources/visit.resource';
 import { PropertyResource } from '../properties/resources/property.resource';
 import { Property } from '../properties/entities/property.entity';
-import { StatusEnum } from './enums/status.enum';
-import { In } from 'typeorm';
+import { PropertiesRepository } from 'src/features/properties/properties.repository';
 
 @Injectable()
 export class VisitsService {
@@ -21,6 +20,7 @@ export class VisitsService {
     private readonly visitsRepository: VisitsRepository,
     private readonly usersService: UsersService,
     private readonly propertiesService: PropertiesService,
+    private readonly propertiesRepository: PropertiesRepository,
     private readonly paginationService: PaginationService,
     private readonly visitResource: VisitResource,
     private readonly propertyResource: PropertyResource,
@@ -59,8 +59,8 @@ export class VisitsService {
     );
 
     for (const visit of data) {
-      visit.property = (await this.propertyResource.format(
-        await this.propertiesService.findOne(visit.property.id),
+      visit.property = (await this.propertiesService.findOne(
+        visit.property.id,
       )) as Property;
     }
 
@@ -70,26 +70,19 @@ export class VisitsService {
 
   async create({ property_id }: CreateVisitDto, { id }: User) {
     const userData = await this.usersService.findOne(id);
-    const property = await this.propertiesService.findOne(property_id);
+    const property = await this.propertiesRepository.findOne(
+      { id: property_id },
+      { user: true },
+    );
 
-    const existingVisit = await this.visitsRepository.findOne({
-      user: { id: userData.id },
-      property: { id: property.id },
-      status: In([StatusEnum.WAITING, StatusEnum.IN_PROGRESS]),
-    });
-
-    if (!existingVisit) {
-      const visit = await this.visitsRepository.create(
-        new Visit({
-          user: userData,
-          property: property,
-          manager: property.user,
-        }),
-      );
-      return await this.findOne(visit.id);
-    } else {
-      return await this.findOne(existingVisit.id);
-    }
+    const visit = await this.visitsRepository.create(
+      new Visit({
+        user: userData,
+        property: property,
+        manager: property.user,
+      }),
+    );
+    return await this.findOne(visit.id);
   }
 
   async findOne(id: number) {
@@ -97,10 +90,11 @@ export class VisitsService {
       { id },
       { user: true, property: true, manager: true },
     );
-    visit.property = (await this.propertyResource.format(
-      await this.propertiesService.findOne(visit.property.id),
+    visit.property = (await this.propertiesService.findOne(
+      visit.property.id,
     )) as Property;
-    return visit;
+
+    return this.visitResource.format(visit);
   }
 
   async findMany(ids: number[]) {
@@ -111,11 +105,13 @@ export class VisitsService {
   }
 
   async update(id: number, updateVisitDto: UpdateVisitDto) {
-    return this.visitsRepository.findOneAndUpdate({ id }, updateVisitDto);
+    await this.visitsRepository.findOneAndUpdate({ id }, updateVisitDto);
+    return await this.findOne(id);
   }
 
   async finalize(id: number, finalizeVisitDto: FinalizeVisitDto) {
-    return this.visitsRepository.findOneAndUpdate({ id }, finalizeVisitDto);
+    await this.visitsRepository.findOneAndUpdate({ id }, finalizeVisitDto);
+    return await this.findOne(id);
   }
 
   async remove(id: number) {

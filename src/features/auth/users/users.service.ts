@@ -40,7 +40,7 @@ export class UsersService {
   async getUser({ id }: User) {
     const userData = await this.usersRepository.findOne(
       { id },
-      { roles: true, ownProperties: true },
+      { roles: true, ownProperties: true, properties: true },
     );
     return {
       user: userData,

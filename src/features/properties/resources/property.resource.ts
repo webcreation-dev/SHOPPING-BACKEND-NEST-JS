@@ -27,6 +27,8 @@ export class PropertyResource {
       user: property.user,
       owner: property.owner,
       articles: property.articles,
+      visits: property.visits,
+      contracts: property.contracts,
     };
 
     if (property.type !== TypePropertyEnum.PARCEL) {
