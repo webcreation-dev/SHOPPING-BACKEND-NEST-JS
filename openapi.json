@@ -245,31 +245,6 @@
         ]
       }
     },
-    "/auth/initiate_validation_user": {
-      "patch": {
-        "operationId": "AuthController_initiateValidation",
-        "parameters": [],
-        "requestBody": {
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/InitiateValidationUserDto"
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": ""
-          }
-        },
-        "summary": "INITIATE VALIDATION",
-        "tags": [
-          "Auth"
-        ]
-      }
-    },
     "/auth/image_profile": {
       "patch": {
         "operationId": "AuthController_updateProfile",
@@ -2095,17 +2070,6 @@
         },
         "required": [
           "property_id"
-        ]
-      },
-      "InitiateValidationUserDto": {
-        "type": "object",
-        "properties": {
-          "card_number": {
-            "type": "number"
-          }
-        },
-        "required": [
-          "card_number"
         ]
       },
       "ValidateUserDto": {

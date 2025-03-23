@@ -113,17 +113,12 @@ export class AuthService {
   async updateProfile(image: File, { id }: User) {
     this.usersRepository.findOneAndUpdate(
       { id },
-      {
-        card_image: await this.uploadImage(id, image),
-        status: StatusEnum.PENDING,
-      },
+      { image: await this.uploadImage(id, image) },
     );
     return await this.usersService.findOne(id);
   }
 
   async uploadImage(id: number, file: File) {
-    console.log('card_new_image', file);
-
     const { BASE, IMAGES } = FilePath.Users;
     const path = join(BASE, id.toString(), IMAGES);
 

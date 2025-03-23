@@ -93,20 +93,22 @@ export class AuthController {
     return await this.authService.getWishlist(user);
   }
 
-  @HeaderOperation('INITIATE VALIDATION', InitiateValidationUserDto)
-  @UseInterceptors(FileInterceptor('card_image'))
-  @Patch('initiate_validation_user')
-  async initiateValidation(
-    @Body() initiateValidationUserDto: InitiateValidationUserDto,
-    @UploadedFile(createParseFilePipe('2MB', 'png', 'jpeg')) card_image: File,
-    @CurrentUser() user: User,
-  ) {
-    return await this.authService.initiateValidation(
-      initiateValidationUserDto,
-      card_image,
-      user,
-    );
-  }
+  // @HeaderOperation('INITIATE VALIDATION', InitiateValidationUserDto)
+  // @UseInterceptors(FileInterceptor('card_image'))
+  // @UseInterceptors(FileInterceptor('siganture'))
+  // @Patch('initiate_validation_user')
+  // async initiateValidation(
+  //   @Body() initiateValidationUserDto: InitiateValidationUserDto,
+  //   @UploadedFile(createParseFilePipe('2MB', 'png', 'jpeg')) card_image: File,
+  //   @UploadedFile(createParseFilePipe('2MB', 'png', 'jpeg')) siganture: File,
+  //   @CurrentUser() user: User,
+  // ) {
+  //   return await this.authService.initiateValidation(
+  //     initiateValidationUserDto,
+  //     card_image,
+  //     user,
+  //   );
+  // }
 
   @HeaderOperation('UPDATE PROFILE')
   @UseInterceptors(FileInterceptor('image'))

@@ -9,9 +9,13 @@ import * as path from 'path';
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   app.enableCors({
-    origin: '*',
+    origin: [
+      'http://localhost:5173',
+      'https://locapay-8f958cc17518.herokuapp.com',
+    ],
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
-    allowedHeaders: 'Content-Type, Authorization',
+    credentials: true,
+    allowedHeaders: ['Content-Type', 'Authorization'],
   });
   app.use(helmet());
 
