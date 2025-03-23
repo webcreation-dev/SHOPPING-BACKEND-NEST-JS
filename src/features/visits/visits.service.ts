@@ -60,12 +60,6 @@ export class VisitsService {
       },
     );
 
-    for (const visit of data) {
-      visit.property = (await this.propertiesService.findOne(
-        visit.property.id,
-      )) as Property;
-    }
-
     const meta = this.paginationService.createMeta(limit, page, count);
     return { data: this.visitResource.formatCollection(data), meta };
   }
@@ -92,10 +86,6 @@ export class VisitsService {
       { id },
       { user: true, property: true, manager: true },
     );
-    visit.property = (await this.propertiesService.findOne(
-      visit.property.id,
-    )) as Property;
-
     return this.visitResource.format(visit);
   }
 
