@@ -55,6 +55,12 @@ export class User extends AbstractEntity<User> {
   @Column({ nullable: true })
   signature: string;
 
+  @Column({ nullable: true })
+  person_card: string;
+
+  @Column({ nullable: true })
+  reason: string;
+
   @Column({
     type: 'enum',
     enum: SexeEnum,

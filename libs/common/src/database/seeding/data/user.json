@@ -9,9 +9,18 @@
     "status": "ACCEPTED"
   },
   {
-    "lastname": "HOUSSOU",
-    "firstname": "Jacob",
+    "lastname": "AGOSSADOU",
+    "firstname": "Guérin",
     "phone": "2290167894105",
+    "sexe": "M",
+    "password": "password",
+    "app_type": "LOCAPAY_BUSINESS",
+    "status": "ACCEPTED"
+  },
+  {
+    "lastname": "ASSOGBA",
+    "firstname": "Christian",
+    "phone": "2290162292738",
     "sexe": "M",
     "password": "password",
     "app_type": "LOCAPAY_BUSINESS",

@@ -245,6 +245,31 @@
         ]
       }
     },
+    "/auth/initiate_validation_user": {
+      "patch": {
+        "operationId": "AuthController_addImages",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "$ref": "#/components/schemas/InitiateValidationUserDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "summary": "INITIATE VALIDATION",
+        "tags": [
+          "Auth"
+        ]
+      }
+    },
     "/auth/image_profile": {
       "patch": {
         "operationId": "AuthController_updateProfile",
@@ -1838,6 +1863,12 @@
           "signature": {
             "type": "string"
           },
+          "person_card": {
+            "type": "string"
+          },
+          "reason": {
+            "type": "string"
+          },
           "sexe": {
             "enum": [
               "M",
@@ -1918,6 +1949,8 @@
           "card_image",
           "card_number",
           "signature",
+          "person_card",
+          "reason",
           "sexe",
           "balance_mtn",
           "balance_moov",
@@ -2070,6 +2103,17 @@
         },
         "required": [
           "property_id"
+        ]
+      },
+      "InitiateValidationUserDto": {
+        "type": "object",
+        "properties": {
+          "card_number": {
+            "type": "number"
+          }
+        },
+        "required": [
+          "card_number"
         ]
       },
       "ValidateUserDto": {

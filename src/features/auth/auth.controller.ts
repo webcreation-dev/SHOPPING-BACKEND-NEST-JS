@@ -15,6 +15,7 @@ import {
   ForgotPasswordDto,
   HeaderOperation,
   LoginDto,
+  MULTIPART_FORMDATA_KEY,
   Public,
   RequestUser,
   ResetPasswordDto,
@@ -30,6 +31,7 @@ import { SendOtpResponseDto } from './dto/send-otp-response.dto';
 import { ToggleWishlistDto } from './users/dto/toggle-wishlist.dto';
 import { CurrentUserResponseDto } from './dto/current_user-response.dto';
 import { InitiateValidationUserDto } from './users/dto/initiate-validation-user.dto';
+import { ApiConsumes } from '@nestjs/swagger';
 
 @Controller('auth')
 export class AuthController {
@@ -93,22 +95,36 @@ export class AuthController {
     return await this.authService.getWishlist(user);
   }
 
-  // @HeaderOperation('INITIATE VALIDATION', InitiateValidationUserDto)
-  // @UseInterceptors(FileInterceptor('card_image'))
-  // @UseInterceptors(FileInterceptor('siganture'))
-  // @Patch('initiate_validation_user')
-  // async initiateValidation(
-  //   @Body() initiateValidationUserDto: InitiateValidationUserDto,
-  //   @UploadedFile(createParseFilePipe('2MB', 'png', 'jpeg')) card_image: File,
-  //   @UploadedFile(createParseFilePipe('2MB', 'png', 'jpeg')) siganture: File,
-  //   @CurrentUser() user: User,
-  // ) {
-  //   return await this.authService.initiateValidation(
-  //     initiateValidationUserDto,
-  //     card_image,
-  //     user,
-  //   );
-  // }
+  @Patch('initiate_validation_user')
+  @HeaderOperation('INITIATE VALIDATION', InitiateValidationUserDto)
+  @ApiConsumes(MULTIPART_FORMDATA_KEY)
+  @UseInterceptors(
+    FileInterceptor('card_image'),
+    FileInterceptor('signature'),
+    FileInterceptor('person_card'),
+  )
+  async initiateValidation(
+    @Body() initiateValidationUserDto: InitiateValidationUserDto,
+
+    @UploadedFile(createParseFilePipe('2MB', 'png', 'jpeg'))
+    card_image: File,
+
+    @UploadedFile(createParseFilePipe('2MB', 'png', 'jpeg'))
+    signature: File,
+
+    @UploadedFile(createParseFilePipe('2MB', 'png', 'jpeg'))
+    person_card: File,
+
+    @CurrentUser() user: User,
+  ) {
+    return await this.authService.initiateValidation(
+      initiateValidationUserDto,
+      card_image,
+      signature,
+      person_card,
+      user,
+    );
+  }
 
   @HeaderOperation('UPDATE PROFILE')
   @UseInterceptors(FileInterceptor('image'))

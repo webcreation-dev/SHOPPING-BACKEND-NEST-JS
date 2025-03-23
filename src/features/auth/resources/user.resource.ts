@@ -16,6 +16,7 @@ export class UserResource {
       card_image: `${process.env.API_URL}${user.card_image}`,
       card_number: user.card_number,
       signature: `${process.env.API_URL}${user.signature}`,
+      person_card: `${process.env.API_URL}${user.person_card}`,
       sexe: user.sexe,
       balance_mtn: user.balance_mtn,
       balance_moov: user.balance_moov,

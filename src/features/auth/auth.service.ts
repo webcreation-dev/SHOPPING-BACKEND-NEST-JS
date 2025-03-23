@@ -98,6 +98,8 @@ export class AuthService {
   async initiateValidation(
     initiateValidationUserDto: InitiateValidationUserDto,
     card_image: File,
+    signature: File,
+    person_card: File,
     { id }: User,
   ) {
     this.usersRepository.findOneAndUpdate(
@@ -105,6 +107,8 @@ export class AuthService {
       {
         ...initiateValidationUserDto,
         card_image: await this.uploadImage(id, card_image),
+        signature: await this.uploadImage(id, signature),
+        person_card: await this.uploadImage(id, person_card),
         status: StatusEnum.PENDING,
       },
     );
