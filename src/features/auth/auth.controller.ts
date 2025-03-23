@@ -107,4 +107,14 @@ export class AuthController {
       user,
     );
   }
+
+  @HeaderOperation('UPDATE PROFILE')
+  @UseInterceptors(FileInterceptor('image'))
+  @Patch('image_profile')
+  async updateProfile(
+    @UploadedFile(createParseFilePipe('2MB', 'png', 'jpeg')) image: File,
+    @CurrentUser() user: User,
+  ) {
+    return await this.authService.updateProfile(image, user);
+  }
 }

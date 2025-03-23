@@ -1,5 +1,11 @@
 import { IsUnique } from '@app/common';
-import { IsEnum, IsNotEmpty, IsPhoneNumber, IsString } from 'class-validator';
+import {
+  IsEnum,
+  IsNotEmpty,
+  IsOptional,
+  IsPhoneNumber,
+  IsString,
+} from 'class-validator';
 import { User } from '../entities/user.entity';
 import { AppTypeEnum } from '../enums/app_type.enum';
 import { SexeEnum } from '../enums/sexe.enum';

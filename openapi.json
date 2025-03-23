@@ -270,6 +270,21 @@
         ]
       }
     },
+    "/auth/image_profile": {
+      "patch": {
+        "operationId": "AuthController_updateProfile",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "summary": "UPDATE PROFILE",
+        "tags": [
+          "Auth"
+        ]
+      }
+    },
     "/users/validate_user": {
       "post": {
         "operationId": "UsersController_validateUser",
