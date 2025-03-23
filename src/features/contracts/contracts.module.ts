@@ -11,6 +11,8 @@ import { DuesRepository } from './repositories/dues.repository';
 import { AnnuitiesRepository } from './repositories/annuities.repository';
 import { Due } from './entities/due.entity';
 import { Annuity } from './entities/annuity.entity';
+import { ContractResource } from './resources/contract.resource';
+import { DueResource } from './resources/due.resource';
 
 @Module({
   imports: [
@@ -27,6 +29,8 @@ import { Annuity } from './entities/annuity.entity';
     ContractsRepository,
     DuesRepository,
     AnnuitiesRepository,
+    ContractResource,
+    DueResource,
   ],
   exports: [
     ContractsService,

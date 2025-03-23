@@ -1067,14 +1067,7 @@
         },
         "responses": {
           "201": {
-            "description": "",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Contract"
-                }
-              }
-            }
+            "description": ""
           }
         },
         "summary": "CREATE ",
@@ -1212,14 +1205,7 @@
         ],
         "responses": {
           "200": {
-            "description": "",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Contract"
-                }
-              }
-            }
+            "description": ""
           }
         },
         "summary": "GET ONE",
@@ -1253,14 +1239,7 @@
         },
         "responses": {
           "200": {
-            "description": "",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Contract"
-                }
-              }
-            }
+            "description": ""
           }
         },
         "summary": "ACTIVATE",
@@ -1300,14 +1279,7 @@
         },
         "responses": {
           "201": {
-            "description": "",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Contract"
-                }
-              }
-            }
+            "description": ""
           }
         },
         "summary": "PAY DUE",
@@ -1577,12 +1549,12 @@
             }
           },
           "status": {
+            "type": "string",
             "enum": [
               "PENDING",
               "ACTIVE",
               "FINISHED"
-            ],
-            "type": "string"
+            ]
           },
           "property": {
             "$ref": "#/components/schemas/Property"

@@ -1,6 +1,5 @@
 import { Injectable } from '@nestjs/common';
 import { User } from '../auth/users/entities/user.entity';
-import { UsersService } from '../auth/users/users.service';
 import { ContractsQueryDto } from './querying/contracts-query.dto';
 import { DefaultPageSize, PaginationService } from '@app/common';
 import { Contract } from './entities/contract.entity';
@@ -12,16 +11,17 @@ import { DuesRepository } from './repositories/dues.repository';
 import { Due } from './entities/due.entity';
 import { PropertiesRepository } from '../properties/properties.repository';
 import { UsersRepository } from 'src/features/auth/users/users.repository';
+import { ContractResource } from './resources/contract.resource';
 
 @Injectable()
 export class ContractsService {
   constructor(
     private readonly contractsRepository: ContractsRepository,
-    private readonly usersService: UsersService,
     private usersRepository: UsersRepository,
     private readonly propertiesRepository: PropertiesRepository,
     private readonly paginationService: PaginationService,
     private readonly duesRepository: DuesRepository,
+    private readonly contractResource: ContractResource,
   ) {}
 
   async findOwn(contractsQueryDto: ContractsQueryDto, user: User) {
@@ -58,8 +58,17 @@ export class ContractsService {
       },
     );
 
+    // edit each contract to include dues
+    for (const contract of data) {
+      const [dues] = await this.duesRepository.findAndCount(
+        { contract: { id: contract.id } },
+        { relations: { annuities: true } },
+      );
+      contract.dues = dues;
+    }
+
     const meta = this.paginationService.createMeta(limit, page, count);
-    return { data, meta };
+    return { data: this.contractResource.formatCollection(data), meta };
   }
 
   async create(
@@ -90,10 +99,19 @@ export class ContractsService {
   }
 
   async findOne(id: number) {
-    return this.contractsRepository.findOne(
-      { id },
-      { tenant: true, landlord: true, property: true, dues: true },
+    const contract = this.contractResource.format(
+      await this.contractsRepository.findOne(
+        { id },
+        { tenant: true, landlord: true, property: true, dues: true },
+      ),
     );
+
+    const [dues] = await this.duesRepository.findAndCount(
+      { contract: { id } },
+      { relations: { annuities: true } },
+    );
+    contract.dues = dues;
+    return contract;
   }
 
   async findMany(ids: number[]) {
