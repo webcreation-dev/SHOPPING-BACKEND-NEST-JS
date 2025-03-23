@@ -247,7 +247,7 @@
     },
     "/auth/initiate_validation_user": {
       "patch": {
-        "operationId": "AuthController_addImages",
+        "operationId": "AuthController_initiateValidation",
         "parameters": [],
         "requestBody": {
           "required": true,
