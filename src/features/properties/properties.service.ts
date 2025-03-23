@@ -103,7 +103,7 @@ export class PropertiesService {
     files: File[],
     { id }: User,
   ) {
-    const userData = await this.usersService.findOne(id);
+    const userData = await this.usersRepository.findOne({ id });
 
     // 1. Sauvegarder la propriété en utilisant PropertyRepository
     const property = await this.propertiesRepository.create(

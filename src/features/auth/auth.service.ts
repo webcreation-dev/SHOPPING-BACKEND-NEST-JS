@@ -36,7 +36,6 @@ export class AuthService {
     private readonly hashingService: HashingService,
     private readonly otpService: OtpService,
     private readonly usersService: UsersService,
-    private readonly UsersRepository: UsersRepository,
     private readonly storageService: StorageService,
   ) {}
 
@@ -49,14 +48,13 @@ export class AuthService {
     );
     const userData = await this.usersService.findOne(user.id);
 
-    return { user: userData, access_token: this.jwtService.sign(payload) };
+    return { ...userData, access_token: this.jwtService.sign(payload) };
   }
 
   async register(createUserDto: CreateUserDto) {
     const { phone } = createUserDto;
 
     this.tempUserService.storeTempUser(phone, createUserDto);
-
     // await this.otpService.sendOtp(phone);
 
     return { phone_number: phone };
@@ -81,9 +79,7 @@ export class AuthService {
     });
 
     const currentUser: RequestUser = { id: user.id, roles: rolesEnum };
-
-    const jwt = await this.login(currentUser);
-    return jwt;
+    return await this.login(currentUser);
   }
 
   async validateLocal(phone: string, password: string) {
@@ -104,7 +100,7 @@ export class AuthService {
     card_image: File,
     { id }: User,
   ) {
-    return this.usersRepository.findOneAndUpdate(
+    this.usersRepository.findOneAndUpdate(
       { id },
       {
         ...initiateValidationUserDto,
@@ -144,29 +140,28 @@ export class AuthService {
     const { phone } = forgotPasswordDto;
     await this.usersRepository.findOne({ phone });
     // await this.otpService.sendOtp(phone);
-    return phone;
+    return { phone_number: phone };
   }
 
   async resetPassword(resetPasswordDto: ResetPasswordDto) {
     const { phone, otp, password } = resetPasswordDto;
 
     // await this.otpService.verifyOtp(otp, phone);
-
     const hashedPassword = await this.hashingService.hash(password);
 
-    return this.usersRepository.findOneAndUpdate(
+    this.usersRepository.findOneAndUpdate(
       { phone },
       { password: hashedPassword },
     );
   }
 
   async getUser(user: User) {
-    const currentUser = await this.usersService.getUser(user);
-    return currentUser;
+    return await this.usersService.findOne(user.id);
   }
 
   async toogleWishlist(user: User, toggleWishlistDto: ToggleWishlistDto) {
-    return await this.usersService.toogleWishlist(user, toggleWishlistDto);
+    await this.usersService.toogleWishlist(user, toggleWishlistDto);
+    return await this.usersService.findOne(user.id);
   }
 
   async getWishlist(user: User): Promise<Property[]> {

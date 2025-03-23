@@ -1,27 +1,42 @@
 import { forwardRef, Inject, Injectable } from '@nestjs/common';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UsersRepository } from './users.repository';
-import { RolesRepository } from './roles.repository';
 import { User } from './entities/user.entity';
 import { PropertiesService } from 'src/features/properties/properties.service';
 import { ToggleWishlistDto } from './dto/toggle-wishlist.dto';
 import { ValidateUserDto } from './dto/validate-user.dto';
+import { UserResource } from 'src/features/auth/resources/user.resource';
 
 @Injectable()
 export class UsersService {
   constructor(
     private readonly usersRepository: UsersRepository,
-    private readonly rolesRepository: RolesRepository,
     @Inject(forwardRef(() => PropertiesService))
     private readonly propertiesService: PropertiesService,
+    private readonly userResource: UserResource,
   ) {}
 
   async findOne(id: number) {
-    return this.usersRepository.findOne({ id });
+    return this.userResource.format(
+      await this.usersRepository.findOne(
+        { id },
+        {
+          roles: true,
+          properties: true,
+          ownProperties: true,
+          visits: true,
+          managedVisits: true,
+          managedContracts: true,
+          contracts: true,
+        },
+      ),
+    );
   }
 
-  async findAll(): Promise<User[]> {
-    return await this.usersRepository.find({});
+  async findAll(): Promise<any> {
+    return this.userResource.formatCollection(
+      await this.usersRepository.find({}),
+    );
   }
 
   async create(createUserDto: CreateUserDto) {
@@ -35,19 +50,6 @@ export class UsersService {
       { id: validateUserDto.user_id },
       { status: validateUserDto.status },
     );
-  }
-
-  async getUser({ id }: User) {
-    const userData = await this.usersRepository.findOne(
-      { id },
-      { roles: true, ownProperties: true, properties: true },
-    );
-    return {
-      user: userData,
-      wishlist: await this.propertiesService.findMany(
-        userData.wishlistedProperties,
-      ),
-    };
   }
 
   async toogleWishlist(user: User, toggleWishlistDto: ToggleWishlistDto) {

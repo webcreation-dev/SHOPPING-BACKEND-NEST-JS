@@ -9,6 +9,7 @@ import { TempUserService } from './temps/temp-user.service';
 import { Role } from './entities/role.entity';
 import { User } from './entities/user.entity';
 import { PropertiesModule } from 'src/features/properties/properties.module';
+import { UserResource } from '../resources/user.resource';
 
 @Module({
   imports: [
@@ -24,6 +25,7 @@ import { PropertiesModule } from 'src/features/properties/properties.module';
     UsersRepository,
     UsersSubscriber,
     RolesRepository,
+    UserResource,
   ],
   exports: [UsersService, TempUserService, UsersRepository],
 })

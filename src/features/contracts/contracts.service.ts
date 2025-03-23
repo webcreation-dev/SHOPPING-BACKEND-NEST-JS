@@ -11,12 +11,14 @@ import { StatusContractEnum } from './enums/status-contract.enum';
 import { DuesRepository } from './repositories/dues.repository';
 import { Due } from './entities/due.entity';
 import { PropertiesRepository } from '../properties/properties.repository';
+import { UsersRepository } from 'src/features/auth/users/users.repository';
 
 @Injectable()
 export class ContractsService {
   constructor(
     private readonly contractsRepository: ContractsRepository,
     private readonly usersService: UsersService,
+    private usersRepository: UsersRepository,
     private readonly propertiesRepository: PropertiesRepository,
     private readonly paginationService: PaginationService,
     private readonly duesRepository: DuesRepository,
@@ -65,8 +67,8 @@ export class ContractsService {
     { id }: User,
   ) {
     const [tenant, landlord, property] = await Promise.all([
-      this.usersService.findOne(tenant_id),
-      this.usersService.findOne(landlord_id),
+      this.usersRepository.findOne({ id: tenant_id }),
+      this.usersRepository.findOne({ id: landlord_id }),
       this.propertiesRepository.findOne(
         { id: property_id, user: { id } },
         { galleries: true, user: true, owner: true },

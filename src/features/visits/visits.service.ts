@@ -13,12 +13,14 @@ import { VisitResource } from 'src/features/visits/resources/visit.resource';
 import { PropertyResource } from '../properties/resources/property.resource';
 import { Property } from '../properties/entities/property.entity';
 import { PropertiesRepository } from 'src/features/properties/properties.repository';
+import { UsersRepository } from 'src/features/auth/users/users.repository';
 
 @Injectable()
 export class VisitsService {
   constructor(
     private readonly visitsRepository: VisitsRepository,
     private readonly usersService: UsersService,
+    private usersRepository: UsersRepository,
     private readonly propertiesService: PropertiesService,
     private readonly propertiesRepository: PropertiesRepository,
     private readonly paginationService: PaginationService,
@@ -69,7 +71,7 @@ export class VisitsService {
   }
 
   async create({ property_id }: CreateVisitDto, { id }: User) {
-    const userData = await this.usersService.findOne(id);
+    const userData = await this.usersRepository.findOne({ id });
     const property = await this.propertiesRepository.findOne(
       { id: property_id },
       { user: true },

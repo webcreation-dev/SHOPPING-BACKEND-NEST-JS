@@ -38,7 +38,7 @@ export class AuthController {
   @HeaderOperation('LOGIN', LoginDto, LoginResponseDto, true)
   @UseGuards(LocalAuthGuard)
   @Post('login')
-  async login(@CurrentUser() user: RequestUser): Promise<LoginResponseDto> {
+  async login(@CurrentUser() user: RequestUser): Promise<any> {
     return await this.authService.login(user);
   }
 
