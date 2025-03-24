@@ -1136,70 +1136,7 @@
             }
           }
         },
-        "summary": "GET OWN",
-        "tags": [
-          "Contracts"
-        ]
-      }
-    },
-    "/contracts/managed": {
-      "get": {
-        "operationId": "ContractsController_findManaged",
-        "parameters": [
-          {
-            "name": "limit",
-            "required": false,
-            "in": "query",
-            "schema": {
-              "maximum": 100,
-              "type": "number"
-            }
-          },
-          {
-            "name": "page",
-            "required": false,
-            "in": "query",
-            "schema": {
-              "maximum": 25,
-              "default": 1,
-              "type": "number"
-            }
-          }
-        ],
-        "requestBody": {
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/ContractsQueryDto"
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "title": "PaginatedResponseOfContract",
-                  "properties": {
-                    "data": {
-                      "type": "array",
-                      "items": {
-                        "$ref": "#/components/schemas/Contract"
-                      }
-                    },
-                    "meta": {
-                      "$ref": "#/components/schemas/PaginationMeta"
-                    }
-                  }
-                }
-              }
-            }
-          }
-        },
-        "summary": "GET MANAGED",
+        "summary": "GET ALL",
         "tags": [
           "Contracts"
         ]
@@ -2738,20 +2675,6 @@
           "property_id",
           "start_date"
         ]
-      },
-      "ContractsQueryDto": {
-        "type": "object",
-        "properties": {
-          "limit": {
-            "type": "number",
-            "maximum": 100
-          },
-          "page": {
-            "type": "number",
-            "default": 1,
-            "maximum": 25
-          }
-        }
       },
       "ActivateContractDto": {
         "type": "object",

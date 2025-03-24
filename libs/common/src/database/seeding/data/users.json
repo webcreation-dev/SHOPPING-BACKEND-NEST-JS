@@ -1,0 +1,42 @@
+[
+  {
+    "lastname": "ADJIBI",
+    "firstname": "Julian",
+    "phone": "2290196135159",
+    "sexe": "M",
+    "password": "password",
+    "app_type": "LOCAPAY",
+    "status": "ACCEPTED",
+    "image": "upload/properties/test/locapay_1.png"
+  },
+  {
+    "lastname": "AGOSSADOU",
+    "firstname": "Guérin",
+    "phone": "2290167894105",
+    "sexe": "M",
+    "password": "password",
+    "app_type": "LOCAPAY_BUSINESS",
+    "status": "NOT_VERIFIED",
+    "image": "upload/properties/test/locapay_1.png"
+  },
+  {
+    "lastname": "ASSOGBA",
+    "firstname": "Christian",
+    "phone": "2290162292738",
+    "sexe": "M",
+    "password": "password",
+    "app_type": "LOCAPAY",
+    "status": "ACCEPTED",
+    "image": "upload/properties/test/locapay_1.png"
+  },
+  {
+    "lastname": "AGBESSY",
+    "firstname": "Esméralda",
+    "phone": "2290157578096",
+    "sexe": "F",
+    "password": "password",
+    "app_type": "LOCAPAY",
+    "status": "ACCEPTED",
+    "image": "upload/properties/test/locapay_1.png"
+  }
+]

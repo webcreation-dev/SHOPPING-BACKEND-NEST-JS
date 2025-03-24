@@ -24,6 +24,14 @@ export class ContractsService {
     private readonly contractResource: ContractResource,
   ) {}
 
+  async findAll(contractsQueryDto: ContractsQueryDto, user: User) {
+    const [ownContracts, managedContracts] = await Promise.all([
+      this.findOwn(contractsQueryDto, user),
+      this.findManaged(contractsQueryDto, user),
+    ]);
+    return { own: ownContracts, managed: managedContracts };
+  }
+
   async findOwn(contractsQueryDto: ContractsQueryDto, user: User) {
     return this.findContractsByFilter(contractsQueryDto, user, {
       tenantId: user.id,
@@ -67,8 +75,7 @@ export class ContractsService {
       contract.dues = dues;
     }
 
-    const meta = this.paginationService.createMeta(limit, page, count);
-    return { data: this.contractResource.formatCollection(data), meta };
+    return this.contractResource.formatCollection(data);
   }
 
   async create(

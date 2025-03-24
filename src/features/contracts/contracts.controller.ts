@@ -36,22 +36,12 @@ export class ContractsController {
 
   @Get()
   @ApiPaginatedResponse(Contract)
-  @HeaderOperation('GET OWN')
+  @HeaderOperation('GET ALL')
   findAll(
     @Query() contractsQueryDto: ContractsQueryDto,
     @CurrentUser() user: User,
   ) {
-    return this.contractsService.findOwn(contractsQueryDto, user);
-  }
-
-  @Get('/managed')
-  @ApiPaginatedResponse(Contract)
-  @HeaderOperation('GET MANAGED', ContractsQueryDto)
-  findManaged(
-    @Query() contractsQueryDto: ContractsQueryDto,
-    @CurrentUser() user: User,
-  ) {
-    return this.contractsService.findManaged(contractsQueryDto, user);
+    return this.contractsService.findAll(contractsQueryDto, user);
   }
 
   @Get(':id')

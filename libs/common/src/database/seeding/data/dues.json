@@ -1,0 +1,59 @@
+[
+  {
+    "date": "2025-01-05T21:45:30.879Z",
+    "balance": 0,
+    "status_due": "FINISHED",
+    "annuities": [
+      {
+        "amount": 8000
+      },
+      {
+        "amount": 7000
+      },
+      {
+        "amount": 9000
+      },
+      {
+        "amount": 1000
+      }
+    ]
+  },
+  {
+    "date": "2025-02-05T21:45:30.879Z",
+    "balance": 0,
+    "status_due": "FINISHED",
+    "annuities": [
+      {
+        "amount": 9000
+      },
+      {
+        "amount": 2000
+      },
+      {
+        "amount": 8000
+      },
+      {
+        "amount": 6000
+      }
+    ]
+  },
+  {
+    "date": "2025-03-05T21:45:30.879Z",
+    "balance": 12000,
+    "status_due": "IN_PROGRESS",
+    "annuities": [
+      {
+        "amount": 8000
+      },
+      {
+        "amount": 5000
+      }
+    ]
+  },
+  {
+    "date": "2025-04-05T21:45:30.879Z",
+    "balance": 25000,
+    "status_due": "WAITING",
+    "annuities": []
+  }
+]

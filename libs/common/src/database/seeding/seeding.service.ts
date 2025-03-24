@@ -7,6 +7,7 @@ import { Property } from 'src/features/properties/entities/property.entity';
 import { Contract } from 'src/features/contracts/entities/contract.entity';
 import { Due } from 'src/features/contracts/entities/due.entity';
 import { StatusContractEnum } from 'src/features/contracts/enums/status-contract.enum';
+import { Annuity } from 'src/features/contracts/entities/annuity.entity';
 
 @Injectable()
 export class SeedingService {
@@ -22,23 +23,39 @@ export class SeedingService {
       const galleriesRepository = queryRunner.manager.getRepository(Gallery);
       const contractsRepository = queryRunner.manager.getRepository(Contract);
       const duesRepository = queryRunner.manager.getRepository(Due);
+      const annuitiesRepository = queryRunner.manager.getRepository(Annuity);
 
       // ✅ 1. Delete all data
       await usersRepository.delete({});
       await propertiesRepository.delete({});
       await galleriesRepository.delete({});
       await contractsRepository.delete({});
+      await duesRepository.delete({});
+      await annuitiesRepository.delete({});
 
       // ✅ 2. Charger les données
       const usersData = JSON.parse(
         fs.readFileSync(
-          'libs/common/src/database/seeding/data/user.json',
+          'libs/common/src/database/seeding/data/users.json',
           'utf8',
         ),
       );
       const propertiesData = JSON.parse(
         fs.readFileSync(
           'libs/common/src/database/seeding/data/properties.json',
+          'utf8',
+        ),
+      );
+      const contractsData = JSON.parse(
+        fs.readFileSync(
+          'libs/common/src/database/seeding/data/contracts.json',
+          'utf8',
+        ),
+      );
+
+      const duesData = JSON.parse(
+        fs.readFileSync(
+          'libs/common/src/database/seeding/data/dues.json',
           'utf8',
         ),
       );
@@ -59,6 +76,7 @@ export class SeedingService {
           new Property({
             ...propertyData,
             user: savedUsers[1],
+            owner: savedUsers[2],
           }),
         );
         savedProperties.push(property);
@@ -76,11 +94,13 @@ export class SeedingService {
         }
       }
 
-      // ✅ CONTRACTS & DUES
-      const contract = contractsRepository.create(
-        new Contract({
+      // ✅ CONTRACTS & DUES & ANNUITIES
+      const savedContracts = [];
+
+      for (const contractData of contractsData) {
+        const contract = contractsRepository.create({
           tenant: savedUsers[0],
-          landlord: savedUsers[1],
+          landlord: savedUsers[2],
           property: savedProperties[11],
           start_date: new Date(),
           end_date: new Date(),
@@ -88,27 +108,31 @@ export class SeedingService {
           rent_price: savedProperties[11].rent_price,
           caution: savedProperties[11].caution,
           status: StatusContractEnum.ACTIVE,
-        }),
-      );
-      const saveContract = await contractsRepository.save(contract);
+        });
 
-      // create dues
+        const savedContract = await contractsRepository.save(contract);
+        savedContracts.push(savedContract);
 
-      const due_date = [
-        '2025-04-05T21:45:30.879Z',
-        '2025-05-05T21:45:30.879Z',
-        '2025-06-05T21:45:30.879Z',
-      ];
+        await Promise.all(
+          duesData.map(async (item) => {
+            const due = duesRepository.create({
+              contract: savedContract,
+              due_date: new Date(item.date),
+              amount_paid: savedContract.rent_price - item.balance,
+              carry_over_amount: item.balance,
+              status_due: item.status_due,
+            });
+            const saveDue = await duesRepository.save(due);
 
-      for (const date of due_date) {
-        const due = duesRepository.create(
-          new Due({
-            contract: saveContract,
-            due_date: new Date(date),
-            carry_over_amount: saveContract.rent_price,
+            item.annuities.forEach(async (data) => {
+              const annuity = annuitiesRepository.create({
+                amount: data.amount,
+                due: saveDue,
+              });
+              await annuitiesRepository.save(annuity);
+            });
           }),
         );
-        await duesRepository.save(due);
       }
 
       await queryRunner.commitTransaction();

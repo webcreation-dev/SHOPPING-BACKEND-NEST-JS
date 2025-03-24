@@ -7,6 +7,7 @@ export class PropertyResource {
   format(property: Property) {
     const baseData = {
       id: property.id,
+      name: `Maison ${property.user.lastname}`,
       type: property.type,
       to_sell: property.to_sell,
       video_url: property.video_url,
