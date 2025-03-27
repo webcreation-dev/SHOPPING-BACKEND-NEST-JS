@@ -45,17 +45,18 @@ export class PropertiesController {
   @Post()
   // @Roles(RoleEnum.USER)
   @HeaderOperation('CREATE ', CreatePropertyDto)
-  @UseInterceptors(FilesInterceptor('files', MaxFileCount.PROPERTY_IMAGES))
+  // @UseInterceptors(FilesInterceptor('files', MaxFileCount.PROPERTY_IMAGES))
   async create(
     @Body() createPropertyDto: CreatePropertyDto,
 
-    @UploadedFiles(createParseFilePipe('2MB', 'png', 'jpeg'))
-    files: File[],
+    // @UploadedFiles(createParseFilePipe('2MB', 'png', 'jpeg'))
+    // files: File[],
 
     @CurrentUser()
     user: User,
   ) {
-    return await this.propertiesService.create(createPropertyDto, files, user);
+    // return await this.propertiesService.create(createPropertyDto, files, user);
+    return await this.propertiesService.create(createPropertyDto, user);
   }
 
   @Get()
