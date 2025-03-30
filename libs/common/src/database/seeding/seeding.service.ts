@@ -8,6 +8,9 @@ import { Contract } from 'src/features/contracts/entities/contract.entity';
 import { Due } from 'src/features/contracts/entities/due.entity';
 import { StatusContractEnum } from 'src/features/contracts/enums/status-contract.enum';
 import { Annuity } from 'src/features/contracts/entities/annuity.entity';
+import { Notification } from 'src/features/notifications/entities/notification.entity';
+import { StatusNotificationEnum } from 'src/features/notifications/enums/status.notification.enum';
+import { TypeNotificationEnum } from 'src/features/notifications/enums/type.notification.enum';
 
 @Injectable()
 export class SeedingService {
@@ -24,6 +27,8 @@ export class SeedingService {
       const contractsRepository = queryRunner.manager.getRepository(Contract);
       const duesRepository = queryRunner.manager.getRepository(Due);
       const annuitiesRepository = queryRunner.manager.getRepository(Annuity);
+      const notificationsRepository =
+        queryRunner.manager.getRepository(Notification);
 
       // ✅ 1. Delete all data
       await usersRepository.delete({});
@@ -32,6 +37,7 @@ export class SeedingService {
       await contractsRepository.delete({});
       await duesRepository.delete({});
       await annuitiesRepository.delete({});
+      await notificationsRepository.delete({});
 
       // ✅ 2. Charger les données
       const usersData = JSON.parse(
@@ -56,6 +62,13 @@ export class SeedingService {
       const duesData = JSON.parse(
         fs.readFileSync(
           'libs/common/src/database/seeding/data/dues.json',
+          'utf8',
+        ),
+      );
+
+      const notificationsData = JSON.parse(
+        fs.readFileSync(
+          'libs/common/src/database/seeding/data/notifications.json',
           'utf8',
         ),
       );
@@ -133,6 +146,19 @@ export class SeedingService {
             });
           }),
         );
+      }
+
+      // ✅ NOTIFICATIONS
+
+      for (const notificationData of notificationsData) {
+        const notification = notificationsRepository.create({
+          title: notificationData.title,
+          content: notificationData.content,
+          user: savedUsers[2],
+          status: StatusNotificationEnum.NOT_READ,
+          type: notificationData.type,
+        });
+        await notificationsRepository.save(notification);
       }
 
       await queryRunner.commitTransaction();

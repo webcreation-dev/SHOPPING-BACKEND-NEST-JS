@@ -13,6 +13,7 @@ import { UsersModule } from './features/auth/users/users.module';
 import { VisitsModule } from './features/visits/visits.module';
 import { ContractsModule } from './features/contracts/contracts.module';
 import { BillingsModule } from './features/billings/billings.module';
+import { NotificationsModule } from './features/notifications/notifications.module';
 
 @Module({
   imports: [
@@ -28,6 +29,7 @@ import { BillingsModule } from './features/billings/billings.module';
     LoggerModule,
     ContractsModule,
     BillingsModule,
+    NotificationsModule,
   ],
 })
 export class AppModule {}

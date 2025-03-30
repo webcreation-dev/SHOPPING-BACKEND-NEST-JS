@@ -1,7 +1,7 @@
 import { MigrationInterface, QueryRunner } from "typeorm";
 
-export class New1743344070367 implements MigrationInterface {
-    name = 'New1743344070367'
+export class New1743362705954 implements MigrationInterface {
+    name = 'New1743362705954'
 
     public async up(queryRunner: QueryRunner): Promise<void> {
         await queryRunner.query(`
@@ -85,6 +85,26 @@ export class New1743344070367 implements MigrationInterface {
                 "updated_at" TIMESTAMP NOT NULL DEFAULT now(),
                 "deletedAt" TIMESTAMP,
                 CONSTRAINT "PK_17c3a89f58a2997276084e706e8" PRIMARY KEY ("id")
+            )
+        `);
+        await queryRunner.query(`
+            CREATE TYPE "public"."status_notification_enum" AS ENUM('READ', 'NOT_READ')
+        `);
+        await queryRunner.query(`
+            CREATE TYPE "public"."type_notification_enum" AS ENUM('VISIT', 'CONTRACT', 'PAYMENT')
+        `);
+        await queryRunner.query(`
+            CREATE TABLE "notification" (
+                "id" SERIAL NOT NULL,
+                "title" character varying NOT NULL,
+                "content" character varying NOT NULL,
+                "status" "public"."status_notification_enum" NOT NULL DEFAULT 'NOT_READ',
+                "type" "public"."type_notification_enum" NOT NULL,
+                "userId" integer,
+                "created_at" TIMESTAMP NOT NULL DEFAULT now(),
+                "updated_at" TIMESTAMP NOT NULL DEFAULT now(),
+                "deletedAt" TIMESTAMP,
+                CONSTRAINT "PK_705b6c7cdf9b2c2ff7ac7872cb7" PRIMARY KEY ("id")
             )
         `);
         await queryRunner.query(`
@@ -261,6 +281,10 @@ export class New1743344070367 implements MigrationInterface {
             ADD CONSTRAINT "FK_55192eaad5af3ea323029bba042" FOREIGN KEY ("tenantId") REFERENCES "user"("id") ON DELETE CASCADE ON UPDATE NO ACTION
         `);
         await queryRunner.query(`
+            ALTER TABLE "notification"
+            ADD CONSTRAINT "FK_1ced25315eb974b73391fb1c81b" FOREIGN KEY ("userId") REFERENCES "user"("id") ON DELETE CASCADE ON UPDATE NO ACTION
+        `);
+        await queryRunner.query(`
             ALTER TABLE "property"
             ADD CONSTRAINT "FK_d90007b39cfcf412e15823bebc1" FOREIGN KEY ("userId") REFERENCES "user"("id") ON DELETE CASCADE ON UPDATE NO ACTION
         `);
@@ -297,6 +321,9 @@ export class New1743344070367 implements MigrationInterface {
         `);
         await queryRunner.query(`
             ALTER TABLE "property" DROP CONSTRAINT "FK_d90007b39cfcf412e15823bebc1"
+        `);
+        await queryRunner.query(`
+            ALTER TABLE "notification" DROP CONSTRAINT "FK_1ced25315eb974b73391fb1c81b"
         `);
         await queryRunner.query(`
             ALTER TABLE "contract" DROP CONSTRAINT "FK_55192eaad5af3ea323029bba042"
@@ -369,6 +396,15 @@ export class New1743344070367 implements MigrationInterface {
         `);
         await queryRunner.query(`
             DROP TYPE "public"."app_type_enum"
+        `);
+        await queryRunner.query(`
+            DROP TABLE "notification"
+        `);
+        await queryRunner.query(`
+            DROP TYPE "public"."type_notification_enum"
+        `);
+        await queryRunner.query(`
+            DROP TYPE "public"."status_notification_enum"
         `);
         await queryRunner.query(`
             DROP TABLE "contract"

@@ -3,10 +3,16 @@ import * as firebase from 'firebase-admin';
 import { mapLimit } from 'async';
 import { BatchResponse } from 'firebase-admin/lib/messaging/messaging-api';
 import { chunk } from 'lodash';
-import * as shell from 'shelljs';
 import { getMessaging } from 'firebase-admin/messaging';
 import * as fs from 'fs';
 import * as path from 'path';
+import { NotificationsQueryDto } from './querying/notifications-query.dto';
+import { User } from '../auth/users/entities/user.entity';
+import { DefaultPageSize, PaginationService } from '@app/common';
+import { NotificationsRepository } from './notifications.repository';
+import { StatusNotificationEnum } from './enums/status.notification.enum';
+import { Notification } from './entities/notification.entity';
+import { FindOptionsOrder } from 'typeorm';
 
 export interface ISendFirebaseMessages {
   token: string;
@@ -16,7 +22,10 @@ export interface ISendFirebaseMessages {
 
 @Injectable()
 export class NotificationsService {
-  constructor() {
+  constructor(
+    private readonly notificationsRepository: NotificationsRepository,
+    private readonly paginationService: PaginationService,
+  ) {
     const firebaseCredentialsPath = path.resolve(
       process.cwd(),
       'firebase-credentials.json',
@@ -38,32 +47,73 @@ export class NotificationsService {
     });
   }
 
-  // public async sendAll(
-  //   messages: firebase.messaging.TokenMessage[],
-  //   dryRun?: boolean,
-  // ): Promise<BatchResponse> {
-  //   if (process.env.NODE_ENV === 'local') {
-  //     for (const { notification, token } of messages) {
-  //       shell.exec(
-  //         `echo '{ "aps": { "alert": ${JSON.stringify(notification)}, "token": "${token}" } }' | xcrun simctl push booted com.company.appname -`,
-  //       );
-  //     }
-  //   }
-  //   return firebase.messaging().sendAll(messages, dryRun);
+  async findAll(notificationsQueryDto: NotificationsQueryDto, { id }: User) {
+    const { page, status, type } = notificationsQueryDto;
+    const limit = notificationsQueryDto.limit ?? DefaultPageSize.NOTIFICATION;
+    const offset = this.paginationService.calculateOffset(limit, page);
+
+    const [data, count] = await this.notificationsRepository.findAndCount(
+      {
+        user: { id },
+        status,
+        type,
+      },
+      {
+        relations: {},
+        skip: offset,
+        take: limit,
+      },
+    );
+
+    const meta = this.paginationService.createMeta(limit, page, count);
+    return { data, meta };
+  }
+
+  // async create({ property_id }: CreateVisitDto, { id }: User) {
+  //   const userData = await this.usersRepository.findOne({ id });
+  //   const property = await this.propertiesRepository.findOne(
+  //     { id: property_id },
+  //     { user: true },
+  //   );
+
+  //   const visit = await this.notificationsRepository.create(
+  //     new Notification({
+  //       user: userData,
+  //       title: property,
+  //       content: property.user,
+  //       type: proper
+  //     }),
+  //   );
+  //   return await this.findOne(visit.id);
   // }
+
+  async findOne(id: number) {
+    await this.isRead(id);
+    return await this.notificationsRepository.findOne({ id });
+  }
+
+  async allRead(ids: number[]) {
+    await Promise.all(
+      ids.map(async (id) => {
+        await this.notificationsRepository.findOneAndUpdate(
+          { id },
+          { status: StatusNotificationEnum.READ },
+        );
+      }),
+    );
+  }
+
+  async isRead(id: number) {
+    await this.notificationsRepository.findOneAndUpdate(
+      { id },
+      { status: StatusNotificationEnum.READ },
+    );
+  }
 
   public async sendAll(
     messages: firebase.messaging.TokenMessage[],
     dryRun?: boolean,
   ): Promise<BatchResponse> {
-    // if (process.env.NODE_ENV === 'local') {
-    //   for (const { notification, token } of messages) {
-    //     shell.exec(
-    //       `echo '{ "aps": { "alert": ${JSON.stringify(notification)}, "token": "${token}" } }' | xcrun simctl push booted com.company.appname -`,
-    //     );
-    //   }
-    // }
-
     // Nouvelle implémentation avec sendEachForMulticast
     const response = await getMessaging().sendEachForMulticast({
       tokens: messages.map((m) => m.token),

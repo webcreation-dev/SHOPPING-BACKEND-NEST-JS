@@ -1239,6 +1239,153 @@
           "Billings"
         ]
       }
+    },
+    "/notifications": {
+      "get": {
+        "operationId": "NotificationsController_findAll",
+        "parameters": [
+          {
+            "name": "limit",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "maximum": 100,
+              "type": "number"
+            }
+          },
+          {
+            "name": "page",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "maximum": 25,
+              "default": 1,
+              "type": "number"
+            }
+          },
+          {
+            "name": "status",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "READ",
+                "NOT_READ"
+              ]
+            }
+          },
+          {
+            "name": "type",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "VISIT",
+                "CONTRACT",
+                "PAYMENT"
+              ]
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/NotificationsQueryDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "title": "PaginatedResponseOfNotification",
+                  "properties": {
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/Notification"
+                      }
+                    },
+                    "meta": {
+                      "$ref": "#/components/schemas/PaginationMeta"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "summary": "GET ALL",
+        "tags": [
+          "Notifications"
+        ]
+      }
+    },
+    "/notifications/{id}": {
+      "get": {
+        "operationId": "NotificationsController_findOne",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "number"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Notification"
+                }
+              }
+            }
+          }
+        },
+        "summary": "GET ONE",
+        "tags": [
+          "Notifications"
+        ]
+      }
+    },
+    "/notifications/all_read": {
+      "get": {
+        "operationId": "NotificationsController_allRead",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "summary": "ALL READ",
+        "tags": [
+          "Notifications"
+        ]
+      }
     }
   },
   "info": {
@@ -1758,6 +1905,50 @@
           "registryDates"
         ]
       },
+      "Notification": {
+        "type": "object",
+        "properties": {
+          "title": {
+            "type": "string"
+          },
+          "content": {
+            "type": "string"
+          },
+          "status": {
+            "enum": [
+              "READ",
+              "NOT_READ"
+            ],
+            "type": "string"
+          },
+          "type": {
+            "enum": [
+              "VISIT",
+              "CONTRACT",
+              "PAYMENT"
+            ],
+            "type": "string"
+          },
+          "user": {
+            "$ref": "#/components/schemas/User"
+          },
+          "id": {
+            "type": "number"
+          },
+          "registryDates": {
+            "$ref": "#/components/schemas/RegistryDates"
+          }
+        },
+        "required": [
+          "title",
+          "content",
+          "status",
+          "type",
+          "user",
+          "id",
+          "registryDates"
+        ]
+      },
       "User": {
         "type": "object",
         "properties": {
@@ -1874,6 +2065,12 @@
               "$ref": "#/components/schemas/Contract"
             }
           },
+          "notifications": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Notification"
+            }
+          },
           "id": {
             "type": "number"
           },
@@ -1907,6 +2104,7 @@
           "managedVisits",
           "managedContracts",
           "contracts",
+          "notifications",
           "id",
           "registryDates"
         ]
@@ -2712,6 +2910,35 @@
           "amount",
           "contract_id"
         ]
+      },
+      "NotificationsQueryDto": {
+        "type": "object",
+        "properties": {
+          "limit": {
+            "type": "number",
+            "maximum": 100
+          },
+          "page": {
+            "type": "number",
+            "default": 1,
+            "maximum": 25
+          },
+          "status": {
+            "enum": [
+              "READ",
+              "NOT_READ"
+            ],
+            "type": "string"
+          },
+          "type": {
+            "enum": [
+              "VISIT",
+              "CONTRACT",
+              "PAYMENT"
+            ],
+            "type": "string"
+          }
+        }
       }
     }
   },

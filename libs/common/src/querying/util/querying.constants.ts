@@ -3,6 +3,7 @@ export const DefaultPageSize = {
   PROPERTY: 6,
   VISIT: 4,
   CONTRACTS: 4,
+  NOTIFICATION: 10,
 } as const satisfies Record<string, number>;
 
 export const MAX_PAGE_SIZE = 100;
