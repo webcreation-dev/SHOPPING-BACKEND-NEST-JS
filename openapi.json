@@ -246,7 +246,7 @@
       }
     },
     "/auth/initiate_validation_user": {
-      "patch": {
+      "post": {
         "operationId": "AuthController_initiateValidation",
         "parameters": [],
         "requestBody": {
@@ -260,7 +260,7 @@
           }
         },
         "responses": {
-          "200": {
+          "201": {
             "description": ""
           }
         },

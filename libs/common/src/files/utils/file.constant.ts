@@ -1,7 +1,7 @@
 export const MaxFileCount = {
   PRODUCT_IMAGES: 5,
   PROPERTY_IMAGES: 5,
-  VALIDATE_ACCOUNT: 2,
+  VALIDATE_ACCOUNT: 3,
 } as const satisfies Record<string, number>;
 
 export const BASE_PATH = 'upload';

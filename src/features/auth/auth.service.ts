@@ -97,11 +97,10 @@ export class AuthService {
 
   async initiateValidation(
     initiateValidationUserDto: InitiateValidationUserDto,
-    card_image: File,
-    signature: File,
-    person_card: File,
+    files: File[],
     { id }: User,
   ) {
+    const [card_image, signature, person_card] = files;
     this.usersRepository.findOneAndUpdate(
       { id },
       {

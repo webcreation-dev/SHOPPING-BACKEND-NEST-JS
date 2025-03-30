@@ -16,6 +16,7 @@ import {
   ForgotPasswordDto,
   HeaderOperation,
   LoginDto,
+  MaxFileCount,
   MULTIPART_FORMDATA_KEY,
   Public,
   RequestUser,
@@ -96,33 +97,21 @@ export class AuthController {
     return await this.authService.getWishlist(user);
   }
 
-  @Patch('initiate_validation_user')
+  @Post('initiate_validation_user')
   @HeaderOperation('INITIATE VALIDATION', InitiateValidationUserDto)
   @ApiConsumes(MULTIPART_FORMDATA_KEY)
-  @UseInterceptors(
-    FileInterceptor('card_image'),
-    FileInterceptor('signature'),
-    FileInterceptor('person_card'),
-  )
+  @UseInterceptors(FilesInterceptor('files', MaxFileCount.VALIDATE_ACCOUNT))
   async initiateValidation(
     @Body() initiateValidationUserDto: InitiateValidationUserDto,
 
-    @UploadedFile(createParseFilePipe('2MB', 'png', 'jpeg'))
-    card_image: File,
-
-    @UploadedFile(createParseFilePipe('2MB', 'png', 'jpeg'))
-    signature: File,
-
-    @UploadedFile(createParseFilePipe('2MB', 'png', 'jpeg'))
-    person_card: File,
+    @UploadedFiles(createParseFilePipe('2MB', 'png', 'jpeg'))
+    files: File[],
 
     @CurrentUser() user: User,
   ) {
     return await this.authService.initiateValidation(
       initiateValidationUserDto,
-      card_image,
-      signature,
-      person_card,
+      files,
       user,
     );
     // return initiateValidationUserDto;
