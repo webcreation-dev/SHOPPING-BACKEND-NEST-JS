@@ -115,10 +115,11 @@ export class AuthService {
     );
   }
 
-  async updateProfile(image: File, { id }: User) {
+  async updateProfile(files: File[], { id }: User) {
+    const [profile] = files;
     this.usersRepository.findOneAndUpdate(
       { id },
-      { image: await this.uploadImage(id, image) },
+      { image: await this.uploadImage(id, profile) },
     );
     return await this.usersService.findOne(id);
   }

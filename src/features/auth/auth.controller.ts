@@ -114,16 +114,16 @@ export class AuthController {
       files,
       user,
     );
-    // return initiateValidationUserDto;
   }
 
   @HeaderOperation('UPDATE PROFILE')
-  @UseInterceptors(FileInterceptor('image'))
+  @UseInterceptors(FilesInterceptor('files', MaxFileCount.VALIDATE_ACCOUNT))
   @Patch('image_profile')
   async updateProfile(
-    @UploadedFile(createParseFilePipe('2MB', 'png', 'jpeg')) image: File,
+    @UploadedFiles(createParseFilePipe('2MB', 'png', 'jpeg'))
+    files: File[],
     @CurrentUser() user: User,
   ) {
-    return await this.authService.updateProfile(image, user);
+    return await this.authService.updateProfile(files, user);
   }
 }
