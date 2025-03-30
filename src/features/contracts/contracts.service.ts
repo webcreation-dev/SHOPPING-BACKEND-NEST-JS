@@ -107,6 +107,7 @@ export class ContractsService {
       message: 'Un nouveau contrat a été soumis à votre validation',
       title: 'Nouveau Contrat',
       token: user.fcm_token,
+      module_id: contract.id,
       user,
     });
 

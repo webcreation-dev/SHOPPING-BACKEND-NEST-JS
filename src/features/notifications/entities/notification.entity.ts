@@ -27,6 +27,9 @@ export class Notification extends AbstractEntity<Notification> {
   })
   type: TypeNotificationEnum;
 
+  @Column()
+  module_id: number;
+
   @ManyToOne(() => User, (user) => user.notifications, {
     onDelete: 'CASCADE',
   })

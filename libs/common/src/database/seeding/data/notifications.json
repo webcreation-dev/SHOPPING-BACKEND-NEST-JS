@@ -2,7 +2,7 @@
   {
     "title": "Nouvelle Visite",
     "content": "Wilfried ZANNOU a demande une visite d'un local",
-    "type": "VISIT"
+    "type": "CONTRACT"
   },
   {
     "title": "Nouveau Contrat",
@@ -12,6 +12,6 @@
   {
     "title": "Nouveau Paiement",
   "content": "Vous aviez effectué un paiement de 2000 FCFA pour le compte du loyer de Mars",
-    "type": "PAYMENT"
+    "type": "CONTRACT"
   }
 ]

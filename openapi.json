@@ -1929,6 +1929,9 @@
             ],
             "type": "string"
           },
+          "module_id": {
+            "type": "number"
+          },
           "user": {
             "$ref": "#/components/schemas/User"
           },
@@ -1944,6 +1947,7 @@
           "content",
           "status",
           "type",
+          "module_id",
           "user",
           "id",
           "registryDates"

@@ -25,6 +25,7 @@ export interface SendNotificationDto {
   message: string;
   title: string;
   token: string;
+  module_id: number;
   user: User;
 }
 
@@ -175,11 +176,13 @@ export class NotificationsService {
     title,
     token,
     user,
+    module_id,
   }: SendNotificationDto) {
     await this.create({
       content: message,
       title,
       user,
+      module_id,
       type: TypeNotificationEnum.CONTRACT,
     });
     return await this.sendFirebaseMessages([{ message, title, token }]);

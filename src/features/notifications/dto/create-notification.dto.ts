@@ -1,4 +1,4 @@
-import { IsEnum, IsNotEmpty, IsString } from 'class-validator';
+import { IsEnum, IsNotEmpty, IsNumber, IsString } from 'class-validator';
 import { User } from 'src/features/auth/users/entities/user.entity';
 import { TypeNotificationEnum } from '../enums/type.notification.enum';
 
@@ -16,4 +16,8 @@ export class CreateNotificationDto {
   @IsEnum(TypeNotificationEnum)
   @IsNotEmpty()
   type: TypeNotificationEnum;
+
+  @IsNotEmpty()
+  @IsNumber()
+  module_id: number;
 }
