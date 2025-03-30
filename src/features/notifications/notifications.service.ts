@@ -48,25 +48,13 @@ export class NotificationsService {
   }
 
   async findAll(notificationsQueryDto: NotificationsQueryDto, { id }: User) {
-    const { page, status, type } = notificationsQueryDto;
-    const limit = notificationsQueryDto.limit ?? DefaultPageSize.NOTIFICATION;
-    const offset = this.paginationService.calculateOffset(limit, page);
+    const { status, type } = notificationsQueryDto;
 
-    const [data, count] = await this.notificationsRepository.findAndCount(
-      {
-        user: { id },
-        status,
-        type,
-      },
-      {
-        relations: {},
-        skip: offset,
-        take: limit,
-      },
+    const [data] = await this.notificationsRepository.findAndCount(
+      { user: { id }, status, type },
+      { relations: {} },
     );
-
-    const meta = this.paginationService.createMeta(limit, page, count);
-    return { data, meta };
+    return { data };
   }
 
   // async create({ property_id }: CreateVisitDto, { id }: User) {
