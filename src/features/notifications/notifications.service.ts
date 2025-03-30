@@ -8,17 +8,24 @@ import * as fs from 'fs';
 import * as path from 'path';
 import { NotificationsQueryDto } from './querying/notifications-query.dto';
 import { User } from '../auth/users/entities/user.entity';
-import { DefaultPageSize, PaginationService } from '@app/common';
+import { PaginationService } from '@app/common';
 import { NotificationsRepository } from './notifications.repository';
 import { StatusNotificationEnum } from './enums/status.notification.enum';
 import { Notification } from './entities/notification.entity';
-import { FindOptionsOrder } from 'typeorm';
 import { CreateNotificationDto } from './dto/create-notification.dto';
+import { TypeNotificationEnum } from './enums/type.notification.enum';
 
 export interface ISendFirebaseMessages {
   token: string;
   title?: string;
   message: string;
+}
+
+export interface SendNotificationDto {
+  message: string;
+  title: string;
+  token: string;
+  user: User;
 }
 
 @Injectable()
@@ -161,5 +168,20 @@ export class NotificationsService {
         failureCount: 0,
       } as unknown as BatchResponse,
     );
+  }
+
+  public async sendNotification({
+    message,
+    title,
+    token,
+    user,
+  }: SendNotificationDto) {
+    await this.create({
+      content: message,
+      title,
+      user,
+      type: TypeNotificationEnum.CONTRACT,
+    });
+    return await this.sendFirebaseMessages([{ message, title, token }]);
   }
 }

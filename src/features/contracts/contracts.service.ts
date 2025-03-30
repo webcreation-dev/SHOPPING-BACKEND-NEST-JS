@@ -13,7 +13,6 @@ import { PropertiesRepository } from '../properties/properties.repository';
 import { UsersRepository } from 'src/features/auth/users/users.repository';
 import { ContractResource } from './resources/contract.resource';
 import { NotificationsService } from 'src/features/notifications/notifications.service';
-import { TypeNotificationEnum } from '../notifications/enums/type.notification.enum';
 
 @Injectable()
 export class ContractsService {
@@ -60,14 +59,11 @@ export class ContractsService {
       ? { tenant: { id: filter.tenantId } }
       : { landlord: { id: filter.landlordId } };
 
-    const [data, count] = await this.contractsRepository.findAndCount(
-      whereCondition,
-      {
-        relations: { tenant: true, landlord: true, property: true, dues: true },
-        skip: offset,
-        take: limit,
-      },
-    );
+    const [data] = await this.contractsRepository.findAndCount(whereCondition, {
+      relations: { tenant: true, landlord: true, property: true, dues: true },
+      skip: offset,
+      take: limit,
+    });
 
     // edit each contract to include dues
     for (const contract of data) {
@@ -94,41 +90,27 @@ export class ContractsService {
       ),
     ]);
 
-    // const contract = await this.contractsRepository.create(
-    //   new Contract({
-    //     tenant,
-    //     landlord,
-    //     property,
-    //     start_date,
-    //     articles: property.articles,
-    //     rent_price: property.rent_price,
-    //     caution: property.caution,
-    //   }),
-    // );
+    const contract = await this.contractsRepository.create(
+      new Contract({
+        tenant,
+        landlord,
+        property,
+        start_date,
+        articles: property.articles,
+        rent_price: property.rent_price,
+        caution: property.caution,
+      }),
+    );
 
-    // START
     const user = await this.usersRepository.findOne({ id: tenant_id });
-    const firebaseMessage = {
-      message: `Votre commande a été créée avec succès.`,
+    await this.notificationsService.sendNotification({
+      message: 'Un nouveau contrat a été soumis à votre validation',
       title: 'Nouveau Contrat',
       token: user.fcm_token,
-    };
-    const notification = await this.notificationsService.sendFirebaseMessages([
-      firebaseMessage,
-    ]);
-
-    const data = {
-      title: 'Nouveau Contrat',
-      content: 'Un nouveau contrat a été soumis à votre validation',
-      type: TypeNotificationEnum.CONTRACT,
       user,
-    };
+    });
 
-    await this.notificationsService.create(data);
-    return notification;
-    // END
-
-    // return await this.findOne(contract.id);
+    return await this.findOne(contract.id);
   }
 
   async findOne(id: number) {
