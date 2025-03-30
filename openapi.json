@@ -271,11 +271,11 @@
       }
     },
     "/auth/image_profile": {
-      "patch": {
+      "post": {
         "operationId": "AuthController_updateProfile",
         "parameters": [],
         "responses": {
-          "200": {
+          "201": {
             "description": ""
           }
         },
