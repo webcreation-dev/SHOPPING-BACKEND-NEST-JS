@@ -1066,140 +1066,6 @@
         ]
       }
     },
-    "/contracts": {
-      "post": {
-        "operationId": "ContractsController_create",
-        "parameters": [],
-        "requestBody": {
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/CreateContractDto"
-              }
-            }
-          }
-        },
-        "responses": {
-          "201": {
-            "description": ""
-          }
-        },
-        "summary": "CREATE ",
-        "tags": [
-          "Contracts"
-        ]
-      },
-      "get": {
-        "operationId": "ContractsController_findAll",
-        "parameters": [
-          {
-            "name": "limit",
-            "required": false,
-            "in": "query",
-            "schema": {
-              "maximum": 100,
-              "type": "number"
-            }
-          },
-          {
-            "name": "page",
-            "required": false,
-            "in": "query",
-            "schema": {
-              "maximum": 25,
-              "default": 1,
-              "type": "number"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "title": "PaginatedResponseOfContract",
-                  "properties": {
-                    "data": {
-                      "type": "array",
-                      "items": {
-                        "$ref": "#/components/schemas/Contract"
-                      }
-                    },
-                    "meta": {
-                      "$ref": "#/components/schemas/PaginationMeta"
-                    }
-                  }
-                }
-              }
-            }
-          }
-        },
-        "summary": "GET ALL",
-        "tags": [
-          "Contracts"
-        ]
-      }
-    },
-    "/contracts/{id}": {
-      "get": {
-        "operationId": "ContractsController_findOne",
-        "parameters": [
-          {
-            "name": "id",
-            "required": true,
-            "in": "path",
-            "schema": {
-              "type": "number"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": ""
-          }
-        },
-        "summary": "GET ONE",
-        "tags": [
-          "Contracts"
-        ]
-      }
-    },
-    "/contracts/{id}/activate": {
-      "patch": {
-        "operationId": "ContractsController_activate",
-        "parameters": [
-          {
-            "name": "id",
-            "required": true,
-            "in": "path",
-            "schema": {
-              "type": "number"
-            }
-          }
-        ],
-        "requestBody": {
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/ActivateContractDto"
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": ""
-          }
-        },
-        "summary": "ACTIVATE",
-        "tags": [
-          "Contracts"
-        ]
-      }
-    },
     "/notifications": {
       "get": {
         "operationId": "NotificationsController_findAll",
@@ -1344,6 +1210,140 @@
         "summary": "ALL READ",
         "tags": [
           "Notifications"
+        ]
+      }
+    },
+    "/contracts": {
+      "post": {
+        "operationId": "ContractsController_create",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateContractDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "summary": "CREATE ",
+        "tags": [
+          "Contracts"
+        ]
+      },
+      "get": {
+        "operationId": "ContractsController_findAll",
+        "parameters": [
+          {
+            "name": "limit",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "maximum": 100,
+              "type": "number"
+            }
+          },
+          {
+            "name": "page",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "maximum": 25,
+              "default": 1,
+              "type": "number"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "title": "PaginatedResponseOfContract",
+                  "properties": {
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/Contract"
+                      }
+                    },
+                    "meta": {
+                      "$ref": "#/components/schemas/PaginationMeta"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "summary": "GET ALL",
+        "tags": [
+          "Contracts"
+        ]
+      }
+    },
+    "/contracts/{id}": {
+      "get": {
+        "operationId": "ContractsController_findOne",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "number"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "summary": "GET ONE",
+        "tags": [
+          "Contracts"
+        ]
+      }
+    },
+    "/contracts/{id}/activate": {
+      "patch": {
+        "operationId": "ContractsController_activate",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "number"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ActivateContractDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "summary": "ACTIVATE",
+        "tags": [
+          "Contracts"
         ]
       }
     },
@@ -2797,14 +2797,10 @@
         "properties": {
           "property_id": {
             "type": "number"
-          },
-          "visitor_id": {
-            "type": "number"
           }
         },
         "required": [
-          "property_id",
-          "visitor_id"
+          "property_id"
         ]
       },
       "VisitsQueryDto": {
@@ -2865,6 +2861,35 @@
           "is_taken"
         ]
       },
+      "NotificationsQueryDto": {
+        "type": "object",
+        "properties": {
+          "limit": {
+            "type": "number",
+            "maximum": 100
+          },
+          "page": {
+            "type": "number",
+            "default": 1,
+            "maximum": 25
+          },
+          "status": {
+            "enum": [
+              "READ",
+              "NOT_READ"
+            ],
+            "type": "string"
+          },
+          "type": {
+            "enum": [
+              "VISIT",
+              "CONTRACT",
+              "PAYMENT"
+            ],
+            "type": "string"
+          }
+        }
+      },
       "CreateContractDto": {
         "type": "object",
         "properties": {
@@ -2899,35 +2924,6 @@
         "required": [
           "amount"
         ]
-      },
-      "NotificationsQueryDto": {
-        "type": "object",
-        "properties": {
-          "limit": {
-            "type": "number",
-            "maximum": 100
-          },
-          "page": {
-            "type": "number",
-            "default": 1,
-            "maximum": 25
-          },
-          "status": {
-            "enum": [
-              "READ",
-              "NOT_READ"
-            ],
-            "type": "string"
-          },
-          "type": {
-            "enum": [
-              "VISIT",
-              "CONTRACT",
-              "PAYMENT"
-            ],
-            "type": "string"
-          }
-        }
       },
       "PayDueDto": {
         "type": "object",

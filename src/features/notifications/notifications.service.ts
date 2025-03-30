@@ -18,13 +18,12 @@ import { TypeNotificationEnum } from './enums/type.notification.enum';
 export interface ISendFirebaseMessages {
   token: string;
   title?: string;
-  message: string;
+  content: string;
 }
 
 export interface SendNotificationDto {
-  message: string;
-  title: string;
-  token: string;
+  module: string;
+  option: string;
   module_id: number;
   user: User;
 }
@@ -129,8 +128,8 @@ export class NotificationsService {
       ): Promise<BatchResponse> => {
         try {
           const tokenMessages: firebase.messaging.TokenMessage[] =
-            groupedFirebaseMessages.map(({ message, title, token }) => ({
-              notification: { body: message, title },
+            groupedFirebaseMessages.map(({ content, title, token }) => ({
+              notification: { body: content, title },
               token,
               apns: {
                 payload: {
@@ -172,19 +171,36 @@ export class NotificationsService {
   }
 
   public async sendNotification({
-    message,
-    title,
-    token,
+    module,
+    option,
     user,
     module_id,
   }: SendNotificationDto) {
+    const alert = await this.findAlert(module, option);
+    const { content, title } = alert[0];
     await this.create({
-      content: message,
+      content,
       title,
       user,
       module_id,
       type: TypeNotificationEnum.CONTRACT,
     });
-    return await this.sendFirebaseMessages([{ message, title, token }]);
+
+    return await this.sendFirebaseMessages([
+      { content, title, token: user.fcm_token },
+    ]);
+  }
+
+  async findAlert(model: string, type: string) {
+    const alertsData = JSON.parse(
+      fs.readFileSync('src/features/notifications/alerts/alerts.json', 'utf8'),
+    );
+    const result = alertsData
+      .filter((alert) => alert.model === model) // Filtrer par modèle
+      .flatMap(
+        (alert) => alert.options.filter((option) => option.type === type), // Filtrer les options par type
+      );
+
+    return result;
   }
 }

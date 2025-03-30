@@ -1,6 +1,32 @@
 [
   {
     "model": "VISIT",
-    "image": "upload/properties/test/locapay_1.png"
+    "options": [
+      {
+        "type": "CREATE",
+        "title": "Nouvelle Visite",
+        "content": "Vous aviez une nouvelle visite"
+      },
+      {
+        "type": "IN_PROGRESS",
+        "title": "Visite confirmée",
+        "content": "Un agent Locapay vient de confirmer votre visite"
+      },
+      {
+        "type": "FINISHED",
+        "title": "Visite terminée",
+        "content": "Un agent Locapay vient de finaliser votre visite"
+      }
+    ]
+  },
+  {
+    "model": "CONTRACT",
+    "options": [
+      {
+        "type": "CREATE",
+        "title": "Nouveau Contrat",
+        "content": "Vous aviez une nouveau contrat"
+      }
+    ]
   }
 ]

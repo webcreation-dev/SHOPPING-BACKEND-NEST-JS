@@ -11,9 +11,10 @@ import { DefaultPageSize, PaginationService } from '@app/common';
 import { FinalizeVisitDto } from './dto/finalize-visit.dto';
 import { VisitResource } from 'src/features/visits/resources/visit.resource';
 import { PropertyResource } from '../properties/resources/property.resource';
-import { Property } from '../properties/entities/property.entity';
 import { PropertiesRepository } from 'src/features/properties/properties.repository';
 import { UsersRepository } from 'src/features/auth/users/users.repository';
+import { NotificationsService } from '../notifications/notifications.service';
+import { AlertModules, AlertOptions } from '../notifications/alerts/alert-types';
 
 @Injectable()
 export class VisitsService {
@@ -26,6 +27,7 @@ export class VisitsService {
     private readonly paginationService: PaginationService,
     private readonly visitResource: VisitResource,
     private readonly propertyResource: PropertyResource,
+    private notificationsService: NotificationsService,
   ) {}
 
   async findAll(visitsQueryDto: VisitsQueryDto, user: User) {
@@ -78,6 +80,12 @@ export class VisitsService {
         manager: property.user,
       }),
     );
+    await this.notificationsService.sendNotification({
+      module: AlertModules.VISIT,
+      option: AlertOptions.CREATE,
+      module_id: visit.id,
+      user: userData,
+    });
     return await this.findOne(visit.id);
   }
 

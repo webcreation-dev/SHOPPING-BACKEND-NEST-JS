@@ -2,10 +2,10 @@ import { IsDate, IsNotEmpty, IsNumber, MinDate } from 'class-validator';
 import { IsExist } from 'libs/common/src';
 import { IsCertified } from 'libs/common/src/usual/decorators/validators/is-certified.decorator';
 import { Property } from 'src/features/properties/entities/property.entity';
-import { IsContractExist } from '../../../../libs/common/src/usual/decorators/validators/is-contract-exist.decorator';
+// import { IsContractExist } from '../../../../libs/common/src/usual/decorators/validators/is-contract-exist.decorator';
 import { User } from 'src/features/auth/users/entities/user.entity';
 
-@IsContractExist()
+// @IsContractExist()
 export class CreateContractDto {
   @IsNumber()
   @IsNotEmpty()

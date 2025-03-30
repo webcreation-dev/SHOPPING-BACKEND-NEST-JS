@@ -13,6 +13,10 @@ import { PropertiesRepository } from '../properties/properties.repository';
 import { UsersRepository } from 'src/features/auth/users/users.repository';
 import { ContractResource } from './resources/contract.resource';
 import { NotificationsService } from 'src/features/notifications/notifications.service';
+import {
+  AlertModules,
+  AlertOptions,
+} from '../notifications/alerts/alert-types';
 
 @Injectable()
 export class ContractsService {
@@ -102,13 +106,11 @@ export class ContractsService {
       }),
     );
 
-    const user = await this.usersRepository.findOne({ id: tenant_id });
     await this.notificationsService.sendNotification({
-      message: 'Un nouveau contrat a été soumis à votre validation',
-      title: 'Nouveau Contrat',
-      token: user.fcm_token,
+      module: AlertModules.CONTRACT,
+      option: AlertOptions.CREATE,
       module_id: contract.id,
-      user,
+      user: await this.usersRepository.findOne({ id: tenant_id }),
     });
 
     return await this.findOne(contract.id);

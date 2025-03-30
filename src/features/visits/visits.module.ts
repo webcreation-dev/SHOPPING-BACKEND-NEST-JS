@@ -7,6 +7,7 @@ import { VisitsRepository } from './visits.repository';
 import { UsersModule } from '../auth/users/users.module';
 import { PropertiesModule } from '../properties/properties.module';
 import { VisitResource } from './resources/visit.resource';
+import { NotificationsModule } from '../notifications/notifications.module';
 
 @Module({
   imports: [
@@ -14,6 +15,7 @@ import { VisitResource } from './resources/visit.resource';
     DatabaseModule.forFeature([Visit]),
     QueryingModule,
     UsersModule,
+    NotificationsModule,
     PropertiesModule,
   ],
   controllers: [VisitsController],

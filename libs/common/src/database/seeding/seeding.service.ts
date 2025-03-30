@@ -10,7 +10,6 @@ import { StatusContractEnum } from 'src/features/contracts/enums/status-contract
 import { Annuity } from 'src/features/contracts/entities/annuity.entity';
 import { Notification } from 'src/features/notifications/entities/notification.entity';
 import { StatusNotificationEnum } from 'src/features/notifications/enums/status.notification.enum';
-import { TypeNotificationEnum } from 'src/features/notifications/enums/type.notification.enum';
 
 @Injectable()
 export class SeedingService {
