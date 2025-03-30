@@ -96,7 +96,7 @@ export class AuthController {
     return await this.authService.getWishlist(user);
   }
 
-  @Post('initiate_validation_user')
+  @Patch('initiate_validation_user')
   @HeaderOperation('INITIATE VALIDATION', InitiateValidationUserDto)
   @ApiConsumes(MULTIPART_FORMDATA_KEY)
   @UseInterceptors(
