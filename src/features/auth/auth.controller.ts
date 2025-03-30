@@ -118,7 +118,7 @@ export class AuthController {
 
   @HeaderOperation('UPDATE PROFILE')
   @UseInterceptors(FilesInterceptor('files', 1))
-  @Post('image_profile')
+  @Patch('image_profile')
   async updateProfile(
     @UploadedFiles(createParseFilePipe('2MB', 'png', 'jpeg'))
     files: File[],
