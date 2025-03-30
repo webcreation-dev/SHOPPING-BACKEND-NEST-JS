@@ -1271,11 +1271,15 @@
           },
           "password": {
             "type": "string"
+          },
+          "fcm_token": {
+            "type": "string"
           }
         },
         "required": [
           "phone",
-          "password"
+          "password",
+          "fcm_token"
         ]
       },
       "RegistryDates": {
@@ -1788,6 +1792,9 @@
             ],
             "type": "string"
           },
+          "fcm_token": {
+            "type": "string"
+          },
           "image": {
             "type": "string"
           },
@@ -1882,6 +1889,7 @@
           "password",
           "app_type",
           "status",
+          "fcm_token",
           "image",
           "card_image",
           "card_number",
@@ -1946,6 +1954,9 @@
               "LOCAPAY",
               "LOCAPAY_BUSINESS"
             ]
+          },
+          "fcm_token": {
+            "type": "string"
           }
         },
         "required": [

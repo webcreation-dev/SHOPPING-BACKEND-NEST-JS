@@ -1,4 +1,4 @@
-import { IsPhoneNumber, IsString } from 'class-validator';
+import { IsPhoneNumber, IsString, IsOptional } from 'class-validator';
 
 export class LoginDto {
   @IsPhoneNumber('BJ')
@@ -6,4 +6,8 @@ export class LoginDto {
 
   @IsString()
   readonly password: string;
+
+  @IsOptional()
+  @IsString()
+  readonly fcm_token: string;
 }

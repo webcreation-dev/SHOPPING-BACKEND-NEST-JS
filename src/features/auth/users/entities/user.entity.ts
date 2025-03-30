@@ -44,6 +44,9 @@ export class User extends AbstractEntity<User> {
   status: StatusEnum;
 
   @Column({ nullable: true })
+  fcm_token: string;
+
+  @Column({ nullable: true })
   image: string;
 
   @Column({ nullable: true })

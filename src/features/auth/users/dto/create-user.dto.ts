@@ -31,4 +31,8 @@ export class CreateUserDto {
   @IsEnum(AppTypeEnum)
   @IsNotEmpty()
   app_type: AppTypeEnum;
+
+  @IsOptional()
+  @IsString()
+  readonly fcm_token?: string;
 }

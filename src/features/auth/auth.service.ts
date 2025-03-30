@@ -24,6 +24,7 @@ import { join } from 'path';
 import { UsersRepository } from 'src/features/auth/users/users.repository';
 import { Property } from '../properties/entities/property.entity';
 import { StatusEnum } from './users/enums/status.enum';
+import { NotificationsService } from './users/notifications.service';
 
 @Injectable()
 export class AuthService {
@@ -37,6 +38,7 @@ export class AuthService {
     private readonly otpService: OtpService,
     private readonly usersService: UsersService,
     private readonly storageService: StorageService,
+    private readonly notificationsService: NotificationsService,
   ) {}
 
   async login(user: RequestUser) {
@@ -165,7 +167,18 @@ export class AuthService {
   }
 
   async getUser(user: User) {
-    return await this.usersService.findOne(user.id);
+    const firebaseMessage = {
+      message: `Votre commande a été créée avec succès.`,
+      title: 'Nouvelle commande',
+      token:
+        'e86tgg4MRAeFzTaDoeZxKN:APA91bH85fd1vRz8oMzCPbUKdE-FsIIBEHZ1eVn73lH4zFIaSI0NvPe3mHzHzIegl3BYvKF3o6lLK0cfAuGaveUJUY81TpUTrgk1lEaVbaAM7twdY8Jf66M',
+    };
+    const response = await this.notificationsService.sendFirebaseMessages([
+      firebaseMessage,
+    ]);
+
+    return response;
+    // return await this.usersService.findOne(user.id);
   }
 
   async toogleWishlist(user: User, toggleWishlistDto: ToggleWishlistDto) {

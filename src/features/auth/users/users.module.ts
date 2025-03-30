@@ -10,6 +10,7 @@ import { Role } from './entities/role.entity';
 import { User } from './entities/user.entity';
 import { PropertiesModule } from 'src/features/properties/properties.module';
 import { UserResource } from '../resources/user.resource';
+import { NotificationsService } from './notifications.service';
 
 @Module({
   imports: [
@@ -26,7 +27,13 @@ import { UserResource } from '../resources/user.resource';
     UsersSubscriber,
     RolesRepository,
     UserResource,
+    NotificationsService,
   ],
-  exports: [UsersService, TempUserService, UsersRepository],
+  exports: [
+    UsersService,
+    NotificationsService,
+    TempUserService,
+    UsersRepository,
+  ],
 })
 export class UsersModule {}
