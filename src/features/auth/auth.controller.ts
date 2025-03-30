@@ -5,6 +5,7 @@ import {
   Patch,
   Post,
   UploadedFile,
+  UploadedFiles,
   UseGuards,
   UseInterceptors,
 } from '@nestjs/common';
@@ -20,7 +21,7 @@ import {
   RequestUser,
   ResetPasswordDto,
 } from '@app/common';
-import { FileInterceptor } from '@nestjs/platform-express';
+import { FileInterceptor, FilesInterceptor } from '@nestjs/platform-express';
 import { CreateUserDto } from './users/dto/create-user.dto';
 import { SaveUserDto } from './users/dto/save-user-dto';
 import { CurrentUser } from './decorators/user.decorator';
@@ -95,7 +96,7 @@ export class AuthController {
     return await this.authService.getWishlist(user);
   }
 
-  @Patch('initiate_validation_user')
+  @Post('initiate_validation_user')
   @HeaderOperation('INITIATE VALIDATION', InitiateValidationUserDto)
   @ApiConsumes(MULTIPART_FORMDATA_KEY)
   @UseInterceptors(
@@ -124,6 +125,7 @@ export class AuthController {
       person_card,
       user,
     );
+    // return initiateValidationUserDto;
   }
 
   @HeaderOperation('UPDATE PROFILE')
