@@ -1082,7 +1082,14 @@
         },
         "responses": {
           "201": {
-            "description": ""
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
           }
         },
         "summary": "CREATE ",
@@ -1197,46 +1204,6 @@
         "summary": "ACTIVATE",
         "tags": [
           "Contracts"
-        ]
-      }
-    },
-    "/billings/generate_dues": {
-      "get": {
-        "operationId": "BillingsController_createDue",
-        "parameters": [],
-        "responses": {
-          "200": {
-            "description": ""
-          }
-        },
-        "summary": "CREATE DUE",
-        "tags": [
-          "Billings"
-        ]
-      }
-    },
-    "/billings/pay_dues": {
-      "post": {
-        "operationId": "BillingsController_payDue",
-        "parameters": [],
-        "requestBody": {
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/PayDueDto"
-              }
-            }
-          }
-        },
-        "responses": {
-          "201": {
-            "description": ""
-          }
-        },
-        "summary": "PAY DUE",
-        "tags": [
-          "Billings"
         ]
       }
     },
@@ -1384,6 +1351,46 @@
         "summary": "ALL READ",
         "tags": [
           "Notifications"
+        ]
+      }
+    },
+    "/billings/generate_dues": {
+      "get": {
+        "operationId": "BillingsController_createDue",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "summary": "CREATE DUE",
+        "tags": [
+          "Billings"
+        ]
+      }
+    },
+    "/billings/pay_dues": {
+      "post": {
+        "operationId": "BillingsController_payDue",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PayDueDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "summary": "PAY DUE",
+        "tags": [
+          "Billings"
         ]
       }
     }
@@ -2896,21 +2903,6 @@
           "amount"
         ]
       },
-      "PayDueDto": {
-        "type": "object",
-        "properties": {
-          "amount": {
-            "type": "number"
-          },
-          "contract_id": {
-            "type": "number"
-          }
-        },
-        "required": [
-          "amount",
-          "contract_id"
-        ]
-      },
       "NotificationsQueryDto": {
         "type": "object",
         "properties": {
@@ -2939,6 +2931,21 @@
             "type": "string"
           }
         }
+      },
+      "PayDueDto": {
+        "type": "object",
+        "properties": {
+          "amount": {
+            "type": "number"
+          },
+          "contract_id": {
+            "type": "number"
+          }
+        },
+        "required": [
+          "amount",
+          "contract_id"
+        ]
       }
     }
   },

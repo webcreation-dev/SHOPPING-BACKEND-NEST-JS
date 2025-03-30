@@ -12,6 +12,8 @@ import { Due } from './entities/due.entity';
 import { PropertiesRepository } from '../properties/properties.repository';
 import { UsersRepository } from 'src/features/auth/users/users.repository';
 import { ContractResource } from './resources/contract.resource';
+import { NotificationsService } from 'src/features/notifications/notifications.service';
+import { TypeNotificationEnum } from '../notifications/enums/type.notification.enum';
 
 @Injectable()
 export class ContractsService {
@@ -22,6 +24,7 @@ export class ContractsService {
     private readonly paginationService: PaginationService,
     private readonly duesRepository: DuesRepository,
     private readonly contractResource: ContractResource,
+    private notificationsService: NotificationsService,
   ) {}
 
   async findAll(contractsQueryDto: ContractsQueryDto, user: User) {
@@ -91,18 +94,41 @@ export class ContractsService {
       ),
     ]);
 
-    const contract = await this.contractsRepository.create(
-      new Contract({
-        tenant,
-        landlord,
-        property,
-        start_date,
-        articles: property.articles,
-        rent_price: property.rent_price,
-        caution: property.caution,
-      }),
-    );
-    return await this.findOne(contract.id);
+    // const contract = await this.contractsRepository.create(
+    //   new Contract({
+    //     tenant,
+    //     landlord,
+    //     property,
+    //     start_date,
+    //     articles: property.articles,
+    //     rent_price: property.rent_price,
+    //     caution: property.caution,
+    //   }),
+    // );
+
+    // START
+    const user = await this.usersRepository.findOne({ id: tenant_id });
+    const firebaseMessage = {
+      message: `Votre commande a été créée avec succès.`,
+      title: 'Nouveau Contrat',
+      token: user.fcm_token,
+    };
+    const notification = await this.notificationsService.sendFirebaseMessages([
+      firebaseMessage,
+    ]);
+
+    const data = {
+      title: 'Nouveau Contrat',
+      content: 'Un nouveau contrat a été soumis à votre validation',
+      type: TypeNotificationEnum.CONTRACT,
+      user,
+    };
+
+    await this.notificationsService.create(data);
+    return notification;
+    // END
+
+    // return await this.findOne(contract.id);
   }
 
   async findOne(id: number) {

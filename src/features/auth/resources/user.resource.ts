@@ -1,3 +1,4 @@
+import { fchmod } from 'fs';
 import { User } from '../users/entities/user.entity';
 
 export class UserResource {
@@ -9,6 +10,7 @@ export class UserResource {
       lastname: user.lastname,
       firstname: user.firstname,
       phone: user.phone,
+      fcm_token: user.fcm_token,
       code: user.code,
       app_type: user.app_type,
       status: user.status,

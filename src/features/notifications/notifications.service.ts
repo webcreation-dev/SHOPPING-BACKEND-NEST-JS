@@ -13,6 +13,7 @@ import { NotificationsRepository } from './notifications.repository';
 import { StatusNotificationEnum } from './enums/status.notification.enum';
 import { Notification } from './entities/notification.entity';
 import { FindOptionsOrder } from 'typeorm';
+import { CreateNotificationDto } from './dto/create-notification.dto';
 
 export interface ISendFirebaseMessages {
   token: string;
@@ -57,23 +58,11 @@ export class NotificationsService {
     return { data };
   }
 
-  // async create({ property_id }: CreateVisitDto, { id }: User) {
-  //   const userData = await this.usersRepository.findOne({ id });
-  //   const property = await this.propertiesRepository.findOne(
-  //     { id: property_id },
-  //     { user: true },
-  //   );
-
-  //   const visit = await this.notificationsRepository.create(
-  //     new Notification({
-  //       user: userData,
-  //       title: property,
-  //       content: property.user,
-  //       type: proper
-  //     }),
-  //   );
-  //   return await this.findOne(visit.id);
-  // }
+  async create(createNotificationDto: CreateNotificationDto) {
+    await this.notificationsRepository.create(
+      new Notification(createNotificationDto),
+    );
+  }
 
   async findOne(id: number) {
     await this.isRead(id);

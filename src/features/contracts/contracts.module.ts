@@ -13,6 +13,7 @@ import { Due } from './entities/due.entity';
 import { Annuity } from './entities/annuity.entity';
 import { ContractResource } from './resources/contract.resource';
 import { DueResource } from './resources/due.resource';
+import { NotificationsModule } from '../notifications/notifications.module';
 
 @Module({
   imports: [
@@ -22,6 +23,7 @@ import { DueResource } from './resources/due.resource';
     UsersModule,
     PropertiesModule,
     MomoMtnModule,
+    NotificationsModule,
   ],
   controllers: [ContractsController],
   providers: [
