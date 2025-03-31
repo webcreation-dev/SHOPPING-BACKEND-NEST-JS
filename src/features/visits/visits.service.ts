@@ -14,7 +14,10 @@ import { PropertyResource } from '../properties/resources/property.resource';
 import { PropertiesRepository } from 'src/features/properties/properties.repository';
 import { UsersRepository } from 'src/features/auth/users/users.repository';
 import { NotificationsService } from '../notifications/notifications.service';
-import { AlertModules, AlertOptions } from '../notifications/alerts/alert-types';
+import {
+  AlertModules,
+  AlertOptions,
+} from '../notifications/alerts/alert-types';
 
 @Injectable()
 export class VisitsService {
