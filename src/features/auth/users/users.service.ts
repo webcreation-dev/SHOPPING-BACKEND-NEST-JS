@@ -26,7 +26,7 @@ export class UsersService {
           ownProperties: true,
           visits: true,
           managedVisits: true,
-          managedContracts: true,
+          ownerContracts: true,
           contracts: true,
         },
       ),

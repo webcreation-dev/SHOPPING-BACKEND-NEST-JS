@@ -31,11 +31,11 @@ export class ContractsService {
   ) {}
 
   async findAll(contractsQueryDto: ContractsQueryDto, user: User) {
-    const [ownContracts, managedContracts] = await Promise.all([
+    const [ownContracts, ownerContracts] = await Promise.all([
       this.findOwn(contractsQueryDto, user),
       this.findManaged(contractsQueryDto, user),
     ]);
-    return { own: ownContracts, managed: managedContracts };
+    return { own: ownContracts, managed: ownerContracts };
   }
 
   async findOwn(contractsQueryDto: ContractsQueryDto, user: User) {

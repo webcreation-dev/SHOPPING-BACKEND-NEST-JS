@@ -711,6 +711,40 @@
         ]
       }
     },
+    "/properties/{id}/add_owner": {
+      "patch": {
+        "operationId": "PropertiesController_addOwner",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "number"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AddOwnerDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "summary": "ADD OWNER",
+        "tags": [
+          "Properties"
+        ]
+      }
+    },
     "/properties/{id}/update_article": {
       "patch": {
         "operationId": "PropertiesController_updateArticle",
@@ -2057,7 +2091,7 @@
               "$ref": "#/components/schemas/Visit"
             }
           },
-          "managedContracts": {
+          "ownerContracts": {
             "type": "array",
             "items": {
               "$ref": "#/components/schemas/Contract"
@@ -2106,7 +2140,7 @@
           "ownProperties",
           "visits",
           "managedVisits",
-          "managedContracts",
+          "ownerContracts",
           "contracts",
           "notifications",
           "id",
@@ -2754,7 +2788,15 @@
             "items": {
               "$ref": "#/components/schemas/CreateArticleDto"
             }
-          },
+          }
+        },
+        "required": [
+          "articles"
+        ]
+      },
+      "AddOwnerDto": {
+        "type": "object",
+        "properties": {
           "owner_code": {
             "type": "string"
           },
@@ -2763,7 +2805,7 @@
           }
         },
         "required": [
-          "articles"
+          "owner_code"
         ]
       },
       "UpdateArticleDto": {

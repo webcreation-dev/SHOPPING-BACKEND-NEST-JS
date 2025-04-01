@@ -28,7 +28,7 @@ export class UserResource {
       ownProperties: user.ownProperties,
       visits: user.visits,
       managedVisits: user.managedVisits,
-      managedContracts: user.managedContracts,
+      ownerContracts: user.ownerContracts,
       contracts: user.contracts,
     };
   }

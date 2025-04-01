@@ -98,7 +98,7 @@ export class User extends AbstractEntity<User> {
   managedVisits: Visit[];
 
   @OneToMany(() => Contract, (contract) => contract.landlord)
-  managedContracts: Contract[];
+  ownerContracts: Contract[];
 
   @OneToMany(() => Contract, (contract) => contract.tenant)
   contracts: Contract[];
