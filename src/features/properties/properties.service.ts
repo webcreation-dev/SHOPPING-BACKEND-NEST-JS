@@ -28,6 +28,7 @@ import { UpdateArticleDto } from './dto/articles/update-article.dto';
 import { PropertyResource } from './resources/property.resource';
 import { TypePropertyEnum } from './enums/type_property.enum';
 import { TarificationEnum } from './enums/tarification.enum';
+import { AddOwnerDto } from './dto/articles/add-owner.dto';
 
 @Injectable()
 export class PropertiesService {
@@ -266,11 +267,15 @@ export class PropertiesService {
 
     const updateData: any = { articles: property.articles };
 
-    if (addArticlesDto.owner_code) {
-      updateData.owner = await this.usersRepository.findOne({
-        code: addArticlesDto.owner_code,
-      });
-    }
+    await this.propertiesRepository.findOneAndUpdate({ id }, updateData);
+    return this.findOne(id);
+  }
+
+  async addOwner(id: number, addOwnerDto: AddOwnerDto) {
+    const updateData: any = {};
+    updateData.owner = await this.usersRepository.findOne({
+      code: addOwnerDto.owner_code,
+    });
 
     await this.propertiesRepository.findOneAndUpdate({ id }, updateData);
     return this.findOne(id);

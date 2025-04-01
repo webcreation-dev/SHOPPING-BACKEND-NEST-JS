@@ -37,6 +37,7 @@ import { ApiConsumes } from '@nestjs/swagger';
 import { AddArticlesDto } from './dto/articles/add-article.dto';
 import { UpdateArticleDto } from './dto/articles/update-article.dto';
 import { RemoveArticleDto } from './dto/articles/remove-article.dto';
+import { AddOwnerDto } from './dto/articles/add-owner.dto';
 
 @Controller('properties')
 export class PropertiesController {
@@ -116,6 +117,12 @@ export class PropertiesController {
   @HeaderOperation('ADD ARTICLES', AddArticlesDto)
   addArticles(@Param() { id }: IdDto, @Body() addArticlesDto: AddArticlesDto) {
     return this.propertiesService.addArticles(id, addArticlesDto);
+  }
+
+  @Patch(':id/add_owner')
+  @HeaderOperation('ADD OWNER', AddOwnerDto)
+  addOwner(@Param() { id }: IdDto, @Body() addOwnerDto: AddOwnerDto) {
+    return this.propertiesService.addOwner(id, addOwnerDto);
   }
 
   @Patch(':id/update_article')
