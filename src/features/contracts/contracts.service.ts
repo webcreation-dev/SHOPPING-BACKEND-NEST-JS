@@ -33,9 +33,9 @@ export class ContractsService {
   async findAll(contractsQueryDto: ContractsQueryDto, user: User) {
     const [ownContracts, ownerContracts] = await Promise.all([
       this.findOwn(contractsQueryDto, user),
-      this.findManaged(contractsQueryDto, user),
+      this.findOwner(contractsQueryDto, user),
     ]);
-    return { own: ownContracts, managed: ownerContracts };
+    return { tenant: ownContracts, owner: ownerContracts };
   }
 
   async findOwn(contractsQueryDto: ContractsQueryDto, user: User) {
@@ -44,7 +44,7 @@ export class ContractsService {
     });
   }
 
-  async findManaged(contractsQueryDto: ContractsQueryDto, user: User) {
+  async findOwner(contractsQueryDto: ContractsQueryDto, user: User) {
     return this.findContractsByFilter(contractsQueryDto, user, {
       landlordId: user.id,
     });
