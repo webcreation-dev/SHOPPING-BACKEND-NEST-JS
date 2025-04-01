@@ -111,6 +111,11 @@ export class PropertiesService {
       new Property({
         ...createPropertyDto,
         user: userData,
+        owner: createPropertyDto.owner_code
+          ? await this.usersRepository.findOne({
+              code: createPropertyDto.owner_code,
+            })
+          : null,
       }),
     );
 
@@ -271,14 +276,17 @@ export class PropertiesService {
     return this.findOne(id);
   }
 
-  async addOwner(id: number, addOwnerDto: AddOwnerDto) {
-    const updateData: any = {};
-    updateData.owner = await this.usersRepository.findOne({
-      code: addOwnerDto.owner_code,
-    });
+  async addOwner(propertyId: number, { owner_code }: AddOwnerDto) {
+    const updateData = {
+      owner: await this.usersRepository.findOne({ code: owner_code }),
+    };
 
-    await this.propertiesRepository.findOneAndUpdate({ id }, updateData);
-    return this.findOne(id);
+    await this.propertiesRepository.findOneAndUpdate(
+      { id: propertyId },
+      updateData,
+    );
+
+    return this.findOne(propertyId);
   }
 
   async updateArticle(id: number, updatedArticle: UpdateArticleDto) {

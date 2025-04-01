@@ -8,6 +8,8 @@ import {
   ValidateIf,
 } from 'class-validator';
 import { TarificationEnum } from '../enums/tarification.enum';
+import { IsExist } from '@app/common';
+import { User } from 'src/features/auth/users/entities/user.entity';
 
 export class GlobalAttributes {
   @IsBoolean()
@@ -17,6 +19,11 @@ export class GlobalAttributes {
   @IsString()
   @IsOptional()
   video_url?: string;
+
+  @IsString()
+  @IsNotEmpty()
+  @IsExist(User, 'code')
+  owner_code: string;
 
   @ValidateIf((o) => !o.to_sell)
   @IsEnum(TarificationEnum)
