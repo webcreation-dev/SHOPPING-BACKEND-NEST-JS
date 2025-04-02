@@ -18,6 +18,7 @@ import {
   AlertModules,
   AlertOptions,
 } from '../notifications/alerts/alert-types';
+import { StatusEnum } from './enums/status.enum';
 
 @Injectable()
 export class VisitsService {
@@ -113,7 +114,10 @@ export class VisitsService {
   }
 
   async finalize(id: number, finalizeVisitDto: FinalizeVisitDto) {
-    await this.visitsRepository.findOneAndUpdate({ id }, finalizeVisitDto);
+    await this.visitsRepository.findOneAndUpdate(
+      { id },
+      { ...finalizeVisitDto, status: StatusEnum.FINISHED },
+    );
     return await this.findOne(id);
   }
 
