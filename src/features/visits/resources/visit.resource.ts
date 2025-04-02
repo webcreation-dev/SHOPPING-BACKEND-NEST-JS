@@ -13,10 +13,10 @@ export class VisitResource {
       status: visit.status,
       user: visit.user,
       property: visit.property,
-      // galleries: visit.property.galleries.map((gallery) => ({
-      //   ...gallery,
-      //   url: `${process.env.API_URL}${gallery.url}`,
-      // })),
+      galleries: visit.property.galleries.map((gallery) => ({
+        ...gallery,
+        url: `${process.env.API_URL}${gallery.url}`,
+      })),
       manager: visit.manager,
     };
   }

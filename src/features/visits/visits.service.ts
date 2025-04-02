@@ -98,6 +98,7 @@ export class VisitsService {
       { id },
       { user: true, property: true, manager: true },
     );
+    
     return this.visitResource.format(visit);
   }
 

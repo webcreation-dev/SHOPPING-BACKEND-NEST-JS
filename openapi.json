@@ -2345,6 +2345,9 @@
           "video_url": {
             "type": "string"
           },
+          "owner_code": {
+            "type": "string"
+          },
           "tarification": {
             "type": "string",
             "enum": [
@@ -2453,6 +2456,7 @@
         "required": [
           "type",
           "to_sell",
+          "owner_code",
           "visit_price",
           "rent_price",
           "commission",
@@ -2611,6 +2615,9 @@
             "type": "boolean"
           },
           "video_url": {
+            "type": "string"
+          },
+          "owner_code": {
             "type": "string"
           },
           "tarification": {
@@ -2799,9 +2806,6 @@
         "properties": {
           "owner_code": {
             "type": "string"
-          },
-          "owner": {
-            "$ref": "#/components/schemas/User"
           }
         },
         "required": [
