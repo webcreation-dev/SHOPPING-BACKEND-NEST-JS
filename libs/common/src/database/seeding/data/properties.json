@@ -8,9 +8,34 @@
     "description": "Une très jolie maison",
     "articles": [
       {
-      "id": 1,
-      "title": "string",
-      "content": "string"
+        "id": 1,
+        "title": "Durée du bail",
+        "content": "Le contrat est conclu pour une durée de 12 mois renouvelables, sauf résiliation anticipée conformément aux clauses prévues."
+      },
+      {
+        "id": 2,
+        "title": "Loyer et modalités de paiement",
+        "content": "Le loyer mensuel est fixé à 25 000 FCFA, payable au plus tard le 5 de chaque mois par virement bancaire ou en espèces contre reçu."
+      },
+      {
+        "id": 3,
+        "title": "Dépôt de garantie",
+        "content": "Un dépôt de garantie équivalent à un mois de loyer est exigé à la signature du contrat et sera restitué en fin de bail après état des lieux."
+      },
+      {
+        "id": 4,
+        "title": "Obligations du locataire",
+        "content": "Le locataire s'engage à maintenir la parcelle en bon état, à ne pas sous-louer sans accord écrit et à respecter les règles de voisinage."
+      },
+      {
+        "id": 5,
+        "title": "Obligations du bailleur",
+        "content": "Le bailleur garantit au locataire une jouissance paisible du bien et s'engage à effectuer les réparations nécessaires sur les infrastructures existantes."
+      },
+      {
+        "id": 6,
+        "title": "Résiliation du contrat",
+        "content": "Le contrat peut être résilié par l'une ou l'autre des parties avec un préavis d'un mois, sauf faute grave ou non-paiement du loyer."
       }
     ],
     "images": [
@@ -30,9 +55,34 @@
     "description": "Une très jolie maison",
     "articles": [
       {
-      "id": 1,
-      "title": "string",
-      "content": "string"
+        "id": 1,
+        "title": "Durée du bail",
+        "content": "Le contrat est conclu pour une durée de 12 mois renouvelables, sauf résiliation anticipée conformément aux clauses prévues."
+      },
+      {
+        "id": 2,
+        "title": "Loyer et modalités de paiement",
+        "content": "Le loyer mensuel est fixé à 25 000 FCFA, payable au plus tard le 5 de chaque mois par virement bancaire ou en espèces contre reçu."
+      },
+      {
+        "id": 3,
+        "title": "Dépôt de garantie",
+        "content": "Un dépôt de garantie équivalent à un mois de loyer est exigé à la signature du contrat et sera restitué en fin de bail après état des lieux."
+      },
+      {
+        "id": 4,
+        "title": "Obligations du locataire",
+        "content": "Le locataire s'engage à maintenir la parcelle en bon état, à ne pas sous-louer sans accord écrit et à respecter les règles de voisinage."
+      },
+      {
+        "id": 5,
+        "title": "Obligations du bailleur",
+        "content": "Le bailleur garantit au locataire une jouissance paisible du bien et s'engage à effectuer les réparations nécessaires sur les infrastructures existantes."
+      },
+      {
+        "id": 6,
+        "title": "Résiliation du contrat",
+        "content": "Le contrat peut être résilié par l'une ou l'autre des parties avec un préavis d'un mois, sauf faute grave ou non-paiement du loyer."
       }
     ],
     "images": [
@@ -52,9 +102,34 @@
     "description": "Une très jolie maison",
     "articles": [
       {
-      "id": 1,
-      "title": "string",
-      "content": "string"
+        "id": 1,
+        "title": "Durée du bail",
+        "content": "Le contrat est conclu pour une durée de 12 mois renouvelables, sauf résiliation anticipée conformément aux clauses prévues."
+      },
+      {
+        "id": 2,
+        "title": "Loyer et modalités de paiement",
+        "content": "Le loyer mensuel est fixé à 25 000 FCFA, payable au plus tard le 5 de chaque mois par virement bancaire ou en espèces contre reçu."
+      },
+      {
+        "id": 3,
+        "title": "Dépôt de garantie",
+        "content": "Un dépôt de garantie équivalent à un mois de loyer est exigé à la signature du contrat et sera restitué en fin de bail après état des lieux."
+      },
+      {
+        "id": 4,
+        "title": "Obligations du locataire",
+        "content": "Le locataire s'engage à maintenir la parcelle en bon état, à ne pas sous-louer sans accord écrit et à respecter les règles de voisinage."
+      },
+      {
+        "id": 5,
+        "title": "Obligations du bailleur",
+        "content": "Le bailleur garantit au locataire une jouissance paisible du bien et s'engage à effectuer les réparations nécessaires sur les infrastructures existantes."
+      },
+      {
+        "id": 6,
+        "title": "Résiliation du contrat",
+        "content": "Le contrat peut être résilié par l'une ou l'autre des parties avec un préavis d'un mois, sauf faute grave ou non-paiement du loyer."
       }
     ],
     "images": [
@@ -74,9 +149,34 @@
     "description": "Une très jolie maison",
     "articles": [
       {
-      "id": 1,
-      "title": "string",
-      "content": "string"
+        "id": 1,
+        "title": "Durée du bail",
+        "content": "Le contrat est conclu pour une durée de 12 mois renouvelables, sauf résiliation anticipée conformément aux clauses prévues."
+      },
+      {
+        "id": 2,
+        "title": "Loyer et modalités de paiement",
+        "content": "Le loyer mensuel est fixé à 25 000 FCFA, payable au plus tard le 5 de chaque mois par virement bancaire ou en espèces contre reçu."
+      },
+      {
+        "id": 3,
+        "title": "Dépôt de garantie",
+        "content": "Un dépôt de garantie équivalent à un mois de loyer est exigé à la signature du contrat et sera restitué en fin de bail après état des lieux."
+      },
+      {
+        "id": 4,
+        "title": "Obligations du locataire",
+        "content": "Le locataire s'engage à maintenir la parcelle en bon état, à ne pas sous-louer sans accord écrit et à respecter les règles de voisinage."
+      },
+      {
+        "id": 5,
+        "title": "Obligations du bailleur",
+        "content": "Le bailleur garantit au locataire une jouissance paisible du bien et s'engage à effectuer les réparations nécessaires sur les infrastructures existantes."
+      },
+      {
+        "id": 6,
+        "title": "Résiliation du contrat",
+        "content": "Le contrat peut être résilié par l'une ou l'autre des parties avec un préavis d'un mois, sauf faute grave ou non-paiement du loyer."
       }
     ],
     "images": [
@@ -96,9 +196,34 @@
     "description": "Une très jolie maison",
     "articles": [
       {
-      "id": 1,
-      "title": "string",
-      "content": "string"
+        "id": 1,
+        "title": "Durée du bail",
+        "content": "Le contrat est conclu pour une durée de 12 mois renouvelables, sauf résiliation anticipée conformément aux clauses prévues."
+      },
+      {
+        "id": 2,
+        "title": "Loyer et modalités de paiement",
+        "content": "Le loyer mensuel est fixé à 25 000 FCFA, payable au plus tard le 5 de chaque mois par virement bancaire ou en espèces contre reçu."
+      },
+      {
+        "id": 3,
+        "title": "Dépôt de garantie",
+        "content": "Un dépôt de garantie équivalent à un mois de loyer est exigé à la signature du contrat et sera restitué en fin de bail après état des lieux."
+      },
+      {
+        "id": 4,
+        "title": "Obligations du locataire",
+        "content": "Le locataire s'engage à maintenir la parcelle en bon état, à ne pas sous-louer sans accord écrit et à respecter les règles de voisinage."
+      },
+      {
+        "id": 5,
+        "title": "Obligations du bailleur",
+        "content": "Le bailleur garantit au locataire une jouissance paisible du bien et s'engage à effectuer les réparations nécessaires sur les infrastructures existantes."
+      },
+      {
+        "id": 6,
+        "title": "Résiliation du contrat",
+        "content": "Le contrat peut être résilié par l'une ou l'autre des parties avec un préavis d'un mois, sauf faute grave ou non-paiement du loyer."
       }
     ],
     "images": [
@@ -118,9 +243,34 @@
     "description": "Une très jolie maison",
     "articles": [
       {
-      "id": 1,
-      "title": "string",
-      "content": "string"
+        "id": 1,
+        "title": "Durée du bail",
+        "content": "Le contrat est conclu pour une durée de 12 mois renouvelables, sauf résiliation anticipée conformément aux clauses prévues."
+      },
+      {
+        "id": 2,
+        "title": "Loyer et modalités de paiement",
+        "content": "Le loyer mensuel est fixé à 25 000 FCFA, payable au plus tard le 5 de chaque mois par virement bancaire ou en espèces contre reçu."
+      },
+      {
+        "id": 3,
+        "title": "Dépôt de garantie",
+        "content": "Un dépôt de garantie équivalent à un mois de loyer est exigé à la signature du contrat et sera restitué en fin de bail après état des lieux."
+      },
+      {
+        "id": 4,
+        "title": "Obligations du locataire",
+        "content": "Le locataire s'engage à maintenir la parcelle en bon état, à ne pas sous-louer sans accord écrit et à respecter les règles de voisinage."
+      },
+      {
+        "id": 5,
+        "title": "Obligations du bailleur",
+        "content": "Le bailleur garantit au locataire une jouissance paisible du bien et s'engage à effectuer les réparations nécessaires sur les infrastructures existantes."
+      },
+      {
+        "id": 6,
+        "title": "Résiliation du contrat",
+        "content": "Le contrat peut être résilié par l'une ou l'autre des parties avec un préavis d'un mois, sauf faute grave ou non-paiement du loyer."
       }
     ],
     "images": [
@@ -140,9 +290,34 @@
     "description": "Une très jolie maison",
     "articles": [
       {
-      "id": 1,
-      "title": "string",
-      "content": "string"
+        "id": 1,
+        "title": "Durée du bail",
+        "content": "Le contrat est conclu pour une durée de 12 mois renouvelables, sauf résiliation anticipée conformément aux clauses prévues."
+      },
+      {
+        "id": 2,
+        "title": "Loyer et modalités de paiement",
+        "content": "Le loyer mensuel est fixé à 25 000 FCFA, payable au plus tard le 5 de chaque mois par virement bancaire ou en espèces contre reçu."
+      },
+      {
+        "id": 3,
+        "title": "Dépôt de garantie",
+        "content": "Un dépôt de garantie équivalent à un mois de loyer est exigé à la signature du contrat et sera restitué en fin de bail après état des lieux."
+      },
+      {
+        "id": 4,
+        "title": "Obligations du locataire",
+        "content": "Le locataire s'engage à maintenir la parcelle en bon état, à ne pas sous-louer sans accord écrit et à respecter les règles de voisinage."
+      },
+      {
+        "id": 5,
+        "title": "Obligations du bailleur",
+        "content": "Le bailleur garantit au locataire une jouissance paisible du bien et s'engage à effectuer les réparations nécessaires sur les infrastructures existantes."
+      },
+      {
+        "id": 6,
+        "title": "Résiliation du contrat",
+        "content": "Le contrat peut être résilié par l'une ou l'autre des parties avec un préavis d'un mois, sauf faute grave ou non-paiement du loyer."
       }
     ],
     "images": [
@@ -162,9 +337,34 @@
     "description": "Une très jolie maison",
     "articles": [
       {
-      "id": 1,
-      "title": "string",
-      "content": "string"
+        "id": 1,
+        "title": "Durée du bail",
+        "content": "Le contrat est conclu pour une durée de 12 mois renouvelables, sauf résiliation anticipée conformément aux clauses prévues."
+      },
+      {
+        "id": 2,
+        "title": "Loyer et modalités de paiement",
+        "content": "Le loyer mensuel est fixé à 25 000 FCFA, payable au plus tard le 5 de chaque mois par virement bancaire ou en espèces contre reçu."
+      },
+      {
+        "id": 3,
+        "title": "Dépôt de garantie",
+        "content": "Un dépôt de garantie équivalent à un mois de loyer est exigé à la signature du contrat et sera restitué en fin de bail après état des lieux."
+      },
+      {
+        "id": 4,
+        "title": "Obligations du locataire",
+        "content": "Le locataire s'engage à maintenir la parcelle en bon état, à ne pas sous-louer sans accord écrit et à respecter les règles de voisinage."
+      },
+      {
+        "id": 5,
+        "title": "Obligations du bailleur",
+        "content": "Le bailleur garantit au locataire une jouissance paisible du bien et s'engage à effectuer les réparations nécessaires sur les infrastructures existantes."
+      },
+      {
+        "id": 6,
+        "title": "Résiliation du contrat",
+        "content": "Le contrat peut être résilié par l'une ou l'autre des parties avec un préavis d'un mois, sauf faute grave ou non-paiement du loyer."
       }
     ],
     "images": [
@@ -184,9 +384,34 @@
     "description": "Une très jolie maison",
     "articles": [
       {
-      "id": 1,
-      "title": "string",
-      "content": "string"
+        "id": 1,
+        "title": "Durée du bail",
+        "content": "Le contrat est conclu pour une durée de 12 mois renouvelables, sauf résiliation anticipée conformément aux clauses prévues."
+      },
+      {
+        "id": 2,
+        "title": "Loyer et modalités de paiement",
+        "content": "Le loyer mensuel est fixé à 25 000 FCFA, payable au plus tard le 5 de chaque mois par virement bancaire ou en espèces contre reçu."
+      },
+      {
+        "id": 3,
+        "title": "Dépôt de garantie",
+        "content": "Un dépôt de garantie équivalent à un mois de loyer est exigé à la signature du contrat et sera restitué en fin de bail après état des lieux."
+      },
+      {
+        "id": 4,
+        "title": "Obligations du locataire",
+        "content": "Le locataire s'engage à maintenir la parcelle en bon état, à ne pas sous-louer sans accord écrit et à respecter les règles de voisinage."
+      },
+      {
+        "id": 5,
+        "title": "Obligations du bailleur",
+        "content": "Le bailleur garantit au locataire une jouissance paisible du bien et s'engage à effectuer les réparations nécessaires sur les infrastructures existantes."
+      },
+      {
+        "id": 6,
+        "title": "Résiliation du contrat",
+        "content": "Le contrat peut être résilié par l'une ou l'autre des parties avec un préavis d'un mois, sauf faute grave ou non-paiement du loyer."
       }
     ],
     "images": [
@@ -206,9 +431,34 @@
     "description": "Une très jolie maison",
     "articles": [
       {
-      "id": 1,
-      "title": "string",
-      "content": "string"
+        "id": 1,
+        "title": "Durée du bail",
+        "content": "Le contrat est conclu pour une durée de 12 mois renouvelables, sauf résiliation anticipée conformément aux clauses prévues."
+      },
+      {
+        "id": 2,
+        "title": "Loyer et modalités de paiement",
+        "content": "Le loyer mensuel est fixé à 25 000 FCFA, payable au plus tard le 5 de chaque mois par virement bancaire ou en espèces contre reçu."
+      },
+      {
+        "id": 3,
+        "title": "Dépôt de garantie",
+        "content": "Un dépôt de garantie équivalent à un mois de loyer est exigé à la signature du contrat et sera restitué en fin de bail après état des lieux."
+      },
+      {
+        "id": 4,
+        "title": "Obligations du locataire",
+        "content": "Le locataire s'engage à maintenir la parcelle en bon état, à ne pas sous-louer sans accord écrit et à respecter les règles de voisinage."
+      },
+      {
+        "id": 5,
+        "title": "Obligations du bailleur",
+        "content": "Le bailleur garantit au locataire une jouissance paisible du bien et s'engage à effectuer les réparations nécessaires sur les infrastructures existantes."
+      },
+      {
+        "id": 6,
+        "title": "Résiliation du contrat",
+        "content": "Le contrat peut être résilié par l'une ou l'autre des parties avec un préavis d'un mois, sauf faute grave ou non-paiement du loyer."
       }
     ],
     "images": [
@@ -230,8 +480,33 @@
     "articles": [
       {
         "id": 1,
-        "title": "khjl",
-        "content": "string"
+        "title": "Durée du bail",
+        "content": "Le contrat est conclu pour une durée de 12 mois renouvelables, sauf résiliation anticipée conformément aux clauses prévues."
+      },
+      {
+        "id": 2,
+        "title": "Loyer et modalités de paiement",
+        "content": "Le loyer mensuel est fixé à 25 000 FCFA, payable au plus tard le 5 de chaque mois par virement bancaire ou en espèces contre reçu."
+      },
+      {
+        "id": 3,
+        "title": "Dépôt de garantie",
+        "content": "Un dépôt de garantie équivalent à un mois de loyer est exigé à la signature du contrat et sera restitué en fin de bail après état des lieux."
+      },
+      {
+        "id": 4,
+        "title": "Obligations du locataire",
+        "content": "Le locataire s'engage à maintenir la parcelle en bon état, à ne pas sous-louer sans accord écrit et à respecter les règles de voisinage."
+      },
+      {
+        "id": 5,
+        "title": "Obligations du bailleur",
+        "content": "Le bailleur garantit au locataire une jouissance paisible du bien et s'engage à effectuer les réparations nécessaires sur les infrastructures existantes."
+      },
+      {
+        "id": 6,
+        "title": "Résiliation du contrat",
+        "content": "Le contrat peut être résilié par l'une ou l'autre des parties avec un préavis d'un mois, sauf faute grave ou non-paiement du loyer."
       }
     ],
     "images": [
@@ -270,9 +545,34 @@
     "caution": 0,
     "articles": [
       {
-      "id": 1,
-      "title": "string",
-      "content": "string"
+        "id": 1,
+        "title": "Durée du bail",
+        "content": "Le contrat est conclu pour une durée de 12 mois renouvelables, sauf résiliation anticipée conformément aux clauses prévues."
+      },
+      {
+        "id": 2,
+        "title": "Loyer et modalités de paiement",
+        "content": "Le loyer mensuel est fixé à 25 000 FCFA, payable au plus tard le 5 de chaque mois par virement bancaire ou en espèces contre reçu."
+      },
+      {
+        "id": 3,
+        "title": "Dépôt de garantie",
+        "content": "Un dépôt de garantie équivalent à un mois de loyer est exigé à la signature du contrat et sera restitué en fin de bail après état des lieux."
+      },
+      {
+        "id": 4,
+        "title": "Obligations du locataire",
+        "content": "Le locataire s'engage à maintenir la parcelle en bon état, à ne pas sous-louer sans accord écrit et à respecter les règles de voisinage."
+      },
+      {
+        "id": 5,
+        "title": "Obligations du bailleur",
+        "content": "Le bailleur garantit au locataire une jouissance paisible du bien et s'engage à effectuer les réparations nécessaires sur les infrastructures existantes."
+      },
+      {
+        "id": 6,
+        "title": "Résiliation du contrat",
+        "content": "Le contrat peut être résilié par l'une ou l'autre des parties avec un préavis d'un mois, sauf faute grave ou non-paiement du loyer."
       }
     ],
     "images": [
@@ -311,9 +611,34 @@
     "caution": 0,
     "articles": [
       {
-      "id": 1,
-      "title": "string",
-      "content": "string"
+        "id": 1,
+        "title": "Durée du bail",
+        "content": "Le contrat est conclu pour une durée de 12 mois renouvelables, sauf résiliation anticipée conformément aux clauses prévues."
+      },
+      {
+        "id": 2,
+        "title": "Loyer et modalités de paiement",
+        "content": "Le loyer mensuel est fixé à 25 000 FCFA, payable au plus tard le 5 de chaque mois par virement bancaire ou en espèces contre reçu."
+      },
+      {
+        "id": 3,
+        "title": "Dépôt de garantie",
+        "content": "Un dépôt de garantie équivalent à un mois de loyer est exigé à la signature du contrat et sera restitué en fin de bail après état des lieux."
+      },
+      {
+        "id": 4,
+        "title": "Obligations du locataire",
+        "content": "Le locataire s'engage à maintenir la parcelle en bon état, à ne pas sous-louer sans accord écrit et à respecter les règles de voisinage."
+      },
+      {
+        "id": 5,
+        "title": "Obligations du bailleur",
+        "content": "Le bailleur garantit au locataire une jouissance paisible du bien et s'engage à effectuer les réparations nécessaires sur les infrastructures existantes."
+      },
+      {
+        "id": 6,
+        "title": "Résiliation du contrat",
+        "content": "Le contrat peut être résilié par l'une ou l'autre des parties avec un préavis d'un mois, sauf faute grave ou non-paiement du loyer."
       }
     ],
     "images": [
@@ -352,9 +677,34 @@
     "caution": 0,
     "articles": [
       {
-      "id": 1,
-      "title": "string",
-      "content": "string"
+        "id": 1,
+        "title": "Durée du bail",
+        "content": "Le contrat est conclu pour une durée de 12 mois renouvelables, sauf résiliation anticipée conformément aux clauses prévues."
+      },
+      {
+        "id": 2,
+        "title": "Loyer et modalités de paiement",
+        "content": "Le loyer mensuel est fixé à 25 000 FCFA, payable au plus tard le 5 de chaque mois par virement bancaire ou en espèces contre reçu."
+      },
+      {
+        "id": 3,
+        "title": "Dépôt de garantie",
+        "content": "Un dépôt de garantie équivalent à un mois de loyer est exigé à la signature du contrat et sera restitué en fin de bail après état des lieux."
+      },
+      {
+        "id": 4,
+        "title": "Obligations du locataire",
+        "content": "Le locataire s'engage à maintenir la parcelle en bon état, à ne pas sous-louer sans accord écrit et à respecter les règles de voisinage."
+      },
+      {
+        "id": 5,
+        "title": "Obligations du bailleur",
+        "content": "Le bailleur garantit au locataire une jouissance paisible du bien et s'engage à effectuer les réparations nécessaires sur les infrastructures existantes."
+      },
+      {
+        "id": 6,
+        "title": "Résiliation du contrat",
+        "content": "Le contrat peut être résilié par l'une ou l'autre des parties avec un préavis d'un mois, sauf faute grave ou non-paiement du loyer."
       }
     ],
     "images": [
@@ -393,9 +743,34 @@
     "caution": 0,
     "articles": [
       {
-      "id": 1,
-      "title": "string",
-      "content": "string"
+        "id": 1,
+        "title": "Durée du bail",
+        "content": "Le contrat est conclu pour une durée de 12 mois renouvelables, sauf résiliation anticipée conformément aux clauses prévues."
+      },
+      {
+        "id": 2,
+        "title": "Loyer et modalités de paiement",
+        "content": "Le loyer mensuel est fixé à 25 000 FCFA, payable au plus tard le 5 de chaque mois par virement bancaire ou en espèces contre reçu."
+      },
+      {
+        "id": 3,
+        "title": "Dépôt de garantie",
+        "content": "Un dépôt de garantie équivalent à un mois de loyer est exigé à la signature du contrat et sera restitué en fin de bail après état des lieux."
+      },
+      {
+        "id": 4,
+        "title": "Obligations du locataire",
+        "content": "Le locataire s'engage à maintenir la parcelle en bon état, à ne pas sous-louer sans accord écrit et à respecter les règles de voisinage."
+      },
+      {
+        "id": 5,
+        "title": "Obligations du bailleur",
+        "content": "Le bailleur garantit au locataire une jouissance paisible du bien et s'engage à effectuer les réparations nécessaires sur les infrastructures existantes."
+      },
+      {
+        "id": 6,
+        "title": "Résiliation du contrat",
+        "content": "Le contrat peut être résilié par l'une ou l'autre des parties avec un préavis d'un mois, sauf faute grave ou non-paiement du loyer."
       }
     ],
     "images": [
@@ -434,9 +809,34 @@
     "caution": 0,
     "articles": [
       {
-      "id": 1,
-      "title": "string",
-      "content": "string"
+        "id": 1,
+        "title": "Durée du bail",
+        "content": "Le contrat est conclu pour une durée de 12 mois renouvelables, sauf résiliation anticipée conformément aux clauses prévues."
+      },
+      {
+        "id": 2,
+        "title": "Loyer et modalités de paiement",
+        "content": "Le loyer mensuel est fixé à 25 000 FCFA, payable au plus tard le 5 de chaque mois par virement bancaire ou en espèces contre reçu."
+      },
+      {
+        "id": 3,
+        "title": "Dépôt de garantie",
+        "content": "Un dépôt de garantie équivalent à un mois de loyer est exigé à la signature du contrat et sera restitué en fin de bail après état des lieux."
+      },
+      {
+        "id": 4,
+        "title": "Obligations du locataire",
+        "content": "Le locataire s'engage à maintenir la parcelle en bon état, à ne pas sous-louer sans accord écrit et à respecter les règles de voisinage."
+      },
+      {
+        "id": 5,
+        "title": "Obligations du bailleur",
+        "content": "Le bailleur garantit au locataire une jouissance paisible du bien et s'engage à effectuer les réparations nécessaires sur les infrastructures existantes."
+      },
+      {
+        "id": 6,
+        "title": "Résiliation du contrat",
+        "content": "Le contrat peut être résilié par l'une ou l'autre des parties avec un préavis d'un mois, sauf faute grave ou non-paiement du loyer."
       }
     ],
     "images": [
@@ -475,9 +875,34 @@
     "caution": 0,
     "articles": [
       {
-      "id": 1,
-      "title": "string",
-      "content": "string"
+        "id": 1,
+        "title": "Durée du bail",
+        "content": "Le contrat est conclu pour une durée de 12 mois renouvelables, sauf résiliation anticipée conformément aux clauses prévues."
+      },
+      {
+        "id": 2,
+        "title": "Loyer et modalités de paiement",
+        "content": "Le loyer mensuel est fixé à 25 000 FCFA, payable au plus tard le 5 de chaque mois par virement bancaire ou en espèces contre reçu."
+      },
+      {
+        "id": 3,
+        "title": "Dépôt de garantie",
+        "content": "Un dépôt de garantie équivalent à un mois de loyer est exigé à la signature du contrat et sera restitué en fin de bail après état des lieux."
+      },
+      {
+        "id": 4,
+        "title": "Obligations du locataire",
+        "content": "Le locataire s'engage à maintenir la parcelle en bon état, à ne pas sous-louer sans accord écrit et à respecter les règles de voisinage."
+      },
+      {
+        "id": 5,
+        "title": "Obligations du bailleur",
+        "content": "Le bailleur garantit au locataire une jouissance paisible du bien et s'engage à effectuer les réparations nécessaires sur les infrastructures existantes."
+      },
+      {
+        "id": 6,
+        "title": "Résiliation du contrat",
+        "content": "Le contrat peut être résilié par l'une ou l'autre des parties avec un préavis d'un mois, sauf faute grave ou non-paiement du loyer."
       }
     ],
     "images": [
@@ -516,9 +941,34 @@
     "caution": 0,
     "articles": [
       {
-      "id": 1,
-      "title": "string",
-      "content": "string"
+        "id": 1,
+        "title": "Durée du bail",
+        "content": "Le contrat est conclu pour une durée de 12 mois renouvelables, sauf résiliation anticipée conformément aux clauses prévues."
+      },
+      {
+        "id": 2,
+        "title": "Loyer et modalités de paiement",
+        "content": "Le loyer mensuel est fixé à 25 000 FCFA, payable au plus tard le 5 de chaque mois par virement bancaire ou en espèces contre reçu."
+      },
+      {
+        "id": 3,
+        "title": "Dépôt de garantie",
+        "content": "Un dépôt de garantie équivalent à un mois de loyer est exigé à la signature du contrat et sera restitué en fin de bail après état des lieux."
+      },
+      {
+        "id": 4,
+        "title": "Obligations du locataire",
+        "content": "Le locataire s'engage à maintenir la parcelle en bon état, à ne pas sous-louer sans accord écrit et à respecter les règles de voisinage."
+      },
+      {
+        "id": 5,
+        "title": "Obligations du bailleur",
+        "content": "Le bailleur garantit au locataire une jouissance paisible du bien et s'engage à effectuer les réparations nécessaires sur les infrastructures existantes."
+      },
+      {
+        "id": 6,
+        "title": "Résiliation du contrat",
+        "content": "Le contrat peut être résilié par l'une ou l'autre des parties avec un préavis d'un mois, sauf faute grave ou non-paiement du loyer."
       }
     ],
     "images": [
@@ -557,9 +1007,34 @@
     "caution": 0,
     "articles": [
       {
-      "id": 1,
-      "title": "string",
-      "content": "string"
+        "id": 1,
+        "title": "Durée du bail",
+        "content": "Le contrat est conclu pour une durée de 12 mois renouvelables, sauf résiliation anticipée conformément aux clauses prévues."
+      },
+      {
+        "id": 2,
+        "title": "Loyer et modalités de paiement",
+        "content": "Le loyer mensuel est fixé à 25 000 FCFA, payable au plus tard le 5 de chaque mois par virement bancaire ou en espèces contre reçu."
+      },
+      {
+        "id": 3,
+        "title": "Dépôt de garantie",
+        "content": "Un dépôt de garantie équivalent à un mois de loyer est exigé à la signature du contrat et sera restitué en fin de bail après état des lieux."
+      },
+      {
+        "id": 4,
+        "title": "Obligations du locataire",
+        "content": "Le locataire s'engage à maintenir la parcelle en bon état, à ne pas sous-louer sans accord écrit et à respecter les règles de voisinage."
+      },
+      {
+        "id": 5,
+        "title": "Obligations du bailleur",
+        "content": "Le bailleur garantit au locataire une jouissance paisible du bien et s'engage à effectuer les réparations nécessaires sur les infrastructures existantes."
+      },
+      {
+        "id": 6,
+        "title": "Résiliation du contrat",
+        "content": "Le contrat peut être résilié par l'une ou l'autre des parties avec un préavis d'un mois, sauf faute grave ou non-paiement du loyer."
       }
     ],
     "images": [
@@ -598,9 +1073,34 @@
     "caution": 0,
     "articles": [
       {
-      "id": 1,
-      "title": "string",
-      "content": "string"
+        "id": 1,
+        "title": "Durée du bail",
+        "content": "Le contrat est conclu pour une durée de 12 mois renouvelables, sauf résiliation anticipée conformément aux clauses prévues."
+      },
+      {
+        "id": 2,
+        "title": "Loyer et modalités de paiement",
+        "content": "Le loyer mensuel est fixé à 25 000 FCFA, payable au plus tard le 5 de chaque mois par virement bancaire ou en espèces contre reçu."
+      },
+      {
+        "id": 3,
+        "title": "Dépôt de garantie",
+        "content": "Un dépôt de garantie équivalent à un mois de loyer est exigé à la signature du contrat et sera restitué en fin de bail après état des lieux."
+      },
+      {
+        "id": 4,
+        "title": "Obligations du locataire",
+        "content": "Le locataire s'engage à maintenir la parcelle en bon état, à ne pas sous-louer sans accord écrit et à respecter les règles de voisinage."
+      },
+      {
+        "id": 5,
+        "title": "Obligations du bailleur",
+        "content": "Le bailleur garantit au locataire une jouissance paisible du bien et s'engage à effectuer les réparations nécessaires sur les infrastructures existantes."
+      },
+      {
+        "id": 6,
+        "title": "Résiliation du contrat",
+        "content": "Le contrat peut être résilié par l'une ou l'autre des parties avec un préavis d'un mois, sauf faute grave ou non-paiement du loyer."
       }
     ],
     "images": [

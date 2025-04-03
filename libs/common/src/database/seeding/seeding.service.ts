@@ -153,7 +153,7 @@ export class SeedingService {
         const notification = notificationsRepository.create({
           title: notificationData.title,
           content: notificationData.content,
-          user: savedUsers[1],
+          user: savedUsers[0],
           status: StatusNotificationEnum.NOT_READ,
           type: notificationData.type,
           module_id: savedContracts[0].id,

@@ -1,0 +1,9 @@
+Name
+First name
+Email
+Phone
+Business sector
+Country of residence
+Category
+Expectations
+Used Information

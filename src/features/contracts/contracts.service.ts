@@ -60,8 +60,11 @@ export class ContractsService {
     const offset = this.paginationService.calculateOffset(limit, page);
 
     const whereCondition = filter.tenantId
-      ? { tenant: { id: filter.tenantId } }
-      : { landlord: { id: filter.landlordId } };
+      ? { tenant: { id: filter.tenantId }, status: StatusContractEnum.ACTIVE }
+      : {
+          landlord: { id: filter.landlordId },
+          status: StatusContractEnum.ACTIVE,
+        };
 
     const [data] = await this.contractsRepository.findAndCount(whereCondition, {
       relations: { tenant: true, landlord: true, property: true, dues: true },

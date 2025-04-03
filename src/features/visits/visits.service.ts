@@ -88,7 +88,7 @@ export class VisitsService {
       module: AlertModules.VISIT,
       option: AlertOptions.CREATE,
       module_id: visit.id,
-      user: userData,
+      user: property.user,
     });
     return await this.findOne(visit.id);
   }
@@ -98,7 +98,7 @@ export class VisitsService {
       { id },
       { user: true, property: true, manager: true },
     );
-    
+
     return this.visitResource.format(visit);
   }
 
@@ -110,15 +110,33 @@ export class VisitsService {
   }
 
   async update(id: number, updateVisitDto: UpdateVisitDto) {
-    await this.visitsRepository.findOneAndUpdate({ id }, updateVisitDto);
+    const visit = await this.visitsRepository.findOneAndUpdate(
+      { id },
+      updateVisitDto,
+    );
+
+    await this.notificationsService.sendNotification({
+      module: AlertModules.VISIT,
+      option: AlertOptions.IN_PROGRESS,
+      module_id: visit.id,
+      user: visit.user,
+    });
+
     return await this.findOne(id);
   }
 
   async finalize(id: number, finalizeVisitDto: FinalizeVisitDto) {
-    await this.visitsRepository.findOneAndUpdate(
+    const visit = await this.visitsRepository.findOneAndUpdate(
       { id },
       { ...finalizeVisitDto, status: StatusEnum.FINISHED },
     );
+
+    await this.notificationsService.sendNotification({
+      module: AlertModules.VISIT,
+      option: AlertOptions.IN_PROGRESS,
+      module_id: visit.id,
+      user: visit.user,
+    });
     return await this.findOne(id);
   }
 

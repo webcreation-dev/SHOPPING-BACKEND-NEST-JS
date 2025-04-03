@@ -18,7 +18,8 @@
     "password": "password",
     "app_type": "LOCAPAY_BUSINESS",
     "status": "NOT_VERIFIED",
-    "image": "upload/properties/test/locapay_1.png"
+    "image": "upload/properties/test/locapay_1.png",
+    "fcm_token": "fpMQs66NSrysUT-02Kc0Wk:APA91bFvhwME5Zl6G3srdC7kMDAM4Ka6HkAg1vfDPpMCTNZ1m8HWaH0s65U-EFQmAFii09ABYNc-i-dAxJf1tZQEXYjNlE8LES3f1d2if5GQ84RBixigYaw"
   },
   {
     "lastname": "ASSOGBA",
@@ -28,7 +29,8 @@
     "password": "password",
     "app_type": "LOCAPAY",
     "status": "ACCEPTED",
-    "image": "upload/properties/test/locapay_1.png"
+    "image": "upload/properties/test/locapay_1.png",
+    "fcm_token": "fpMQs66NSrysUT-02Kc0Wk:APA91bFvhwME5Zl6G3srdC7kMDAM4Ka6HkAg1vfDPpMCTNZ1m8HWaH0s65U-EFQmAFii09ABYNc-i-dAxJf1tZQEXYjNlE8LES3f1d2if5GQ84RBixigYaw"
   },
   {
     "lastname": "AGBESSY",
@@ -38,6 +40,7 @@
     "password": "password",
     "app_type": "LOCAPAY",
     "status": "ACCEPTED",
-    "image": "upload/properties/test/locapay_1.png"
+    "image": "upload/properties/test/locapay_1.png",
+    "fcm_token": "fpMQs66NSrysUT-02Kc0Wk:APA91bFvhwME5Zl6G3srdC7kMDAM4Ka6HkAg1vfDPpMCTNZ1m8HWaH0s65U-EFQmAFii09ABYNc-i-dAxJf1tZQEXYjNlE8LES3f1d2if5GQ84RBixigYaw"
   }
 ]
