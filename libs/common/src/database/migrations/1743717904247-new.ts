@@ -1,7 +1,7 @@
 import { MigrationInterface, QueryRunner } from "typeorm";
 
-export class New1743374935277 implements MigrationInterface {
-    name = 'New1743374935277'
+export class New1743717904247 implements MigrationInterface {
+    name = 'New1743717904247'
 
     public async up(queryRunner: QueryRunner): Promise<void> {
         await queryRunner.query(`
@@ -29,24 +29,63 @@ export class New1743374935277 implements MigrationInterface {
             )
         `);
         await queryRunner.query(`
-            CREATE TYPE "public"."status_visit_enum" AS ENUM('WAITING', 'IN_PROGRESS', 'FINISHED')
-        `);
-        await queryRunner.query(`
-            CREATE TABLE "visit" (
+            CREATE TABLE "annuity" (
                 "id" SERIAL NOT NULL,
-                "code" character varying NOT NULL,
-                "date" TIMESTAMP,
-                "is_taken" boolean NOT NULL DEFAULT false,
-                "is_paid" boolean NOT NULL DEFAULT false,
-                "status" "public"."status_visit_enum" NOT NULL DEFAULT 'WAITING',
-                "userId" integer,
-                "propertyId" integer,
-                "managerId" integer,
+                "amount" integer NOT NULL,
+                "dueId" integer,
                 "created_at" TIMESTAMP NOT NULL DEFAULT now(),
                 "updated_at" TIMESTAMP NOT NULL DEFAULT now(),
                 "deletedAt" TIMESTAMP,
-                CONSTRAINT "UQ_4d486e35b6c38e8f4f390f47922" UNIQUE ("code"),
-                CONSTRAINT "PK_c9919ef5a07627657c535d8eb88" PRIMARY KEY ("id")
+                CONSTRAINT "PK_6a5ea1125802532e936672d3624" PRIMARY KEY ("id")
+            )
+        `);
+        await queryRunner.query(`
+            CREATE TYPE "public"."status_due_enum" AS ENUM('WAITING', 'IN_PROGRESS', 'FINISHED')
+        `);
+        await queryRunner.query(`
+            CREATE TABLE "due" (
+                "id" SERIAL NOT NULL,
+                "amount_paid" integer NOT NULL DEFAULT '0',
+                "carry_over_amount" integer NOT NULL DEFAULT '0',
+                "due_date" TIMESTAMP NOT NULL DEFAULT now(),
+                "status_due" "public"."status_due_enum" NOT NULL DEFAULT 'WAITING',
+                "contractId" integer,
+                "created_at" TIMESTAMP NOT NULL DEFAULT now(),
+                "updated_at" TIMESTAMP NOT NULL DEFAULT now(),
+                "deletedAt" TIMESTAMP,
+                CONSTRAINT "PK_6b83d79ba2c446d7ccce62bad2e" PRIMARY KEY ("id")
+            )
+        `);
+        await queryRunner.query(`
+            CREATE TYPE "public"."status_contract_enum" AS ENUM('PENDING', 'ACTIVE', 'FINISHED')
+        `);
+        await queryRunner.query(`
+            CREATE TABLE "contract" (
+                "id" SERIAL NOT NULL,
+                "start_date" TIMESTAMP NOT NULL,
+                "end_date" TIMESTAMP,
+                "rent_price" integer NOT NULL,
+                "caution" integer NOT NULL,
+                "articles" json,
+                "status" "public"."status_contract_enum" NOT NULL DEFAULT 'PENDING',
+                "propertyId" integer,
+                "landlordId" integer,
+                "tenantId" integer,
+                "created_at" TIMESTAMP NOT NULL DEFAULT now(),
+                "updated_at" TIMESTAMP NOT NULL DEFAULT now(),
+                "deletedAt" TIMESTAMP,
+                CONSTRAINT "PK_17c3a89f58a2997276084e706e8" PRIMARY KEY ("id")
+            )
+        `);
+        await queryRunner.query(`
+            CREATE TABLE "panorama" (
+                "id" SERIAL NOT NULL,
+                "url" character varying NOT NULL,
+                "propertyId" integer,
+                "created_at" TIMESTAMP NOT NULL DEFAULT now(),
+                "updated_at" TIMESTAMP NOT NULL DEFAULT now(),
+                "deletedAt" TIMESTAMP,
+                CONSTRAINT "PK_c8945fecae5ee2b907e82ddc5bd" PRIMARY KEY ("id")
             )
         `);
         await queryRunner.query(`
@@ -188,52 +227,24 @@ export class New1743374935277 implements MigrationInterface {
             )
         `);
         await queryRunner.query(`
-            CREATE TYPE "public"."status_contract_enum" AS ENUM('PENDING', 'ACTIVE', 'FINISHED')
+            CREATE TYPE "public"."status_visit_enum" AS ENUM('WAITING', 'IN_PROGRESS', 'FINISHED')
         `);
         await queryRunner.query(`
-            CREATE TABLE "contract" (
+            CREATE TABLE "visit" (
                 "id" SERIAL NOT NULL,
-                "start_date" TIMESTAMP NOT NULL,
-                "end_date" TIMESTAMP,
-                "rent_price" integer NOT NULL,
-                "caution" integer NOT NULL,
-                "articles" json,
-                "status" "public"."status_contract_enum" NOT NULL DEFAULT 'PENDING',
+                "code" character varying NOT NULL,
+                "date" TIMESTAMP,
+                "is_taken" boolean NOT NULL DEFAULT false,
+                "is_paid" boolean NOT NULL DEFAULT false,
+                "status" "public"."status_visit_enum" NOT NULL DEFAULT 'WAITING',
+                "userId" integer,
                 "propertyId" integer,
-                "landlordId" integer,
-                "tenantId" integer,
+                "managerId" integer,
                 "created_at" TIMESTAMP NOT NULL DEFAULT now(),
                 "updated_at" TIMESTAMP NOT NULL DEFAULT now(),
                 "deletedAt" TIMESTAMP,
-                CONSTRAINT "PK_17c3a89f58a2997276084e706e8" PRIMARY KEY ("id")
-            )
-        `);
-        await queryRunner.query(`
-            CREATE TYPE "public"."status_due_enum" AS ENUM('WAITING', 'IN_PROGRESS', 'FINISHED')
-        `);
-        await queryRunner.query(`
-            CREATE TABLE "due" (
-                "id" SERIAL NOT NULL,
-                "amount_paid" integer NOT NULL DEFAULT '0',
-                "carry_over_amount" integer NOT NULL DEFAULT '0',
-                "due_date" TIMESTAMP NOT NULL DEFAULT now(),
-                "status_due" "public"."status_due_enum" NOT NULL DEFAULT 'WAITING',
-                "contractId" integer,
-                "created_at" TIMESTAMP NOT NULL DEFAULT now(),
-                "updated_at" TIMESTAMP NOT NULL DEFAULT now(),
-                "deletedAt" TIMESTAMP,
-                CONSTRAINT "PK_6b83d79ba2c446d7ccce62bad2e" PRIMARY KEY ("id")
-            )
-        `);
-        await queryRunner.query(`
-            CREATE TABLE "annuity" (
-                "id" SERIAL NOT NULL,
-                "amount" integer NOT NULL,
-                "dueId" integer,
-                "created_at" TIMESTAMP NOT NULL DEFAULT now(),
-                "updated_at" TIMESTAMP NOT NULL DEFAULT now(),
-                "deletedAt" TIMESTAMP,
-                CONSTRAINT "PK_6a5ea1125802532e936672d3624" PRIMARY KEY ("id")
+                CONSTRAINT "UQ_4d486e35b6c38e8f4f390f47922" UNIQUE ("code"),
+                CONSTRAINT "PK_c9919ef5a07627657c535d8eb88" PRIMARY KEY ("id")
             )
         `);
         await queryRunner.query(`
@@ -254,28 +265,12 @@ export class New1743374935277 implements MigrationInterface {
             ADD CONSTRAINT "FK_96c88a83bf3357b98162620293e" FOREIGN KEY ("propertyId") REFERENCES "property"("id") ON DELETE CASCADE ON UPDATE NO ACTION
         `);
         await queryRunner.query(`
-            ALTER TABLE "visit"
-            ADD CONSTRAINT "FK_27531e380326b478dacdd7b86d9" FOREIGN KEY ("userId") REFERENCES "user"("id") ON DELETE CASCADE ON UPDATE NO ACTION
+            ALTER TABLE "annuity"
+            ADD CONSTRAINT "FK_2b081fdd2d6f6ce70b471acba89" FOREIGN KEY ("dueId") REFERENCES "due"("id") ON DELETE CASCADE ON UPDATE NO ACTION
         `);
         await queryRunner.query(`
-            ALTER TABLE "visit"
-            ADD CONSTRAINT "FK_f3ea1f66b0a9c6ce8318b95a4b3" FOREIGN KEY ("propertyId") REFERENCES "property"("id") ON DELETE CASCADE ON UPDATE NO ACTION
-        `);
-        await queryRunner.query(`
-            ALTER TABLE "visit"
-            ADD CONSTRAINT "FK_8a9fd2a4e430a2c72ace6c97726" FOREIGN KEY ("managerId") REFERENCES "user"("id") ON DELETE CASCADE ON UPDATE NO ACTION
-        `);
-        await queryRunner.query(`
-            ALTER TABLE "property"
-            ADD CONSTRAINT "FK_d90007b39cfcf412e15823bebc1" FOREIGN KEY ("userId") REFERENCES "user"("id") ON DELETE CASCADE ON UPDATE NO ACTION
-        `);
-        await queryRunner.query(`
-            ALTER TABLE "property"
-            ADD CONSTRAINT "FK_917755242ab5b0a0b08a63016d9" FOREIGN KEY ("ownerId") REFERENCES "user"("id") ON DELETE CASCADE ON UPDATE NO ACTION
-        `);
-        await queryRunner.query(`
-            ALTER TABLE "notification"
-            ADD CONSTRAINT "FK_1ced25315eb974b73391fb1c81b" FOREIGN KEY ("userId") REFERENCES "user"("id") ON DELETE CASCADE ON UPDATE NO ACTION
+            ALTER TABLE "due"
+            ADD CONSTRAINT "FK_ce799619f2776150d7b4a04f06b" FOREIGN KEY ("contractId") REFERENCES "contract"("id") ON DELETE CASCADE ON UPDATE NO ACTION
         `);
         await queryRunner.query(`
             ALTER TABLE "contract"
@@ -290,12 +285,32 @@ export class New1743374935277 implements MigrationInterface {
             ADD CONSTRAINT "FK_55192eaad5af3ea323029bba042" FOREIGN KEY ("tenantId") REFERENCES "user"("id") ON DELETE CASCADE ON UPDATE NO ACTION
         `);
         await queryRunner.query(`
-            ALTER TABLE "due"
-            ADD CONSTRAINT "FK_ce799619f2776150d7b4a04f06b" FOREIGN KEY ("contractId") REFERENCES "contract"("id") ON DELETE CASCADE ON UPDATE NO ACTION
+            ALTER TABLE "panorama"
+            ADD CONSTRAINT "FK_5490cf649ee970c9abed0aa7d17" FOREIGN KEY ("propertyId") REFERENCES "property"("id") ON DELETE CASCADE ON UPDATE NO ACTION
         `);
         await queryRunner.query(`
-            ALTER TABLE "annuity"
-            ADD CONSTRAINT "FK_2b081fdd2d6f6ce70b471acba89" FOREIGN KEY ("dueId") REFERENCES "due"("id") ON DELETE CASCADE ON UPDATE NO ACTION
+            ALTER TABLE "property"
+            ADD CONSTRAINT "FK_d90007b39cfcf412e15823bebc1" FOREIGN KEY ("userId") REFERENCES "user"("id") ON DELETE CASCADE ON UPDATE NO ACTION
+        `);
+        await queryRunner.query(`
+            ALTER TABLE "property"
+            ADD CONSTRAINT "FK_917755242ab5b0a0b08a63016d9" FOREIGN KEY ("ownerId") REFERENCES "user"("id") ON DELETE CASCADE ON UPDATE NO ACTION
+        `);
+        await queryRunner.query(`
+            ALTER TABLE "notification"
+            ADD CONSTRAINT "FK_1ced25315eb974b73391fb1c81b" FOREIGN KEY ("userId") REFERENCES "user"("id") ON DELETE CASCADE ON UPDATE NO ACTION
+        `);
+        await queryRunner.query(`
+            ALTER TABLE "visit"
+            ADD CONSTRAINT "FK_27531e380326b478dacdd7b86d9" FOREIGN KEY ("userId") REFERENCES "user"("id") ON DELETE CASCADE ON UPDATE NO ACTION
+        `);
+        await queryRunner.query(`
+            ALTER TABLE "visit"
+            ADD CONSTRAINT "FK_f3ea1f66b0a9c6ce8318b95a4b3" FOREIGN KEY ("propertyId") REFERENCES "property"("id") ON DELETE CASCADE ON UPDATE NO ACTION
+        `);
+        await queryRunner.query(`
+            ALTER TABLE "visit"
+            ADD CONSTRAINT "FK_8a9fd2a4e430a2c72ace6c97726" FOREIGN KEY ("managerId") REFERENCES "user"("id") ON DELETE CASCADE ON UPDATE NO ACTION
         `);
         await queryRunner.query(`
             ALTER TABLE "user_roles_role"
@@ -315,19 +330,13 @@ export class New1743374935277 implements MigrationInterface {
             ALTER TABLE "user_roles_role" DROP CONSTRAINT "FK_5f9286e6c25594c6b88c108db77"
         `);
         await queryRunner.query(`
-            ALTER TABLE "annuity" DROP CONSTRAINT "FK_2b081fdd2d6f6ce70b471acba89"
+            ALTER TABLE "visit" DROP CONSTRAINT "FK_8a9fd2a4e430a2c72ace6c97726"
         `);
         await queryRunner.query(`
-            ALTER TABLE "due" DROP CONSTRAINT "FK_ce799619f2776150d7b4a04f06b"
+            ALTER TABLE "visit" DROP CONSTRAINT "FK_f3ea1f66b0a9c6ce8318b95a4b3"
         `);
         await queryRunner.query(`
-            ALTER TABLE "contract" DROP CONSTRAINT "FK_55192eaad5af3ea323029bba042"
-        `);
-        await queryRunner.query(`
-            ALTER TABLE "contract" DROP CONSTRAINT "FK_da50a75ac5554e975c7d932fb90"
-        `);
-        await queryRunner.query(`
-            ALTER TABLE "contract" DROP CONSTRAINT "FK_941cd11e8b67201836579929ced"
+            ALTER TABLE "visit" DROP CONSTRAINT "FK_27531e380326b478dacdd7b86d9"
         `);
         await queryRunner.query(`
             ALTER TABLE "notification" DROP CONSTRAINT "FK_1ced25315eb974b73391fb1c81b"
@@ -339,13 +348,22 @@ export class New1743374935277 implements MigrationInterface {
             ALTER TABLE "property" DROP CONSTRAINT "FK_d90007b39cfcf412e15823bebc1"
         `);
         await queryRunner.query(`
-            ALTER TABLE "visit" DROP CONSTRAINT "FK_8a9fd2a4e430a2c72ace6c97726"
+            ALTER TABLE "panorama" DROP CONSTRAINT "FK_5490cf649ee970c9abed0aa7d17"
         `);
         await queryRunner.query(`
-            ALTER TABLE "visit" DROP CONSTRAINT "FK_f3ea1f66b0a9c6ce8318b95a4b3"
+            ALTER TABLE "contract" DROP CONSTRAINT "FK_55192eaad5af3ea323029bba042"
         `);
         await queryRunner.query(`
-            ALTER TABLE "visit" DROP CONSTRAINT "FK_27531e380326b478dacdd7b86d9"
+            ALTER TABLE "contract" DROP CONSTRAINT "FK_da50a75ac5554e975c7d932fb90"
+        `);
+        await queryRunner.query(`
+            ALTER TABLE "contract" DROP CONSTRAINT "FK_941cd11e8b67201836579929ced"
+        `);
+        await queryRunner.query(`
+            ALTER TABLE "due" DROP CONSTRAINT "FK_ce799619f2776150d7b4a04f06b"
+        `);
+        await queryRunner.query(`
+            ALTER TABLE "annuity" DROP CONSTRAINT "FK_2b081fdd2d6f6ce70b471acba89"
         `);
         await queryRunner.query(`
             ALTER TABLE "gallery" DROP CONSTRAINT "FK_96c88a83bf3357b98162620293e"
@@ -360,19 +378,10 @@ export class New1743374935277 implements MigrationInterface {
             DROP TABLE "user_roles_role"
         `);
         await queryRunner.query(`
-            DROP TABLE "annuity"
+            DROP TABLE "visit"
         `);
         await queryRunner.query(`
-            DROP TABLE "due"
-        `);
-        await queryRunner.query(`
-            DROP TYPE "public"."status_due_enum"
-        `);
-        await queryRunner.query(`
-            DROP TABLE "contract"
-        `);
-        await queryRunner.query(`
-            DROP TYPE "public"."status_contract_enum"
+            DROP TYPE "public"."status_visit_enum"
         `);
         await queryRunner.query(`
             DROP TABLE "user"
@@ -420,10 +429,22 @@ export class New1743374935277 implements MigrationInterface {
             DROP TYPE "public"."tarification_enum"
         `);
         await queryRunner.query(`
-            DROP TABLE "visit"
+            DROP TABLE "panorama"
         `);
         await queryRunner.query(`
-            DROP TYPE "public"."status_visit_enum"
+            DROP TABLE "contract"
+        `);
+        await queryRunner.query(`
+            DROP TYPE "public"."status_contract_enum"
+        `);
+        await queryRunner.query(`
+            DROP TABLE "due"
+        `);
+        await queryRunner.query(`
+            DROP TYPE "public"."status_due_enum"
+        `);
+        await queryRunner.query(`
+            DROP TABLE "annuity"
         `);
         await queryRunner.query(`
             DROP TABLE "gallery"

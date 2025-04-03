@@ -11,6 +11,7 @@ import { Visit } from 'src/features/visits/entities/visit.entity';
 import { Contract } from 'src/features/contracts/entities/contract.entity';
 import { TarificationEnum } from '../enums/tarification.enum';
 import { TypePropertyEnum } from '../enums/type_property.enum';
+import { Panorama } from './panorama.entity';
 
 @Entity()
 export class Property extends AbstractEntity<Property> {
@@ -147,6 +148,9 @@ export class Property extends AbstractEntity<Property> {
 
   @OneToMany(() => Gallery, (gallery) => gallery.property, { cascade: true })
   galleries: Gallery[];
+
+  @OneToMany(() => Panorama, (panorama) => panorama.property, { cascade: true })
+  panorama: Panorama[];
 
   @OneToMany(() => Visit, (visit) => visit.property)
   visits: Visit[];

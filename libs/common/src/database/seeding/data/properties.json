@@ -44,6 +44,11 @@
       "upload/properties/test/locasearch_3.png",
       "upload/properties/test/locasearch_4.png",
       "upload/properties/test/locasearch_5.png"
+    ],
+    "panorama": [
+      "upload/properties/test/panorama_1.jpeg",
+      "upload/properties/test/panorama_2.jpeg",
+      "upload/properties/test/panorama_3.jpeg"
     ]
   },
   {

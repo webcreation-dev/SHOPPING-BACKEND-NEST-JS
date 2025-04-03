@@ -1538,6 +1538,29 @@
           "registryDates"
         ]
       },
+      "Panorama": {
+        "type": "object",
+        "properties": {
+          "url": {
+            "type": "string"
+          },
+          "property": {
+            "$ref": "#/components/schemas/Property"
+          },
+          "id": {
+            "type": "number"
+          },
+          "registryDates": {
+            "$ref": "#/components/schemas/RegistryDates"
+          }
+        },
+        "required": [
+          "url",
+          "property",
+          "id",
+          "registryDates"
+        ]
+      },
       "Visit": {
         "type": "object",
         "properties": {
@@ -1873,6 +1896,12 @@
               "$ref": "#/components/schemas/Gallery"
             }
           },
+          "panorama": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Panorama"
+            }
+          },
           "visits": {
             "type": "array",
             "items": {
@@ -1931,6 +1960,7 @@
           "is_active",
           "articles",
           "galleries",
+          "panorama",
           "visits",
           "user",
           "owner",

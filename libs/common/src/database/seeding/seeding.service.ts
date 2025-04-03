@@ -10,6 +10,7 @@ import { StatusContractEnum } from 'src/features/contracts/enums/status-contract
 import { Annuity } from 'src/features/contracts/entities/annuity.entity';
 import { Notification } from 'src/features/notifications/entities/notification.entity';
 import { StatusNotificationEnum } from 'src/features/notifications/enums/status.notification.enum';
+import { Panorama } from 'src/features/properties/entities/panorama.entity';
 
 @Injectable()
 export class SeedingService {
@@ -23,6 +24,7 @@ export class SeedingService {
       const usersRepository = queryRunner.manager.getRepository(User);
       const propertiesRepository = queryRunner.manager.getRepository(Property);
       const galleriesRepository = queryRunner.manager.getRepository(Gallery);
+      const panoramaRepository = queryRunner.manager.getRepository(Panorama);
       const contractsRepository = queryRunner.manager.getRepository(Contract);
       const duesRepository = queryRunner.manager.getRepository(Due);
       const annuitiesRepository = queryRunner.manager.getRepository(Annuity);
@@ -33,6 +35,7 @@ export class SeedingService {
       await usersRepository.delete({});
       await propertiesRepository.delete({});
       await galleriesRepository.delete({});
+      await panoramaRepository.delete({});
       await contractsRepository.delete({});
       await duesRepository.delete({});
       await annuitiesRepository.delete({});
@@ -103,6 +106,17 @@ export class SeedingService {
             }),
           );
           await galleriesRepository.save(gallery);
+        }
+
+        // Ajout des images au panorama
+        for (const imagePath of propertyData.panorama) {
+          const panorama = panoramaRepository.create(
+            new Panorama({
+              url: imagePath,
+              property: savedProperty,
+            }),
+          );
+          await panoramaRepository.save(panorama);
         }
       }
 

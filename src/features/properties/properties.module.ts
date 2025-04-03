@@ -7,6 +7,7 @@ import { PropertiesRepository } from './properties.repository';
 import { GalleriesModule } from './galleries.module';
 import { UsersModule } from '../auth/users/users.module';
 import { PropertyResource } from './resources/property.resource';
+import { PanoramaModule } from './panorama.module';
 
 @Module({
   imports: [
@@ -15,6 +16,7 @@ import { PropertyResource } from './resources/property.resource';
     FilesModule,
     QueryingModule,
     GalleriesModule,
+    PanoramaModule,
     forwardRef(() => UsersModule),
   ],
   controllers: [PropertiesController],
