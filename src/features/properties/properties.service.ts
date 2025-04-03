@@ -87,6 +87,7 @@ export class PropertiesService {
           owner: true,
           visits: true,
           contracts: true,
+          panorama: true
         },
         order: { [sort]: order } as FindOptionsOrder<Property>,
         skip: offset,
@@ -145,7 +146,7 @@ export class PropertiesService {
           owner: true,
           visits: true,
           contracts: true,
-          panorama: true
+          panorama: true,
         },
       ),
     );
