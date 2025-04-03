@@ -66,8 +66,17 @@ export class VisitsService {
       },
     );
 
+    const updatedData = await Promise.all(
+      data.map(async (visit) => {
+        visit.property.galleries = (
+          await this.propertiesService.findOne(visit.property.id)
+        ).galleries;
+        return visit;
+      }),
+    );    
+
     const meta = this.paginationService.createMeta(limit, page, count);
-    return { data: this.visitResource.formatCollection(data), meta };
+    return { data: this.visitResource.formatCollection(updatedData), meta };
   }
 
   async create({ property_id }: CreateVisitDto, { id }: User) {
@@ -98,6 +107,9 @@ export class VisitsService {
       { id },
       { user: true, property: true, manager: true },
     );
+    const galleries = (await this.propertiesService.findOne(visit.property.id))
+      .galleries;
+    visit.property.galleries = galleries;
 
     return this.visitResource.format(visit);
   }
