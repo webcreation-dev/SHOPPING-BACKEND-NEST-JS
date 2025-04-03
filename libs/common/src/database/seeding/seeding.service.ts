@@ -109,7 +109,7 @@ export class SeedingService {
         }
 
         // Ajout des images au panorama
-        for (const imagePath of propertyData.panorama) {
+        for (const imagePath of propertyData.panoramas) {
           const panorama = panoramaRepository.create(
             new Panorama({
               url: imagePath,

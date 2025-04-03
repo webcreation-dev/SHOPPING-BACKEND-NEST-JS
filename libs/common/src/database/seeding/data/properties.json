@@ -45,7 +45,7 @@
       "upload/properties/test/locasearch_4.png",
       "upload/properties/test/locasearch_5.png"
     ],
-    "panorama": [
+    "panoramas": [
       "upload/properties/test/panorama_1.jpeg",
       "upload/properties/test/panorama_2.jpeg",
       "upload/properties/test/panorama_3.jpeg"
@@ -96,6 +96,11 @@
       "upload/properties/test/locasearch_3.png",
       "upload/properties/test/locasearch_4.png",
       "upload/properties/test/locasearch_5.png"
+    ],
+    "panoramas": [
+      "upload/properties/test/panorama_1.jpeg",
+      "upload/properties/test/panorama_2.jpeg",
+      "upload/properties/test/panorama_3.jpeg"
     ]
   },
   {
@@ -143,6 +148,11 @@
       "upload/properties/test/locasearch_1.png",
       "upload/properties/test/locasearch_4.png",
       "upload/properties/test/locasearch_5.png"
+    ],
+    "panoramas": [
+      "upload/properties/test/panorama_1.jpeg",
+      "upload/properties/test/panorama_2.jpeg",
+      "upload/properties/test/panorama_3.jpeg"
     ]
   },
   {
@@ -190,6 +200,11 @@
       "upload/properties/test/locasearch_2.png",
       "upload/properties/test/locasearch_1.png",
       "upload/properties/test/locasearch_5.png"
+    ],
+    "panoramas": [
+      "upload/properties/test/panorama_1.jpeg",
+      "upload/properties/test/panorama_2.jpeg",
+      "upload/properties/test/panorama_3.jpeg"
     ]
   },
   {
@@ -237,6 +252,11 @@
       "upload/properties/test/locasearch_3.png",
       "upload/properties/test/locasearch_2.png",
       "upload/properties/test/locasearch_1.png"
+    ],
+    "panoramas": [
+      "upload/properties/test/panorama_1.jpeg",
+      "upload/properties/test/panorama_2.jpeg",
+      "upload/properties/test/panorama_3.jpeg"
     ]
   },
   {
@@ -284,6 +304,11 @@
       "upload/properties/test/locasearch_3.png",
       "upload/properties/test/locasearch_4.png",
       "upload/properties/test/locasearch_5.png"
+    ],
+    "panoramas": [
+      "upload/properties/test/panorama_1.jpeg",
+      "upload/properties/test/panorama_2.jpeg",
+      "upload/properties/test/panorama_3.jpeg"
     ]
   },
   {
@@ -331,6 +356,11 @@
       "upload/properties/test/locasearch_3.png",
       "upload/properties/test/locasearch_4.png",
       "upload/properties/test/locasearch_5.png"
+    ],
+    "panoramas": [
+      "upload/properties/test/panorama_1.jpeg",
+      "upload/properties/test/panorama_2.jpeg",
+      "upload/properties/test/panorama_3.jpeg"
     ]
   },
   {
@@ -378,6 +408,11 @@
       "upload/properties/test/locasearch_1.png",
       "upload/properties/test/locasearch_4.png",
       "upload/properties/test/locasearch_5.png"
+    ],
+    "panoramas": [
+      "upload/properties/test/panorama_1.jpeg",
+      "upload/properties/test/panorama_2.jpeg",
+      "upload/properties/test/panorama_3.jpeg"
     ]
   },
   {
@@ -425,6 +460,11 @@
       "upload/properties/test/locasearch_2.png",
       "upload/properties/test/locasearch_1.png",
       "upload/properties/test/locasearch_5.png"
+    ],
+    "panoramas": [
+      "upload/properties/test/panorama_1.jpeg",
+      "upload/properties/test/panorama_2.jpeg",
+      "upload/properties/test/panorama_3.jpeg"
     ]
   },
   {
@@ -472,6 +512,11 @@
       "upload/properties/test/locasearch_3.png",
       "upload/properties/test/locasearch_2.png",
       "upload/properties/test/locasearch_1.png"
+    ],
+    "panoramas": [
+      "upload/properties/test/panorama_1.jpeg",
+      "upload/properties/test/panorama_2.jpeg",
+      "upload/properties/test/panorama_3.jpeg"
     ]
   },
   {
@@ -520,6 +565,11 @@
       "upload/properties/test/locasearch_3.png",
       "upload/properties/test/locasearch_4.png",
       "upload/properties/test/locasearch_5.png"
+    ],
+    "panoramas": [
+      "upload/properties/test/panorama_1.jpeg",
+      "upload/properties/test/panorama_2.jpeg",
+      "upload/properties/test/panorama_3.jpeg"
     ]
   },
   {
@@ -586,6 +636,11 @@
       "upload/properties/test/locasearch_3.png",
       "upload/properties/test/locasearch_4.png",
       "upload/properties/test/locasearch_5.png"
+    ],
+    "panoramas": [
+      "upload/properties/test/panorama_1.jpeg",
+      "upload/properties/test/panorama_2.jpeg",
+      "upload/properties/test/panorama_3.jpeg"
     ]
   },
   {
@@ -652,6 +707,11 @@
       "upload/properties/test/locasearch_1.png",
       "upload/properties/test/locasearch_4.png",
       "upload/properties/test/locasearch_5.png"
+    ],
+    "panoramas": [
+      "upload/properties/test/panorama_1.jpeg",
+      "upload/properties/test/panorama_2.jpeg",
+      "upload/properties/test/panorama_3.jpeg"
     ]
   },
   {
@@ -718,6 +778,11 @@
       "upload/properties/test/locasearch_2.png",
       "upload/properties/test/locasearch_1.png",
       "upload/properties/test/locasearch_5.png"
+    ],
+    "panoramas": [
+      "upload/properties/test/panorama_1.jpeg",
+      "upload/properties/test/panorama_2.jpeg",
+      "upload/properties/test/panorama_3.jpeg"
     ]
   },
   {
@@ -784,6 +849,11 @@
       "upload/properties/test/locasearch_3.png",
       "upload/properties/test/locasearch_2.png",
       "upload/properties/test/locasearch_1.png"
+    ],
+    "panoramas": [
+      "upload/properties/test/panorama_1.jpeg",
+      "upload/properties/test/panorama_2.jpeg",
+      "upload/properties/test/panorama_3.jpeg"
     ]
   },
   {
@@ -850,6 +920,11 @@
       "upload/properties/test/locasearch_3.png",
       "upload/properties/test/locasearch_4.png",
       "upload/properties/test/locasearch_5.png"
+    ],
+    "panoramas": [
+      "upload/properties/test/panorama_1.jpeg",
+      "upload/properties/test/panorama_2.jpeg",
+      "upload/properties/test/panorama_3.jpeg"
     ]
   },
   {
@@ -916,6 +991,11 @@
       "upload/properties/test/locasearch_3.png",
       "upload/properties/test/locasearch_4.png",
       "upload/properties/test/locasearch_5.png"
+    ],
+    "panoramas": [
+      "upload/properties/test/panorama_1.jpeg",
+      "upload/properties/test/panorama_2.jpeg",
+      "upload/properties/test/panorama_3.jpeg"
     ]
   },
   {
@@ -982,6 +1062,11 @@
       "upload/properties/test/locasearch_1.png",
       "upload/properties/test/locasearch_4.png",
       "upload/properties/test/locasearch_5.png"
+    ],
+    "panoramas": [
+      "upload/properties/test/panorama_1.jpeg",
+      "upload/properties/test/panorama_2.jpeg",
+      "upload/properties/test/panorama_3.jpeg"
     ]
   },
   {
@@ -1048,6 +1133,11 @@
       "upload/properties/test/locasearch_2.png",
       "upload/properties/test/locasearch_1.png",
       "upload/properties/test/locasearch_5.png"
+    ],
+    "panoramas": [
+      "upload/properties/test/panorama_1.jpeg",
+      "upload/properties/test/panorama_2.jpeg",
+      "upload/properties/test/panorama_3.jpeg"
     ]
   },
   {
@@ -1114,6 +1204,11 @@
       "upload/properties/test/locasearch_3.png",
       "upload/properties/test/locasearch_2.png",
       "upload/properties/test/locasearch_1.png"
+    ],
+    "panoramas": [
+      "upload/properties/test/panorama_1.jpeg",
+      "upload/properties/test/panorama_2.jpeg",
+      "upload/properties/test/panorama_3.jpeg"
     ]
   }
 ]

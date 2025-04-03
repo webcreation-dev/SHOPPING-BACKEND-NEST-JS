@@ -145,6 +145,7 @@ export class PropertiesService {
           owner: true,
           visits: true,
           contracts: true,
+          panorama: true
         },
       ),
     );

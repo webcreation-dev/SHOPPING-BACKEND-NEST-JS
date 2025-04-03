@@ -149,7 +149,9 @@ export class Property extends AbstractEntity<Property> {
   @OneToMany(() => Gallery, (gallery) => gallery.property, { cascade: true })
   galleries: Gallery[];
 
-  @OneToMany(() => Panorama, (panorama) => panorama.property, { cascade: true })
+  @OneToMany(() => Panorama, (panorama) => panorama.property, {
+    cascade: true,
+  })
   panorama: Panorama[];
 
   @OneToMany(() => Visit, (visit) => visit.property)

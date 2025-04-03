@@ -25,7 +25,7 @@ export class PropertyResource {
         ...gallery,
         url: `${process.env.API_URL}${gallery.url}`,
       })),
-      panorama: property.panorama.map((panorama) => ({
+      panoramas: property.panorama.map((panorama) => ({
         ...panorama,
         url: `${process.env.API_URL}${panorama.url}`,
       })),
