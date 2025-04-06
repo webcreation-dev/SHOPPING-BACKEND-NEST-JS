@@ -1,5 +1,5 @@
-import { fchmod } from 'fs';
 import { User } from '../users/entities/user.entity';
+import { StatusContractEnum } from 'src/features/contracts/enums/status-contract.enum';
 
 export class UserResource {
   constructor() {}
@@ -28,8 +28,14 @@ export class UserResource {
       ownProperties: user.ownProperties,
       visits: user.visits,
       managedVisits: user.managedVisits,
-      ownerContracts: user.ownerContracts,
-      contracts: user.contracts,
+      ownerContracts:
+        user.ownerContracts?.filter(
+          (contract) => contract.status === StatusContractEnum.ACTIVE,
+        ) || [],
+      contracts:
+        user.contracts?.filter(
+          (contract) => contract.status === StatusContractEnum.ACTIVE,
+        ) || [],
     };
   }
 
