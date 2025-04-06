@@ -1,7 +1,7 @@
 import { MigrationInterface, QueryRunner } from "typeorm";
 
-export class New1743719520479 implements MigrationInterface {
-    name = 'New1743719520479'
+export class New1743944260817 implements MigrationInterface {
+    name = 'New1743944260817'
 
     public async up(queryRunner: QueryRunner): Promise<void> {
         await queryRunner.query(`
@@ -163,6 +163,17 @@ export class New1743719520479 implements MigrationInterface {
             )
         `);
         await queryRunner.query(`
+            CREATE TABLE "panorama" (
+                "id" SERIAL NOT NULL,
+                "url" character varying NOT NULL,
+                "propertyId" integer,
+                "created_at" TIMESTAMP NOT NULL DEFAULT now(),
+                "updated_at" TIMESTAMP NOT NULL DEFAULT now(),
+                "deletedAt" TIMESTAMP,
+                CONSTRAINT "PK_c8945fecae5ee2b907e82ddc5bd" PRIMARY KEY ("id")
+            )
+        `);
+        await queryRunner.query(`
             CREATE TYPE "public"."tarification_enum" AS ENUM('DAILY', 'MONTHLY')
         `);
         await queryRunner.query(`
@@ -237,14 +248,20 @@ export class New1743719520479 implements MigrationInterface {
             )
         `);
         await queryRunner.query(`
-            CREATE TABLE "panorama" (
+            CREATE TABLE "waitlist" (
                 "id" SERIAL NOT NULL,
-                "url" character varying NOT NULL,
-                "propertyId" integer,
+                "lastname" character varying NOT NULL,
+                "firstname" character varying NOT NULL,
+                "phone" character varying NOT NULL,
+                "email" character varying NOT NULL,
+                "business_sector" character varying NOT NULL,
+                "category" character varying NOT NULL,
+                "expectations" character varying NOT NULL,
+                "used_infos" boolean NOT NULL,
                 "created_at" TIMESTAMP NOT NULL DEFAULT now(),
                 "updated_at" TIMESTAMP NOT NULL DEFAULT now(),
                 "deletedAt" TIMESTAMP,
-                CONSTRAINT "PK_c8945fecae5ee2b907e82ddc5bd" PRIMARY KEY ("id")
+                CONSTRAINT "PK_973cfbedc6381485681d6a6916c" PRIMARY KEY ("id")
             )
         `);
         await queryRunner.query(`
@@ -301,16 +318,16 @@ export class New1743719520479 implements MigrationInterface {
             ADD CONSTRAINT "FK_1ced25315eb974b73391fb1c81b" FOREIGN KEY ("userId") REFERENCES "user"("id") ON DELETE CASCADE ON UPDATE NO ACTION
         `);
         await queryRunner.query(`
+            ALTER TABLE "panorama"
+            ADD CONSTRAINT "FK_5490cf649ee970c9abed0aa7d17" FOREIGN KEY ("propertyId") REFERENCES "property"("id") ON DELETE CASCADE ON UPDATE NO ACTION
+        `);
+        await queryRunner.query(`
             ALTER TABLE "property"
             ADD CONSTRAINT "FK_d90007b39cfcf412e15823bebc1" FOREIGN KEY ("userId") REFERENCES "user"("id") ON DELETE CASCADE ON UPDATE NO ACTION
         `);
         await queryRunner.query(`
             ALTER TABLE "property"
             ADD CONSTRAINT "FK_917755242ab5b0a0b08a63016d9" FOREIGN KEY ("ownerId") REFERENCES "user"("id") ON DELETE CASCADE ON UPDATE NO ACTION
-        `);
-        await queryRunner.query(`
-            ALTER TABLE "panorama"
-            ADD CONSTRAINT "FK_5490cf649ee970c9abed0aa7d17" FOREIGN KEY ("propertyId") REFERENCES "property"("id") ON DELETE CASCADE ON UPDATE NO ACTION
         `);
         await queryRunner.query(`
             ALTER TABLE "user_roles_role"
@@ -330,13 +347,13 @@ export class New1743719520479 implements MigrationInterface {
             ALTER TABLE "user_roles_role" DROP CONSTRAINT "FK_5f9286e6c25594c6b88c108db77"
         `);
         await queryRunner.query(`
-            ALTER TABLE "panorama" DROP CONSTRAINT "FK_5490cf649ee970c9abed0aa7d17"
-        `);
-        await queryRunner.query(`
             ALTER TABLE "property" DROP CONSTRAINT "FK_917755242ab5b0a0b08a63016d9"
         `);
         await queryRunner.query(`
             ALTER TABLE "property" DROP CONSTRAINT "FK_d90007b39cfcf412e15823bebc1"
+        `);
+        await queryRunner.query(`
+            ALTER TABLE "panorama" DROP CONSTRAINT "FK_5490cf649ee970c9abed0aa7d17"
         `);
         await queryRunner.query(`
             ALTER TABLE "notification" DROP CONSTRAINT "FK_1ced25315eb974b73391fb1c81b"
@@ -378,7 +395,7 @@ export class New1743719520479 implements MigrationInterface {
             DROP TABLE "user_roles_role"
         `);
         await queryRunner.query(`
-            DROP TABLE "panorama"
+            DROP TABLE "waitlist"
         `);
         await queryRunner.query(`
             DROP TABLE "property"
@@ -403,6 +420,9 @@ export class New1743719520479 implements MigrationInterface {
         `);
         await queryRunner.query(`
             DROP TYPE "public"."tarification_enum"
+        `);
+        await queryRunner.query(`
+            DROP TABLE "panorama"
         `);
         await queryRunner.query(`
             DROP TABLE "user"

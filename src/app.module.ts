@@ -14,6 +14,7 @@ import { VisitsModule } from './features/visits/visits.module';
 import { ContractsModule } from './features/contracts/contracts.module';
 import { BillingsModule } from './features/billings/billings.module';
 import { NotificationsModule } from './features/notifications/notifications.module';
+import { WaitlistsModule } from './features/waitlists/waitlists.module';
 
 @Module({
   imports: [
@@ -30,6 +31,7 @@ import { NotificationsModule } from './features/notifications/notifications.modu
     ContractsModule,
     BillingsModule,
     NotificationsModule,
+    WaitlistsModule,
   ],
 })
 export class AppModule {}

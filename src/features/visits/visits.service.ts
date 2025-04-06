@@ -73,7 +73,7 @@ export class VisitsService {
         ).galleries;
         return visit;
       }),
-    );    
+    );
 
     const meta = this.paginationService.createMeta(limit, page, count);
     return { data: this.visitResource.formatCollection(updatedData), meta };

@@ -1,6 +1,7 @@
 export const DefaultPageSize = {
   USER: 10,
   PROPERTY: 6,
+  WAITLIST: 15,
   VISIT: 4,
   CONTRACTS: 4,
   NOTIFICATION: 10,
