@@ -105,7 +105,7 @@ export class ContractsService {
         start_date,
         articles: property.articles,
         rent_price: property.rent_price,
-        caution: property.caution,
+        caution: property.caution || 25000,
       }),
     );
 

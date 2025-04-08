@@ -597,7 +597,7 @@
     "electricity_personal_meter_type": "PREPAID",
     "longitude": 0,
     "latitude": 0,
-    "caution": 0,
+    "caution": 70000,
     "articles": [
       {
         "id": 1,
@@ -668,7 +668,7 @@
     "electricity_personal_meter_type": "PREPAID",
     "longitude": 0,
     "latitude": 0,
-    "caution": 0,
+    "caution": 70000,
     "articles": [
       {
         "id": 1,
@@ -739,7 +739,7 @@
     "electricity_personal_meter_type": "PREPAID",
     "longitude": 0,
     "latitude": 0,
-    "caution": 0,
+    "caution": 70000,
     "articles": [
       {
         "id": 1,
@@ -810,7 +810,7 @@
     "electricity_personal_meter_type": "PREPAID",
     "longitude": 0,
     "latitude": 0,
-    "caution": 0,
+    "caution": 70000,
     "articles": [
       {
         "id": 1,
@@ -881,7 +881,7 @@
     "electricity_personal_meter_type": "PREPAID",
     "longitude": 0,
     "latitude": 0,
-    "caution": 0,
+    "caution": 70000,
     "articles": [
       {
         "id": 1,
@@ -952,7 +952,7 @@
     "electricity_personal_meter_type": "PREPAID",
     "longitude": 0,
     "latitude": 0,
-    "caution": 0,
+    "caution": 70000,
     "articles": [
       {
         "id": 1,
@@ -1023,7 +1023,7 @@
     "electricity_personal_meter_type": "PREPAID",
     "longitude": 0,
     "latitude": 0,
-    "caution": 0,
+    "caution": 70000,
     "articles": [
       {
         "id": 1,
@@ -1094,7 +1094,7 @@
     "electricity_personal_meter_type": "PREPAID",
     "longitude": 0,
     "latitude": 0,
-    "caution": 0,
+    "caution": 70000,
     "articles": [
       {
         "id": 1,
@@ -1165,7 +1165,7 @@
     "electricity_personal_meter_type": "PREPAID",
     "longitude": 0,
     "latitude": 0,
-    "caution": 0,
+    "caution": 70000,
     "articles": [
       {
         "id": 1,
