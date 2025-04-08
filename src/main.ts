@@ -13,6 +13,7 @@ async function bootstrap() {
       'http://localhost:5173',
       'https://locapay-8f958cc17518.herokuapp.com',
       'https://www.locapay.app',
+      'http://localhost:8080',
     ],
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
     credentials: true,
