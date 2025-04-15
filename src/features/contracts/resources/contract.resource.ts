@@ -31,7 +31,8 @@ export class ContractResource {
   getBalanceDue(contract: Contract) {
     return contract.dues.reduce((acc, due) => {
       if (due.status_due != StatusDueEnum.FINISHED) {
-        acc += due.carry_over_amount;
+        acc +=
+          due.carry_over_amount + due.invoice_electricity + due.invoice_water;
       }
       return acc;
     }, 0);

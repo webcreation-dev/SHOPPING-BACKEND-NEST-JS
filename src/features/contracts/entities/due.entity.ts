@@ -15,6 +15,12 @@ export class Due extends AbstractEntity<Due> {
   @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
   due_date: Date;
 
+  @Column({ default: 0 })
+  invoice_water: number;
+
+  @Column({ default: 0 })
+  invoice_electricity: number;
+
   @Column({
     type: 'enum',
     enum: StatusDueEnum,

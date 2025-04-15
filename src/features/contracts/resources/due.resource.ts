@@ -7,6 +7,8 @@ export class DueResource {
     return {
       id: due.id,
       amount_paid: due.amount_paid,
+      invoice_electricity: due.invoice_electricity,
+      invoice_water: due.invoice_water,
       carry_over_amount: due.carry_over_amount,
       due_date: due.due_date,
       status_due: due.status_due,

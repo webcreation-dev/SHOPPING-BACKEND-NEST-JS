@@ -10,9 +10,9 @@ const dataSource = new DataSource({
   synchronize: false,
   entities: [
     'dist/src/features/auth/users/entities/role.entity.js',
+    'dist/src/features/auth/users/entities/user.entity.js',
     'dist/src/features/properties/entities/gallery.entity.js',
     'dist/src/features/properties/entities/property.entity.js',
-    'dist/src/features/auth/users/entities/user.entity.js',
     'dist/src/features/visits/entities/visit.entity.js',
     'dist/src/features/waitlists/entities/waitlist.entity.js',
     'dist/src/features/notifications/entities/notification.entity.js',

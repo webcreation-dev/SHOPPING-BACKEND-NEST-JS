@@ -1736,6 +1736,12 @@
             "format": "date-time",
             "type": "string"
           },
+          "invoice_water": {
+            "type": "number"
+          },
+          "invoice_electricity": {
+            "type": "number"
+          },
           "status_due": {
             "type": "string",
             "enum": [
@@ -1764,6 +1770,8 @@
           "amount_paid",
           "carry_over_amount",
           "due_date",
+          "invoice_water",
+          "invoice_electricity",
           "status_due",
           "contract",
           "annuities",
