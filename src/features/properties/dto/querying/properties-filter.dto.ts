@@ -31,8 +31,8 @@ export class PropertiesFilterDto extends NameFilterDto {
 
   @IsOptional()
   @IsNumber()
-  @Min(0)
-  @Max(1)
+  @Min(1)
+  @Max(2)
   readonly to_sell?: number;
 
   @IsString()

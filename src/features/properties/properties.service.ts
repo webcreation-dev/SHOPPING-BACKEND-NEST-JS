@@ -78,7 +78,7 @@ export class PropertiesService {
         department: department
           ? this.filteringService.contains(department)
           : undefined,
-        to_sell: to_sell ? this.filteringService.isBoolean(to_sell) : undefined,
+        to_sell: to_sell ? (to_sell === 1 ? true : false) : undefined,
       },
       {
         relations: {
