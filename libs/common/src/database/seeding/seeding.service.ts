@@ -121,45 +121,45 @@ export class SeedingService {
       }
 
       // ✅ CONTRACTS & DUES & ANNUITIES
-      // const savedContracts = [];
+      const savedContracts = [];
 
-      // for (const contractData of contractsData) {
-      //   const contract = contractsRepository.create({
-      //     tenant: savedUsers[0],
-      //     landlord: savedUsers[2],
-      //     property: savedProperties[11],
-      //     start_date: new Date(),
-      //     end_date: new Date(),
-      //     articles: savedProperties[11].articles,
-      //     rent_price: savedProperties[11].rent_price,
-      //     caution: savedProperties[11].caution,
-      //     status: StatusContractEnum.ACTIVE,
-      //   });
+      for (const contractData of contractsData) {
+        const contract = contractsRepository.create({
+          tenant: savedUsers[0],
+          landlord: savedUsers[1],
+          property: savedProperties[11],
+          start_date: new Date(),
+          end_date: new Date(),
+          articles: savedProperties[11].articles,
+          rent_price: savedProperties[11].rent_price,
+          caution: savedProperties[11].caution,
+          status: StatusContractEnum.ACTIVE,
+        });
 
-      //   const savedContract = await contractsRepository.save(contract);
-      //   savedContracts.push(savedContract);
+        const savedContract = await contractsRepository.save(contract);
+        savedContracts.push(savedContract);
 
-      //   await Promise.all(
-      //     duesData.map(async (item) => {
-      //       const due = duesRepository.create({
-      //         contract: savedContract,
-      //         due_date: new Date(item.date),
-      //         amount_paid: savedContract.rent_price - item.balance,
-      //         carry_over_amount: item.balance,
-      //         status_due: item.status_due,
-      //       });
-      //       const saveDue = await duesRepository.save(due);
+        await Promise.all(
+          duesData.map(async (item) => {
+            const due = duesRepository.create({
+              contract: savedContract,
+              due_date: new Date(item.date),
+              amount_paid: savedContract.rent_price - item.balance,
+              carry_over_amount: item.balance,
+              status_due: item.status_due,
+            });
+            const saveDue = await duesRepository.save(due);
 
-      //       item.annuities.forEach(async (data) => {
-      //         const annuity = annuitiesRepository.create({
-      //           amount: data.amount,
-      //           due: saveDue,
-      //         });
-      //         await annuitiesRepository.save(annuity);
-      //       });
-      //     }),
-      //   );
-      // }
+            item.annuities.forEach(async (data) => {
+              const annuity = annuitiesRepository.create({
+                amount: data.amount,
+                due: saveDue,
+              });
+              await annuitiesRepository.save(annuity);
+            });
+          }),
+        );
+      }
 
       // ✅ NOTIFICATIONS
 

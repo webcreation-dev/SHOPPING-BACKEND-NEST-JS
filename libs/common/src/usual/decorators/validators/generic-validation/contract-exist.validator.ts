@@ -25,7 +25,7 @@ export class ContractExistValidatorConstraint
 
     // check if the landlord is the same as the tenant
     if (tenant_id === landlord_id) {
-      this.errorMessage = `Le locataire et le propriétaire doivent être différents.`;
+      this.errorMessage = `Le locataire et le gérant doivent être différents.`;
       return false;
     }
 
@@ -52,12 +52,9 @@ export class ContractExistValidatorConstraint
       return false;
     }
 
-    // check if the property is owned by the landlord
-    if (
-      (!property.owner || property.owner.id !== landlord_id) &&
-      (!property.user || property.user.id !== landlord_id)
-    ) {
-      this.errorMessage = `La location n'appartient pas au propriétaire.`;
+    // check if the property is managed by the landlord
+    if (!property.user || property.user.id !== landlord_id) {
+      this.errorMessage = `La location n'appartient pas au gérant.`;
       return false;
     }
 
@@ -65,6 +62,6 @@ export class ContractExistValidatorConstraint
   }
 
   defaultMessage() {
-    return this.errorMessage || `Erreur de validation du contrat. n°2`;
+    return this.errorMessage || `Erreur de validation du contrat.`;
   }
 }

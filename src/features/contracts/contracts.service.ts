@@ -31,11 +31,17 @@ export class ContractsService {
   ) {}
 
   async findAll(contractsQueryDto: ContractsQueryDto, user: User) {
-    const [ownContracts, ownerContracts] = await Promise.all([
-      this.findOwn(contractsQueryDto, user),
-      this.findOwner(contractsQueryDto, user),
-    ]);
-    return { tenant: ownContracts, owner: ownerContracts };
+    const [ownContracts, managedContracts, ownedPropertiesContracts] =
+      await Promise.all([
+        this.findOwn(contractsQueryDto, user),
+        this.findMangaged(contractsQueryDto, user),
+        this.findOwnedPropertiesContracts(contractsQueryDto, user),
+      ]);
+    return {
+      tenant: ownContracts,
+      managed: managedContracts,
+      owner: ownedPropertiesContracts,
+    };
   }
 
   async findOwn(contractsQueryDto: ContractsQueryDto, user: User) {
@@ -44,35 +50,67 @@ export class ContractsService {
     });
   }
 
-  async findOwner(contractsQueryDto: ContractsQueryDto, user: User) {
+  async findMangaged(contractsQueryDto: ContractsQueryDto, user: User) {
     return this.findContractsByFilter(contractsQueryDto, user, {
       landlordId: user.id,
+    });
+  }
+
+  async findOwnedPropertiesContracts(
+    contractsQueryDto: ContractsQueryDto,
+    user: User,
+  ) {
+    return this.findContractsByFilter(contractsQueryDto, user, {
+      ownerId: user.id,
     });
   }
 
   async findContractsByFilter(
     contractsQueryDto: ContractsQueryDto,
     user: User,
-    filter: { tenantId?: number; landlordId?: number },
+    filter: { tenantId?: number; landlordId?: number; ownerId?: number },
   ) {
     const { page } = contractsQueryDto;
     const limit = contractsQueryDto.limit ?? DefaultPageSize.CONTRACTS;
     const offset = this.paginationService.calculateOffset(limit, page);
 
-    const whereCondition = filter.tenantId
-      ? { tenant: { id: filter.tenantId }, status: StatusContractEnum.ACTIVE }
-      : {
-          landlord: { id: filter.landlordId },
-          status: StatusContractEnum.ACTIVE,
-        };
+    // const whereCondition = filter.tenantId
+    //   ? { tenant: { id: filter.tenantId }, status: StatusContractEnum.ACTIVE }
+    //   : {
+    //       landlord: { id: filter.landlordId },
+    //       status: StatusContractEnum.ACTIVE,
+    //     };
+
+    let whereCondition: any;
+
+    if (filter.tenantId) {
+      whereCondition = {
+        tenant: { id: filter.tenantId },
+        status: StatusContractEnum.ACTIVE,
+      };
+    } else if (filter.landlordId) {
+      whereCondition = {
+        landlord: { id: filter.landlordId },
+        status: StatusContractEnum.ACTIVE,
+      };
+    } else if (filter.ownerId) {
+      whereCondition = {
+        property: { owner: { id: filter.ownerId } },
+        status: StatusContractEnum.ACTIVE,
+      };
+    }
 
     const [data] = await this.contractsRepository.findAndCount(whereCondition, {
-      relations: { tenant: true, landlord: true, property: true, dues: true },
+      relations: {
+        tenant: true,
+        landlord: true,
+        property: { owner: true },
+        dues: true,
+      },
       skip: offset,
       take: limit,
     });
 
-    // edit each contract to include dues
     for (const contract of data) {
       const [dues] = await this.duesRepository.findAndCount(
         { contract: { id: contract.id } },
