@@ -24,12 +24,14 @@ import { join } from 'path';
 import { UsersRepository } from 'src/features/auth/users/users.repository';
 import { Property } from '../properties/entities/property.entity';
 import { StatusEnum } from './users/enums/status.enum';
+import { TokenBlacklistService } from './token-blacklist.service';
 
 @Injectable()
 export class AuthService {
   constructor(
     private readonly configService: ConfigService,
     private readonly jwtService: JwtService,
+    private readonly tokenBlacklistService: TokenBlacklistService,
 
     private readonly usersRepository: UsersRepository,
     private readonly tempUserService: TempUserService,
@@ -167,15 +169,6 @@ export class AuthService {
   }
 
   async getUser(user: User) {
-    // const firebaseMessage = {
-    //   message: `Votre commande a été créée avec succès.`,
-    //   title: 'Nouvelle commande',
-    //   token:
-    //     'e86tgg4MRAeFzTaDoeZxKN:APA91bH85fd1vRz8oMzCPbUKdE-FsIIBEHZ1eVn73lH4zFIaSI0NvPe3mHzHzIegl3BYvKF3o6lLK0cfAuGaveUJUY81TpUTrgk1lEaVbaAM7twdY8Jf66M',
-    // };
-    // await this.notificationsService.sendFirebaseMessages([
-    //   firebaseMessage,
-    // ]);
 
     return await this.usersService.findOne(user.id);
   }

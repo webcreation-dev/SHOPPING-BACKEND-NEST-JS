@@ -2,9 +2,8 @@ import {
   Body,
   Controller,
   Get,
-  Patch,
   Post,
-  UploadedFile,
+  Req,
   UploadedFiles,
   UseGuards,
   UseInterceptors,
@@ -22,7 +21,7 @@ import {
   RequestUser,
   ResetPasswordDto,
 } from '@app/common';
-import { FileInterceptor, FilesInterceptor } from '@nestjs/platform-express';
+import { FilesInterceptor } from '@nestjs/platform-express';
 import { CreateUserDto } from './users/dto/create-user.dto';
 import { SaveUserDto } from './users/dto/save-user-dto';
 import { CurrentUser } from './decorators/user.decorator';
@@ -80,6 +79,13 @@ export class AuthController {
   @Post('reset_password')
   async resetPassword(@Body() resetPasswordDto: ResetPasswordDto) {
     return this.authService.resetPassword(resetPasswordDto);
+  }
+
+  @HeaderOperation('LOGOUT')
+  @Post('logout')
+  async logout(@Req() req: any) {
+    const token = req.headers.authorization?.split(' ')[1]; // Récupérer le token JWT
+    return await this.authService.logout(token);
   }
 
   @HeaderOperation('TOGGLE WISHLIST', ToggleWishlistDto, null)

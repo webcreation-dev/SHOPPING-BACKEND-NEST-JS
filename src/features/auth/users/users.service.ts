@@ -6,6 +6,7 @@ import { PropertiesService } from 'src/features/properties/properties.service';
 import { ToggleWishlistDto } from './dto/toggle-wishlist.dto';
 import { ValidateUserDto } from './dto/validate-user.dto';
 import { UserResource } from 'src/features/auth/resources/user.resource';
+import { SearchUserByCodeDto } from './dto/search-user-by-code.dto';
 
 @Injectable()
 export class UsersService {
@@ -37,6 +38,11 @@ export class UsersService {
     return this.userResource.formatCollection(
       await this.usersRepository.find({}),
     );
+  }
+
+  async searchUserByCode({ code }: SearchUserByCodeDto) {
+    const user = await this.usersRepository.findOne({ code });
+    return await this.findOne(user.id);
   }
 
   async create(createUserDto: CreateUserDto) {

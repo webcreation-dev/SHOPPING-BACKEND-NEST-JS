@@ -74,13 +74,6 @@ export class ContractsService {
     const limit = contractsQueryDto.limit ?? DefaultPageSize.CONTRACTS;
     const offset = this.paginationService.calculateOffset(limit, page);
 
-    // const whereCondition = filter.tenantId
-    //   ? { tenant: { id: filter.tenantId }, status: StatusContractEnum.ACTIVE }
-    //   : {
-    //       landlord: { id: filter.landlordId },
-    //       status: StatusContractEnum.ACTIVE,
-    //     };
-
     let whereCondition: any;
 
     if (filter.tenantId) {

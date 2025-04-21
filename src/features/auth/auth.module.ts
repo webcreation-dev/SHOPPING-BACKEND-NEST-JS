@@ -17,6 +17,7 @@ import jwtConfig from 'libs/common/src/auth/config/jwt.config';
 import { HashingService } from './hashing/hashing.service';
 import { BcryptService } from './hashing/bcrypt.service';
 import { UsersModule } from './users/users.module';
+import { TokenBlacklistService } from './token-blacklist.service';
 
 @Module({
   imports: [
@@ -37,6 +38,7 @@ import { UsersModule } from './users/users.module';
     },
     JwtStrategy,
     LocalStrategy,
+    TokenBlacklistService,
   ],
   exports: [HashingService],
 })
