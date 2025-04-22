@@ -357,7 +357,16 @@
     "/users/search_user_by_code": {
       "get": {
         "operationId": "UsersController_searchUserByCode",
-        "parameters": [],
+        "parameters": [
+          {
+            "name": "code",
+            "required": true,
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
         "requestBody": {
           "required": true,
           "content": {

@@ -62,7 +62,7 @@ export class PropertiesController {
 
   @Get()
   @ApiPaginatedResponse(Property)
-  @HeaderOperation('GET ALL', PropertiesQueryDto, null, true)
+  @HeaderOperation('GET ALL', PropertiesQueryDto)
   findAll(
     @Query() propertiesQueryDto: PropertiesQueryDto,
     @CurrentUser() user: User,
