@@ -45,7 +45,7 @@ export class PropertiesService {
     private readonly propertyResource: PropertyResource,
   ) {}
 
-  async findAll(propertiesQueryDto: PropertiesQueryDto) {
+  async findAll(user: User, propertiesQueryDto: PropertiesQueryDto) {
     const {
       page,
       name,
@@ -65,6 +65,7 @@ export class PropertiesService {
 
     const [data, count] = await this.propertiesRepository.findAndCount(
       {
+        user: { id: user.id },
         description: name ? this.filteringService.contains(name) : undefined,
         rent_price: price ? this.filteringService.compare(price) : undefined,
         type: type as TypePropertyEnum,
@@ -87,7 +88,7 @@ export class PropertiesService {
           owner: true,
           visits: true,
           contracts: true,
-          panorama: true
+          panorama: true,
         },
         order: { [sort]: order } as FindOptionsOrder<Property>,
         skip: offset,

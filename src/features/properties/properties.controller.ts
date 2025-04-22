@@ -63,8 +63,11 @@ export class PropertiesController {
   @Get()
   @ApiPaginatedResponse(Property)
   @HeaderOperation('GET ALL', PropertiesQueryDto, null, true)
-  findAll(@Query() propertiesQueryDto: PropertiesQueryDto) {
-    return this.propertiesService.findAll(propertiesQueryDto);
+  findAll(
+    @Query() propertiesQueryDto: PropertiesQueryDto,
+    @CurrentUser() user: User,
+  ) {
+    return this.propertiesService.findAll(user, propertiesQueryDto);
   }
 
   @Get(':id')

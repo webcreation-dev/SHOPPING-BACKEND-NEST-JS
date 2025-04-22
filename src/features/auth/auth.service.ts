@@ -98,6 +98,11 @@ export class AuthService {
     return this.usersRepository.findOne({ id: payload.sub }, { roles: true });
   }
 
+  async logout(token: string) {
+    this.tokenBlacklistService.addToBlacklist(token);
+    return { message: 'Logout successful' };
+  }
+
   async initiateValidation(
     initiateValidationUserDto: InitiateValidationUserDto,
     files: File[],
@@ -169,7 +174,6 @@ export class AuthService {
   }
 
   async getUser(user: User) {
-
     return await this.usersService.findOne(user.id);
   }
 
