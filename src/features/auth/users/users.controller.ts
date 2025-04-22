@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Post } from '@nestjs/common';
+import { Body, Controller, Get, Post, Query } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { HeaderOperation } from '@app/common';
 import { ValidateUserDto } from './dto/validate-user.dto';
@@ -22,7 +22,7 @@ export class UsersController {
 
   @Get('search_user_by_code')
   @HeaderOperation('SEARCH USER BY CODE', SearchUserByCodeDto)
-  searchUserByCode(@Body() searchUserByCodeDto: SearchUserByCodeDto) {
+  searchUserByCode(@Query() searchUserByCodeDto: SearchUserByCodeDto) {
     return this.usersService.searchUserByCode(searchUserByCodeDto);
   }
 }
