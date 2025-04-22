@@ -40,7 +40,7 @@ import { TokenBlacklistService } from './token-blacklist.service';
     LocalStrategy,
     TokenBlacklistService,
   ],
-  exports: [HashingService],
+  exports: [HashingService, TokenBlacklistService],
 })
 export class AuthModule implements NestModule {
   configure(consumer: MiddlewareConsumer) {

@@ -195,6 +195,21 @@
         ]
       }
     },
+    "/auth/logout": {
+      "post": {
+        "operationId": "AuthController_logout",
+        "parameters": [],
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "summary": "LOGOUT",
+        "tags": [
+          "Auth"
+        ]
+      }
+    },
     "/auth/toggle_wishlist": {
       "post": {
         "operationId": "AuthController_addWishlist",
@@ -334,6 +349,31 @@
           }
         },
         "summary": "GET ALL",
+        "tags": [
+          "Users"
+        ]
+      }
+    },
+    "/users/search_user_by_code": {
+      "get": {
+        "operationId": "UsersController_searchUserByCode",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SearchUserByCodeDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "summary": "SEARCH USER BY CODE",
         "tags": [
           "Users"
         ]
@@ -1420,92 +1460,6 @@
           "Billings"
         ]
       }
-    },
-    "/waitlists": {
-      "post": {
-        "operationId": "WaitlistsController_create",
-        "parameters": [],
-        "requestBody": {
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/CreateWaitlistDto"
-              }
-            }
-          }
-        },
-        "responses": {
-          "201": {
-            "description": ""
-          }
-        },
-        "summary": "CREATE ",
-        "tags": [
-          "Waitlists"
-        ]
-      },
-      "get": {
-        "operationId": "WaitlistsController_findAll",
-        "parameters": [
-          {
-            "name": "limit",
-            "required": false,
-            "in": "query",
-            "schema": {
-              "maximum": 100,
-              "type": "number"
-            }
-          },
-          {
-            "name": "page",
-            "required": false,
-            "in": "query",
-            "schema": {
-              "maximum": 25,
-              "default": 1,
-              "type": "number"
-            }
-          }
-        ],
-        "requestBody": {
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/WaitlistsQueryDto"
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "title": "PaginatedResponseOfWaitlist",
-                  "properties": {
-                    "data": {
-                      "type": "array",
-                      "items": {
-                        "$ref": "#/components/schemas/Waitlist"
-                      }
-                    },
-                    "meta": {
-                      "$ref": "#/components/schemas/PaginationMeta"
-                    }
-                  }
-                }
-              }
-            }
-          }
-        },
-        "summary": "GET OWN",
-        "tags": [
-          "Waitlists"
-        ]
-      }
     }
   },
   "info": {
@@ -2443,6 +2397,17 @@
         "required": [
           "status",
           "user_id"
+        ]
+      },
+      "SearchUserByCodeDto": {
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "code"
         ]
       },
       "CreatePropertyDto": {

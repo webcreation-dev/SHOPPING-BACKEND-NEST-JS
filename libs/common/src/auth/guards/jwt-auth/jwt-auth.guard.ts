@@ -6,13 +6,13 @@ import {
 import { Reflector } from '@nestjs/core';
 import { AuthGuard } from '@nestjs/passport';
 import { IS_PUBLIC_KEY } from '../../decorators/public.decorator';
-import { TokenBlacklistService } from 'src/features/auth/token-blacklist.service';
+// import { TokenBlacklistService } from 'src/features/auth/token-blacklist.service';
 
 @Injectable()
 export class JwtAuthGuard extends AuthGuard('jwt') {
   constructor(
     private readonly reflector: Reflector,
-    private readonly tokenBlacklistService: TokenBlacklistService,
+    // private readonly tokenBlacklistService: TokenBlacklistService,
   ) {
     super();
   }
@@ -33,9 +33,9 @@ export class JwtAuthGuard extends AuthGuard('jwt') {
       throw new UnauthorizedException('No token provided');
     }
 
-    if (this.tokenBlacklistService.isBlacklisted(token)) {
-      throw new UnauthorizedException('Token has been revoked');
-    }
+    // if (this.tokenBlacklistService.isBlacklisted(token)) {
+    //   throw new UnauthorizedException('Token has been revoked');
+    // }
 
     return super.canActivate(context);
   }

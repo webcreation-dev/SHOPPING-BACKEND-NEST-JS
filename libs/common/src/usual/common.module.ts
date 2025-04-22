@@ -15,8 +15,10 @@ import { EntityMetadataExceptionFilter } from '../database/exception-filters/ent
 import { FilesExceptionFilter } from '../files/exception-filters/files-exception/files-exception.filter';
 import { ResponseFormatInterceptor } from './interceptors/sucess-response.interceptor';
 import { BadRequestExceptionFilter } from '../database/exception-filters/bad-request-exception/bad-request-exception.filter';
+// import { AuthModule } from 'src/features/auth/auth.module';
 
 @Module({
+  // imports: [AuthModule],
   providers: [
     {
       provide: APP_PIPE,

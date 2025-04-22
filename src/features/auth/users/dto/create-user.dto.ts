@@ -1,4 +1,3 @@
-import { IsUnique } from '@app/common';
 import {
   IsEnum,
   IsNotEmpty,
@@ -9,6 +8,7 @@ import {
 import { User } from '../entities/user.entity';
 import { AppTypeEnum } from '../enums/app_type.enum';
 import { SexeEnum } from '../enums/sexe.enum';
+import { IsUnique } from 'libs/common/src/usual/decorators/validators/is-unique.decorator';
 
 export class CreateUserDto {
   @IsString()
