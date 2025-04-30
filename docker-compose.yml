@@ -1,10 +1,33 @@
+version: '3.8'
+
 services:
-  database:
-    image: postgres
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: nestjs_app
     restart: always
     ports:
-      - "${DATASOURCE_PORT}:5432"
+      - "3000:3000"
+    environment:
+      DATABASE_URL: postgresql://postgres:postgres@database:5432/postgres
+      JWT_SECRET: your_jwt_secret
+      JWT_TTL: 604800
+    depends_on:
+      - database
+
+  database:
+    image: postgres:15
+    container_name: postgres_db
+    restart: always
+    ports:
+      - "5432:5432"
     environment:
       POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: ${DATASOURCE_PASSWORD}
+      POSTGRES_PASSWORD: postgres
       POSTGRES_DB: postgres
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+volumes:
+  postgres_data:

@@ -1,0 +1,31 @@
+name: Deploy to VPS
+
+on:
+  push:
+    branches:
+      - main # Déclenche le workflow sur la branche principale
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      # Étape 1 : Cloner le dépôt
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      # Étape 2 : Configurer SSH
+      - name: Setup SSH
+        uses: webfactory/ssh-agent@v0.5.3
+        with:
+          ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
+
+      # Étape 3 : Copier les fichiers sur le VPS
+      - name: Deploy to VPS
+        run: |
+          ssh -o StrictHostKeyChecking=no deploy@<VPS_IP> << 'EOF'
+          cd /var/www/nestjs-app
+          git pull origin main
+          docker-compose down
+          docker-compose up -d --build
+          EOF
