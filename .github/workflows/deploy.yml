@@ -3,7 +3,7 @@ name: Deploy to VPS
 on:
   push:
     branches:
-      - main # Déclenche le workflow sur la branche principale
+      - main
 
 jobs:
   deploy:
@@ -20,10 +20,14 @@ jobs:
         with:
           ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
 
-      # Étape 3 : Copier les fichiers sur le VPS
+      # Étape 3 : Tester la connexion SSH
+      - name: Test SSH connection
+        run: ssh -o StrictHostKeyChecking=no deploy@${{ secrets.VPS_IP }} "echo 'SSH connection successful'"
+
+      # Étape 4 : Déployer sur le VPS
       - name: Deploy to VPS
         run: |
-          ssh -o StrictHostKeyChecking=no deploy@<VPS_IP> << 'EOF'
+          ssh -o StrictHostKeyChecking=no deploy@${{ secrets.VPS_IP }} << 'EOF'
           cd /var/www/nestjs-app
           git pull origin main
           docker-compose down
