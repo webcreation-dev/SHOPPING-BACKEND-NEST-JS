@@ -23,12 +23,12 @@ const dataSource = new DataSource({
     'dist/src/features/contracts/entities/annuity.entity.js',
   ],
   migrations: ['dist/libs/common/src/database/migrations/*.js'],
-  ssl: true,
-  extra: {
-    ssl: {
-      rejectUnauthorized: false,
-    },
-  },
+  ssl: false,
+  // extra: {
+  //   ssl: {
+  //     rejectUnauthorized: false,
+  //   },
+  // },
 });
 
 dataSource.initialize();

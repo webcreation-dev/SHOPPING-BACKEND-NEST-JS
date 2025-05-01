@@ -6,12 +6,12 @@ export default registerAs('database', () => {
     type: 'postgres',
     url: process.env.DATABASE_URL,
     autoLoadEntities: true,
-    ssl: true,
-    extra: {
-      ssl: {
-        rejectUnauthorized: false,
-      },
-    },
+    ssl: false,
+    // extra: {
+    //   ssl: {
+    //     rejectUnauthorized: false,
+    //   },
+    // },
   } as const satisfies TypeOrmModuleOptions;
   return config;
 });
