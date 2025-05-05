@@ -10,6 +10,7 @@ async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   app.enableCors({
     origin: [
+      'https://locapay-manager.vercel.app',
       'http://localhost:5173',
       'https://locapay-8f958cc17518.herokuapp.com',
       'https://www.locapay.app',

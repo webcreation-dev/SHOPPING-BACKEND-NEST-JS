@@ -63,9 +63,7 @@ export class PropertiesController {
   @Get('/all/all')
   @ApiPaginatedResponse(Property)
   @HeaderOperation('GET ALL', PropertiesQueryDto, null, true)
-  getAll(
-    @Query() propertiesQueryDto: PropertiesQueryDto,
-  ) {
+  getAll(@Query() propertiesQueryDto: PropertiesQueryDto) {
     return this.propertiesService.getAll(propertiesQueryDto);
   }
   @Get()
