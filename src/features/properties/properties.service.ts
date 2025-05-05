@@ -45,6 +45,60 @@ export class PropertiesService {
     private readonly propertyResource: PropertyResource,
   ) {}
 
+  async getAll(propertiesQueryDto: PropertiesQueryDto) {
+    const {
+      page,
+      name,
+      price,
+      sort,
+      order,
+      type,
+      tarification,
+      to_sell,
+      district,
+      municipality,
+      department,
+    } = propertiesQueryDto;
+
+    const limit = propertiesQueryDto.limit ?? DefaultPageSize.PROPERTY;
+    const offset = this.paginationService.calculateOffset(limit, page);
+
+    const [data, count] = await this.propertiesRepository.findAndCount(
+      {
+        description: name ? this.filteringService.contains(name) : undefined,
+        rent_price: price ? this.filteringService.compare(price) : undefined,
+        type: type as TypePropertyEnum,
+        tarification: tarification as TarificationEnum,
+        district: district
+          ? this.filteringService.contains(district)
+          : undefined,
+        municipality: municipality
+          ? this.filteringService.contains(municipality)
+          : undefined,
+        department: department
+          ? this.filteringService.contains(department)
+          : undefined,
+        to_sell: to_sell ? (to_sell === 1 ? true : false) : undefined,
+      },
+      {
+        relations: {
+          galleries: true,
+          user: true,
+          owner: true,
+          visits: true,
+          contracts: true,
+          panorama: true,
+        },
+        order: { [sort]: order } as FindOptionsOrder<Property>,
+        skip: offset,
+        take: limit,
+      },
+    );
+
+    const meta = this.paginationService.createMeta(limit, page, count);
+
+    return { data: this.propertyResource.formatCollection(data), meta };
+  }
   async findAll(user: User, propertiesQueryDto: PropertiesQueryDto) {
     const {
       page,

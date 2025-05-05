@@ -60,9 +60,17 @@ export class PropertiesController {
     return await this.propertiesService.create(createPropertyDto, user);
   }
 
-  @Get()
+  @Get('/all')
   @ApiPaginatedResponse(Property)
   @HeaderOperation('GET ALL', PropertiesQueryDto)
+  getAll(
+    @Query() propertiesQueryDto: PropertiesQueryDto,
+  ) {
+    return this.propertiesService.getAll(propertiesQueryDto);
+  }
+  @Get()
+  @ApiPaginatedResponse(Property)
+  @HeaderOperation('FIND ALL', PropertiesQueryDto)
   findAll(
     @Query() propertiesQueryDto: PropertiesQueryDto,
     @CurrentUser() user: User,
