@@ -11,6 +11,7 @@ async function bootstrap() {
   app.enableCors({
     origin: [
       'https://locapay-manager.vercel.app',
+      'http://business.locapay.app',
       'http://localhost:5173',
       'http://185.218.125.120:8085',
       'https://locapay-8f958cc17518.herokuapp.com',
