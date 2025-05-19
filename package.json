@@ -50,7 +50,7 @@
     "joi": "^17.13.3",
     "magic-bytes.js": "^1.10.0",
     "mtn-momo-sdk": "^1.2.0",
-    "nestjs-pino": "^3.1.1",
+    "nestjs-pino": "^4.4.0",
     "passport": "^0.7.0",
     "passport-jwt": "^4.0.1",
     "passport-local": "^1.0.0",
