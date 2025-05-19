@@ -46,6 +46,12 @@ export class Property extends AbstractEntity<Property> {
   commission: number;
 
   @Column()
+  management_fee: number;
+
+  @Column()
+  house_name: string;
+
+  @Column()
   description: string;
 
   @Column('decimal', { precision: 10, scale: 6, nullable: true })

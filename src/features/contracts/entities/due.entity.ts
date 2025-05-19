@@ -4,6 +4,13 @@ import { StatusDueEnum } from '../enums/status-due.enum';
 import { Contract } from './contract.entity';
 import { Annuity } from './annuity.entity';
 
+export type InvoiceItem = {
+  id: number;
+  title: string;
+  amount: number;
+  status: 'PENDING' | 'PAID';
+};
+
 @Entity()
 export class Due extends AbstractEntity<Due> {
   @Column({ default: 0 })
@@ -15,12 +22,6 @@ export class Due extends AbstractEntity<Due> {
   @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
   due_date: Date;
 
-  @Column({ default: 0 })
-  invoice_water: number;
-
-  @Column({ default: 0 })
-  invoice_electricity: number;
-
   @Column({
     type: 'enum',
     enum: StatusDueEnum,
@@ -28,6 +29,9 @@ export class Due extends AbstractEntity<Due> {
     default: StatusDueEnum.WAITING,
   })
   status_due: StatusDueEnum;
+
+  @Column({ type: 'json', nullable: true })
+  invoices: InvoiceItem[];
 
   @ManyToOne(() => Contract, (contract) => contract.dues, {
     onDelete: 'CASCADE',

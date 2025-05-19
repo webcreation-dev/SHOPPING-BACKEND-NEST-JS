@@ -1601,6 +1601,108 @@
         ]
       }
     },
+    "/contracts/{id}/add_invoices": {
+      "patch": {
+        "operationId": "ContractsController_addInvoices",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "number"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AddInvoicesDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "summary": "ADD ARTICLES",
+        "tags": [
+          "Contracts"
+        ]
+      }
+    },
+    "/contracts/{id}/update_invoice": {
+      "patch": {
+        "operationId": "ContractsController_updateInvoice",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "number"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateInvoiceDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "summary": "UPDATE ARTICLE",
+        "tags": [
+          "Contracts"
+        ]
+      }
+    },
+    "/contracts/{id}/remove_invoice": {
+      "delete": {
+        "operationId": "ContractsController_removeInvoice",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "number"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RemoveInvoiceDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "summary": "REMOVE ARTICLE",
+        "tags": [
+          "Contracts"
+        ]
+      }
+    },
     "/billings/generate_dues": {
       "get": {
         "operationId": "BillingsController_createDue",
@@ -1956,12 +2058,6 @@
             "format": "date-time",
             "type": "string"
           },
-          "invoice_water": {
-            "type": "number"
-          },
-          "invoice_electricity": {
-            "type": "number"
-          },
           "status_due": {
             "type": "string",
             "enum": [
@@ -1969,6 +2065,12 @@
               "IN_PROGRESS",
               "FINISHED"
             ]
+          },
+          "invoices": {
+            "type": "array",
+            "items": {
+              "type": "object"
+            }
           },
           "contract": {
             "$ref": "#/components/schemas/Contract"
@@ -1990,9 +2092,8 @@
           "amount_paid",
           "carry_over_amount",
           "due_date",
-          "invoice_water",
-          "invoice_electricity",
           "status_due",
+          "invoices",
           "contract",
           "annuities",
           "id",
@@ -2106,6 +2207,12 @@
           },
           "commission": {
             "type": "number"
+          },
+          "management_fee": {
+            "type": "number"
+          },
+          "house_name": {
+            "type": "string"
           },
           "description": {
             "type": "string"
@@ -2249,6 +2356,8 @@
           "visit_price",
           "rent_price",
           "commission",
+          "management_fee",
+          "house_name",
           "description",
           "latitude",
           "longitude",
@@ -2719,7 +2828,13 @@
           "commission": {
             "type": "number"
           },
+          "management_fee": {
+            "type": "number"
+          },
           "description": {
+            "type": "string"
+          },
+          "house_name": {
             "type": "string"
           },
           "latitude": {
@@ -2815,7 +2930,9 @@
           "visit_price",
           "rent_price",
           "commission",
+          "management_fee",
           "description",
+          "house_name",
           "number_bathrooms",
           "number_households",
           "paint",
@@ -2991,7 +3108,13 @@
           "commission": {
             "type": "number"
           },
+          "management_fee": {
+            "type": "number"
+          },
           "description": {
+            "type": "string"
+          },
+          "house_name": {
             "type": "string"
           },
           "latitude": {
@@ -3324,6 +3447,62 @@
         },
         "required": [
           "amount"
+        ]
+      },
+      "CreateInvoiceDto": {
+        "type": "object",
+        "properties": {
+          "title": {
+            "type": "string"
+          },
+          "amount": {
+            "type": "number"
+          }
+        },
+        "required": [
+          "title",
+          "amount"
+        ]
+      },
+      "AddInvoicesDto": {
+        "type": "object",
+        "properties": {
+          "invoices": {
+            "minItems": 1,
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/CreateInvoiceDto"
+            }
+          }
+        },
+        "required": [
+          "invoices"
+        ]
+      },
+      "UpdateInvoiceDto": {
+        "type": "object",
+        "properties": {
+          "invoice": {
+            "$ref": "#/components/schemas/CreateInvoiceDto"
+          },
+          "invoice_id": {
+            "type": "number"
+          }
+        },
+        "required": [
+          "invoice",
+          "invoice_id"
+        ]
+      },
+      "RemoveInvoiceDto": {
+        "type": "object",
+        "properties": {
+          "invoice_id": {
+            "type": "number"
+          }
+        },
+        "required": [
+          "invoice_id"
         ]
       },
       "PayDueDto": {

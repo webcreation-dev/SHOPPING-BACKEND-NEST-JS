@@ -1,20 +1,18 @@
-version: '3.8'
-
 services:
-  app:
-    build:
-      context: .
-      dockerfile: Dockerfile
-    container_name: nestjs_app
-    restart: always
-    ports:
-      - "3000:3000"
-    environment:
-      DATABASE_URL: postgresql://postgres:postgres@database:5432/postgres
-      JWT_SECRET: your_jwt_secret
-      JWT_TTL: 604800
-    depends_on:
-      - database
+  # app:
+  #   build:
+  #     context: .
+  #     dockerfile: Dockerfile
+  #   container_name: nestjs_app
+  #   restart: always
+  #   ports:
+  #     - "3000:3000"
+  #   environment:
+  #     DATABASE_URL: postgresql://postgres:postgres@database:5432/postgres
+  #     JWT_SECRET: your_jwt_secret
+  #     JWT_TTL: 604800
+  #   depends_on:
+  #     - database
 
   database:
     image: postgres:15
@@ -25,7 +23,7 @@ services:
     environment:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
-      POSTGRES_DB: postgres
+      POSTGRES_DB: locapay
     volumes:
       - postgres_data:/var/lib/postgresql/data
 

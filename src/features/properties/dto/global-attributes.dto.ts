@@ -42,9 +42,17 @@ export class GlobalAttributes {
   @IsNotEmpty()
   commission: number;
 
+  @IsNumber()
+  @IsNotEmpty()
+  management_fee: number;
+
   @IsString()
   @IsNotEmpty()
   description: string;
+
+  @IsString()
+  @IsNotEmpty()
+  house_name: string;
 
   @IsNumber()
   @IsOptional()

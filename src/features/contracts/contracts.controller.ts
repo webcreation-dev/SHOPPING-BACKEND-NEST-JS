@@ -1,6 +1,7 @@
 import {
   Body,
   Controller,
+  Delete,
   Get,
   Param,
   ParseIntPipe,
@@ -20,6 +21,9 @@ import { User } from '../auth/users/entities/user.entity';
 import { ContractsQueryDto } from './querying/contracts-query.dto';
 import { ActivateContractDto } from './dto/activate-contract.dto';
 import { Contract } from './entities/contract.entity';
+import { AddInvoicesDto } from './dto/invoices/add-invoice.dto';
+import { UpdateInvoiceDto } from './dto/invoices/update-invoice.dto';
+import { RemoveInvoiceDto } from './dto/invoices/remove-invoice.dto';
 
 @Controller('contracts')
 export class ContractsController {
@@ -58,5 +62,30 @@ export class ContractsController {
     @CurrentUser() user: User,
   ) {
     return this.contractsService.activate(id, user, activateContractDto);
+  }
+
+
+  @Patch(':id/add_invoices')
+  @HeaderOperation('ADD INVOICES', AddInvoicesDto)
+  addInvoices(@Param() { id }: IdDto, @Body() addInvoicesDto: AddInvoicesDto) {
+    return this.contractsService.addInvoices(id, addInvoicesDto);
+  }
+
+  @Patch(':id/update_invoice')
+  @HeaderOperation('UPDATE INVOICE', UpdateInvoiceDto)
+  updateInvoice(
+    @Param() { id }: IdDto,
+    @Body() updateInvoiceDto: UpdateInvoiceDto,
+  ) {
+    return this.contractsService.updateInvoice(id, updateInvoiceDto);
+  }
+
+  @Delete(':id/remove_invoice')
+  @HeaderOperation('REMOVE INVOICE', RemoveInvoiceDto)
+  removeInvoice(
+    @Param() { id }: IdDto,
+    @Body() { invoice_id }: RemoveInvoiceDto,
+  ) {
+    return this.contractsService.removeInvoice(id, invoice_id);
   }
 }

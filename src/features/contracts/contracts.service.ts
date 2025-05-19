@@ -8,7 +8,7 @@ import { ContractsRepository } from './repositories/contracts.repository';
 import { ActivateContractDto } from './dto/activate-contract.dto';
 import { StatusContractEnum } from './enums/status-contract.enum';
 import { DuesRepository } from './repositories/dues.repository';
-import { Due } from './entities/due.entity';
+import { Due, InvoiceItem } from './entities/due.entity';
 import { PropertiesRepository } from '../properties/properties.repository';
 import { UsersRepository } from 'src/features/auth/users/users.repository';
 import { ContractResource } from './resources/contract.resource';
@@ -17,6 +17,8 @@ import {
   AlertModules,
   AlertOptions,
 } from '../notifications/alerts/alert-types';
+import { AddInvoicesDto } from './dto/invoices/add-invoice.dto';
+import { UpdateInvoiceDto } from './dto/invoices/update-invoice.dto';
 
 @Injectable()
 export class ContractsService {
@@ -204,5 +206,73 @@ export class ContractsService {
 
   async getAll(): Promise<Contract[]> {
     return await this.contractsRepository.find({});
+  }
+
+  async addInvoices(dueId: number, addInvoicesDto: AddInvoicesDto) {
+    const due = await this.duesRepository.findOne(
+      { id: dueId },
+      { contract: true },
+    );
+
+    const maxInvoiceId = due.invoices.length
+      ? Math.max(...due.invoices.map((a) => a.id))
+      : 0;
+
+    const newInvoices = addInvoicesDto.invoices.map((invoice, index) => ({
+      id: maxInvoiceId + index + 1,
+      ...invoice,
+      status: 'PENDING',
+    })) as InvoiceItem[];
+
+    due.invoices = [...due.invoices, ...newInvoices];
+
+    const updateData: any = { invoices: due.invoices };
+
+    await this.duesRepository.findOneAndUpdate({ id: dueId }, updateData);
+    return this.findOne(due.contract.id);
+  }
+
+  async updateInvoice(dueId: number, updatedInvoice: UpdateInvoiceDto) {
+    const due = await this.duesRepository.findOne(
+      { id: dueId },
+      { contract: true },
+    );
+
+    const invoiceIndex = due.invoices.findIndex(
+      (invoice) => invoice.id === updatedInvoice.invoice_id,
+    );
+
+    due.invoices[invoiceIndex] = {
+      ...due.invoices[invoiceIndex],
+      ...updatedInvoice.invoice,
+      status: 'PENDING',
+    };
+
+    await this.duesRepository.findOneAndUpdate(
+      { id: dueId },
+      { invoices: due.invoices },
+    );
+
+    return this.findOne(due.contract.id);
+  }
+
+  async removeInvoice(dueId: number, invoiceId: number) {
+    const due = await this.duesRepository.findOne(
+      { id: dueId },
+      { contract: true },
+    );
+
+    const invoiceIndex = due.invoices.findIndex(
+      (invoice) => invoice.id === invoiceId,
+    );
+
+    due.invoices.splice(invoiceIndex, 1);
+
+    await this.duesRepository.findOneAndUpdate(
+      { id: dueId },
+      { invoices: due.invoices },
+    );
+
+    return this.findOne(due.contract.id);
   }
 }

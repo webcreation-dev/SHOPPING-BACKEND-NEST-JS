@@ -9,7 +9,7 @@ import {
   Post,
   Query,
   UploadedFiles,
-  UseGuards,
+  // UseGuards,
   UseInterceptors,
 } from '@nestjs/common';
 import { PropertiesService } from './properties.service';
@@ -21,11 +21,11 @@ import {
   IdDto,
   MaxFileCount,
   CurrentUser,
-  Roles,
+  // Roles,
   HeaderOperation,
   MULTIPART_FORMDATA_KEY,
   ApiPaginatedResponse,
-  RolesGuard,
+  // RolesGuard,
 } from '@app/common';
 import { UpdatePropertyDto } from './dto/update-property.dto';
 import { FilenamesDto } from '@app/common';
@@ -66,6 +66,7 @@ export class PropertiesController {
   getAll(@Query() propertiesQueryDto: PropertiesQueryDto) {
     return this.propertiesService.getAll(propertiesQueryDto);
   }
+
   @Get()
   @ApiPaginatedResponse(Property)
   @HeaderOperation('FIND ALL', PropertiesQueryDto)
