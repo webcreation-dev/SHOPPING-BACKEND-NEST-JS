@@ -33,8 +33,8 @@ export class SeedingService {
 
       // ✅ 1. Delete all data
       await notificationsRepository.clear();
-      await annuitiesRepository.clear();
-      await duesRepository.clear();
+      await duesRepository.clear(); // D'abord supprimer dues
+      await annuitiesRepository.clear(); // Ensuite supprimer annuities
       await contractsRepository.clear();
       await panoramaRepository.clear();
       await galleriesRepository.clear();
