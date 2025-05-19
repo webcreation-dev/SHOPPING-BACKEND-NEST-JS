@@ -8,8 +8,8 @@ import { Contract } from 'src/features/contracts/entities/contract.entity';
 import { Due } from 'src/features/contracts/entities/due.entity';
 import { StatusContractEnum } from 'src/features/contracts/enums/status-contract.enum';
 import { Annuity } from 'src/features/contracts/entities/annuity.entity';
-import { Notification } from 'src/features/notifications/entities/notification.entity';
-import { StatusNotificationEnum } from 'src/features/notifications/enums/status.notification.enum';
+// import { Notification } from 'src/features/notifications/entities/notification.entity';
+// import { StatusNotificationEnum } from 'src/features/notifications/enums/status.notification.enum';
 import { Panorama } from 'src/features/properties/entities/panorama.entity';
 
 @Injectable()
@@ -28,18 +28,14 @@ export class SeedingService {
       const contractsRepository = queryRunner.manager.getRepository(Contract);
       const duesRepository = queryRunner.manager.getRepository(Due);
       const annuitiesRepository = queryRunner.manager.getRepository(Annuity);
-      const notificationsRepository =
-        queryRunner.manager.getRepository(Notification);
+      // const notificationsRepository =
+      //   queryRunner.manager.getRepository(Notification);
 
       // ✅ 1. Delete all data
-      await notificationsRepository.clear();
-      await duesRepository.clear(); // D'abord supprimer dues
-      await annuitiesRepository.clear(); // Ensuite supprimer annuities
-      await contractsRepository.clear();
-      await panoramaRepository.clear();
-      await galleriesRepository.clear();
-      await propertiesRepository.clear();
-      await usersRepository.clear();
+      await queryRunner.query('SET CONSTRAINTS ALL DEFERRED;');
+      await queryRunner.query(
+        'TRUNCATE TABLE "notification", "annuity", "due", "contract", "panorama", "gallery", "property", "user" CASCADE;',
+      );
 
       // ✅ 2. Charger les données
       const usersData = JSON.parse(
@@ -68,12 +64,12 @@ export class SeedingService {
         ),
       );
 
-      const notificationsData = JSON.parse(
-        fs.readFileSync(
-          'libs/common/src/database/seeding/data/notifications.json',
-          'utf8',
-        ),
-      );
+      // const notificationsData = JSON.parse(
+      //   fs.readFileSync(
+      //     'libs/common/src/database/seeding/data/notifications.json',
+      //     'utf8',
+      //   ),
+      // );
 
       // ✅ 3. Insert data
 
