@@ -32,14 +32,14 @@ export class SeedingService {
         queryRunner.manager.getRepository(Notification);
 
       // ✅ 1. Delete all data
-      await usersRepository.delete({});
-      await propertiesRepository.delete({});
-      await galleriesRepository.delete({});
-      await panoramaRepository.delete({});
-      await contractsRepository.delete({});
-      await duesRepository.delete({});
-      await annuitiesRepository.delete({});
-      await notificationsRepository.delete({});
+      await usersRepository.clear();
+      await propertiesRepository.clear();
+      await galleriesRepository.clear();
+      await panoramaRepository.clear();
+      await contractsRepository.clear();
+      await duesRepository.clear();
+      await annuitiesRepository.clear();
+      await notificationsRepository.clear();
 
       // ✅ 2. Charger les données
       const usersData = JSON.parse(
