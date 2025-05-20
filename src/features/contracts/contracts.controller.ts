@@ -64,14 +64,13 @@ export class ContractsController {
     return this.contractsService.activate(id, user, activateContractDto);
   }
 
-
-  @Patch(':id/add_invoices')
+  @Patch('/due/:id/add_invoices')
   @HeaderOperation('ADD INVOICES', AddInvoicesDto)
   addInvoices(@Param() { id }: IdDto, @Body() addInvoicesDto: AddInvoicesDto) {
     return this.contractsService.addInvoices(id, addInvoicesDto);
   }
 
-  @Patch(':id/update_invoice')
+  @Patch('due/:id/update_invoice')
   @HeaderOperation('UPDATE INVOICE', UpdateInvoiceDto)
   updateInvoice(
     @Param() { id }: IdDto,
@@ -80,7 +79,7 @@ export class ContractsController {
     return this.contractsService.updateInvoice(id, updateInvoiceDto);
   }
 
-  @Delete(':id/remove_invoice')
+  @Delete('due/:id/remove_invoice')
   @HeaderOperation('REMOVE INVOICE', RemoveInvoiceDto)
   removeInvoice(
     @Param() { id }: IdDto,

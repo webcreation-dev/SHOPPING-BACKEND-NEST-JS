@@ -214,9 +214,10 @@ export class ContractsService {
       { contract: true },
     );
 
-    const maxInvoiceId = due.invoices.length
-      ? Math.max(...due.invoices.map((a) => a.id))
-      : 0;
+    const maxInvoiceId =
+      Array.isArray(due.invoices) && due.invoices.length
+        ? Math.max(...due.invoices.map((a) => a.id))
+        : 0;
 
     const newInvoices = addInvoicesDto.invoices.map((invoice, index) => ({
       id: maxInvoiceId + index + 1,
@@ -224,11 +225,11 @@ export class ContractsService {
       status: 'PENDING',
     })) as InvoiceItem[];
 
-    due.invoices = [...due.invoices, ...newInvoices];
-
+    due.invoices = [...(due.invoices ?? []), ...newInvoices];
     const updateData: any = { invoices: due.invoices };
 
     await this.duesRepository.findOneAndUpdate({ id: dueId }, updateData);
+
     return this.findOne(due.contract.id);
   }
 

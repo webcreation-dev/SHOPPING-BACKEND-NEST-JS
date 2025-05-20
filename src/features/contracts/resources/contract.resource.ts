@@ -29,20 +29,23 @@ export class ContractResource {
   }
 
   getBalanceDue(contract: Contract) {
-    return contract.dues.reduce((acc, due) => {
-      if (due.status_due !== StatusDueEnum.FINISHED) {
-        let pendingInvoicesTotal = 0;
-
-        if (Array.isArray(due.invoices)) {
-          pendingInvoicesTotal = due.invoices
-            .filter((item) => item.status === 'PENDING')
-            .reduce((sum, item) => sum + item.amount, 0);
-        }
-
-        acc += due.carry_over_amount + pendingInvoicesTotal;
+    const balance = contract.dues.reduce((acc, due) => {
+      let pendingInvoicesTotal = 0;
+      if (Array.isArray(due.invoices)) {
+        pendingInvoicesTotal = due.invoices
+          .filter((item) => item.status === 'PENDING')
+          .reduce((sum, item) => sum + item.amount, 0);
       }
+
+      if (due.status_due !== StatusDueEnum.FINISHED) {
+        acc += due.carry_over_amount;
+      }
+
+      acc += pendingInvoicesTotal;
+
       return acc;
     }, 0);
+    return balance;
   }
 
   getMonthsLate(contract: Contract) {

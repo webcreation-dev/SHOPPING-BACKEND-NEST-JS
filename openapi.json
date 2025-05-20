@@ -1601,7 +1601,7 @@
         ]
       }
     },
-    "/contracts/{id}/add_invoices": {
+    "/contracts/due/{id}/add_invoices": {
       "patch": {
         "operationId": "ContractsController_addInvoices",
         "parameters": [
@@ -1629,13 +1629,13 @@
             "description": ""
           }
         },
-        "summary": "ADD ARTICLES",
+        "summary": "ADD INVOICES",
         "tags": [
           "Contracts"
         ]
       }
     },
-    "/contracts/{id}/update_invoice": {
+    "/contracts/due/{id}/update_invoice": {
       "patch": {
         "operationId": "ContractsController_updateInvoice",
         "parameters": [
@@ -1663,13 +1663,13 @@
             "description": ""
           }
         },
-        "summary": "UPDATE ARTICLE",
+        "summary": "UPDATE INVOICE",
         "tags": [
           "Contracts"
         ]
       }
     },
-    "/contracts/{id}/remove_invoice": {
+    "/contracts/due/{id}/remove_invoice": {
       "delete": {
         "operationId": "ContractsController_removeInvoice",
         "parameters": [
@@ -1697,7 +1697,7 @@
             "description": ""
           }
         },
-        "summary": "REMOVE ARTICLE",
+        "summary": "REMOVE INVOICE",
         "tags": [
           "Contracts"
         ]
