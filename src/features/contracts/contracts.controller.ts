@@ -54,6 +54,12 @@ export class ContractsController {
     return this.contractsService.findOne(id);
   }
 
+  @Patch(':id/suspend')
+  @HeaderOperation('SUSPEND CONTRACT')
+  suspend(@Param() { id }: IdDto, @CurrentUser() user: User) {
+    return this.contractsService.suspend(id, user);
+  }
+
   @Patch(':id/activate')
   @HeaderOperation('ACTIVATE', ActivateContractDto)
   activate(

@@ -10,15 +10,25 @@ import { StatusDueEnum } from '../contracts/enums/status-due.enum';
 import { Annuity } from '../contracts/entities/annuity.entity';
 import { AnnuitiesRepository } from '../contracts/repositories/annuities.repository';
 import { In } from 'typeorm';
+import { Cron } from '@nestjs/schedule';
+import { UsersRepository } from '../auth/users/users.repository';
 
 @Injectable()
 export class BillingsService {
   constructor(
     private readonly annuitiesRepository: AnnuitiesRepository,
     private readonly contractsRepository: ContractsRepository,
+    private readonly usersRepository: UsersRepository,
     private readonly duesRepository: DuesRepository,
     private readonly contractsService: ContractsService,
   ) {}
+
+  @Cron('0 0 1 * *') // Minute 0, Heure 0, Jour 1, Tous les mois
+  async handleMonthlyDueCreation() {
+    console.log('Début du cron pour la création des échéances');
+    await this.createDue();
+    console.log('Fin du cron pour la création des échéances');
+  }
 
   async createDue() {
     const contracts = await this.contractsService.getAll();
@@ -226,6 +236,16 @@ export class BillingsService {
     console.log(
       `Fin du processus de paiement, montant non utilisé: ${remainingAmount}`,
     );
+
+    if (remainingAmount > 0) {
+      await this.usersRepository.findOneAndUpdate(
+        { id: user.id },
+        {
+          balance_mtn: user.balance_mtn + remainingAmount,
+        },
+      );
+    }
+
     return await this.contractsService.findOne(contract.id);
   }
 

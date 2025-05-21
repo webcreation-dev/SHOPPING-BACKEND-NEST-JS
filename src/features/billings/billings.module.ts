@@ -7,6 +7,7 @@ import { Contract } from '../contracts/entities/contract.entity';
 import { Due } from '../contracts/entities/due.entity';
 import { Annuity } from '../contracts/entities/annuity.entity';
 import { ContractsModule } from '../contracts/contracts.module';
+import { UsersModule } from '../auth/users/users.module';
 
 @Module({
   imports: [
@@ -14,6 +15,7 @@ import { ContractsModule } from '../contracts/contracts.module';
     DatabaseModule.forFeature([Contract, Due, Annuity]),
     ContractsModule,
     MomoMtnModule,
+    UsersModule,
   ],
   controllers: [BillingsController],
   providers: [BillingsService],

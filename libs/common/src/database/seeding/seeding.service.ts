@@ -8,8 +8,8 @@ import { Contract } from 'src/features/contracts/entities/contract.entity';
 import { Due } from 'src/features/contracts/entities/due.entity';
 import { StatusContractEnum } from 'src/features/contracts/enums/status-contract.enum';
 import { Annuity } from 'src/features/contracts/entities/annuity.entity';
-// import { Notification } from 'src/features/notifications/entities/notification.entity';
-// import { StatusNotificationEnum } from 'src/features/notifications/enums/status.notification.enum';
+import { Notification } from 'src/features/notifications/entities/notification.entity';
+import { StatusNotificationEnum } from 'src/features/notifications/enums/status.notification.enum';
 import { Panorama } from 'src/features/properties/entities/panorama.entity';
 
 @Injectable()
@@ -28,8 +28,8 @@ export class SeedingService {
       const contractsRepository = queryRunner.manager.getRepository(Contract);
       const duesRepository = queryRunner.manager.getRepository(Due);
       const annuitiesRepository = queryRunner.manager.getRepository(Annuity);
-      // const notificationsRepository =
-      //   queryRunner.manager.getRepository(Notification);
+      const notificationsRepository =
+        queryRunner.manager.getRepository(Notification);
 
       // ✅ 1. Delete all data
       await queryRunner.query('SET CONSTRAINTS ALL DEFERRED;');
@@ -64,12 +64,12 @@ export class SeedingService {
         ),
       );
 
-      // const notificationsData = JSON.parse(
-      //   fs.readFileSync(
-      //     'libs/common/src/database/seeding/data/notifications.json',
-      //     'utf8',
-      //   ),
-      // );
+      const notificationsData = JSON.parse(
+        fs.readFileSync(
+          'libs/common/src/database/seeding/data/notifications.json',
+          'utf8',
+        ),
+      );
 
       // ✅ 3. Insert data
 
@@ -159,17 +159,27 @@ export class SeedingService {
 
       // ✅ NOTIFICATIONS
 
-      // for (const notificationData of notificationsData) {
-      //   const notification = notificationsRepository.create({
-      //     title: notificationData.title,
-      //     content: notificationData.content,
-      //     user: savedUsers[0],
-      //     status: StatusNotificationEnum.NOT_READ,
-      //     type: notificationData.type,
-      //     module_id: savedContracts[0].id,
-      //   });
-      //   await notificationsRepository.save(notification);
-      // }
+      for (const notificationData of notificationsData) {
+        const notification = notificationsRepository.create({
+          title: notificationData.title,
+          content: notificationData.content,
+          user: savedUsers[0],
+          status: StatusNotificationEnum.NOT_READ,
+          type: notificationData.type,
+          module_id: savedContracts[0].id,
+        });
+        await notificationsRepository.save(notification);
+
+        const notification_v2 = notificationsRepository.create({
+          title: notificationData.title,
+          content: notificationData.content,
+          user: savedUsers[1],
+          status: StatusNotificationEnum.NOT_READ,
+          type: notificationData.type,
+          module_id: savedContracts[1].id,
+        });
+        await notificationsRepository.save(notification_v2);
+      }
 
       await queryRunner.commitTransaction();
     } catch (error) {

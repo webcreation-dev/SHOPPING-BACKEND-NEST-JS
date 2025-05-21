@@ -15,6 +15,7 @@ import { ContractsModule } from './features/contracts/contracts.module';
 import { BillingsModule } from './features/billings/billings.module';
 import { NotificationsModule } from './features/notifications/notifications.module';
 import { WaitlistsModule } from './features/waitlists/waitlists.module';
+import { ScheduleModule } from '@nestjs/schedule';
 
 @Module({
   imports: [
@@ -32,6 +33,7 @@ import { WaitlistsModule } from './features/waitlists/waitlists.module';
     BillingsModule,
     NotificationsModule,
     WaitlistsModule,
+    ScheduleModule.forRoot(),
   ],
 })
 export class AppModule {}

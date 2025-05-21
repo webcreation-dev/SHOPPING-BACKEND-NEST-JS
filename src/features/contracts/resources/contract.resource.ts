@@ -8,6 +8,7 @@ export class ContractResource {
     return {
       id: contract.id,
       balance_due: this.getBalanceDue(contract),
+      is_gerant_locapay: contract.is_gerant_locapay,
       month_late: this.getMonthsLate(contract),
       month_paid: this.getMonthsPaid(contract),
       next_payment_date: this.getNextPaymentDate(contract),

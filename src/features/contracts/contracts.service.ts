@@ -168,6 +168,20 @@ export class ContractsService {
     return contract;
   }
 
+  async suspend(id: number, user: User) {
+    await this.contractsRepository.findOneAndUpdate(
+      {
+        id,
+        landlord: { id: user.id },
+        status: StatusContractEnum.ACTIVE,
+      },
+      {
+        status: StatusContractEnum.SUSPENDED,
+      },
+    );
+    return await this.findOne(id);
+  }
+
   async findMany(ids: number[]) {
     const results = await Promise.allSettled(ids.map((id) => this.findOne(id)));
     return results
