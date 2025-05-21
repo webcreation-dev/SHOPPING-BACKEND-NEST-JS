@@ -72,160 +72,6 @@ export class BillingsService {
     }
   }
 
-  // async payDue(user: User, payDueDto: PayDueDto) {
-  //   console.log('Démarrage payDue:', { userId: user.id, payDueDto });
-
-  //   const contract = await this.contractsRepository.findOne({
-  //     id: payDueDto.contract_id,
-  //     tenant: { id: user.id },
-  //     status: StatusContractEnum.ACTIVE,
-  //   });
-  //   console.log('Contrat trouvé:', { contractId: contract?.id });
-
-  //   const [dues] = await this.duesRepository.findAndCount(
-  //     {
-  //       contract: { id: contract.id },
-  //       status_due: In([StatusDueEnum.WAITING, StatusDueEnum.IN_PROGRESS]),
-  //     },
-  //     {
-  //       order: { due_date: 'ASC' },
-  //     },
-  //   );
-  //   console.log(`Échéances trouvées: ${dues?.length || 0}`);
-
-  //   let remainingAmount = payDueDto.amount;
-  //   console.log(`Montant initial à payer: ${remainingAmount}`);
-
-  //   for (const due of dues) {
-  //     console.log('---------------------------------------');
-  //     console.log(`Traitement de l'échéance ID: ${due.id}`);
-  //     console.log(
-  //       `Statut actuel: ${due.status_due}, Montant dû: ${due.carry_over_amount}, Montant payé: ${due.amount_paid}`,
-  //     );
-  //     console.log(`Montant restant à allouer: ${remainingAmount}`);
-
-  //     // Si aucun montant restant à payer, sortir de la boucle
-  //     if (remainingAmount <= 0) {
-  //       console.log('Plus de montant restant, fin du traitement des échéances');
-  //       break;
-  //     }
-
-  //     // payment for due in progress
-  //     if (
-  //       due.carry_over_amount > 0 &&
-  //       due.status_due === StatusDueEnum.IN_PROGRESS
-  //     ) {
-  //       console.log('Traitement échéance EN COURS');
-  //       const carryOverPayment = Math.min(
-  //         due.carry_over_amount,
-  //         remainingAmount,
-  //       );
-  //       console.log(`Paiement alloué à cette échéance: ${carryOverPayment}`);
-
-  //       remainingAmount -= carryOverPayment;
-  //       console.log(`Nouveau montant restant: ${remainingAmount}`);
-
-  //       await this.createAnnuity(due, carryOverPayment);
-  //       console.log('Annuité créée');
-
-  //       const newStatus =
-  //         due.carry_over_amount - carryOverPayment === 0
-  //           ? StatusDueEnum.FINISHED
-  //           : StatusDueEnum.IN_PROGRESS;
-  //       console.log(`Mise à jour statut échéance: ${newStatus}`);
-
-  //       await this.duesRepository.findOneAndUpdate(
-  //         { id: due.id },
-  //         {
-  //           amount_paid: due.amount_paid + carryOverPayment,
-  //           carry_over_amount: due.carry_over_amount - carryOverPayment,
-  //           status_due: newStatus,
-  //         },
-  //       );
-  //       console.log(
-  //         `Échéance mise à jour avec nouveau montant payé: ${due.amount_paid + carryOverPayment}`,
-  //       );
-
-  //       // Si l'échéance est entièrement payée, traiter les factures associées
-  //       if (
-  //         due.carry_over_amount - carryOverPayment === 0 &&
-  //         remainingAmount > 0
-  //       ) {
-  //         console.log(
-  //           `Échéance entièrement payée, traitement des factures associées`,
-  //         );
-  //         console.log(`Factures disponibles: ${due.invoices?.length || 0}`);
-  //         const beforeInvoices = remainingAmount;
-  //         remainingAmount = await this.processInvoices(due, remainingAmount);
-  //         console.log(
-  //           `Montant utilisé pour les factures: ${beforeInvoices - remainingAmount}`,
-  //         );
-  //         console.log(
-  //           `Montant restant après traitement des factures: ${remainingAmount}`,
-  //         );
-  //       }
-  //     }
-
-  //     // payment for due waiting
-  //     if (
-  //       remainingAmount > 0 &&
-  //       due.amount_paid === 0 &&
-  //       due.status_due === StatusDueEnum.WAITING
-  //     ) {
-  //       console.log('Traitement échéance EN ATTENTE');
-  //       const dueAmount = due.carry_over_amount || 0;
-  //       const carryOverPayment = Math.min(dueAmount, remainingAmount);
-  //       console.log(`Paiement alloué à cette échéance: ${carryOverPayment}`);
-
-  //       remainingAmount -= carryOverPayment;
-  //       console.log(`Nouveau montant restant: ${remainingAmount}`);
-
-  //       await this.createAnnuity(due, carryOverPayment);
-  //       console.log('Annuité créée');
-
-  //       const newStatus =
-  //         dueAmount - carryOverPayment === 0
-  //           ? StatusDueEnum.FINISHED
-  //           : StatusDueEnum.IN_PROGRESS;
-  //       console.log(`Nouveau statut échéance: ${newStatus}`);
-
-  //       await this.duesRepository.findOneAndUpdate(
-  //         { id: due.id },
-  //         {
-  //           amount_paid: due.amount_paid + carryOverPayment,
-  //           carry_over_amount: dueAmount - carryOverPayment,
-  //           status_due: newStatus,
-  //         },
-  //       );
-  //       console.log(
-  //         `Échéance mise à jour avec nouveau montant payé: ${due.amount_paid + carryOverPayment}`,
-  //       );
-
-  //       // Si l'échéance est entièrement payée, traiter les factures associées
-  //       if (newStatus === StatusDueEnum.FINISHED && remainingAmount > 0) {
-  //         console.log(
-  //           `Échéance entièrement payée, traitement des factures associées`,
-  //         );
-  //         console.log(`Factures disponibles: ${due.invoices?.length || 0}`);
-  //         const beforeInvoices = remainingAmount;
-  //         remainingAmount = await this.processInvoices(due, remainingAmount);
-  //         console.log(
-  //           `Montant utilisé pour les factures: ${beforeInvoices - remainingAmount}`,
-  //         );
-  //         console.log(
-  //           `Montant restant après traitement des factures: ${remainingAmount}`,
-  //         );
-  //       }
-  //     }
-  //   }
-
-  //   console.log('---------------------------------------');
-  //   console.log(
-  //     `Fin du processus de paiement, montant non utilisé: ${remainingAmount}`,
-  //   );
-  //   return await this.contractsService.findOne(contract.id);
-  // }
-
   async payDue(user: User, payDueDto: PayDueDto) {
     console.log('Démarrage payDue:', { userId: user.id, payDueDto });
 
@@ -385,9 +231,10 @@ export class BillingsService {
 
   // Méthode pour traiter les factures d'une échéance
   private async processInvoices(
-    due: any,
+    due: Due,
     remainingAmount: number,
   ): Promise<number> {
+    const amountToaid = remainingAmount;
     console.log('Début du traitement des factures');
 
     if (!due.invoices || due.invoices.length === 0) {
@@ -467,6 +314,11 @@ export class BillingsService {
       { id: due.id },
       { invoices: updatedInvoices },
     );
+    console.log("Création d'une nouvelle annuité pour l'échéance", {
+      dueId: due.id,
+      amountToaid,
+    });
+    await this.createAnnuity(due, amountToaid - remainingAmount);
     console.log('Échéance mise à jour avec succès');
 
     return remainingAmount;
