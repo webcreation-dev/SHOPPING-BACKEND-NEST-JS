@@ -223,6 +223,7 @@ export class ContractsService {
       id: maxInvoiceId + index + 1,
       ...invoice,
       status: 'PENDING',
+      carry_over_amount: invoice.amount,
     })) as InvoiceItem[];
 
     due.invoices = [...(due.invoices ?? []), ...newInvoices];

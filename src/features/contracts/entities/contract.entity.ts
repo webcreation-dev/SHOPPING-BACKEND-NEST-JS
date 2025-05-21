@@ -51,4 +51,7 @@ export class Contract extends AbstractEntity<Contract> {
 
   @OneToMany(() => Due, (due) => due.contract)
   dues: Due[];
+
+  @Column({ default: false })
+  is_gerant_locapay: boolean;
 }

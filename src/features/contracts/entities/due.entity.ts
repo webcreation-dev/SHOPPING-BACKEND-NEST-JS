@@ -8,7 +8,8 @@ export type InvoiceItem = {
   id: number;
   title: string;
   amount: number;
-  status: 'PENDING' | 'PAID';
+  status: 'PENDING' | 'IN_PROGRESS' | 'PAID';
+  carry_over_amount: number;
 };
 
 @Entity()

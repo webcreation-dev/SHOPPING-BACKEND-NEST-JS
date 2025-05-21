@@ -45,7 +45,7 @@ export class Property extends AbstractEntity<Property> {
   @Column()
   commission: number;
 
-  @Column()
+  @Column({ nullable: true })
   management_fee: number;
 
   @Column()

@@ -582,7 +582,7 @@
         ]
       }
     },
-    "/properties/all/all": {
+    "/properties/get_all": {
       "get": {
         "operationId": "PropertiesController_getAll",
         "parameters": [
@@ -2128,7 +2128,8 @@
             "enum": [
               "PENDING",
               "ACTIVE",
-              "FINISHED"
+              "FINISHED",
+              "SUSPENDED"
             ]
           },
           "property": {
@@ -2145,6 +2146,9 @@
             "items": {
               "$ref": "#/components/schemas/Due"
             }
+          },
+          "is_gerant_locapay": {
+            "type": "boolean"
           },
           "id": {
             "type": "number"
@@ -2164,6 +2168,7 @@
           "landlord",
           "tenant",
           "dues",
+          "is_gerant_locapay",
           "id",
           "registryDates"
         ]
@@ -3429,13 +3434,17 @@
           "start_date": {
             "format": "date-time",
             "type": "string"
+          },
+          "is_gerant_locapay": {
+            "type": "boolean"
           }
         },
         "required": [
           "tenant_id",
           "landlord_id",
           "property_id",
-          "start_date"
+          "start_date",
+          "is_gerant_locapay"
         ]
       },
       "ActivateContractDto": {

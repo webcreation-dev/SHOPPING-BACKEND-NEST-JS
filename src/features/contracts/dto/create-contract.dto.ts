@@ -1,4 +1,10 @@
-import { IsDate, IsNotEmpty, IsNumber, MinDate } from 'class-validator';
+import {
+  IsBoolean,
+  IsDate,
+  IsNotEmpty,
+  IsNumber,
+  MinDate,
+} from 'class-validator';
 import { IsExist } from 'libs/common/src';
 import { IsCertified } from 'libs/common/src/usual/decorators/validators/is-certified.decorator';
 import { Property } from 'src/features/properties/entities/property.entity';
@@ -28,4 +34,8 @@ export class CreateContractDto {
   @IsNotEmpty()
   @MinDate(new Date(), { message: 'La date de début doit être dans le futur.' })
   start_date: Date;
+
+  @IsBoolean()
+  @IsNotEmpty()
+  is_gerant_locapay: boolean;
 }
