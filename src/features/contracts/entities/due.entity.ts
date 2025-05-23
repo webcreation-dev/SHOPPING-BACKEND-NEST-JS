@@ -12,6 +12,11 @@ export type InvoiceItem = {
   carry_over_amount: number;
 };
 
+export type Invoices = {
+  is_refunded: boolean;
+  items: InvoiceItem[];
+};
+
 @Entity()
 export class Due extends AbstractEntity<Due> {
   @Column({ default: 0 })
@@ -32,7 +37,7 @@ export class Due extends AbstractEntity<Due> {
   status_due: StatusDueEnum;
 
   @Column({ type: 'json', nullable: true })
-  invoices: InvoiceItem[];
+  invoices: Invoices;
 
   @ManyToOne(() => Contract, (contract) => contract.dues, {
     onDelete: 'CASCADE',
@@ -41,4 +46,7 @@ export class Due extends AbstractEntity<Due> {
 
   @OneToMany(() => Annuity, (annuity) => annuity.due)
   annuities: Annuity[];
+
+  @Column({ default: false })
+  is_refunded: boolean;
 }

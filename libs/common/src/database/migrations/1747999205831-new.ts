@@ -1,7 +1,7 @@
 import { MigrationInterface, QueryRunner } from "typeorm";
 
-export class New1747808594904 implements MigrationInterface {
-    name = 'New1747808594904'
+export class New1747999205831 implements MigrationInterface {
+    name = 'New1747999205831'
 
     public async up(queryRunner: QueryRunner): Promise<void> {
         await queryRunner.query(`
@@ -62,6 +62,7 @@ export class New1747808594904 implements MigrationInterface {
                 "due_date" TIMESTAMP NOT NULL DEFAULT now(),
                 "status_due" "public"."status_due_enum" NOT NULL DEFAULT 'WAITING',
                 "invoices" json,
+                "is_refunded" boolean NOT NULL DEFAULT false,
                 "contractId" integer,
                 "created_at" TIMESTAMP NOT NULL DEFAULT now(),
                 "updated_at" TIMESTAMP NOT NULL DEFAULT now(),

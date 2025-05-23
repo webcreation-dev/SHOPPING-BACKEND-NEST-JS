@@ -2091,10 +2091,7 @@
             ]
           },
           "invoices": {
-            "type": "array",
-            "items": {
-              "type": "object"
-            }
+            "type": "object"
           },
           "contract": {
             "$ref": "#/components/schemas/Contract"
@@ -2104,6 +2101,9 @@
             "items": {
               "$ref": "#/components/schemas/Annuity"
             }
+          },
+          "is_refunded": {
+            "type": "boolean"
           },
           "id": {
             "type": "number"
@@ -2120,6 +2120,7 @@
           "invoices",
           "contract",
           "annuities",
+          "is_refunded",
           "id",
           "registryDates"
         ]

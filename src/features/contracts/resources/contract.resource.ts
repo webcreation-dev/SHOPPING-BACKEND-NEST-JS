@@ -32,8 +32,8 @@ export class ContractResource {
   getBalanceDue(contract: Contract) {
     const balance = contract.dues.reduce((acc, due) => {
       let pendingInvoicesTotal = 0;
-      if (Array.isArray(due.invoices)) {
-        pendingInvoicesTotal = due.invoices
+      if (Array.isArray(due.invoices?.items)) {
+        pendingInvoicesTotal = due.invoices?.items
           .filter((item) => item.status === 'PENDING')
           .reduce((sum, item) => sum + item.amount, 0);
       }

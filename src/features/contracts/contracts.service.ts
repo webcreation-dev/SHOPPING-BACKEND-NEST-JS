@@ -337,9 +337,13 @@ export class ContractsService {
       { contract: true },
     );
 
+    if (!due) {
+      throw new Error(`Due with ID ${dueId} not found`);
+    }
+
     const maxInvoiceId =
-      Array.isArray(due.invoices) && due.invoices.length
-        ? Math.max(...due.invoices.map((a) => a.id))
+      Array.isArray(due.invoices?.items) && due.invoices.items.length
+        ? Math.max(...due.invoices.items.map((a) => a.id))
         : 0;
 
     const newInvoices = addInvoicesDto.invoices.map((invoice, index) => ({
@@ -349,10 +353,16 @@ export class ContractsService {
       carry_over_amount: invoice.amount,
     })) as InvoiceItem[];
 
-    due.invoices = [...(due.invoices ?? []), ...newInvoices];
-    const updateData: any = { invoices: due.invoices };
+    due.invoices = {
+      ...due.invoices,
+      is_refunded: false,
+      items: [...(due.invoices?.items || []), ...newInvoices],
+    };
 
-    await this.duesRepository.findOneAndUpdate({ id: dueId }, updateData);
+    await this.duesRepository.findOneAndUpdate(
+      { id: dueId },
+      { invoices: due.invoices },
+    );
 
     return this.findOne(due.contract.id);
   }
@@ -363,14 +373,21 @@ export class ContractsService {
       { contract: true },
     );
 
-    const invoiceIndex = due.invoices.findIndex(
+    if (!due) {
+      throw new Error(`Due with ID ${dueId} not found`);
+    }
+
+    const invoiceIndex = due.invoices?.items.findIndex(
       (invoice) => invoice.id === updatedInvoice.invoice_id,
     );
 
-    due.invoices[invoiceIndex] = {
-      ...due.invoices[invoiceIndex],
+    if (invoiceIndex === -1 || invoiceIndex === undefined) {
+      throw new Error(`Invoice with ID ${updatedInvoice.invoice_id} not found`);
+    }
+
+    due.invoices.items[invoiceIndex] = {
+      ...due.invoices.items[invoiceIndex],
       ...updatedInvoice.invoice,
-      status: 'PENDING',
     };
 
     await this.duesRepository.findOneAndUpdate(
@@ -387,11 +404,19 @@ export class ContractsService {
       { contract: true },
     );
 
-    const invoiceIndex = due.invoices.findIndex(
+    if (!due) {
+      throw new Error(`Due with ID ${dueId} not found`);
+    }
+
+    const invoiceIndex = due.invoices?.items.findIndex(
       (invoice) => invoice.id === invoiceId,
     );
 
-    due.invoices.splice(invoiceIndex, 1);
+    if (invoiceIndex === -1 || invoiceIndex === undefined) {
+      throw new Error(`Invoice with ID ${invoiceId} not found`);
+    }
+
+    due.invoices.items.splice(invoiceIndex, 1);
 
     await this.duesRepository.findOneAndUpdate(
       { id: dueId },
