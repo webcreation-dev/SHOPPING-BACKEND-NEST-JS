@@ -19,6 +19,7 @@ import {
 } from '../notifications/alerts/alert-types';
 import { AddInvoicesDto } from './dto/invoices/add-invoice.dto';
 import { UpdateInvoiceDto } from './dto/invoices/update-invoice.dto';
+import { In } from 'typeorm';
 
 @Injectable()
 export class ContractsService {
@@ -33,29 +34,72 @@ export class ContractsService {
   ) {}
 
   async findAll(contractsQueryDto: ContractsQueryDto, user: User) {
-    const [ownContracts, managedContracts, ownedPropertiesContracts] =
-      await Promise.all([
-        this.findOwn(contractsQueryDto, user),
-        this.findMangaged(contractsQueryDto, user),
-        this.findOwnedPropertiesContracts(contractsQueryDto, user),
-      ]);
-    return {
-      tenant: ownContracts,
-      managed: managedContracts,
-      owner: ownedPropertiesContracts,
+    const filters = {
+      tenant: { tenantId: user.id, status: StatusContractEnum.ACTIVE },
+      managed: { landlordId: user.id, status: StatusContractEnum.ACTIVE },
+      owner: {}, // Spécifique selon ta logique
+      pendingTenant: { tenantId: user.id, status: StatusContractEnum.PENDING },
+      pendingLandlord: {
+        landlordId: user.id,
+        status: StatusContractEnum.PENDING,
+      },
+      suspendedTenant: {
+        tenantId: user.id,
+        status: StatusContractEnum.FINISHED,
+      },
+      suspendedLandlord: {
+        landlordId: user.id,
+        status: StatusContractEnum.FINISHED,
+      },
     };
-  }
 
-  async findOwn(contractsQueryDto: ContractsQueryDto, user: User) {
-    return this.findContractsByFilter(contractsQueryDto, user, {
-      tenantId: user.id,
-    });
-  }
+    const [
+      tenant,
+      managed,
+      owner,
+      pendingTenant,
+      pendingLandlord,
+      suspendedTenant,
+      suspendedLandlord,
+    ] = await Promise.all([
+      this.findContractsByFilter(contractsQueryDto, user, filters.tenant),
+      this.findContractsByFilter(contractsQueryDto, user, filters.managed),
+      this.findOwnedPropertiesContracts(contractsQueryDto, user), // cas particulier
+      this.findContractsByFilter(
+        contractsQueryDto,
+        user,
+        filters.pendingTenant,
+      ),
+      this.findContractsByFilter(
+        contractsQueryDto,
+        user,
+        filters.pendingLandlord,
+      ),
+      this.findContractsByFilter(
+        contractsQueryDto,
+        user,
+        filters.suspendedTenant,
+      ),
+      this.findContractsByFilter(
+        contractsQueryDto,
+        user,
+        filters.suspendedLandlord,
+      ),
+    ]);
 
-  async findMangaged(contractsQueryDto: ContractsQueryDto, user: User) {
-    return this.findContractsByFilter(contractsQueryDto, user, {
-      landlordId: user.id,
-    });
+    return {
+      tenant,
+      managed,
+      owner,
+      pending: {
+        tenant: pendingTenant,
+        landlord: pendingLandlord,
+      },
+      suspended: {
+        tenant: suspendedTenant,
+        landlord: suspendedLandlord,
+      },
+    };
   }
 
   async findOwnedPropertiesContracts(
@@ -70,30 +114,23 @@ export class ContractsService {
   async findContractsByFilter(
     contractsQueryDto: ContractsQueryDto,
     user: User,
-    filter: { tenantId?: number; landlordId?: number; ownerId?: number },
+    filter: {
+      tenantId?: number;
+      landlordId?: number;
+      ownerId?: number;
+      status?: StatusContractEnum;
+    },
   ) {
     const { page } = contractsQueryDto;
     const limit = contractsQueryDto.limit ?? DefaultPageSize.CONTRACTS;
     const offset = this.paginationService.calculateOffset(limit, page);
 
-    let whereCondition: any;
-
-    if (filter.tenantId) {
-      whereCondition = {
-        tenant: { id: filter.tenantId },
-        status: StatusContractEnum.ACTIVE,
-      };
-    } else if (filter.landlordId) {
-      whereCondition = {
-        landlord: { id: filter.landlordId },
-        status: StatusContractEnum.ACTIVE,
-      };
-    } else if (filter.ownerId) {
-      whereCondition = {
-        property: { owner: { id: filter.ownerId } },
-        status: StatusContractEnum.ACTIVE,
-      };
-    }
+    const whereCondition: any = {};
+    if (filter.tenantId) whereCondition.tenant = { id: filter.tenantId };
+    if (filter.landlordId) whereCondition.landlord = { id: filter.landlordId };
+    if (filter.ownerId)
+      whereCondition.property = { owner: { id: filter.ownerId } };
+    if (filter.status) whereCondition.status = filter.status;
 
     const [data] = await this.contractsRepository.findAndCount(whereCondition, {
       relations: {
@@ -106,16 +143,88 @@ export class ContractsService {
       take: limit,
     });
 
+    const contractIds = data.map((c) => c.id);
+    const duesList = await this.duesRepository.find(
+      { contract: { id: In(contractIds) } },
+      { relations: { annuities: true, contract: true } },
+    );
+
+    console.log(duesList);
+
+    const duesByContractId = new Map<number, any[]>();
+    for (const due of duesList) {
+      const contractId = due.contract.id;
+      if (!duesByContractId.has(contractId)) {
+        duesByContractId.set(contractId, []);
+      }
+      duesByContractId.get(contractId).push(due);
+    }
+
     for (const contract of data) {
-      const [dues] = await this.duesRepository.findAndCount(
-        { contract: { id: contract.id } },
-        { relations: { annuities: true } },
-      );
-      contract.dues = dues;
+      contract.dues = duesByContractId.get(contract.id) ?? [];
     }
 
     return this.contractResource.formatCollection(data);
   }
+
+  // async findContractsByFilter(
+  //   contractsQueryDto: ContractsQueryDto,
+  //   user: User,
+  //   filter: {
+  //     tenantId?: number;
+  //     landlordId?: number;
+  //     ownerId?: number;
+  //     status?: StatusContractEnum;
+  //   },
+  // ) {
+  //   const { page } = contractsQueryDto;
+  //   const limit = contractsQueryDto.limit ?? DefaultPageSize.CONTRACTS;
+  //   const offset = this.paginationService.calculateOffset(limit, page);
+
+  //   let whereCondition: any;
+
+  //   if (filter.tenantId) {
+  //     whereCondition = {
+  //       tenant: { id: filter.tenantId },
+  //       status: StatusContractEnum.ACTIVE,
+  //     };
+  //   } else if (filter.landlordId) {
+  //     whereCondition = {
+  //       landlord: { id: filter.landlordId },
+  //       status: StatusContractEnum.ACTIVE,
+  //     };
+  //   } else if (filter.ownerId) {
+  //     whereCondition = {
+  //       property: { owner: { id: filter.ownerId } },
+  //       status: StatusContractEnum.ACTIVE,
+  //     };
+  //   } else if (filter.status) {
+  //     whereCondition = {
+  //       status: filter.status,
+  //     };
+  //   }
+
+  //   const [data] = await this.contractsRepository.findAndCount(whereCondition, {
+  //     relations: {
+  //       tenant: true,
+  //       landlord: true,
+  //       property: { owner: true },
+  //       dues: true,
+  //     },
+  //     skip: offset,
+  //     take: limit,
+  //   });
+
+  //   for (const contract of data) {
+  //     const [dues] = await this.duesRepository.findAndCount(
+  //       { contract: { id: contract.id } },
+  //       { relations: { annuities: true } },
+  //     );
+  //     contract.dues = dues;
+  //   }
+
+  //   return this.contractResource.formatCollection(data);
+  // }
 
   async create(
     { tenant_id, landlord_id, property_id, start_date }: CreateContractDto,

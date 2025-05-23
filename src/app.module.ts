@@ -5,7 +5,7 @@ import {
   DatabaseModule,
   EnvModule,
   FilesModule,
-  // LoggerModule,
+  LoggerModule,
   QueryingModule,
 } from '@app/common';
 import { AuthModule } from './features/auth/auth.module';
@@ -28,7 +28,7 @@ import { ScheduleModule } from '@nestjs/schedule';
     QueryingModule,
     PropertiesModule,
     VisitsModule,
-    // LoggerModule,
+    LoggerModule,
     ContractsModule,
     BillingsModule,
     NotificationsModule,
