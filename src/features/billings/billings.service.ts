@@ -1,4 +1,4 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { HttpException, Injectable, NotFoundException } from '@nestjs/common';
 import { ContractsService } from '../contracts/contracts.service';
 import { DuesRepository } from '../contracts/repositories/dues.repository';
 import { Due } from '../contracts/entities/due.entity';
@@ -14,6 +14,8 @@ import { Cron } from '@nestjs/schedule';
 import { UsersRepository } from '../auth/users/users.repository';
 import { MomoMtnService } from 'libs/common/src/momo-mtn/momo-mtn.service';
 import { Contract } from '../contracts/entities/contract.entity';
+import { RequestToPayDto } from 'libs/common/src/momo-mtn/dto/request-to-pay.dto';
+import { v4 as uuidv4 } from 'uuid';
 
 @Injectable()
 export class BillingsService {
@@ -460,5 +462,48 @@ export class BillingsService {
   ): Promise<Annuity> {
     const annuity = new Annuity({ due, amount });
     return manager.save(Annuity, annuity);
+  }
+
+  async initiatePayment({
+    amount,
+    partyId,
+  }: {
+    amount: string;
+    partyId: string;
+  }) {
+    try {
+      // Générer un externalId de 10 caractères aléatoires
+      const externalId = Math.random().toString(36).substring(2, 12);
+
+      // Construire le payload pour requestToPay
+      const requestToPayDto: RequestToPayDto = {
+        x_reference_id: uuidv4(),
+        amount,
+        currency: 'XOF',
+        externalId,
+        payer: {
+          partyIdType: 'MSISDN',
+          partyId,
+        },
+        payerMessage: 'LOCAPAY MOMO MARCHAND',
+        payeeNote: 'Paiement de loyer',
+        api_token: await this.getApiToken(), // Récupérer le token API
+      };
+
+      // Appeler le service requestToPay
+      const response = await this.momoMtnService.requestToPay(requestToPayDto);
+
+      return response.data;
+    } catch (error) {
+      throw new HttpException(
+        error.response?.data || "Erreur lors de l'initiation du paiement",
+        error.response?.status || 500,
+      );
+    }
+  }
+
+  private async getApiToken(): Promise<string> {
+    const response = await this.momoMtnService.createApiToken();
+    return response.access_token;
   }
 }

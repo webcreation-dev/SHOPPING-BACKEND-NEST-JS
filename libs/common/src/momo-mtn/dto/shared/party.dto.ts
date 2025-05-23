@@ -5,5 +5,5 @@ export class PartDto {
   partyIdType: string;
 
   @IsNumber()
-  partyId: number;
+  partyId: string;
 }

@@ -8,7 +8,7 @@ export class RequestToPayDto extends ApiTokenDto {
   x_reference_id: string;
 
   @IsNumber()
-  amount: number;
+  amount: string;
 
   @IsString()
   currency: string;

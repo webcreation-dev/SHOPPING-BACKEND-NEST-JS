@@ -70,20 +70,27 @@ export class MomoMtnService {
         ).toString('base64');
 
       const response = await this.httpService
-        .post(`${process.env.API_URL_MOMO_MTN}/collection/token/`, {
-          headers: {
-            Authorization: basicAuth,
-            'Ocp-Apim-Subscription-Key':
-              process.env.OCP_APIM_SUBSCRIPTION_KEY_COLLECTION,
-            'Content-Type': 'application/json',
-            Accept: 'application/json',
+        .post(
+          `${process.env.API_URL_MOMO_MTN}/collection/token/`,
+          {}, // corps vide
+          {
+            headers: {
+              Authorization: basicAuth,
+              'Ocp-Apim-Subscription-Key':
+                process.env.OCP_APIM_SUBSCRIPTION_KEY_COLLECTION,
+              'Content-Type': 'application/json',
+              Accept: 'application/json',
+            },
           },
-        })
+        )
         .toPromise();
 
-      return response;
+      return response.data;
     } catch (error) {
-      throw new HttpException(error.response?.data, error.response?.status);
+      throw new HttpException(
+        error.response?.data || 'Internal Server Error',
+        error.response?.status || 500,
+      );
     }
   }
 

@@ -1767,6 +1767,53 @@
         ]
       }
     },
+    "/billings/request_payment": {
+      "post": {
+        "operationId": "BillingsController_getApiKey",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PayDueDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        },
+        "summary": "PAY DUE",
+        "tags": [
+          "Billings"
+        ]
+      }
+    },
+    "/billings/payment_webhook": {
+      "post": {
+        "operationId": "BillingsController_paymentWebhook",
+        "parameters": [],
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "summary": "WEBHOOK MTN",
+        "tags": [
+          "Billings"
+        ]
+      }
+    },
     "/waitlists": {
       "post": {
         "operationId": "WaitlistsController_create",
