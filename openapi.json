@@ -1799,7 +1799,7 @@
         ]
       }
     },
-    "/billings/payment_webhook": {
+    "/billings/collections/callback": {
       "post": {
         "operationId": "BillingsController_paymentWebhook",
         "parameters": [],

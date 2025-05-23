@@ -32,13 +32,7 @@ export class BillingsController {
   @HeaderOperation('WEBHOOK MTN', null, null, true)
   async paymentWebhook(@Req() req: Request, @Body() body: any) {
     try {
-      // Chemin du fichier de log
-      const logDir = path.join(__dirname, '../../../logs');
-      if (!fs.existsSync(logDir)) {
-        fs.mkdirSync(logDir);
-        console.log('✅ Répertoire de logs créé.');
-      }
-      const logFilePath = path.join('logs/payment-webhook.log');
+      const logFilePath = path.join('upload/payment-webhook.log');
 
       // Format du log
       const logEntry = `[${new Date().toISOString()}] Webhook received: ${JSON.stringify(
