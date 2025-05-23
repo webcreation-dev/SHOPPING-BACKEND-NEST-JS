@@ -34,8 +34,8 @@ export class ContractResource {
       let pendingInvoicesTotal = 0;
       if (Array.isArray(due.invoices?.items)) {
         pendingInvoicesTotal = due.invoices?.items
-          .filter((item) => item.status === 'PENDING')
-          .reduce((sum, item) => sum + item.amount, 0);
+          .filter((item) => item.status != 'PAID')
+          .reduce((sum, item) => sum + item.carry_over_amount, 0);
       }
 
       if (due.status_due !== StatusDueEnum.FINISHED) {
