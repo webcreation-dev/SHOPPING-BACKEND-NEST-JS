@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { User } from '../auth/users/entities/user.entity';
 import { ContractsQueryDto } from './querying/contracts-query.dto';
 import { DefaultPageSize, PaginationService } from '@app/common';
@@ -148,8 +148,6 @@ export class ContractsService {
       { contract: { id: In(contractIds) } },
       { relations: { annuities: true, contract: true } },
     );
-
-    console.log(duesList);
 
     const duesByContractId = new Map<number, any[]>();
     for (const due of duesList) {
@@ -340,6 +338,7 @@ export class ContractsService {
     if (!due) {
       throw new Error(`Due with ID ${dueId} not found`);
     }
+    await this.checkValidateInvoice(due);
 
     const maxInvoiceId =
       Array.isArray(due.invoices?.items) && due.invoices.items.length
@@ -376,6 +375,7 @@ export class ContractsService {
     if (!due) {
       throw new Error(`Due with ID ${dueId} not found`);
     }
+    await this.checkValidateInvoice(due);
 
     const invoiceIndex = due.invoices?.items.findIndex(
       (invoice) => invoice.id === updatedInvoice.invoice_id,
@@ -407,6 +407,7 @@ export class ContractsService {
     if (!due) {
       throw new Error(`Due with ID ${dueId} not found`);
     }
+    await this.checkValidateInvoice(due);
 
     const invoiceIndex = due.invoices?.items.findIndex(
       (invoice) => invoice.id === invoiceId,
@@ -424,5 +425,16 @@ export class ContractsService {
     );
 
     return this.findOne(due.contract.id);
+  }
+
+  async checkValidateInvoice(due: Due) {
+    if (due.invoices?.is_refunded) {
+      throw new NotFoundException('Cette facture a déjà été remboursée');
+    }
+    if (due.invoices?.items.some((invoice) => invoice.status !== 'PENDING')) {
+      throw new NotFoundException(
+        'Impossible de modifier une facture en cours de règlement',
+      );
+    }
   }
 }
