@@ -28,7 +28,7 @@ export class BillingsController {
     return this.billingsService.initiatePayment(payDueDto);
   }
 
-  @Post('payment_webhook')
+  @Post('collections/callback')
   @HeaderOperation('WEBHOOK MTN', null, null, true)
   async paymentWebhook(@Req() req: Request, @Body() body: any) {
     try {
