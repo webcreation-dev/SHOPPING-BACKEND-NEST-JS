@@ -1,4 +1,12 @@
-import { Body, Controller, Get, Post, Req } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  HttpException,
+  HttpStatus,
+  Post,
+  Req,
+} from '@nestjs/common';
 import { CurrentUser, HeaderOperation } from '@app/common';
 import { BillingsService } from 'src/features/billings/billings.service';
 import { PayDueDto } from './dto/pay-due.dto';
@@ -32,24 +40,50 @@ export class BillingsController {
   @HeaderOperation('WEBHOOK MTN', null, null, true)
   async paymentWebhook(@Req() req: Request, @Body() body: any) {
     try {
-      const logFilePath = path.join('upload/payment-webhook.log');
+      // Créer le dossier upload s'il n'existe pas
+      const uploadDir = 'upload';
+      if (!fs.existsSync(uploadDir)) {
+        fs.mkdirSync(uploadDir, { recursive: true });
+      }
 
-      // Format du log
-      const logEntry = `[${new Date().toISOString()}] Webhook received: ${JSON.stringify(
-        body,
-      )}\n`;
+      const logFilePath = path.join(uploadDir, 'payment-webhook.log');
 
-      console.log(logFilePath, logEntry);
-      // Écrire dans le fichier de log
+      // Log plus détaillé
+      const logEntry = `
+[${new Date().toISOString()}] 
+Headers: ${JSON.stringify(req.headers)}
+Body: ${JSON.stringify(body)}
+-------------------\n`;
+
+      console.log('📝 Log Path:', logFilePath);
+      console.log('📦 Webhook Data:', logEntry);
+
       fs.appendFileSync(logFilePath, logEntry, 'utf8');
 
-      console.log('✅ Webhook reçu et écrit dans le fichier de log.');
-
-      // Retourner une réponse au service qui a envoyé le webhook
       return { status: 'success', message: 'Webhook received successfully' };
     } catch (error) {
-      console.error('❌ Erreur lors de la gestion du webhook:', error);
-      throw error;
+      console.error('❌ Erreur webhook:', error);
+      return { status: 'error', message: error.message };
+    }
+  }
+
+  @Get('collections/webhook-logs')
+  @HeaderOperation('WEBHOOK MTN', null, null, true)
+  async getWebhookLogs() {
+    try {
+      const logFilePath = path.join('upload', 'payment-webhook.log');
+
+      if (fs.existsSync(logFilePath)) {
+        const logs = fs.readFileSync(logFilePath, 'utf8');
+        return {
+          logs: logs.split('\n').slice(-50), // 50 dernières lignes
+          lastModified: fs.statSync(logFilePath).mtime,
+        };
+      } else {
+        return { message: 'Aucun log trouvé', logs: [] };
+      }
+    } catch (error) {
+      throw new HttpException(error.message, HttpStatus.INTERNAL_SERVER_ERROR);
     }
   }
 }

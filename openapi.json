@@ -1814,6 +1814,28 @@
         ]
       }
     },
+    "/billings/collections/webhook-logs": {
+      "get": {
+        "operationId": "BillingsController_getWebhookLogs",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        },
+        "summary": "WEBHOOK MTN",
+        "tags": [
+          "Billings"
+        ]
+      }
+    },
     "/waitlists": {
       "post": {
         "operationId": "WaitlistsController_create",
