@@ -57,6 +57,7 @@
     "passport-jwt": "^4.0.1",
     "passport-local": "^1.0.0",
     "patch-package": "^8.0.0",
+    "pdf-creator-node": "^2.3.5",
     "pg": "^8.13.1",
     "pino-http": "^8.3.0",
     "pino-pretty": "^9.1.1",

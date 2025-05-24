@@ -4,11 +4,13 @@ import {
   Delete,
   Get,
   Param,
+  Res,
   ParseIntPipe,
   Patch,
   Post,
   Query,
 } from '@nestjs/common';
+import { Response } from 'express';
 import { ContractsService } from './contracts.service';
 import { CreateContractDto } from './dto/create-contract.dto';
 import {
@@ -92,5 +94,13 @@ export class ContractsController {
     @Body() { invoice_id }: RemoveInvoiceDto,
   ) {
     return this.contractsService.removeInvoice(id, invoice_id);
+  }
+
+  @Get(':id/pdf')
+  async getContractPdf(@Param('id') id: number, @Res() res: Response) {
+    const pdfPath = await this.contractsService.generateContractPdf(id);
+
+    // Envoyer le fichier PDF en réponse
+    res.sendFile(pdfPath, { root: '.' });
   }
 }

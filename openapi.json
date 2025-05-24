@@ -1727,6 +1727,29 @@
         ]
       }
     },
+    "/contracts/{id}/pdf": {
+      "get": {
+        "operationId": "ContractsController_getContractPdf",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "number"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Contracts"
+        ]
+      }
+    },
     "/billings/generate_dues": {
       "get": {
         "operationId": "BillingsController_createDue",

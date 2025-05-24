@@ -1,4 +1,7 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
+import * as fs from 'fs';
+import * as path from 'path';
+import * as pdf from 'pdf-creator-node';
 import { User } from '../auth/users/entities/user.entity';
 import { ContractsQueryDto } from './querying/contracts-query.dto';
 import { DefaultPageSize, PaginationService } from '@app/common';
@@ -436,5 +439,50 @@ export class ContractsService {
         'Impossible de modifier une facture en cours de règlement',
       );
     }
+  }
+
+  async generateContractPdf(contractId: number): Promise<string> {
+    // Récupérer le contrat
+    const contract = await this.findOne(contractId);
+
+    if (!contract) {
+      throw new NotFoundException(
+        `Contrat avec l'ID ${contractId} introuvable`,
+      );
+    }
+
+    // Charger le template HTML
+    const templatePath = path.join(
+      'templates',
+      'contract-template.html',
+    );
+    const template = fs.readFileSync(templatePath, 'utf8');
+
+    // Préparer les données pour le template
+    const document = {
+      html: template,
+      data: {
+        landlord: contract.landlord?.lastname || 'N/A',
+        tenant: contract.tenant?.lastname || 'N/A',
+        start_date: contract.start_date.toISOString().split('T')[0],
+        end_date: contract.end_date.toISOString().split('T')[0],
+        rent_price: contract.rent_price,
+        articles: contract.articles || [],
+      },
+      path: path.join('pdfs', `contract-${contractId}.pdf`),
+      type: '',
+    };
+
+    // Options pour le PDF
+    const options = {
+      format: 'A4',
+      orientation: 'portrait',
+      border: '10mm',
+    };
+
+    // Générer le PDF
+    await pdf.create(document, options);
+
+    return document.path; // Retourner le chemin du fichier PDF généré
   }
 }

@@ -32,7 +32,8 @@
   },
   "include": [
     "libs/common/src/**/*.ts",
-    "src/**/*.ts"
+    "src/**/*.ts",
+    "src/**/*.html"
   ]
 }
 

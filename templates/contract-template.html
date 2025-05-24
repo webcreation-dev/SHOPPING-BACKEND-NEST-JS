@@ -1,0 +1,45 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>Contrat</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        margin: 20px;
+      }
+      h1 {
+        text-align: center;
+        color: #333;
+      }
+      .contract-details {
+        margin-bottom: 20px;
+      }
+      .articles {
+        margin-top: 20px;
+      }
+      .article {
+        margin-bottom: 10px;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Contrat de Location</h1>
+    <div class="contract-details">
+      <p><strong>Propriétaire :</strong> {{landlord}}</p>
+      <p><strong>Locataire :</strong> {{tenant}}</p>
+      <p><strong>Date de début :</strong> {{start_date}}</p>
+      <p><strong>Date de fin :</strong> {{end_date}}</p>
+      <p><strong>Prix du loyer :</strong> {{rent_price}} XOF</p>
+    </div>
+    <div class="articles">
+      <h2>Articles</h2>
+      {{#each articles}}
+      <div class="article">
+        <h3>Article {{@index}}</h3>
+        <p>{{this}}</p>
+      </div>
+      {{/each}}
+    </div>
+  </body>
+</html>
