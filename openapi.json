@@ -1800,11 +1800,11 @@
       }
     },
     "/billings/collections/callback": {
-      "post": {
+      "put": {
         "operationId": "BillingsController_paymentWebhook",
         "parameters": [],
         "responses": {
-          "201": {
+          "200": {
             "description": ""
           }
         },

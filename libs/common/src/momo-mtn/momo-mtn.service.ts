@@ -108,7 +108,7 @@ export class MomoMtnService {
               'X-Reference-Id': requestToPayDto.x_reference_id,
               'X-Target-Environment': process.env.API_MODE_MOMO_MTN,
               'X-Callback-Url':
-                'https://www.shopping-backend-nest-js-production.up.railway.app/billings/collections/callback',
+                'https://www.shopping-backend-nest-js-production.up.railway.app',
               'Ocp-Apim-Subscription-Key':
                 process.env.OCP_APIM_SUBSCRIPTION_KEY_COLLECTION,
               'Content-Type': 'application/json',
