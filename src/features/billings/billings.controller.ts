@@ -5,6 +5,7 @@ import {
   HttpException,
   HttpStatus,
   Post,
+  Put,
   Req,
 } from '@nestjs/common';
 import { CurrentUser, HeaderOperation } from '@app/common';
@@ -36,7 +37,7 @@ export class BillingsController {
     return this.billingsService.initiatePayment(payDueDto);
   }
 
-  @Post('collections/callback')
+  @Put('collections/callback')
   @HeaderOperation('WEBHOOK MTN', null, null, true)
   async paymentWebhook(@Req() req: Request, @Body() body: any) {
     try {
