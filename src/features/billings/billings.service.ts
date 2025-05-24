@@ -490,6 +490,8 @@ export class BillingsService {
         api_token: await this.getApiToken(), // Récupérer le token API
       };
 
+      console.log(requestToPayDto);
+
       // Appeler le service requestToPay
       const response = await this.momoMtnService.requestToPay(requestToPayDto);
 
