@@ -1,403 +1,377 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="fr">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Contrat de Bail</title>
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-        
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: Arial, sans-serif;
+        background-color: #f8f9fa;
+        padding: 32px;
+        line-height: 1.5;
+      }
+
+      .container {
+        max-width: 1024px;
+        margin: 0 auto;
+        background-color: white;
+        border-radius: 8px;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        overflow: hidden;
+      }
+
+      .gradient-header {
+        background: linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%);
+        padding: 24px 32px;
+        border-bottom: 1px solid #e5e7eb;
+      }
+
+      .logo {
+        width: 48px;
+        height: 48px;
+        background-color: #22c55e;
+        border-radius: 8px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .logo svg {
+        width: 32px;
+        height: 32px;
+        color: white;
+      }
+
+      .logo-text h1 {
+        font-size: 20px;
+        font-weight: 600;
+        color: #1f2937;
+        margin-bottom: 2px;
+      }
+
+      .logo-text p {
+        font-size: 12px;
+        color: #16a34a;
+      }
+
+      .title-section h2 {
+        font-size: 18px;
+        font-weight: 500;
+        color: #374151;
+        margin-bottom: 2px;
+      }
+
+      .title-section p {
+        font-size: 12px;
+        color: #16a34a;
+      }
+
+      .parties-section {
+        padding: 24px 32px;
+        background-color: #f9fafb;
+        border-bottom: 1px solid #e5e7eb;
+      }
+
+      .party-card {
+        background-color: white;
+        padding: 24px;
+        border-radius: 8px;
+        border: 1px solid #f3f4f6;
+        height: 100%;
+      }
+
+      .party-title {
+        font-size: 16px;
+        font-weight: 500;
+        color: #4b5563;
+        margin-bottom: 16px;
+        padding-bottom: 8px;
+        border-bottom: 1px solid #f3f4f6;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+
+      .party-title svg {
+        width: 20px;
+        height: 20px;
+        color: #22c55e;
+      }
+
+      .party-details {
+        color: #4b5563;
+        font-size: 14px;
+      }
+
+      .party-details p {
+        margin-bottom: 12px;
+      }
+
+      .party-details span {
+        font-weight: 500;
+      }
+
+      .content-section {
+        padding: 24px 32px;
+        background-color: white;
+      }
+
+      .article {
+        margin-bottom: 32px;
+        padding-bottom: 24px;
+        border-bottom: 1px dashed #e5e7eb;
+      }
+
+      .article:last-child {
+        border-bottom: none;
+        margin-bottom: 0;
+      }
+
+      .article h3 {
+        font-size: 16px;
+        font-weight: 500;
+        color: #374151;
+        margin-bottom: 12px;
+        position: relative;
+        padding-left: 16px;
+      }
+
+      .article h3:before {
+        content: '';
+        position: absolute;
+        left: 0;
+        top: 4px;
+        height: 20px;
+        width: 4px;
+        background-color: #86efac;
+        border-radius: 2px;
+      }
+
+      .article p {
+        font-size: 14px;
+        color: #4b5563;
+        padding-left: 16px;
+      }
+
+      .signatures-section {
+        padding: 24px 32px;
+        border-top: 1px solid #e5e7eb;
+        background-color: #f9fafb;
+        margin-top: 16px;
+      }
+
+      .signature-block {
+        text-align: center;
+      }
+
+      .signature-block p:first-child {
+        font-size: 14px;
+        color: #6b7280;
+        margin-bottom: 24px;
+      }
+
+      .signature-line {
+        height: 1px;
+        background-color: #d1d5db;
+        width: 80%;
+        margin: 16px auto;
+      }
+
+      .signature-block p:last-child {
+        font-size: 14px;
+        color: #374151;
+        font-weight: 500;
+      }
+
+      .footer {
+        background: linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%);
+        padding: 16px 32px;
+        text-align: center;
+        font-size: 12px;
+        color: #4b5563;
+      }
+
+      .footer p {
+        margin-bottom: 4px;
+      }
+
+      .footer p:last-child {
+        margin-bottom: 0;
+      }
+
+      @media print {
         body {
-            font-family: Arial, sans-serif;
-            background-color: #f8f9fa;
-            padding: 32px;
-            line-height: 1.5;
+          background: none;
+          padding: 0;
         }
-        
+
         .container {
-            max-width: 1024px;
-            margin: 0 auto;
-            background-color: white;
-            border-radius: 8px;
-            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-            overflow: hidden;
+          box-shadow: none;
+          border-radius: 0;
         }
-        
-        .gradient-header {
-            background: linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%);
-            padding: 24px 32px;
-            border-bottom: 1px solid #e5e7eb;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-        }
-        
-        .logo-section {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
-        
-        .logo {
-            width: 48px;
-            height: 48px;
-            background-color: #22c55e;
-            border-radius: 8px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-        
-        .logo svg {
-            width: 32px;
-            height: 32px;
-            color: white;
-        }
-        
-        .logo-text h1 {
-            font-size: 20px;
-            font-weight: 600;
-            color: #1f2937;
-            margin-bottom: 2px;
-        }
-        
-        .logo-text p {
-            font-size: 12px;
-            color: #16a34a;
-        }
-        
-        .title-section {
-            text-align: right;
-        }
-        
-        .title-section h2 {
-            font-size: 18px;
-            font-weight: 500;
-            color: #374151;
-            margin-bottom: 2px;
-        }
-        
-        .title-section p {
-            font-size: 12px;
-            color: #16a34a;
-        }
-        
-        .parties-section {
-            padding: 24px 32px;
-            background-color: #f9fafb;
-            border-bottom: 1px solid #e5e7eb;
-        }
-        
-        .parties-container {
-            display: flex;
-            gap: 16px;
-        }
-        
-        .party-card {
-            flex: 1;
-            background-color: white;
-            padding: 24px;
-            border-radius: 8px;
-            border: 1px solid #f3f4f6;
-        }
-        
-        .party-title {
-            font-size: 16px;
-            font-weight: 500;
-            color: #4b5563;
-            margin-bottom: 16px;
-            padding-bottom: 8px;
-            border-bottom: 1px solid #f3f4f6;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-        
-        .party-title svg {
-            width: 20px;
-            height: 20px;
-            color: #22c55e;
-        }
-        
-        .party-details {
-            color: #4b5563;
-            font-size: 14px;
-        }
-        
-        .party-details p {
-            margin-bottom: 12px;
-        }
-        
-        .party-details span {
-            font-weight: 500;
-        }
-        
-        .content-section {
-            padding: 24px 32px;
-            background-color: white;
-        }
-        
-        .article {
-            margin-bottom: 32px;
-            padding-bottom: 24px;
-            border-bottom: 1px dashed #e5e7eb;
-        }
-        
-        .article:last-child {
-            border-bottom: none;
-            margin-bottom: 0;
-        }
-        
-        .article h3 {
-            font-size: 16px;
-            font-weight: 500;
-            color: #374151;
-            margin-bottom: 12px;
-            position: relative;
-            padding-left: 16px;
-        }
-        
-        .article h3:before {
-            content: "";
-            position: absolute;
-            left: 0;
-            top: 4px;
-            height: 20px;
-            width: 4px;
-            background-color: #86efac;
-            border-radius: 2px;
-        }
-        
-        .article p {
-            font-size: 14px;
-            color: #4b5563;
-            padding-left: 16px;
-        }
-        
-        .signatures-section {
-            padding: 24px 32px;
-            border-top: 1px solid #e5e7eb;
-            background-color: #f9fafb;
-            margin-top: 16px;
-        }
-        
-        .signatures-container {
-            display: flex;
-            gap: 16px;
-        }
-        
-        .signature-block {
-            flex: 1;
-            text-align: center;
-        }
-        
-        .signature-block p:first-child {
-            font-size: 14px;
-            color: #6b7280;
-            margin-bottom: 24px;
-        }
-        
-        .signature-line {
-            height: 1px;
-            background-color: #d1d5db;
-            width: 80%;
-            margin: 16px auto;
-        }
-        
-        .signature-block p:last-child {
-            font-size: 14px;
-            color: #374151;
-            font-weight: 500;
-        }
-        
-        .footer {
-            background: linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%);
-            padding: 16px 32px;
-            text-align: center;
-            font-size: 12px;
-            color: #4b5563;
-        }
-        
-        .footer p {
-            margin-bottom: 4px;
-        }
-        
-        .footer p:last-child {
-            margin-bottom: 0;
-        }
-        
-        @media print {
-            body {
-                background: none;
-                padding: 0;
-            }
-            
-            .container {
-                box-shadow: none;
-                border-radius: 0;
-            }
-        }
-        
-        @media (max-width: 768px) {
-            body {
-                padding: 16px;
-            }
-            
-            .gradient-header {
-                flex-direction: column;
-                gap: 16px;
-                text-align: center;
-            }
-            
-            .parties-container {
-                flex-direction: column;
-            }
-            
-            .signatures-container {
-                flex-direction: column;
-            }
-        }
+      }
     </style>
-</head>
-<body>
+  </head>
+  <body>
     <div class="container">
-        <!-- En-tête avec logo et titre alignés -->
-        <div class="gradient-header">
-            <table width="100%" cellpadding="0" cellspacing="0">
+      <!-- En-tête avec logo et titre alignés -->
+      <div class="gradient-header">
+        <table width="100%" cellpadding="0" cellspacing="0">
+          <tr>
+            <td style="vertical-align: middle">
+              <table cellpadding="0" cellspacing="0">
                 <tr>
-                    <td style="vertical-align: middle;">
-                        <table cellpadding="0" cellspacing="0">
-                            <tr>
-                                <td style="vertical-align: middle; padding-right: 12px;">
-                                    <div class="logo">
-                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
-                                        </svg>
-                                    </div>
-                                </td>
-                                <td style="vertical-align: middle;">
+                  <td style="vertical-align: middle; padding-right: 12px">
+                    <div class="logo">
+                      <!-- <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        version="1.0"
+                        width="867.000000pt"
+                        height="288.000000pt"
+                        viewBox="0 0 867.000000 288.000000"
+                        preserveAspectRatio="xMidYMid meet"
+                      >
+                        <g
+                          transform="translate(0.000000,288.000000) scale(0.100000,-0.100000)"
+                          fill="#000000"
+                          stroke="none"
+                        ></g>
+                      </svg> -->
+                      <img src="locapay.png" alt="" />
+                    </div>
+                  </td>
+                  <!-- <td style="vertical-align: middle;">
                                     <div class="logo-text">
-                                        <h1>ImmoSoft</h1>
-                                        <p>Agence Immobilière de Cotonou</p>
+                                        <h1>{{agence.nom}}</h1>
+                                        <p>{{agence.sousTitre}}</p>
                                     </div>
-                                </td>
-                            </tr>
-                        </table>
-                    </td>
-                    <td style="text-align: right; vertical-align: middle;">
-                        <div class="title-section">
-                            <h2>CONTRAT DE BAIL</h2>
-                            <p>Bail d'habitation non meublé</p>
-                        </div>
-                    </td>
+                                </td> -->
                 </tr>
-            </table>
+              </table>
+            </td>
+            <td style="text-align: right; vertical-align: middle">
+              <div class="title-section">
+                <h2>{{contrat.type}}</h2>
+                <p>{{contrat.sousTitre}}</p>
+              </div>
+            </td>
+          </tr>
+        </table>
+      </div>
+
+      <!-- Parties (Bailleur et Preneur) -->
+      <div class="parties-section">
+        <table width="100%" cellpadding="0" cellspacing="0">
+          <tr>
+            <td width="50%" style="vertical-align: top; padding-right: 8px">
+              <div class="party-card">
+                <h2 class="party-title">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 20 20"
+                    fill="currentColor"
+                  >
+                    <path
+                      fill-rule="evenodd"
+                      d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z"
+                      clip-rule="evenodd"
+                    />
+                  </svg>
+                  LE BAILLEUR
+                </h2>
+                <div class="party-details">
+                  <p><span>Nom :</span> {{bailleur.nom}}</p>
+                  <p><span>Adresse :</span> {{bailleur.adresse}}</p>
+                  <p><span>Téléphone :</span> {{bailleur.telephone}}</p>
+                  <p><span>Email :</span> {{bailleur.email}}</p>
+                </div>
+              </div>
+            </td>
+            <td width="50%" style="vertical-align: top; padding-left: 8px">
+              <div class="party-card">
+                <h2 class="party-title">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 20 20"
+                    fill="currentColor"
+                  >
+                    <path
+                      fill-rule="evenodd"
+                      d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z"
+                      clip-rule="evenodd"
+                    />
+                  </svg>
+                  LE PRENEUR
+                </h2>
+                <div class="party-details">
+                  <p><span>Nom :</span> {{preneur.nom}}</p>
+                  <p><span>Adresse :</span> {{preneur.adresse}}</p>
+                  <p><span>Téléphone :</span> {{preneur.telephone}}</p>
+                  <p><span>Email :</span> {{preneur.email}}</p>
+                </div>
+              </div>
+            </td>
+          </tr>
+        </table>
+      </div>
+
+      <!-- Contenu du contrat -->
+      <div class="content-section">
+        {{#each articles}}
+        <div class="article">
+          <h3>Article {{numero}} - {{titre}}</h3>
+          <p>{{contenu}}</p>
         </div>
-        
-        <!-- Parties (Bailleur et Preneur) -->
-        <div class="parties-section">
-            <table width="100%" cellpadding="0" cellspacing="0">
-                <tr>
-                    <td width="50%" style="vertical-align: top; padding-right: 8px;">
-                        <div class="party-card">
-                            <h2 class="party-title">
-                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
-                                    <path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clip-rule="evenodd" />
-                                </svg>
-                                LE BAILLEUR
-                            </h2>
-                            <div class="party-details">
-                                <p><span>Nom :</span> DUPONT Jean</p>
-                                <p><span>Adresse :</span> 12 Rue des Lilas, 75000 Paris</p>
-                                <p><span>Téléphone :</span> 01 23 45 67 89</p>
-                                <p><span>Email :</span> j.dupont@example.com</p>
-                            </div>
-                        </div>
-                    </td>
-                    <td width="50%" style="vertical-align: top; padding-left: 8px;">
-                        <div class="party-card">
-                            <h2 class="party-title">
-                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
-                                    <path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clip-rule="evenodd" />
-                                </svg>
-                                LE PRENEUR
-                            </h2>
-                            <div class="party-details">
-                                <p><span>Nom :</span> MARTIN Claire</p>
-                                <p><span>Adresse :</span> 5 Avenue du Parc, 69000 Lyon</p>
-                                <p><span>Téléphone :</span> 06 12 34 56 78</p>
-                                <p><span>Email :</span> c.martin@example.com</p>
-                            </div>
-                        </div>
-                    </td>
-                </tr>
-            </table>
-        </div>
-        
-        <!-- Contenu du contrat -->
-        <div class="content-section">
-            <div class="article">
-                <h3>Article 1 - Objet du contrat</h3>
-                <p>Le présent contrat a pour objet la location d'un logement situé au 15 Rue de la République, 75001 Paris, composé d'un séjour, d'une cuisine, d'une salle de bains et de deux chambres, d'une superficie de 65 m².</p>
-            </div>
-            
-            <div class="article">
-                <h3>Article 2 - Durée du bail</h3>
-                <p>Le présent bail est consenti pour une durée de trois ans à compter du 1er septembre 2023. Il est renouvelable par tacite reconduction pour des périodes d'un an.</p>
-            </div>
-            
-            <div class="article">
-                <h3>Article 3 - Loyer et charges</h3>
-                <p>Le loyer mensuel est fixé à la somme de 950 euros (neuf cent cinquante euros), payable le premier jour de chaque mois. Les charges locatives sont estimées à 120 euros par mois.</p>
-            </div>
-            
-            <div class="article">
-                <h3>Article 4 - Dépôt de garantie</h3>
-                <p>Un dépôt de garantie d'un montant de 950 euros est versé par le preneur lors de la signature du présent contrat. Ce dépôt sera restitué dans un délai d'un mois après la fin du bail, déduction faite des éventuelles sommes dues.</p>
-            </div>
-            
-            <div class="article">
-                <h3>Article 5 - Entretien et réparations</h3>
-                <p>Le preneur est tenu d'entretenir les lieux loués et d'effectuer les menues réparations. Les grosses réparations restent à la charge du bailleur.</p>
-            </div>
-            
-            <div class="article">
-                <h3>Article 6 - Assurance</h3>
-                <p>Le preneur est tenu de souscrire une assurance couvrant les risques locatifs. Une attestation d'assurance sera remise au bailleur avant l'entrée dans les lieux.</p>
-            </div>
-        </div>
-        
-        <!-- Signatures -->
-        <div class="signatures-section">
-            <table width="100%" cellpadding="0" cellspacing="0">
-                <tr>
-                    <td width="50%" style="text-align: center; vertical-align: top; padding-right: 8px;">
-                        <div class="signature-block">
-                            <p>Fait à Paris, le 25 août 2023</p>
-                            <div class="signature-line"></div>
-                            <p>Le Bailleur</p>
-                        </div>
-                    </td>
-                    <td width="50%" style="text-align: center; vertical-align: top; padding-left: 8px;">
-                        <div class="signature-block">
-                            <p>Fait à Paris, le 25 août 2023</p>
-                            <div class="signature-line"></div>
-                            <p>Le Preneur</p>
-                        </div>
-                    </td>
-                </tr>
-            </table>
-        </div>
-        
-        <!-- Pied de page -->
-        <footer class="footer">
-            <p>Contrat établi en deux exemplaires originaux - Un exemplaire pour chaque partie</p>
-            <p>ImmoSoft - 22 Avenue de la Paix, 75000 Paris - Tél: 01 98 76 54 32</p>
-        </footer>
+        {{/each}}
+      </div>
+
+      <!-- Signatures -->
+      <div class="signatures-section">
+        <table width="100%" cellpadding="0" cellspacing="0">
+          <tr>
+            <td
+              width="50%"
+              style="
+                text-align: center;
+                vertical-align: top;
+                padding-right: 8px;
+              "
+            >
+              <div class="signature-block">
+                <p>Fait à {{contrat.lieu}}, le {{contrat.dateSignature}}</p>
+                <div class="signature-line"></div>
+                <p>Le Bailleur</p>
+              </div>
+            </td>
+            <td
+              width="50%"
+              style="text-align: center; vertical-align: top; padding-left: 8px"
+            >
+              <div class="signature-block">
+                <p>Fait à {{contrat.lieu}}, le {{contrat.dateSignature}}</p>
+                <div class="signature-line"></div>
+                <p>Le Preneur</p>
+              </div>
+            </td>
+          </tr>
+        </table>
+      </div>
+
+      <!-- Pied de page -->
+      <footer class="footer">
+        <p>
+          Contrat établi en deux exemplaires originaux - Un exemplaire pour
+          chaque partie
+        </p>
+        <p>{{agence.nom}} - {{agence.adresse}} - Tél: {{agence.telephone}}</p>
+      </footer>
     </div>
-</body>
+  </body>
 </html>
