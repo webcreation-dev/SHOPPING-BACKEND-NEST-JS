@@ -267,75 +267,57 @@
     <div class="container">
         <!-- En-tête avec logo et titre alignés -->
         <div class="gradient-header">
-            <table width="100%" cellpadding="0" cellspacing="0">
-                <tr>
-                    <td style="vertical-align: middle;">
-                        <table cellpadding="0" cellspacing="0">
-                            <tr>
-                                <td style="vertical-align: middle; padding-right: 12px;">
-                                    <div class="logo">
-                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
-                                        </svg>
-                                    </div>
-                                </td>
-                                <td style="vertical-align: middle;">
-                                    <div class="logo-text">
-                                        <h1>ImmoSoft</h1>
-                                        <p>Agence Immobilière de Cotonou</p>
-                                    </div>
-                                </td>
-                            </tr>
-                        </table>
-                    </td>
-                    <td style="text-align: right; vertical-align: middle;">
-                        <div class="title-section">
-                            <h2>CONTRAT DE BAIL</h2>
-                            <p>Bail d'habitation non meublé</p>
-                        </div>
-                    </td>
-                </tr>
-            </table>
+            <div class="logo-section">
+                <div class="logo">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
+                    </svg>
+                </div>
+                <div class="logo-text">
+                    <h1>ImmoSoft</h1>
+                    <p>Agence Immobilière de Cotonou</p>
+                </div>
+            </div>
+            
+            <div class="title-section">
+                <h2>CONTRAT DE BAIL</h2>
+                <p>Bail d'habitation non meublé</p>
+            </div>
         </div>
         
         <!-- Parties (Bailleur et Preneur) -->
         <div class="parties-section">
-            <table width="100%" cellpadding="0" cellspacing="0">
-                <tr>
-                    <td width="50%" style="vertical-align: top; padding-right: 8px;">
-                        <div class="party-card">
-                            <h2 class="party-title">
-                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
-                                    <path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clip-rule="evenodd" />
-                                </svg>
-                                LE BAILLEUR
-                            </h2>
-                            <div class="party-details">
-                                <p><span>Nom :</span> DUPONT Jean</p>
-                                <p><span>Adresse :</span> 12 Rue des Lilas, 75000 Paris</p>
-                                <p><span>Téléphone :</span> 01 23 45 67 89</p>
-                                <p><span>Email :</span> j.dupont@example.com</p>
-                            </div>
-                        </div>
-                    </td>
-                    <td width="50%" style="vertical-align: top; padding-left: 8px;">
-                        <div class="party-card">
-                            <h2 class="party-title">
-                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
-                                    <path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clip-rule="evenodd" />
-                                </svg>
-                                LE PRENEUR
-                            </h2>
-                            <div class="party-details">
-                                <p><span>Nom :</span> MARTIN Claire</p>
-                                <p><span>Adresse :</span> 5 Avenue du Parc, 69000 Lyon</p>
-                                <p><span>Téléphone :</span> 06 12 34 56 78</p>
-                                <p><span>Email :</span> c.martin@example.com</p>
-                            </div>
-                        </div>
-                    </td>
-                </tr>
-            </table>
+            <div class="parties-container">
+                <div class="party-card">
+                    <h2 class="party-title">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                            <path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clip-rule="evenodd" />
+                        </svg>
+                        LE BAILLEUR
+                    </h2>
+                    <div class="party-details">
+                        <p><span>Nom :</span> DUPONT Jean</p>
+                        <p><span>Adresse :</span> 12 Rue des Lilas, 75000 Paris</p>
+                        <p><span>Téléphone :</span> 01 23 45 67 89</p>
+                        <p><span>Email :</span> j.dupont@example.com</p>
+                    </div>
+                </div>
+                
+                <div class="party-card">
+                    <h2 class="party-title">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                            <path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clip-rule="evenodd" />
+                        </svg>
+                        LE PRENEUR
+                    </h2>
+                    <div class="party-details">
+                        <p><span>Nom :</span> MARTIN Claire</p>
+                        <p><span>Adresse :</span> 5 Avenue du Parc, 69000 Lyon</p>
+                        <p><span>Téléphone :</span> 06 12 34 56 78</p>
+                        <p><span>Email :</span> c.martin@example.com</p>
+                    </div>
+                </div>
+            </div>
         </div>
         
         <!-- Contenu du contrat -->
@@ -373,24 +355,19 @@
         
         <!-- Signatures -->
         <div class="signatures-section">
-            <table width="100%" cellpadding="0" cellspacing="0">
-                <tr>
-                    <td width="50%" style="text-align: center; vertical-align: top; padding-right: 8px;">
-                        <div class="signature-block">
-                            <p>Fait à Paris, le 25 août 2023</p>
-                            <div class="signature-line"></div>
-                            <p>Le Bailleur</p>
-                        </div>
-                    </td>
-                    <td width="50%" style="text-align: center; vertical-align: top; padding-left: 8px;">
-                        <div class="signature-block">
-                            <p>Fait à Paris, le 25 août 2023</p>
-                            <div class="signature-line"></div>
-                            <p>Le Preneur</p>
-                        </div>
-                    </td>
-                </tr>
-            </table>
+            <div class="signatures-container">
+                <div class="signature-block">
+                    <p>Fait à Paris, le 25 août 2023</p>
+                    <div class="signature-line"></div>
+                    <p>Le Bailleur</p>
+                </div>
+                
+                <div class="signature-block">
+                    <p>Fait à Paris, le 25 août 2023</p>
+                    <div class="signature-line"></div>
+                    <p>Le Preneur</p>
+                </div>
+            </div>
         </div>
         
         <!-- Pied de page -->

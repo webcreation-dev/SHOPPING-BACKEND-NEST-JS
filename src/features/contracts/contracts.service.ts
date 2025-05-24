@@ -452,23 +452,13 @@ export class ContractsService {
     }
 
     // Charger le template HTML
-    const templatePath = path.join(
-      'templates',
-      'contract-template.html',
-    );
+    const templatePath = path.join('templates', 'contract-template.html');
     const template = fs.readFileSync(templatePath, 'utf8');
 
     // Préparer les données pour le template
     const document = {
       html: template,
-      data: {
-        landlord: contract.landlord?.lastname || 'N/A',
-        tenant: contract.tenant?.lastname || 'N/A',
-        start_date: contract.start_date.toISOString().split('T')[0],
-        end_date: contract.end_date.toISOString().split('T')[0],
-        rent_price: contract.rent_price,
-        articles: contract.articles || [],
-      },
+      data: this.bailData,
       path: path.join('pdfs', `contract-${contractId}.pdf`),
       type: '',
     };
@@ -478,11 +468,116 @@ export class ContractsService {
       format: 'A4',
       orientation: 'portrait',
       border: '10mm',
+      width: '300mm',
+      height: '400mm',
+      header: {
+        height: '2mm',
+        // contents: `<h4 style="text-align: center; margin: 0;">Rapport Journalier - ${reportData.agency.name}</h4>`,
+      },
     };
 
     // Générer le PDF
     await pdf.create(document, options);
 
-    return document.path; // Retourner le chemin du fichier PDF généré
+    return document.path;
   }
+
+  private bailData = {
+    // Informations de l'agence
+    agence: {
+      nom: 'ImmoSoft',
+      sousTitre: 'Agence Immobilière de Cotonou',
+      adresse: '22 Avenue de la Paix, 75000 Paris',
+      telephone: '01 98 76 54 32',
+    },
+
+    // Informations du contrat
+    contrat: {
+      type: 'CONTRAT DE BAIL',
+      sousTitre: "Bail d'habitation non meublé",
+      lieu: 'Paris',
+      dateSignature: '25 août 2023',
+    },
+
+    // Informations du bailleur
+    bailleur: {
+      nom: 'DUPONT Jean',
+      adresse: '12 Rue des Lilas, 75000 Paris',
+      telephone: '01 23 45 67 89',
+      email: 'j.dupont@example.com',
+    },
+
+    // Informations du preneur
+    preneur: {
+      nom: 'MARTIN Claire',
+      adresse: '5 Avenue du Parc, 69000 Lyon',
+      telephone: '06 12 34 56 78',
+      email: 'c.martin@example.com',
+    },
+
+    // Informations du logement
+    logement: {
+      adresse: '15 Rue de la République, 75001 Paris',
+      composition:
+        "un séjour, d'une cuisine, d'une salle de bains et de deux chambres",
+      superficie: '65 m²',
+    },
+
+    // Informations financières
+    financier: {
+      loyerMensuel: 950,
+      loyerMensuelLettres: 'neuf cent cinquante euros',
+      chargesEstimees: 120,
+      depotGarantie: 950,
+      jourPaiement: 'premier jour de chaque mois',
+    },
+
+    // Informations de durée
+    duree: {
+      dureeInitiale: 'trois ans',
+      dateDebut: '1er septembre 2023',
+      reconduction: "des périodes d'un an",
+      delaiRestitution: 'un mois',
+    },
+
+    // Articles du contrat
+    articles: [
+      {
+        numero: 1,
+        titre: 'Objet du contrat',
+        contenu:
+          "Le présent contrat a pour objet la location d'un logement situé au {{logement.adresse}}, composé d'{{logement.composition}}, d'une superficie de {{logement.superficie}}.",
+      },
+      {
+        numero: 2,
+        titre: 'Durée du bail',
+        contenu:
+          'Le présent bail est consenti pour une durée de {{duree.dureeInitiale}} à compter du {{duree.dateDebut}}. Il est renouvelable par tacite reconduction pour {{duree.reconduction}}.',
+      },
+      {
+        numero: 3,
+        titre: 'Loyer et charges',
+        contenu:
+          'Le loyer mensuel est fixé à la somme de {{financier.loyerMensuel}} euros ({{financier.loyerMensuelLettres}}), payable le {{financier.jourPaiement}}. Les charges locatives sont estimées à {{financier.chargesEstimees}} euros par mois.',
+      },
+      {
+        numero: 4,
+        titre: 'Dépôt de garantie',
+        contenu:
+          "Un dépôt de garantie d'un montant de {{financier.depotGarantie}} euros est versé par le preneur lors de la signature du présent contrat. Ce dépôt sera restitué dans un délai d'{{duree.delaiRestitution}} après la fin du bail, déduction faite des éventuelles sommes dues.",
+      },
+      {
+        numero: 5,
+        titre: 'Entretien et réparations',
+        contenu:
+          "Le preneur est tenu d'entretenir les lieux loués et d'effectuer les menues réparations. Les grosses réparations restent à la charge du bailleur.",
+      },
+      {
+        numero: 6,
+        titre: 'Assurance',
+        contenu:
+          "Le preneur est tenu de souscrire une assurance couvrant les risques locatifs. Une attestation d'assurance sera remise au bailleur avant l'entrée dans les lieux.",
+      },
+    ],
+  };
 }
