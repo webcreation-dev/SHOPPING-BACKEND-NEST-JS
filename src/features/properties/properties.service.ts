@@ -95,7 +95,7 @@ export class PropertiesService {
       },
     );
 
-    console.log(data);
+    console.log('Executing getAll with filters:');
 
     const meta = this.paginationService.createMeta(limit, page, count);
 
