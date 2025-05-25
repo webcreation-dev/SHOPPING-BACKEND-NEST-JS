@@ -110,7 +110,7 @@ export class AuthController {
   async initiateValidation(
     @Body() initiateValidationUserDto: InitiateValidationUserDto,
 
-    @UploadedFiles(createParseFilePipe('2MB', 'png', 'jpeg'))
+    @UploadedFiles(createParseFilePipe('5MB', 'png', 'jpeg'))
     files: File[],
 
     @CurrentUser() user: User,
