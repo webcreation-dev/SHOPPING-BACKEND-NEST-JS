@@ -99,42 +99,136 @@ export class PropertiesService {
 
     return { data: this.propertyResource.formatCollection(data), meta };
   }
-  async findAll(user: User, propertiesQueryDto: PropertiesQueryDto) {
-    const {
-      page,
-      name,
-      price,
-      sort,
-      order,
-      type,
-      tarification,
-      to_sell,
-      district,
-      municipality,
-      department,
-    } = propertiesQueryDto;
+  // async findAll(user: User, propertiesQueryDto: PropertiesQueryDto) {
+  //   const {
+  //     page,
+  //     name,
+  //     price,
+  //     sort,
+  //     order,
+  //     type,
+  //     tarification,
+  //     to_sell,
+  //     district,
+  //     municipality,
+  //     department,
+  //   } = propertiesQueryDto;
 
-    const limit = propertiesQueryDto.limit ?? DefaultPageSize.PROPERTY;
-    const offset = this.paginationService.calculateOffset(limit, page);
+  //   const limit = propertiesQueryDto.limit ?? DefaultPageSize.PROPERTY;
+  //   const offset = this.paginationService.calculateOffset(limit, page);
+
+  //   const [data, count] = await this.propertiesRepository.findAndCount(
+  //     {
+  //       user: { id: user.id },
+  //       description: name ? this.filteringService.contains(name) : undefined,
+  //       rent_price: price ? this.filteringService.compare(price) : undefined,
+  //       type: type as TypePropertyEnum,
+  //       tarification: tarification as TarificationEnum,
+  //       district: district
+  //         ? this.filteringService.contains(district)
+  //         : undefined,
+  //       municipality: municipality
+  //         ? this.filteringService.contains(municipality)
+  //         : undefined,
+  //       department: department
+  //         ? this.filteringService.contains(department)
+  //         : undefined,
+  //       to_sell: to_sell ? (to_sell === 1 ? true : false) : undefined,
+  //     },
+  //     {
+  //       relations: {
+  //         galleries: true,
+  //         user: true,
+  //         owner: true,
+  //         visits: true,
+  //         contracts: true,
+  //         panorama: true,
+  //       },
+  //       order: { [sort]: order } as FindOptionsOrder<Property>,
+  //       skip: offset,
+  //       take: limit,
+  //     },
+  //   );
+
+  //   const meta = this.paginationService.createMeta(limit, page, count);
+
+  //   return { data: this.propertyResource.formatCollection(data), meta };
+  // }
+
+  // async findOwner(user: User, propertiesQueryDto: PropertiesQueryDto) {
+  //   const {
+  //     page,
+  //     name,
+  //     price,
+  //     sort,
+  //     order,
+  //     type,
+  //     tarification,
+  //     to_sell,
+  //     district,
+  //     municipality,
+  //     department,
+  //   } = propertiesQueryDto;
+
+  //   const limit = propertiesQueryDto.limit ?? DefaultPageSize.PROPERTY;
+  //   const offset = this.paginationService.calculateOffset(limit, page);
+
+  //   const [data, count] = await this.propertiesRepository.findAndCount(
+  //     {
+  //       owner: { id: user.id },
+  //       description: name ? this.filteringService.contains(name) : undefined,
+  //       rent_price: price ? this.filteringService.compare(price) : undefined,
+  //       type: type as TypePropertyEnum,
+  //       tarification: tarification as TarificationEnum,
+  //       district: district
+  //         ? this.filteringService.contains(district)
+  //         : undefined,
+  //       municipality: municipality
+  //         ? this.filteringService.contains(municipality)
+  //         : undefined,
+  //       department: department
+  //         ? this.filteringService.contains(department)
+  //         : undefined,
+  //       to_sell: to_sell ? (to_sell === 1 ? true : false) : undefined,
+  //     },
+  //     {
+  //       relations: {
+  //         galleries: true,
+  //         user: true,
+  //         owner: true,
+  //         visits: true,
+  //         contracts: true,
+  //         panorama: true,
+  //       },
+  //       order: { [sort]: order } as FindOptionsOrder<Property>,
+  //       skip: offset,
+  //       take: limit,
+  //     },
+  //   );
+
+  //   const meta = this.paginationService.createMeta(limit, page, count);
+
+  //   return { data: this.propertyResource.formatCollection(data), meta };
+  // }
+
+  async findAll(user: User, queryDto: PropertiesQueryDto) {
+    return this.find(user, queryDto, { user: { id: user.id } });
+  }
+
+  async findOwner(user: User, queryDto: PropertiesQueryDto) {
+    return this.find(user, queryDto, { owner: { id: user.id } });
+  }
+
+  private async find(
+    user: User,
+    queryDto: PropertiesQueryDto,
+    ownerFilter: object,
+  ) {
+    const limit = queryDto.limit ?? DefaultPageSize.PROPERTY;
+    const offset = this.paginationService.calculateOffset(limit, queryDto.page);
 
     const [data, count] = await this.propertiesRepository.findAndCount(
-      {
-        user: { id: user.id },
-        description: name ? this.filteringService.contains(name) : undefined,
-        rent_price: price ? this.filteringService.compare(price) : undefined,
-        type: type as TypePropertyEnum,
-        tarification: tarification as TarificationEnum,
-        district: district
-          ? this.filteringService.contains(district)
-          : undefined,
-        municipality: municipality
-          ? this.filteringService.contains(municipality)
-          : undefined,
-        department: department
-          ? this.filteringService.contains(department)
-          : undefined,
-        to_sell: to_sell ? (to_sell === 1 ? true : false) : undefined,
-      },
+      { ...ownerFilter, ...this.createFilters(queryDto) },
       {
         relations: {
           galleries: true,
@@ -144,15 +238,43 @@ export class PropertiesService {
           contracts: true,
           panorama: true,
         },
-        order: { [sort]: order } as FindOptionsOrder<Property>,
+        order: {
+          [queryDto.sort]: queryDto.order,
+        } as FindOptionsOrder<Property>,
         skip: offset,
         take: limit,
       },
     );
 
-    const meta = this.paginationService.createMeta(limit, page, count);
+    return {
+      data: this.propertyResource.formatCollection(data),
+      meta: this.paginationService.createMeta(limit, queryDto.page, count),
+    };
+  }
 
-    return { data: this.propertyResource.formatCollection(data), meta };
+  private createFilters(q: PropertiesQueryDto) {
+    return Object.fromEntries(
+      Object.entries({
+        description: q.name
+          ? this.filteringService.contains(q.name)
+          : undefined,
+        rent_price: q.price
+          ? this.filteringService.compare(q.price)
+          : undefined,
+        type: q.type,
+        tarification: q.tarification,
+        district: q.district
+          ? this.filteringService.contains(q.district)
+          : undefined,
+        municipality: q.municipality
+          ? this.filteringService.contains(q.municipality)
+          : undefined,
+        department: q.department
+          ? this.filteringService.contains(q.department)
+          : undefined,
+        to_sell: q.to_sell !== undefined ? q.to_sell === 1 : undefined,
+      }).filter(([, value]) => value !== undefined),
+    );
   }
 
   async create(

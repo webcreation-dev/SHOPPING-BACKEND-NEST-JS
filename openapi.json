@@ -302,11 +302,11 @@
     },
     "/auth/stat_by_month": {
       "get": {
-        "operationId": "AuthController_statContractsMonthDto",
+        "operationId": "AuthController_statContractsMonth",
         "parameters": [
           {
             "name": "month",
-            "required": true,
+            "required": false,
             "in": "query",
             "schema": {
               "minimum": 1,
@@ -316,7 +316,7 @@
           },
           {
             "name": "year",
-            "required": true,
+            "required": false,
             "in": "query",
             "schema": {
               "minimum": 2000,
@@ -793,6 +793,177 @@
           }
         },
         "summary": "GET ALL",
+        "tags": [
+          "Properties"
+        ]
+      }
+    },
+    "/properties/owner": {
+      "get": {
+        "operationId": "PropertiesController_findOwner",
+        "parameters": [
+          {
+            "name": "limit",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "maximum": 100,
+              "type": "number"
+            }
+          },
+          {
+            "name": "page",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "maximum": 25,
+              "default": 1,
+              "type": "number"
+            }
+          },
+          {
+            "name": "name",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "price",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "$ref": "#/components/schemas/FilterOperationDto"
+            }
+          },
+          {
+            "name": "tarification",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "DAILY",
+                "MONTHLY"
+              ]
+            }
+          },
+          {
+            "name": "type",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "PARCEL",
+                "HOUSE",
+                "VILLA",
+                "STUDIO",
+                "APARTMENT",
+                "APARTMENT_FURNITURE",
+                "OFFICE",
+                "BUILDING",
+                "SHOP",
+                "STORE"
+              ]
+            }
+          },
+          {
+            "name": "to_sell",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "minimum": 1,
+              "maximum": 2,
+              "type": "number"
+            }
+          },
+          {
+            "name": "district",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "municipality",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "department",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "order",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "default": "ASC",
+              "type": "string",
+              "enum": [
+                "ASC",
+                "DESC"
+              ]
+            }
+          },
+          {
+            "name": "sort",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "default": "rent_price",
+              "type": "string",
+              "enum": [
+                "description",
+                "rent_price"
+              ]
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PropertiesQueryDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "title": "PaginatedResponseOfProperty",
+                  "properties": {
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/Property"
+                      }
+                    },
+                    "meta": {
+                      "$ref": "#/components/schemas/PaginationMeta"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "summary": "FIND ALL",
         "tags": [
           "Properties"
         ]
@@ -2932,11 +3103,7 @@
             "type": "number",
             "minimum": 2000
           }
-        },
-        "required": [
-          "month",
-          "year"
-        ]
+        }
       },
       "ValidateUserDto": {
         "type": "object",

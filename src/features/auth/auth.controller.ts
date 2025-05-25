@@ -141,9 +141,9 @@ export class AuthController {
 
   @Get('stat_by_month')
   @HeaderOperation('STAT CONTRACT BY ', StatContractsMonthDto)
-  statContractsMonthDto(
+  statContractsMonth(
     @CurrentUser() user: User,
-    @Query() statContractsMonthDto: StatContractsMonthDto,
+    @Query() statContractsMonthDto?: StatContractsMonthDto,
   ) {
     return this.usersService.statContractsMonth(user, statContractsMonthDto);
   }

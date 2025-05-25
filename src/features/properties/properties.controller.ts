@@ -76,6 +76,15 @@ export class PropertiesController {
   ) {
     return this.propertiesService.findAll(user, propertiesQueryDto);
   }
+  @Get('owner')
+  @ApiPaginatedResponse(Property)
+  @HeaderOperation('FIND ALL', PropertiesQueryDto)
+  findOwner(
+    @Query() propertiesQueryDto: PropertiesQueryDto,
+    @CurrentUser() user: User,
+  ) {
+    return this.propertiesService.findOwner(user, propertiesQueryDto);
+  }
 
   @Get(':id')
   @HeaderOperation('GET ONE', null, null, true)

@@ -1,12 +1,14 @@
-import { IsInt, Min, Max } from 'class-validator';
+import { IsInt, Min, Max, IsOptional } from 'class-validator';
 
 export class StatContractsMonthDto {
   @IsInt()
   @Min(1)
   @Max(12)
-  month: number;
+  @IsOptional()
+  month?: number;
 
   @IsInt()
   @Min(2000)
-  year: number;
+  @IsOptional()
+  year?: number;
 }
