@@ -23,6 +23,7 @@ import {
 import { AddInvoicesDto } from './dto/invoices/add-invoice.dto';
 import { UpdateInvoiceDto } from './dto/invoices/update-invoice.dto';
 import { In } from 'typeorm';
+import { BailData } from './dto/types';
 
 @Injectable()
 export class ContractsService {
@@ -456,9 +457,10 @@ export class ContractsService {
     const template = fs.readFileSync(templatePath, 'utf8');
 
     // Préparer les données pour le template
+
     const document = {
       html: template,
-      data: this.bailData,
+      data: await this.getBailData(contractId),
       path: path.join('pdfs', `contract-${contractId}.pdf`),
       type: '',
     };
@@ -480,6 +482,55 @@ export class ContractsService {
     await pdf.create(document, options);
 
     return document.path;
+  }
+
+  async getBailData(contractId: number): Promise<BailData> {
+    // Appeler la méthode GET ONE pour récupérer les données du contrat
+    const contract = await this.findOne(contractId);
+    const bailData = {
+      // Informations de l'agence
+      agence: {
+        nom: 'ImmoSoft',
+        sousTitre: 'Agence Immobilière de Cotonou',
+        adresse: '22 Avenue de la Paix, 75000 Paris',
+        telephone: '01 98 76 54 32',
+      },
+
+      // Informations du contrat
+      contrat: {
+        type: 'CONTRAT DE BAIL',
+        sousTitre: "Bail d'habitation non meublé",
+        lieu: contract.property?.district || 'Non spécifié',
+        dateSignature: new Date(contract.start_date).toLocaleDateString(
+          'fr-FR',
+        ),
+        loyer: `${contract.rent_price} FCFA`,
+        caution: `${contract.caution} FCFA`,
+      },
+
+      // Informations du bailleur
+      bailleur: {
+        nom: `${contract.landlord?.lastname || ''} ${contract.landlord?.firstname || ''}`,
+        telephone: contract.landlord?.phone || 'Non spécifié',
+        email: contract.landlord?.phone || 'Non spécifié',
+      },
+
+      // Informations du preneur
+      preneur: {
+        nom: `${contract.tenant?.lastname || ''} ${contract.tenant?.firstname || ''}`,
+        telephone: contract.tenant?.phone || 'Non spécifié',
+        email: contract.tenant?.phone || 'Non spécifié',
+      },
+
+      // Articles du contrat
+      articles: contract.articles.map((article) => ({
+        numero: article.id,
+        titre: article.title,
+        contenu: article.content,
+      })),
+    };
+
+    return bailData;
   }
 
   private bailData = {
