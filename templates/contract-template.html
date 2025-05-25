@@ -49,20 +49,22 @@
       }
 
       .qr-code {
-        width: 80px;
-        height: 80px;
+        width: 90px;
+        height: 90px;
         border: 2px solid #22c55e;
         border-radius: 8px;
         display: flex;
         align-items: center;
         justify-content: center;
         background-color: white;
+        padding: 10px; /* Ajouter padding ici */
+        box-sizing: border-box; /* Important pour inclure le padding dans la taille */
       }
-
       .qr-code img {
-        width: 70px;
-        height: 70px;
+        width: 100%; /* L'image prendra tout l'espace disponible */
+        height: 100%;
         border-radius: 4px;
+        object-fit: contain; /* Maintient les proportions */
       }
 
       .title-section {
@@ -272,11 +274,17 @@
                 />
               </div>
             </td>
-            <td style="vertical-align: middle; text-align: right; padding-left: 600px;">
+            <td
+              style="
+                vertical-align: middle;
+                text-align: right;
+                padding-left: 600px;
+              "
+            >
               <div class="qr-code">
                 <!-- Remplacez cette URL par votre QR code ou utilisez une variable template -->
                 <img
-                  src="https://shopping-backend-nest-js-production.up.railway.app/upload/qrcode_contract.png"
+                  src="https://shopping-backend-nest-js-production.up.railway.app/upload/qrcode.png"
                   alt="QR Code"
                 />
               </div>
