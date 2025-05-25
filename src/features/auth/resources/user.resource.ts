@@ -38,7 +38,6 @@ export class UserResource {
         user.contracts?.filter(
           (contract) => contract.status === StatusContractEnum.ACTIVE,
         ) || [],
-      globalLandlordStats: this.getGlobalLandlordStats(user.ownerContracts),
     };
   }
 

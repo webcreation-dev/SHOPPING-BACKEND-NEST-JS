@@ -88,7 +88,9 @@ export class User extends AbstractEntity<User> {
   @OneToMany(() => Property, (property) => property.user)
   properties: Property[];
 
-  @OneToMany(() => Property, (ownProperties) => ownProperties.owner)
+  @OneToMany(() => Property, (ownProperties) => ownProperties.owner, {
+    eager: true,
+  })
   ownProperties: Property[];
 
   @OneToMany(() => Visit, (visit) => visit.user)

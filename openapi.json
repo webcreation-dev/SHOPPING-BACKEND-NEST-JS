@@ -300,6 +300,51 @@
         ]
       }
     },
+    "/auth/stat_by_month": {
+      "get": {
+        "operationId": "AuthController_statContractsMonthDto",
+        "parameters": [
+          {
+            "name": "month",
+            "required": true,
+            "in": "query",
+            "schema": {
+              "minimum": 1,
+              "maximum": 12,
+              "type": "number"
+            }
+          },
+          {
+            "name": "year",
+            "required": true,
+            "in": "query",
+            "schema": {
+              "minimum": 2000,
+              "type": "number"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/StatContractsMonthDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "summary": "STAT CONTRACT BY ",
+        "tags": [
+          "Auth"
+        ]
+      }
+    },
     "/users/validate_user": {
       "post": {
         "operationId": "UsersController_validateUser",
@@ -2873,6 +2918,24 @@
         },
         "required": [
           "card_number"
+        ]
+      },
+      "StatContractsMonthDto": {
+        "type": "object",
+        "properties": {
+          "month": {
+            "type": "number",
+            "minimum": 1,
+            "maximum": 12
+          },
+          "year": {
+            "type": "number",
+            "minimum": 2000
+          }
+        },
+        "required": [
+          "month",
+          "year"
         ]
       },
       "ValidateUserDto": {

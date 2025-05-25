@@ -172,6 +172,6 @@ export class Property extends AbstractEntity<Property> {
   })
   owner: User;
 
-  @OneToMany(() => Contract, (contract) => contract.property)
+  @OneToMany(() => Contract, (contract) => contract.property, { eager: true })
   contracts: Contract[];
 }

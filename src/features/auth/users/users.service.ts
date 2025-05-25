@@ -7,6 +7,9 @@ import { ToggleWishlistDto } from './dto/toggle-wishlist.dto';
 import { ValidateUserDto } from './dto/validate-user.dto';
 import { UserResource } from 'src/features/auth/resources/user.resource';
 import { SearchUserByCodeDto } from './dto/search-user-by-code.dto';
+import { StatusContractEnum } from 'src/features/contracts/enums/status-contract.enum';
+import { StatusDueEnum } from 'src/features/contracts/enums/status-due.enum';
+import { StatContractsMonthDto } from './dto/stat-contracts-month.dto';
 
 @Injectable()
 export class UsersService {
@@ -64,5 +67,45 @@ export class UsersService {
 
   async getWishlist(user: User) {
     return await this.propertiesService.getWishlist(user);
+  }
+
+  async statContractsMonth(
+    owner: User,
+    { month, year }: StatContractsMonthDto,
+  ) {
+    const properties = owner.ownProperties; // Propriétés du propriétaire
+    const stats = {
+      occupiedLocations: 0,
+      vacantLocations: 0,
+      totalPaid: 0,
+      totalToReceive: 0,
+    };
+
+    for (const property of properties) {
+      const activeContracts = property.contracts.filter(
+        (contract) =>
+          contract.status === StatusContractEnum.ACTIVE &&
+          new Date(contract.start_date).getMonth() + 1 === month &&
+          new Date(contract.start_date).getFullYear() === year,
+      );
+
+      if (activeContracts.length > 0) {
+        stats.occupiedLocations += 1;
+
+        for (const contract of activeContracts) {
+          for (const due of contract.dues) {
+            if (due.status_due === StatusDueEnum.FINISHED) {
+              stats.totalPaid += due.amount_paid;
+            } else {
+              stats.totalToReceive += due.carry_over_amount;
+            }
+          }
+        }
+      } else {
+        stats.vacantLocations += 1;
+      }
+    }
+
+    return stats;
   }
 }

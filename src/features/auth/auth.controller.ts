@@ -3,6 +3,7 @@ import {
   Controller,
   Get,
   Post,
+  Query,
   Req,
   UploadedFiles,
   UseGuards,
@@ -33,10 +34,15 @@ import { ToggleWishlistDto } from './users/dto/toggle-wishlist.dto';
 import { CurrentUserResponseDto } from './dto/current_user-response.dto';
 import { InitiateValidationUserDto } from './users/dto/initiate-validation-user.dto';
 import { ApiConsumes } from '@nestjs/swagger';
+import { StatContractsMonthDto } from './users/dto/stat-contracts-month.dto';
+import { UsersService } from './users/users.service';
 
 @Controller('auth')
 export class AuthController {
-  constructor(private readonly authService: AuthService) {}
+  constructor(
+    private readonly authService: AuthService,
+    private readonly usersService: UsersService,
+  ) {}
 
   @HeaderOperation('LOGIN', LoginDto, LoginResponseDto, true)
   @UseGuards(LocalAuthGuard)
@@ -131,5 +137,14 @@ export class AuthController {
     @CurrentUser() user: User,
   ) {
     return await this.authService.updateProfile(files, user);
+  }
+
+  @Get('stat_by_month')
+  @HeaderOperation('STAT CONTRACT BY ', StatContractsMonthDto)
+  statContractsMonthDto(
+    @CurrentUser() user: User,
+    @Query() statContractsMonthDto: StatContractsMonthDto,
+  ) {
+    return this.usersService.statContractsMonth(user, statContractsMonthDto);
   }
 }
