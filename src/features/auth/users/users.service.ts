@@ -73,7 +73,7 @@ export class UsersService {
     owner: User,
     { month, year }: StatContractsMonthDto,
   ) {
-    const properties = owner.ownProperties; // Propriétés du propriétaire
+    const properties = owner.ownProperties;
     const stats = {
       occupiedLocations: 0,
       vacantLocations: 0,
@@ -81,19 +81,37 @@ export class UsersService {
       totalToReceive: 0,
     };
 
+    // Date du mois à analyser
+    const targetDate = new Date(year, month - 1, 1);
+    const nextMonth = new Date(year, month, 1);
+
     for (const property of properties) {
-      const activeContracts = property.contracts.filter(
-        (contract) =>
-          contract.status === StatusContractEnum.ACTIVE &&
-          new Date(contract.start_date).getMonth() + 1 === month &&
-          new Date(contract.start_date).getFullYear() === year,
-      );
+      // Contrats actifs pendant le mois ciblé
+      const activeContracts = property.contracts.filter((contract) => {
+        if (contract.status !== StatusContractEnum.ACTIVE) return false;
+
+        const startDate = new Date(contract.start_date);
+        const endDate = contract.end_date ? new Date(contract.end_date) : null;
+
+        // Le contrat est actif si :
+        // - Il a commencé avant ou pendant le mois ciblé
+        // - ET il n'a pas de date de fin OU sa date de fin est après le début du mois ciblé
+        return startDate < nextMonth && (!endDate || endDate >= targetDate);
+      });
 
       if (activeContracts.length > 0) {
         stats.occupiedLocations += 1;
 
+        // Calculer les échéances pour le mois spécifique
         for (const contract of activeContracts) {
-          for (const due of contract.dues) {
+          const monthlyDues = contract.dues.filter((due) => {
+            const dueDate = new Date(due.due_date); // Supposant une propriété due_date
+            return (
+              dueDate.getMonth() + 1 === month && dueDate.getFullYear() === year
+            );
+          });
+
+          for (const due of monthlyDues) {
             if (due.status_due === StatusDueEnum.FINISHED) {
               stats.totalPaid += due.amount_paid;
             } else {
