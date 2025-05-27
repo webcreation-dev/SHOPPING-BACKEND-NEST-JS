@@ -1,7 +1,7 @@
 import { MigrationInterface, QueryRunner } from "typeorm";
 
-export class New1747999205831 implements MigrationInterface {
-    name = 'New1747999205831'
+export class New1748338224287 implements MigrationInterface {
+    name = 'New1748338224287'
 
     public async up(queryRunner: QueryRunner): Promise<void> {
         await queryRunner.query(`
@@ -134,17 +134,6 @@ export class New1747999205831 implements MigrationInterface {
             )
         `);
         await queryRunner.query(`
-            CREATE TABLE "panorama" (
-                "id" SERIAL NOT NULL,
-                "url" character varying NOT NULL,
-                "propertyId" integer,
-                "created_at" TIMESTAMP NOT NULL DEFAULT now(),
-                "updated_at" TIMESTAMP NOT NULL DEFAULT now(),
-                "deletedAt" TIMESTAMP,
-                CONSTRAINT "PK_c8945fecae5ee2b907e82ddc5bd" PRIMARY KEY ("id")
-            )
-        `);
-        await queryRunner.query(`
             CREATE TABLE "property" (
                 "id" SERIAL NOT NULL,
                 "to_sell" boolean NOT NULL,
@@ -186,6 +175,17 @@ export class New1747999205831 implements MigrationInterface {
                 "updated_at" TIMESTAMP NOT NULL DEFAULT now(),
                 "deletedAt" TIMESTAMP,
                 CONSTRAINT "PK_d80743e6191258a5003d5843b4f" PRIMARY KEY ("id")
+            )
+        `);
+        await queryRunner.query(`
+            CREATE TABLE "panorama" (
+                "id" SERIAL NOT NULL,
+                "url" character varying NOT NULL,
+                "propertyId" integer,
+                "created_at" TIMESTAMP NOT NULL DEFAULT now(),
+                "updated_at" TIMESTAMP NOT NULL DEFAULT now(),
+                "deletedAt" TIMESTAMP,
+                CONSTRAINT "PK_c8945fecae5ee2b907e82ddc5bd" PRIMARY KEY ("id")
             )
         `);
         await queryRunner.query(`
@@ -259,16 +259,16 @@ export class New1747999205831 implements MigrationInterface {
             ADD CONSTRAINT "FK_1ced25315eb974b73391fb1c81b" FOREIGN KEY ("userId") REFERENCES "user"("id") ON DELETE CASCADE ON UPDATE NO ACTION
         `);
         await queryRunner.query(`
-            ALTER TABLE "panorama"
-            ADD CONSTRAINT "FK_5490cf649ee970c9abed0aa7d17" FOREIGN KEY ("propertyId") REFERENCES "property"("id") ON DELETE CASCADE ON UPDATE NO ACTION
-        `);
-        await queryRunner.query(`
             ALTER TABLE "property"
             ADD CONSTRAINT "FK_d90007b39cfcf412e15823bebc1" FOREIGN KEY ("userId") REFERENCES "user"("id") ON DELETE CASCADE ON UPDATE NO ACTION
         `);
         await queryRunner.query(`
             ALTER TABLE "property"
             ADD CONSTRAINT "FK_917755242ab5b0a0b08a63016d9" FOREIGN KEY ("ownerId") REFERENCES "user"("id") ON DELETE CASCADE ON UPDATE NO ACTION
+        `);
+        await queryRunner.query(`
+            ALTER TABLE "panorama"
+            ADD CONSTRAINT "FK_5490cf649ee970c9abed0aa7d17" FOREIGN KEY ("propertyId") REFERENCES "property"("id") ON DELETE CASCADE ON UPDATE NO ACTION
         `);
         await queryRunner.query(`
             ALTER TABLE "user_roles_role"
@@ -288,13 +288,13 @@ export class New1747999205831 implements MigrationInterface {
             ALTER TABLE "user_roles_role" DROP CONSTRAINT "FK_5f9286e6c25594c6b88c108db77"
         `);
         await queryRunner.query(`
+            ALTER TABLE "panorama" DROP CONSTRAINT "FK_5490cf649ee970c9abed0aa7d17"
+        `);
+        await queryRunner.query(`
             ALTER TABLE "property" DROP CONSTRAINT "FK_917755242ab5b0a0b08a63016d9"
         `);
         await queryRunner.query(`
             ALTER TABLE "property" DROP CONSTRAINT "FK_d90007b39cfcf412e15823bebc1"
-        `);
-        await queryRunner.query(`
-            ALTER TABLE "panorama" DROP CONSTRAINT "FK_5490cf649ee970c9abed0aa7d17"
         `);
         await queryRunner.query(`
             ALTER TABLE "notification" DROP CONSTRAINT "FK_1ced25315eb974b73391fb1c81b"
@@ -339,10 +339,10 @@ export class New1747999205831 implements MigrationInterface {
             DROP TABLE "waitlist"
         `);
         await queryRunner.query(`
-            DROP TABLE "property"
+            DROP TABLE "panorama"
         `);
         await queryRunner.query(`
-            DROP TABLE "panorama"
+            DROP TABLE "property"
         `);
         await queryRunner.query(`
             DROP TABLE "user"
