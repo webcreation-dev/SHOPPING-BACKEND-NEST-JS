@@ -67,6 +67,14 @@ export class PropertiesController {
     return this.propertiesService.getAll(propertiesQueryDto);
   }
 
+  @Get('/health_check')
+  @HeaderOperation('HEALTH CHECK', null, null, true)
+  healthCheck() {
+    return {
+      status: 'OK',
+    };
+  }
+
   @Get()
   @ApiPaginatedResponse(Property)
   @HeaderOperation('FIND ALL', PropertiesQueryDto)
@@ -76,6 +84,7 @@ export class PropertiesController {
   ) {
     return this.propertiesService.findAll(user, propertiesQueryDto);
   }
+
   @Get('owner')
   @ApiPaginatedResponse(Property)
   @HeaderOperation('FIND ALL', PropertiesQueryDto)
