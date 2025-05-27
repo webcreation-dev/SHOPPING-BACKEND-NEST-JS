@@ -4,7 +4,7 @@ services:
       context: .
       dockerfile: Dockerfile
     container_name: nestjs_app
-    restart: always
+    restart: on-failure
     ports:
       - "8000:8000"
     volumes:
@@ -17,10 +17,10 @@ services:
     container_name: postgres_db
     restart: always
     ports:
-      - "5432:5432"
+      - "5435:5432"
     environment:
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: postgres
+      POSTGRES_USER: locapay
+      POSTGRES_PASSWORD: YgWsW9ScFtWECh3yx8SX8K
       POSTGRES_DB: locapay
     volumes:
       - postgres_data:/var/lib/postgresql/data
