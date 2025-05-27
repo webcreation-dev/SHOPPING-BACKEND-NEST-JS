@@ -21,7 +21,6 @@
     "migration:create": "yarn typeorm migration:create",
     "premigration:generate": "yarn build",
     "migration:generate": "yarn typeorm migration:generate -d dist/libs/common/src/database/data-source -p",
-    "premigration:run": "yarn build",
     "migration:run": "yarn typeorm migration:run -d dist/libs/common/src/database/data-source",
     "migration:revert": "yarn typeorm migration:revert -d dist/libs/common/src/database/data-source"
   },

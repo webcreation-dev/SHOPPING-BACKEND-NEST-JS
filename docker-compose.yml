@@ -1,31 +1,31 @@
 services:
-  # app:
-  #   build:
-  #     context: .
-  #     dockerfile: Dockerfile
-  #   container_name: nestjs_app
-  #   restart: always
-  #   ports:
-  #     - "3000:3000"
-  #   environment:
-  #     DATABASE_URL: postgresql://postgres:postgres@database:5432/postgres
-  #     JWT_SECRET: your_jwt_secret
-  #     JWT_TTL: 604800
-  #   depends_on:
-  #     - database
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: nestjs_app
+    restart: on-failure
+    ports:
+      - "8000:8000"
+    volumes:
+      - locapay_uploads:/app/upload
+    depends_on:
+      - database
 
   database:
-    image: postgres:15
+    image: postgres:latest
     container_name: postgres_db
     restart: always
     ports:
-      - "5432:5432"
+      - "5435:5432"
     environment:
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: postgres
+      POSTGRES_USER: locapay
+      POSTGRES_PASSWORD: YgWsW9ScFtWECh3yx8SX8K
       POSTGRES_DB: locapay
     volumes:
       - postgres_data:/var/lib/postgresql/data
 
 volumes:
   postgres_data:
+  locapay_uploads:
+

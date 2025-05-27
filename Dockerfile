@@ -1,23 +1,22 @@
-# Utiliser une image Node.js comme base
 FROM node:22
 
-# Définir le répertoire de travail
 WORKDIR /app
 
-# Copier les fichiers package.json et package-lock.json
 COPY package*.json ./
 
-# Installer les dépendances
-RUN npm install
+RUN npm i
 
-# Copier tout le reste du projet
+COPY ./docker-entrypoint.sh /entrypoint.sh
+
+RUN chmod +x /entrypoint.sh
+
 COPY . .
 
-# Construire le projet
 RUN npm run build
 
-# Exposer le port 3000
-EXPOSE 3000
+ENV SEQUELIZE_MIGRATE=ENABLE
+ENV SERVICE_NAME="LOCAPAY BACKEND"
 
-# Commande pour démarrer l'application
+EXPOSE 8000
+ENTRYPOINT ["/entrypoint.sh"]
 CMD ["npm", "run", "start:prod"]
