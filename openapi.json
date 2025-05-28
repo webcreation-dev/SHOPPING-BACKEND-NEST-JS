@@ -798,6 +798,21 @@
         ]
       }
     },
+    "/properties/health_check": {
+      "get": {
+        "operationId": "PropertiesController_healthCheck",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "summary": "HEALTH CHECK",
+        "tags": [
+          "Properties"
+        ]
+      }
+    },
     "/properties/owner": {
       "get": {
         "operationId": "PropertiesController_findOwner",
@@ -1958,7 +1973,14 @@
         ],
         "responses": {
           "200": {
-            "description": ""
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
           }
         },
         "tags": [

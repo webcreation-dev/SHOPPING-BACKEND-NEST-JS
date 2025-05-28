@@ -97,10 +97,7 @@ export class ContractsController {
   }
 
   @Get(':id/pdf')
-  async getContractPdf(@Param('id') id: number, @Res() res: Response) {
-    const pdfPath = await this.contractsService.generateContractPdf(id);
-
-    // Envoyer le fichier PDF en réponse
-    res.sendFile(pdfPath, { root: '.' });
+  async getContractPdf(@Param('id') id: number) {
+    return await this.contractsService.generateContractPdf(id);
   }
 }
