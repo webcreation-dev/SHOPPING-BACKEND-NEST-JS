@@ -1,3 +1,4 @@
+import { url } from 'inspector';
 import { Contract } from '../entities/contract.entity';
 import { StatusDueEnum } from '../enums/status-due.enum';
 
@@ -22,6 +23,7 @@ export class ContractResource {
       landlord: contract.landlord,
       tenant: contract.tenant,
       dues: contract.dues,
+      url_contract: 'upload/contracts/' + `contract-${contract.id}.pdf`,
     };
   }
 
