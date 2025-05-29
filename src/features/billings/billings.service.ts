@@ -16,6 +16,8 @@ import { MomoMtnService } from 'libs/common/src/momo-mtn/momo-mtn.service';
 import { Contract } from '../contracts/entities/contract.entity';
 import { RequestToPayDto } from 'libs/common/src/momo-mtn/dto/request-to-pay.dto';
 import { v4 as uuidv4 } from 'uuid';
+import { PayCallbackDto } from 'libs/common/src/momo-mtn/dto/pay-callback.dto';
+import { Transaction } from './entities/transaction.entity';
 
 @Injectable()
 export class BillingsService {
@@ -97,8 +99,61 @@ export class BillingsService {
     }
   }
 
+  private async createTransaction(
+    manager: EntityManager,
+    user: User,
+    payDueDto: PayDueDto,
+    paymentResponse: any,
+  ): Promise<Transaction> {
+    const contract = await manager.findOne(Contract, {
+      where: { id: payDueDto.contract_id },
+    });
+
+    const transaction = new Transaction({
+      amount: payDueDto.amount,
+      payment_type: payDueDto.payment_type,
+      user: user,
+      contract: contract,
+      meta: {
+        payment_response: paymentResponse,
+      },
+      payment_method: payDueDto.payment_method,
+      payment_status: paymentResponse.status,
+    });
+
+    await manager.save(Transaction, transaction);
+    return transaction;
+  }
+
   async payDue(user: User, payDueDto: PayDueDto) {
     return await this.dataSource.transaction(async (manager) => {
+      console.log('🚀 [PAYDUE] Démarrage de la transaction:', {
+        userId: user.id,
+        userBalance: user.balance_mtn,
+        payDueDto,
+        timestamp: new Date().toISOString(),
+      });
+
+      // Étape 1: Appeler initiatePayment
+      console.log('🔍 [PAYDUE] Initiation du paiement...');
+      const paymentResponse = await this.initiatePayment({
+        amount: payDueDto.amount.toString(),
+        msisdn: payDueDto.msisdn.toString(),
+      });
+
+      console.log('✅ [PAYDUE] Réponse de initiatePayment:', paymentResponse);
+
+      // Étape 2: Créer une transaction via la méthode dédiée
+      const transaction = await this.createTransaction(
+        manager,
+        user,
+        payDueDto,
+        paymentResponse,
+      );
+
+      console.log('💾 [PAYDUE] Transaction créée:', transaction);
+
+      // Étape 3: Continuer avec la logique existante de payDue
       console.log('🚀 [PAYDUE] Démarrage de la transaction:', {
         userId: user.id,
         userBalance: user.balance_mtn,
@@ -466,10 +521,10 @@ export class BillingsService {
 
   async initiatePayment({
     amount,
-    partyId,
+    msisdn,
   }: {
     amount: string;
-    partyId: string;
+    msisdn: string;
   }) {
     try {
       // Générer un externalId de 10 caractères aléatoires
@@ -483,22 +538,34 @@ export class BillingsService {
         externalId,
         payer: {
           partyIdType: 'MSISDN',
-          partyId,
+          partyId: msisdn,
         },
         payerMessage: 'LOCAPAY MOMO MARCHAND',
         payeeNote: 'Paiement de loyer',
         api_token: await this.getApiToken(), // Récupérer le token API
       };
 
-      console.log(requestToPayDto);
+      await this.momoMtnService.requestToPay(requestToPayDto);
+      const response = await this.momoMtnService.payStatus({
+        api_token: requestToPayDto.api_token,
+        request_id_debit: requestToPayDto.x_reference_id,
+      });
 
-      // Appeler le service requestToPay
-      const response = await this.momoMtnService.requestToPay(requestToPayDto);
-
-      return response.data;
+      return response;
     } catch (error) {
       throw new HttpException(
         error.response?.data || "Erreur lors de l'initiation du paiement",
+        error.response?.status || 500,
+      );
+    }
+  }
+
+  async payCallback(payCallback: PayCallbackDto) {
+    try {
+      return await this.momoMtnService.payStatus(payCallback);
+    } catch (error) {
+      throw new HttpException(
+        error.response?.data || 'Erreur lors de la récupération du paiement',
         error.response?.status || 500,
       );
     }

@@ -21,6 +21,7 @@ const dataSource = new DataSource({
     'dist/src/features/contracts/entities/contract.entity.js',
     'dist/src/features/contracts/entities/due.entity.js',
     'dist/src/features/contracts/entities/annuity.entity.js',
+    'dist/src/features/billings/entities/transaction.entity.js',
   ],
   migrations: ['dist/libs/common/src/database/migrations/*.js'],
   ssl: false,

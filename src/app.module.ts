@@ -28,7 +28,7 @@ import { ScheduleModule } from '@nestjs/schedule';
     QueryingModule,
     PropertiesModule,
     VisitsModule,
-    LoggerModule,
+    // LoggerModule,
     ContractsModule,
     BillingsModule,
     NotificationsModule,

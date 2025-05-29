@@ -4,6 +4,7 @@ import { Property } from 'src/features/properties/entities/property.entity';
 import { Entity, Column, ManyToOne, OneToMany } from 'typeorm';
 import { Due } from './due.entity';
 import { StatusContractEnum } from '../enums/status-contract.enum';
+import { Transaction } from 'src/features/billings/entities/transaction.entity';
 
 @Entity()
 export class Contract extends AbstractEntity<Contract> {
@@ -33,6 +34,9 @@ export class Contract extends AbstractEntity<Contract> {
     default: StatusContractEnum.PENDING,
   })
   status: StatusContractEnum;
+
+  @OneToMany(() => Transaction, (transaction) => transaction.contract)
+  transactions: Transaction[];
 
   @ManyToOne(() => Property, (property) => property.contracts, {
     onDelete: 'CASCADE',

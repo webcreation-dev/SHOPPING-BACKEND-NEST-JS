@@ -1,4 +1,4 @@
-import { Column, Entity, JoinTable, ManyToMany, Not, OneToMany } from 'typeorm';
+import { Column, Entity, JoinTable, ManyToMany, OneToMany } from 'typeorm';
 import { Exclude } from 'class-transformer';
 import { AbstractEntity } from 'libs/common/src/database/abstract.entity';
 import { Role } from './role.entity';
@@ -9,6 +9,7 @@ import { Visit } from 'src/features/visits/entities/visit.entity';
 import { StatusEnum } from '../enums/status.enum';
 import { Contract } from 'src/features/contracts/entities/contract.entity';
 import { Notification } from 'src/features/notifications/entities/notification.entity';
+import { Transaction } from 'src/features/billings/entities/transaction.entity';
 
 @Entity()
 export class User extends AbstractEntity<User> {
@@ -87,6 +88,9 @@ export class User extends AbstractEntity<User> {
 
   @OneToMany(() => Property, (property) => property.user)
   properties: Property[];
+
+  @OneToMany(() => Transaction, (transaction) => transaction.user)
+  transactions: Transaction[];
 
   @OneToMany(() => Property, (ownProperties) => ownProperties.owner, {
     eager: true,

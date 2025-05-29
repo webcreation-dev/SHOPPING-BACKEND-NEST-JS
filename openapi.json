@@ -1973,14 +1973,7 @@
         ],
         "responses": {
           "200": {
-            "description": "",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "string"
-                }
-              }
-            }
+            "description": ""
           }
         },
         "tags": [
@@ -2030,7 +2023,7 @@
     },
     "/billings/request_payment": {
       "post": {
-        "operationId": "BillingsController_getApiKey",
+        "operationId": "BillingsController_requestPayment",
         "parameters": [],
         "requestBody": {
           "required": true,
@@ -2054,7 +2047,39 @@
             }
           }
         },
-        "summary": "PAY DUE",
+        "summary": "TEST REQUEST PAYMENT",
+        "tags": [
+          "Billings"
+        ]
+      }
+    },
+    "/billings/status_payment": {
+      "post": {
+        "operationId": "BillingsController_statusPayment",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PayCallbackDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        },
+        "summary": "TEST STATUS PAYMENT",
         "tags": [
           "Billings"
         ]
@@ -2376,6 +2401,63 @@
           "registryDates"
         ]
       },
+      "Transaction": {
+        "type": "object",
+        "properties": {
+          "amount": {
+            "type": "number"
+          },
+          "payment_type": {
+            "type": "string",
+            "enum": [
+              "PAYMENT",
+              "ADVANCE",
+              "WITHDRAWAL"
+            ]
+          },
+          "user": {
+            "$ref": "#/components/schemas/User"
+          },
+          "contract": {
+            "$ref": "#/components/schemas/Contract"
+          },
+          "meta": {
+            "type": "object"
+          },
+          "payment_method": {
+            "type": "string",
+            "enum": [
+              "WALLET",
+              "MTN"
+            ]
+          },
+          "payment_status": {
+            "type": "string",
+            "enum": [
+              "PENDING",
+              "FAILED",
+              "SUCCESSFUL"
+            ]
+          },
+          "id": {
+            "type": "number"
+          },
+          "registryDates": {
+            "$ref": "#/components/schemas/RegistryDates"
+          }
+        },
+        "required": [
+          "amount",
+          "payment_type",
+          "user",
+          "contract",
+          "meta",
+          "payment_method",
+          "payment_status",
+          "id",
+          "registryDates"
+        ]
+      },
       "Annuity": {
         "type": "object",
         "properties": {
@@ -2475,7 +2557,23 @@
           "articles": {
             "type": "array",
             "items": {
-              "type": "string"
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "number"
+                },
+                "title": {
+                  "type": "string"
+                },
+                "content": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "id",
+                "title",
+                "content"
+              ]
             }
           },
           "status": {
@@ -2486,6 +2584,12 @@
               "FINISHED",
               "SUSPENDED"
             ]
+          },
+          "transactions": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Transaction"
+            }
           },
           "property": {
             "$ref": "#/components/schemas/Property"
@@ -2519,6 +2623,7 @@
           "caution",
           "articles",
           "status",
+          "transactions",
           "property",
           "landlord",
           "tenant",
@@ -2668,7 +2773,23 @@
           "articles": {
             "type": "array",
             "items": {
-              "type": "string"
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "number"
+                },
+                "title": {
+                  "type": "string"
+                },
+                "content": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "id",
+                "title",
+                "content"
+              ]
             }
           },
           "galleries": {
@@ -2886,6 +3007,12 @@
               "$ref": "#/components/schemas/Property"
             }
           },
+          "transactions": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Transaction"
+            }
+          },
           "ownProperties": {
             "type": "array",
             "items": {
@@ -2950,6 +3077,7 @@
           "wishlistedProperties",
           "roles",
           "properties",
+          "transactions",
           "ownProperties",
           "visits",
           "managedVisits",
@@ -3891,11 +4019,47 @@
           },
           "contract_id": {
             "type": "number"
+          },
+          "msisdn": {
+            "type": "number"
+          },
+          "payment_type": {
+            "enum": [
+              "PAYMENT",
+              "ADVANCE",
+              "WITHDRAWAL"
+            ],
+            "type": "string"
+          },
+          "payment_method": {
+            "enum": [
+              "WALLET",
+              "MTN"
+            ],
+            "type": "string"
           }
         },
         "required": [
           "amount",
-          "contract_id"
+          "contract_id",
+          "msisdn",
+          "payment_type",
+          "payment_method"
+        ]
+      },
+      "PayCallbackDto": {
+        "type": "object",
+        "properties": {
+          "request_id_debit": {
+            "type": "string"
+          },
+          "api_token": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "request_id_debit",
+          "api_token"
         ]
       },
       "CreateWaitlistDto": {

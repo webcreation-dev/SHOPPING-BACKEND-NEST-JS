@@ -31,13 +31,21 @@ export class UserResource {
       visits: user.visits,
       managedVisits: user.managedVisits,
       ownerContracts:
-        user.ownerContracts?.filter(
-          (contract) => contract.status === StatusContractEnum.ACTIVE,
-        ) || [],
+        user.ownerContracts
+          ?.filter((contract) => contract.status === StatusContractEnum.ACTIVE)
+          .map((contract) => this.formatContract(contract)) || [],
+
       contracts:
-        user.contracts?.filter(
-          (contract) => contract.status === StatusContractEnum.ACTIVE,
-        ) || [],
+        user.contracts
+          ?.filter((contract) => contract.status === StatusContractEnum.ACTIVE)
+          .map((contract) => this.formatContract(contract)) || [],
+    };
+  }
+
+  private formatContract(contract: Contract) {
+    return {
+      ...contract,
+      url_contract: `${process.env.API_URL}/upload/contracts/contract-${contract.id}.pdf`,
     };
   }
 

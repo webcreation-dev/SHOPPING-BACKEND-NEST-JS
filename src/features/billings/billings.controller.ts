@@ -14,6 +14,7 @@ import { PayDueDto } from './dto/pay-due.dto';
 import { User } from '../auth/users/entities/user.entity';
 import * as fs from 'fs';
 import * as path from 'path';
+import { PayCallbackDto } from 'libs/common/src/momo-mtn/dto/pay-callback.dto';
 
 @Controller('billings')
 export class BillingsController {
@@ -31,17 +32,24 @@ export class BillingsController {
     return this.billingsService.payDue(user, payDueDto);
   }
 
+  ////
   @Post('request_payment')
-  @HeaderOperation('PAY DUE', PayDueDto)
-  getApiKey(@Body() payDueDto: any) {
+  @HeaderOperation('TEST REQUEST PAYMENT', PayDueDto)
+  requestPayment(@Body() payDueDto: any) {
     return this.billingsService.initiatePayment(payDueDto);
   }
+
+  @Post('status_payment')
+  @HeaderOperation('TEST STATUS PAYMENT', PayCallbackDto)
+  statusPayment(@Body() payCallback: PayCallbackDto) {
+    return this.billingsService.payCallback(payCallback);
+  }
+  /////
 
   @Put('collections/callback')
   @HeaderOperation('WEBHOOK MTN', null, null, true)
   async paymentWebhook(@Req() req: Request, @Body() body: any) {
     try {
-      // Créer le dossier upload s'il n'existe pas
       const uploadDir = 'upload';
       if (!fs.existsSync(uploadDir)) {
         fs.mkdirSync(uploadDir, { recursive: true });

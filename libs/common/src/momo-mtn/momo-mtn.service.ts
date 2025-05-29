@@ -118,6 +118,8 @@ export class MomoMtnService {
         )
         .toPromise();
 
+      console.log('REPONSE MOMO MTN', response.data);
+
       return response;
     } catch (error) {
       throw new HttpException(error.response?.data, error.response?.status);
@@ -129,7 +131,7 @@ export class MomoMtnService {
       const bearerToken = `Bearer ${payCallbackDto.api_token}`;
 
       const response = await this.httpService
-        .post(
+        .get(
           `${process.env.API_URL_MOMO_MTN}/collection/v1_0/requesttopay/${payCallbackDto.request_id_debit}`,
           {
             headers: {
@@ -144,9 +146,12 @@ export class MomoMtnService {
         )
         .toPromise();
 
-      return response;
+      return response.data;
     } catch (error) {
-      throw new HttpException(error.response?.data, error.response?.status);
+      throw new HttpException(
+        error.response?.data || 'Erreur inconnue',
+        error.response?.status || 500,
+      );
     }
   }
 

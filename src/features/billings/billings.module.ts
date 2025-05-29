@@ -8,11 +8,12 @@ import { Due } from '../contracts/entities/due.entity';
 import { Annuity } from '../contracts/entities/annuity.entity';
 import { ContractsModule } from '../contracts/contracts.module';
 import { UsersModule } from '../auth/users/users.module';
+import { Transaction } from './entities/transaction.entity';
 
 @Module({
   imports: [
     DatabaseModule,
-    DatabaseModule.forFeature([Contract, Due, Annuity]),
+    DatabaseModule.forFeature([Contract, Due, Annuity, Transaction]),
     ContractsModule,
     MomoMtnModule,
     UsersModule,

@@ -513,6 +513,9 @@ export class ContractsService {
         nom: `${contract.landlord?.lastname || ''} ${contract.landlord?.firstname || ''}`,
         telephone: contract.landlord?.phone || 'Non spécifié',
         email: contract.landlord?.phone || 'Non spécifié',
+        signature:
+          contract.landlord?.signature ||
+          'https://api.locapay.app/upload/qrcode.png',
       },
 
       // Informations du preneur
@@ -520,6 +523,9 @@ export class ContractsService {
         nom: `${contract.tenant?.lastname || ''} ${contract.tenant?.firstname || ''}`,
         telephone: contract.tenant?.phone || 'Non spécifié',
         email: contract.tenant?.phone || 'Non spécifié',
+        signature:
+          contract.tenant?.signature ||
+          'https://api.locapay.app/upload/qrcode.png',
       },
 
       // Articles du contrat
