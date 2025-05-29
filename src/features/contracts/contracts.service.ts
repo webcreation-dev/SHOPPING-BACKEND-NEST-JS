@@ -461,7 +461,7 @@ export class ContractsService {
     const document = {
       html: template,
       data: await this.getBailData(contractId),
-      path: path.join('pdfs', `contract-${contractId}.pdf`),
+      path: path.join('uploads/pdfs', `contract-${contractId}.pdf`),
       type: '',
     };
 
