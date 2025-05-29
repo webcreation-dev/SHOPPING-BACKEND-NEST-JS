@@ -19,6 +19,7 @@ import { v4 as uuidv4 } from 'uuid';
 import { PayCallbackDto } from 'libs/common/src/momo-mtn/dto/pay-callback.dto';
 import { Transaction } from './entities/transaction.entity';
 import { groupBy } from 'lodash';
+import { PaymentStatusDto } from './dto/payment-status.dto';
 
 // Configuration externalisée
 const BILLING_CONFIG = {
@@ -146,9 +147,12 @@ export class BillingsService {
     });
   }
 
-  async payCallback(payCallback: PayCallbackDto): Promise<any> {
+  async payCallback(payCallback: PaymentStatusDto): Promise<any> {
     try {
-      return await this.momoMtnService.payStatus(payCallback);
+      return await this.momoMtnService.payStatus({
+        ...payCallback,
+        api_token: await this.getApiToken(),
+      });
     } catch (error) {
       this.logger.error('Erreur lors de la récupération du paiement', error);
       throw new HttpException(

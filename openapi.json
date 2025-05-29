@@ -2069,7 +2069,7 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/PayCallbackDto"
+                "$ref": "#/components/schemas/PaymentStatusDto"
               }
             }
           }
@@ -2086,7 +2086,7 @@
             }
           }
         },
-        "summary": "TEST STATUS PAYMENT",
+        "summary": "GET PAYMENT STATUS",
         "tags": [
           "Billings"
         ]
@@ -4054,19 +4054,15 @@
           "payment_method"
         ]
       },
-      "PayCallbackDto": {
+      "PaymentStatusDto": {
         "type": "object",
         "properties": {
           "request_id_debit": {
             "type": "string"
-          },
-          "api_token": {
-            "type": "string"
           }
         },
         "required": [
-          "request_id_debit",
-          "api_token"
+          "request_id_debit"
         ]
       },
       "CreateWaitlistDto": {

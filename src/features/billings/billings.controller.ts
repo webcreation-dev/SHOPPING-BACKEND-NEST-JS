@@ -15,6 +15,7 @@ import { User } from '../auth/users/entities/user.entity';
 import * as fs from 'fs';
 import * as path from 'path';
 import { PayCallbackDto } from 'libs/common/src/momo-mtn/dto/pay-callback.dto';
+import { PaymentStatusDto } from './dto/payment-status.dto';
 
 @Controller('billings')
 export class BillingsController {
@@ -40,8 +41,8 @@ export class BillingsController {
   }
 
   @Post('status_payment')
-  @HeaderOperation('TEST STATUS PAYMENT', PayCallbackDto)
-  statusPayment(@Body() payCallback: PayCallbackDto) {
+  @HeaderOperation('GET PAYMENT STATUS', PaymentStatusDto)
+  statusPayment(@Body() payCallback: PaymentStatusDto) {
     return this.billingsService.payCallback(payCallback);
   }
   /////
