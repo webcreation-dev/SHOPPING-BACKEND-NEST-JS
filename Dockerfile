@@ -18,5 +18,5 @@ ENV SEQUELIZE_MIGRATE=ENABLE
 ENV SERVICE_NAME="LOCAPAY BACKEND"
 
 EXPOSE 8000
-ENTRYPOINT ["/entrypoint.sh"]
+# ENTRYPOINT ["/entrypoint.sh"]
 CMD ["npm", "run", "start:prod"]
